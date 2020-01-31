@@ -1,8 +1,8 @@
  
 package com.kronos.global.factory;
 
-import  com.kronos.AvatarType;
-import  com.kronos.GNAvatarView;
+import  com.gn.AvatarType;
+import  com.gn.GNAvatarView;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;

@@ -2,13 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/Users/mac/NetBeansProjects/KRONOS/src/com/kronos/module/loader/Loader.java</file>
-            <file>file:/Users/mac/NetBeansProjects/KRONOS/src/com/kronos/global/plugin/SectionManager.java</file>
-            <file>file:/Users/mac/NetBeansProjects/KRONOS/src/com/kronos/App.java</file>
-            <file>file:/Users/mac/NetBeansProjects/KRONOS/src/com/kronos/theme/skin/ClearableSkin.java</file>
-            <file>file:/Users/mac/NetBeansProjects/KRONOS/src/com/kronos/global/plugin/UserManager.java</file>
-            <file>file:/Users/mac/NetBeansProjects/KRONOS/src/com/kronos/theme/skin/SkinAction.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

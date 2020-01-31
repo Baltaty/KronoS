@@ -5,7 +5,7 @@ import animatefx.animation.Flash;
 import animatefx.animation.Pulse;
 import animatefx.animation.SlideInLeft;
 import  com.kronos.App;
-import  com.kronos.GNAvatarView;
+import  com.gn.GNAvatarView;
 import  com.kronos.global.plugin.ViewManager;
 import  com.kronos.global.*;
 import  com.kronos.global.plugin.SectionManager;

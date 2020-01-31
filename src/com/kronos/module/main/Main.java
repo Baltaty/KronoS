@@ -1,6 +1,6 @@
 package com.kronos.module.main;
 
-import  com.kronos.GNAvatarView;
+import  com.gn.GNAvatarView;
 import  com.kronos.global.plugin.ViewManager;
 import  com.kronos.global.factory.AlertCell;
 import com.jfoenix.controls.JFXBadge;
