@@ -117,7 +117,7 @@ public class Config implements Initializable {
     }
     public void loadLang(String lang){
         locale = new Locale(lang);
-        bundle = ResourceBundle.getBundle(" com.kronos.lang",locale); 
+        bundle = ResourceBundle.getBundle("com.kronos.lang",locale);
         Main.ctrl.title.setText(bundle.getString("title"));
     }
 }
