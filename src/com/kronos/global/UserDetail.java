@@ -2,7 +2,7 @@
 package com.kronos.global;
 
 import  com.kronos.GNAvatarView;
-import  com.kronos.decorator.component.GNControl;
+import   com.gn.decorator.component.GNControl;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;

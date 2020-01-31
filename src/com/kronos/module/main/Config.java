@@ -3,7 +3,7 @@ package com.kronos.module.main;
 
 import  com.kronos.App;
 import  com.kronos.global.plugin.ViewManager;
-import  com.kronos.decorator.GNDecorator;
+import   com.gn.decorator.GNDecorator;
 import com.jfoenix.controls.JFXButton;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
