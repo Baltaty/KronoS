@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import  com.kronos.lab.GNCalendarTile?>
+<?import  com.gn.lab.GNCalendarTile?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import java.lang.String?>
 <?import java.net.URL?>
@@ -24,7 +24,7 @@
 
 <!--<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>-->
 
-<StackPane prefHeight="1500.0" prefWidth="992.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller=" com.kronos.module.dashboard.Dashboard">
+<StackPane prefHeight="1500.0" prefWidth="992.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.module.dashboard.Dashboard">
    <children>
       <VBox spacing="20.0">
          <children>

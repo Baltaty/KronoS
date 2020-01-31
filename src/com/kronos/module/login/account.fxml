@@ -19,7 +19,7 @@
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="601.0" prefWidth="1004.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller=" com.kronos.module.login.Account">
+<StackPane prefHeight="601.0" prefWidth="1004.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.module.login.Account">
     <stylesheets>
         <URL value="@../../theme/css/material-color.css" />
         <URL value="@../../theme/css/skeleton.css" />

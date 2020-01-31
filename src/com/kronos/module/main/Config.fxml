@@ -10,7 +10,7 @@
 
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" prefWidth="225.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller=" com.kronos.module.main.Config">
+<ScrollPane fitToHeight="true" fitToWidth="true" prefWidth="225.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.module.main.Config">
    <content>
       <VBox prefWidth="223.0">
          <children>
