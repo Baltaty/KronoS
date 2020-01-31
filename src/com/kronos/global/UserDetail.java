@@ -60,7 +60,7 @@ public class UserDetail extends GNControl {
 
     @Override
     public Node icon() {
-        Image image = new Image(getClass().getResource("/com/gn/media/img/car.png").toExternalForm());
+        Image image = new Image(getClass().getResource("/com/kronos/media/img/car.png").toExternalForm());
         ImageView imageView = new ImageView(image);
         imageView.setFitHeight(30);
         imageView.setFitWidth(30);
@@ -106,7 +106,7 @@ public class UserDetail extends GNControl {
         //subTitle.setText("Member since 2018");
 
         GNAvatarView gnAvatar = new GNAvatarView();
-        gnAvatar.setImage(new Image(getClass().getResource("/com/gn/media/img/car.png").toExternalForm()));
+        gnAvatar.setImage(new Image(getClass().getResource("/com/kronos/media/img/car.png").toExternalForm()));
 
         background.setPrefHeight(500);
         box.setPrefWidth(387);
@@ -153,7 +153,7 @@ public class UserDetail extends GNControl {
 
         box.getChildren().addAll(background, content);
 
-        popOver.getRoot().getStylesheets().add(getClass().getResource("/com/gn/theme/css/poplight.css").toExternalForm());
+        popOver.getRoot().getStylesheets().add(getClass().getResource("/com/kronos/theme/css/poplight.css").toExternalForm());
 
         return box;
     }

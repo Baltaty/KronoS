@@ -187,19 +187,19 @@ public class App extends Application {
         stylesheets = decorator.getScene().getStylesheets();
 
         stylesheets.addAll(
-                getClass().getResource("/com/gn/theme/css/fonts.css").toExternalForm(),
-                getClass().getResource("/com/gn/theme/css/material-color.css").toExternalForm(),
-                getClass().getResource("/com/gn/theme/css/skeleton.css").toExternalForm(),
-                getClass().getResource("/com/gn/theme/css/light.css").toExternalForm(),
-                getClass().getResource("/com/gn/theme/css/bootstrap.css").toExternalForm(),
-                getClass().getResource("/com/gn/theme/css/shape.css").toExternalForm(),
-                getClass().getResource("/com/gn/theme/css/typographic.css").toExternalForm(),
-                getClass().getResource("/com/gn/theme/css/helpers.css").toExternalForm(),
-                getClass().getResource("/com/gn/theme/css/master.css").toExternalForm()
+                getClass().getResource("/com/kronos/theme/css/fonts.css").toExternalForm(),
+                getClass().getResource("/com/kronos/theme/css/material-color.css").toExternalForm(),
+                getClass().getResource("/com/kronos/theme/css/skeleton.css").toExternalForm(),
+                getClass().getResource("/com/kronos/theme/css/light.css").toExternalForm(),
+                getClass().getResource("/com/kronos/theme/css/bootstrap.css").toExternalForm(),
+                getClass().getResource("/com/kronos/theme/css/shape.css").toExternalForm(),
+                getClass().getResource("/com/kronos/theme/css/typographic.css").toExternalForm(),
+                getClass().getResource("/com/kronos/theme/css/helpers.css").toExternalForm(),
+                getClass().getResource("/com/kronos/theme/css/master.css").toExternalForm()
         );
 
         decorator.setMaximized(true);
-        decorator.getStage().getIcons().add(new Image("/com/gn/module/media/logo2.png"));
+        decorator.getStage().getIcons().add(new Image("/com/kronos/module/media/logo2.png"));
         decorator.show();
 
 //        ScenicView.show(decorator.getScene());
@@ -213,7 +213,7 @@ public class App extends Application {
         try {
             ViewManager.getInstance().put(
                     name,
-                    FXMLLoader.load(getClass().getResource("/com/gn/module/" + module + "/" + name + ".fxml"))
+                    FXMLLoader.load(getClass().getResource("/com/kronos/module/" + module + "/" + name + ".fxml"))
             );
             preloaderNotify();
         } catch (IOException e) {

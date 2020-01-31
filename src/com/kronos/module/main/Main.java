@@ -78,7 +78,7 @@ public class Main implements Initializable {
     private JFXDialog       dialog          = new JFXDialog();
     private JFXDialogLayout dialog_layout   = new JFXDialogLayout();
 
-    private String path = "/com/gn/theme/css/";
+    private String path = "/com/kronos/theme/css/";
     boolean scrolling   = false;
 
     private Parent popContent;
@@ -197,7 +197,7 @@ public class Main implements Initializable {
 //        popup.setHeaderAlwaysVisible(false);
 //
 //        ScrollPane scrollPane = new ScrollPane();
-//        scrollPane.getStylesheets().add(getClass().getResource("/com/gn/theme/css/custom-scroll.css").toExternalForm());
+//        scrollPane.getStylesheets().add(getClass().getResource("/com/kronos/theme/css/custom-scroll.css").toExternalForm());
 //
 //        VBox v = new VBox();
 //        v.setPrefWidth(200);
@@ -296,8 +296,8 @@ public class Main implements Initializable {
 
     private void loadContentPopup(){
         try {
-            popContent = FXMLLoader.load(getClass().getResource("/com/gn/module/main/Config.fxml"));
-            popConfig.getRoot().getStylesheets().add(getClass().getResource("/com/gn/theme/css/poplight.css").toExternalForm());
+            popContent = FXMLLoader.load(getClass().getResource("/com/kronos/module/main/Config.fxml"));
+            popConfig.getRoot().getStylesheets().add(getClass().getResource("/com/kronos/theme/css/poplight.css").toExternalForm());
             popConfig.setContentNode(popContent);
             popConfig.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
             popConfig.setArrowIndent(0);

@@ -71,19 +71,19 @@ class Dialog {
         switch (type){
             case INFO:
                 color = Color.web("#33B5E5");
-                icon = new ImageView(new Image("/com/gn/module/media/img/info_48dp.png"));
+                icon = new ImageView(new Image("/com/kronos/module/media/img/info_48dp.png"));
                 break;
             case WARNING:
                 color = Color.web("#FC6E51");
-                icon = new ImageView(new Image("/com/gn/module/media/img/warning_48dp.png"));
+                icon = new ImageView(new Image("/com/kronos/module/media/img/warning_48dp.png"));
                 break;
             case ERROR:
                 color = Color.web("#ED5565");
-                icon = new ImageView(new Image("/com/gn/module/media/img/error_48dp.png"));
+                icon = new ImageView(new Image("/com/kronos/module/media/img/error_48dp.png"));
                 break;
             case SUCCESS:
                 color = Color.web("#02C852");
-                icon = new ImageView(new Image("/com/gn/module/media/img/done_48dp.png"));
+                icon = new ImageView(new Image("/com/kronos/module/media/img/done_48dp.png"));
                 break;
         }
         header.setBackground(new Background(new BackgroundFill(color, new CornerRadii(10, 0, 0, 0,false), Insets.EMPTY)));

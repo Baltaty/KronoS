@@ -27,7 +27,7 @@ public class Loader extends Preloader {
     @Override
     public void init(){
         try {
-            view = FXMLLoader.load(getClass().getResource("/com/gn/module/loader/loader.fxml"));
+            view = FXMLLoader.load(getClass().getResource("/com/kronos/module/loader/loader.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -39,9 +39,9 @@ public class Loader extends Preloader {
         primary.initStyle(StageStyle.TRANSPARENT);
         Scene scene = new Scene(view);
         scene.setFill(Color.TRANSPARENT);
-        scene.getStylesheets().add(getClass().getResource("/com/gn/theme/css/fonts.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/com/kronos/theme/css/fonts.css").toExternalForm());
         progressBar = (JFXProgressBar) scene.lookup("#progressBar");
-        primary.getIcons().add(new Image("/com/gn/module/media/icon.png"));
+        primary.getIcons().add(new Image("/com/kronos/module/media/icon.png"));
         primary.setScene(scene);
 //        primary.setAlwaysOnTop(true);
         primary.show();

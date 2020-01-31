@@ -66,7 +66,7 @@ public class Config implements Initializable {
     private void invertTheme(boolean dark) {
         String theme;
         App.stylesheets.clear();
-        String path = "/com/gn/theme/css/";
+        String path = "/com/kronos/theme/css/";
         
         if (dark) {
             App.decorator.initTheme(GNDecorator.Theme.DARKULA);
