@@ -1,20 +1,26 @@
 package com.kronos.api;
 
+/**
+ * @author TeamKronoS
+ * @version 1.0
+ *
+ * Manages the generation of time sheet
+ */
 public interface Print {
 
     /**
-     * Changing the language of the application
+     * Gets the tops of each pilot
      */
-    void changeLanguage();
+    void getTopsForPilots();
 
     /**
-     * Changes between the dark mode and the light mode
+     * Gets the tops of each car
      */
-    void changeMode();
+    void getTopsForCars();
 
     /**
-     * Changes the assignment of a keyboard key for the {@link Top top}
+     * Gets all the tops of the races
      */
-    void changeTopControl();
+    void getTopsForRaces();
 
 }
