@@ -4,14 +4,14 @@ import java.util.Date;
 
 /**
  * @author TeamsKronos
- * @version  1.0
- *
+ * @version 1.0
  */
 
 /**
  * the class is a singleton and we will get all informations  about the current
  * race  with this class
  */
+
 
 public interface Race {
     /**
