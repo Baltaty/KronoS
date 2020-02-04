@@ -53,13 +53,13 @@ public interface Pilote {
      * Get the pilot's height of birth
      * @return double
      */
-    double getHeigth();
+    double getHeight();
 
 
     /**
      * Get the pilot's date of birth
      * @return double
      */
-    double getWeigth();
+    double getWeight();
 
 }
