@@ -8,3 +8,4 @@ public class RivalCarModel extends CarModel {
         super(id, number, name, model, brand, topList, lapRace, timeRace, completedLaps);
     }
 }
+
