@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class MainCarModel extends CarModel {
 
     private ArrayList<Integer> stopList;
+    private int remainingLapsBeforeStop;
 
 
     public MainCarModel(long id, int number, String name, String model, String brand, ArrayList<TopModel> topList, RaceModel race, int completedLaps) {

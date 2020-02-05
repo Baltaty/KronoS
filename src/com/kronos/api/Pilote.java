@@ -64,4 +64,11 @@ public interface Pilote extends Parceleable {
      */
     double getWeight();
 
+    /**
+     * the car of our pilote
+     * @return pilotecar
+     */
+
+    MainCar getPilotecar();
+
 }

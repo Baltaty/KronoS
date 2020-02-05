@@ -1,8 +1,9 @@
 package com.kronos.model;
 
+import com.kronos.api.Car;
 import java.util.ArrayList;
 
-public abstract class CarModel {
+public abstract class CarModel implements Car {
 
     private long id;
     private int number;
@@ -10,18 +11,36 @@ public abstract class CarModel {
     private String model;
     private String brand;
     private ArrayList<TopModel> topList;
-    private RaceModel race;
+    private LapRaceModel lapRace;
+    private TimeRaceModel timeRace;
     private int completedLaps;
 
-    public CarModel(long id, int number, String name, String model, String brand, ArrayList<TopModel> topList, RaceModel race, int completedLaps) {
+    public CarModel(long id, int number, String name, String model, String brand, ArrayList<TopModel> topList, LapRaceModel lapRace, TimeRaceModel timeRace, int completedLaps) {
         this.id = id;
         this.number = number;
         this.name = name;
         this.model = model;
         this.brand = brand;
         this.topList = new ArrayList<TopModel>();
-        this.race = race;
+        this.lapRace = lapRace;
+        this.timeRace = timeRace;
         this.completedLaps = completedLaps;
+    }
+
+    public LapRaceModel getLapRace() {
+        return lapRace;
+    }
+
+    public void setLapRace(LapRaceModel lapRace) {
+        this.lapRace = lapRace;
+    }
+
+    public TimeRaceModel getTimeRace() {
+        return timeRace;
+    }
+
+    public void setTimeRace(TimeRaceModel timeRace) {
+        this.timeRace = timeRace;
     }
 
     public long getId() {
@@ -72,19 +91,23 @@ public abstract class CarModel {
         this.topList = topList;
     }
 
-    public RaceModel getRace() {
-        return race;
-    }
-
-    public void setRace(RaceModel race) {
-        this.race = race;
-    }
-
     public int getCompletedLaps() {
         return completedLaps;
     }
 
     public void setCompletedLaps(int completedLaps) {
         this.completedLaps = completedLaps;
+    }
+
+    @Override
+    public int getRemainingLaps() {
+        int remainingLaps = -1;
+        try {
+            remainingLaps = this.lapRace.getNumberOfLaps() - this.getCompletedLaps();
+        }
+        catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        return remainingLaps;
     }
 }

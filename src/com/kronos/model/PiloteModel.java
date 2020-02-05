@@ -1,5 +1,6 @@
 package com.kronos.model;
 
+import com.kronos.api.MainCar;
 import com.kronos.api.Pilote;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -8,18 +9,22 @@ import java.util.Date;
 @XmlRootElement
 public class PiloteModel implements Pilote {
 
-    private  long id;
+    private long id;
     private String firstName;
     private String lastName;
     private String comment;
     private Date dateOfBirth;
-    private  double height;
+    private double height;
     private double weight;
+    private MainCar pilotecar;
 
-    public  PiloteModel(){}
+
+    public PiloteModel() {
+    }
 
     /**
      * contructor of the class PiloteModel
+     *
      * @param id
      * @param firstName
      * @param lastName
@@ -108,6 +113,17 @@ public class PiloteModel implements Pilote {
         return weight;
     }
 
+    /**
+     * the car of our pilote
+     *
+     * @return pilotecar
+     */
+    @Override
+    public MainCar getPilotecar() {
+        return pilotecar;
+    }
+
+
     public void setId(long id) {
         this.id = id;
     }
@@ -134,5 +150,9 @@ public class PiloteModel implements Pilote {
 
     public void setWeight(double weight) {
         this.weight = weight;
+    }
+
+    public void setPilotecar(MainCar pilotecar) {
+        this.pilotecar = pilotecar;
     }
 }
