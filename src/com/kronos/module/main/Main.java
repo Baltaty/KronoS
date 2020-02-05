@@ -23,13 +23,16 @@ import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.SVGPath;
 import org.controlsfx.control.PopOver;
 
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -111,6 +114,21 @@ public class Main implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+        Scene scene = Main.popConfig.getScene();
+        scene.setOnKeyPressed(new EventHandler<javafx.scene.input.KeyEvent>() {
+            @Override
+            public void handle(javafx.scene.input.KeyEvent event) {
+                //System.out.println(" je suis dans la fonction  ");
+                KeyCode keyCode = event.getCode();
+                Integer keyTop = KeyEvent.VK_F1;
+
+                if (keyCode == KeyCode.F1)
+                    System.out.println("You have pressed the F1 key ");
+            }
+        });
+
     }
 
     @FXML
