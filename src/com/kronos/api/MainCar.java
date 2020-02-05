@@ -1,7 +1,7 @@
 package com.kronos.api;
 
 /**
- * @author @author TeamKronoS
+ * @author TeamKronoS
  * @version 1.0
  * Represents the {@link MainCar main car} followed by the team.
  */

@@ -1,8 +1,10 @@
 package com.kronos.model;
 
+import com.kronos.api.Car;
+
 import java.util.ArrayList;
 
-public abstract class CarModel {
+public abstract class CarModel implements Car {
 
     private long id;
     private int number;
@@ -86,5 +88,10 @@ public abstract class CarModel {
 
     public void setCompletedLaps(int completedLaps) {
         this.completedLaps = completedLaps;
+    }
+
+    @Override
+    public int getRemainingLaps() {
+        return this.race.getRaceType().getNuberOfLaps() - this.getCompletedLaps();
     }
 }

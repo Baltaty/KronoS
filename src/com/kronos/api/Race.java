@@ -31,20 +31,7 @@ public interface Race {
      * the name of the race
      * @return raceWayName
      */
-    String getraceWayName();
-
-    /**
-     * the raceWaylength  it the duration  of the race
-     * the time between  the start time and the end of the race
-     * @return raceWaylength
-     */
-    String getraceWaylength();
-
-    /**
-     * the time when the race will be finished
-     * @return endTime
-     */
-    Date getEndTime();
+    String getRacewayName();
 
 
 }
