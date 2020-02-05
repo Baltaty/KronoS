@@ -1,7 +1,8 @@
 package com.kronos.parserXML.MainImpl;
 
-import com.kronos.parserXML.api.Parceleable;
+import com.kronos.parserXML.ModelParser;
 import com.kronos.parserXML.api.SaveManager;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,20 +16,39 @@ import java.util.Objects;
  */
 public class SaveManagerImpl implements SaveManager {
 
+
+
     /**
      * collection of models to be persisted in the XML file
      */
-    private List<Parceleable> listOfBeans;
+    private List<Object> listOfBeans;
 
+
+    /**
+     *
+     */
+    private StringBuilder stringBuilder = null;
+
+    /**
+     *
+     */
     private static SaveManagerImpl INSTANCE;
+
+    /**
+     *
+     */
+    ModelParser parser;
 
 
     /**
      * private constructor
      */
     private SaveManagerImpl(){
-        listOfBeans = new ArrayList<Parceleable>();
+        listOfBeans = new ArrayList<Object>();
+        stringBuilder = new StringBuilder();
+        parser = new ModelParser();
     };
+
 
 
     /**
@@ -44,20 +64,20 @@ public class SaveManagerImpl implements SaveManager {
 
     /**
      * Link the model to the saveManager to be taken into account for the backup
-     * @param modelToSave {@link Parceleable}
+     * @param modelToSave {@link Object}
      * @return boolean
      */
-    public boolean persist(final Parceleable modelToSave){
+    public boolean persist(final Object modelToSave){
         Objects.requireNonNull(modelToSave);
         return listOfBeans.add(modelToSave);
     }
 
     /**
      * Disconnects the object to the @param model which will no longer be taken into account when saving in XML.
-     * @param modelToUnlink {@link Parceleable}
+     * @param modelToUnlink {@link Object}
      * @return boolean
      */
-    public boolean remove(final Parceleable modelToUnlink){
+    public boolean remove(final Object modelToUnlink){
         Objects.requireNonNull(modelToUnlink);
         return listOfBeans.remove(modelToUnlink);
     }
@@ -74,16 +94,17 @@ public class SaveManagerImpl implements SaveManager {
      * Get all models linked to saveManager
      * @return List
      */
-    public List <Parceleable> getListOfBeans(){
+    public List <Object> getListOfBeans(){
         return Collections.unmodifiableList(listOfBeans);
     }
 
 
     @Override
     public boolean saveFile() {
-
-
-
+        for (Object beans: listOfBeans) {
+            stringBuilder.append(parser.parseModel(beans));
+        }
+        System.out.println(stringBuilder.toString());
         return false;
     }
 
@@ -96,4 +117,5 @@ public class SaveManagerImpl implements SaveManager {
     public void redoState() {
 
     }
+
 }

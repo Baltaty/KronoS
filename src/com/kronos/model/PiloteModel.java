@@ -2,11 +2,15 @@ package com.kronos.model;
 
 import com.kronos.api.MainCar;
 import com.kronos.api.Pilote;
+import com.kronos.parserXML.api.Parceleable;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class PiloteModel implements Pilote {
 
     private long id;
@@ -16,7 +20,7 @@ public class PiloteModel implements Pilote {
     private Date dateOfBirth;
     private double height;
     private double weight;
-    private MainCar pilotecar;
+    private MainCarModel pilotecar;
 
 
     public PiloteModel() {
@@ -119,7 +123,7 @@ public class PiloteModel implements Pilote {
      * @return pilotecar
      */
     @Override
-    public MainCar getPilotecar() {
+    public MainCarModel getPilotecar() {
         return pilotecar;
     }
 
@@ -152,7 +156,7 @@ public class PiloteModel implements Pilote {
         this.weight = weight;
     }
 
-    public void setPilotecar(MainCar pilotecar) {
+    public void setPilotecar(MainCarModel pilotecar) {
         this.pilotecar = pilotecar;
     }
 }
