@@ -16,7 +16,6 @@ public abstract class RaceModel implements Race {
         this.racewayName = racewayName;
     }
 
-    @Override
     public long getid() {
         return 0;
     }
