@@ -47,7 +47,7 @@ public class HomeController implements Initializable {
     private JFXButton settingbtn;
 
     @FXML
-    private JFXButton starticon;
+    private ImageView newraceicon;
 
     @FXML
     private ImageView setingicon;

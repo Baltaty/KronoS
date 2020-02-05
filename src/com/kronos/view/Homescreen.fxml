@@ -24,7 +24,7 @@
                   <Image url="@../media/img/krono.png" />
                </image>
             </ImageView>
-            <JFXButton fx:id="startbtn" buttonType="RAISED" graphicTextGap="0.0" layoutX="191.0" layoutY="453.0" onAction="#handleNewRaceClicked" onMouseEntered="#handlestartentered" prefHeight="123.0" prefWidth="123.0" style="-fx-background-color: #57c6f2; -fx-background-radius: 200;" styleClass="btnbino">
+            <JFXButton fx:id="startbtn" buttonType="RAISED" graphicTextGap="0.0" layoutX="191.0" layoutY="453.0" onAction="#handleNewRaceClicked" onMouseEntered="#handleNewRaceEntered" prefHeight="123.0" prefWidth="123.0" style="-fx-background-color: #57c6f2; -fx-background-radius: 200;" styleClass="btnbino">
                <effect>
                   <DropShadow height="34.35" radius="15.5625" spread="0.3" width="29.9" />
                </effect>
@@ -32,7 +32,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <ImageView fx:id="starticon" disable="true" fitHeight="90.0" fitWidth="100.0" layoutX="209.0" layoutY="468.0" onMouseEntered="#handleNewRaceEntered" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="newraceicon" disable="true" fitHeight="90.0" fitWidth="100.0" layoutX="209.0" layoutY="468.0" onMouseEntered="#handleNewRaceEntered" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../media/img/database.png" />
                </image>
@@ -42,8 +42,8 @@
                   <Font name="VerbBlack" size="20.0" />
                </font>
             </Text>
-            <JFXButton fx:id="settingbtn" layoutX="39.0" layoutY="34.0" onAction="#handleSettingClicked" onMouseEntered="#handleSettingentered" prefHeight="42.0" prefWidth="40.0" style="-fx-background-color: #57C6F2; -fx-background-radius: 200;" />
-            <ImageView fx:id="setingicon" disable="true" fitHeight="25.0" fitWidth="29.0" layoutX="46.0" layoutY="42.0" onMouseEntered="#handleSettingEntered" pickOnBounds="true" preserveRatio="true">
+            <JFXButton fx:id="settingbtn" layoutX="39.0" layoutY="34.0" onAction="#handleSettingClicked" onMouseEntered="#handleSettingEntered" prefHeight="42.0" prefWidth="40.0" style="-fx-background-color: #57C6F2; -fx-background-radius: 200;" />
+            <ImageView fx:id="setingicon" disable="true" fitHeight="25.0" fitWidth="29.0" layoutX="47.0" layoutY="42.0" onMouseEntered="#handleSettingEntered" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../media/img/settings.png" />
                </image>
@@ -51,7 +51,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
-            <JFXButton fx:id="bdbtn" buttonType="RAISED" graphicTextGap="0.0" layoutX="1005.0" layoutY="439.0" onAction="#handleOldRaceClicked" onMouseEntered="#handlebdClicked" prefHeight="123.0" prefWidth="123.0" style="-fx-background-color: #57c6f2; -fx-background-radius: 200;" styleClass="btnbino">
+            <JFXButton fx:id="bdbtn" buttonType="RAISED" graphicTextGap="0.0" layoutX="1005.0" layoutY="439.0" onAction="#handleOldRaceClicked" prefHeight="123.0" prefWidth="123.0" style="-fx-background-color: #57c6f2; -fx-background-radius: 200;" styleClass="btnbino">
                <effect>
                   <DropShadow />
                </effect>
