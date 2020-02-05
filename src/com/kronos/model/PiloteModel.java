@@ -2,8 +2,10 @@ package com.kronos.model;
 
 import com.kronos.api.Pilote;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
+@XmlRootElement
 public class PiloteModel implements Pilote {
 
     private  long id;

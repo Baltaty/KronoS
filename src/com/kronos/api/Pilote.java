@@ -1,5 +1,7 @@
 package com.kronos.api;
 
+import com.kronos.parserXML.api.Parceleable;
+
 import java.util.Date;
 
 /**
@@ -10,7 +12,7 @@ import java.util.Date;
  * object representing a pilot,
  * which contains the attributes of the pilot and information such as (id, last name, first name, comments, date of birth, height, weight)
  */
-public interface Pilote {
+public interface Pilote extends Parceleable {
 
 
     /**
