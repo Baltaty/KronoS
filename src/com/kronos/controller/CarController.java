@@ -27,7 +27,7 @@ public class CarController {
         else if(previousTopType.equals("IN") && lastTopType.equals("OUT")) {
             respectsLogic = true;
         }
-        else if(previousTopType.equals("OUT") && lastTopType.equals("RACE") || lastTopType.equals("IN")) {
+        else if(previousTopType.equals("OUT") && (lastTopType.equals("RACE") || lastTopType.equals("IN"))) {
             respectsLogic = true;
         }
 

@@ -5,7 +5,7 @@ import com.kronos.api.Pilote;
 
 import java.util.Date;
 
-public class PiloteModel implements Pilote {
+public class PilotModel implements Pilote {
 
     private long id;
     private String firstName;
@@ -17,7 +17,7 @@ public class PiloteModel implements Pilote {
     private MainCar pilotecar;
 
 
-    public PiloteModel() {
+    public PilotModel() {
     }
 
     /**
@@ -31,7 +31,7 @@ public class PiloteModel implements Pilote {
      * @param height
      * @param weight
      */
-    public PiloteModel(long id, String firstName, String lastName, String comment, Date dateOfBirth, double height, double weight) {
+    public PilotModel(long id, String firstName, String lastName, String comment, Date dateOfBirth, double height, double weight) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

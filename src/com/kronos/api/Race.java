@@ -14,12 +14,6 @@ import java.util.Date;
 
 
 public interface Race {
-    /**
-     * each race has an unique id  this id will help us to
-     * know which race that we are following
-     * @return id of the race
-     */
-    long getid();
 
     /**
      *  each race has the Time that it will start
