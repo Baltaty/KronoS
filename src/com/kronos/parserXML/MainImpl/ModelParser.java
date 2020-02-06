@@ -1,4 +1,4 @@
-package com.kronos.parserXML;
+package com.kronos.parserXML.MainImpl;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 public class ModelParser {
 
     /**
-     *
+     * constructir
      */
     public ModelParser() {
     }
