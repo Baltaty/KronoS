@@ -20,7 +20,7 @@ public class ConfigModel  implements Config {
     }
 
     /**
-     * Changes the assignment of a keyboard key for the {@link Top top}
+     * Changes the assignment of a keyboard key for the {@link TopModel top}
      */
     @Override
     public void changeTopControl() {
