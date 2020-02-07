@@ -9,15 +9,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-public class PiloteController implements Initializable {
+public class PilotController implements Initializable {
 
-
-    String regExsimpleString = "[a-zA-Z]*";
-    String regExcomplexString = "([a-zA-Z_0-9]* |[\\s]*){0,4}";
-    String regxEpressiondate1 = "^(3[01]|[12][0-9]|0[1-9])-(1[0-2]|0[1-9])-[0-9]{4}$";
-    String regExNumeric = "[0-9]*";
-    String regexEmail = "^[A-Za-z0-9+_.-]+@(.+)$";
-    String regexDouble = "^[0-9]{1,16}(\\.[0-9]{1,2})?$";
 
     /**
      * Called to initialize a controller after its root element has been
