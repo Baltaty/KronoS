@@ -12,13 +12,13 @@
         <testSourceDirectory>tests</testSourceDirectory>
         <resources>
             <resource>
-                <filtering>false</filtering>
+<!--                <filtering>false</filtering>-->
                 <directory>src</directory>
-                <includes>
-                    <include>**/*.fxml</include>
-                    <include>**/*.css</include>
-                    <include>**/*.png</include>
-                </includes>
+<!--                <includes>-->
+<!--                    <include>**/*.fxml</include>-->
+<!--                    <include>**/*.css</include>-->
+<!--                    <include>**/*.png</include>-->
+<!--                </includes>-->
             </resource>
         </resources>
         <plugins>
