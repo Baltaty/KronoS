@@ -15,10 +15,10 @@ public class RaceFactory {
 
     public RaceModel createRace(String raceType, long id, Date startingTime, String racewayName, Date endTime, int numberOfLaps) {
         RaceModel raceModel = null;
-        if(raceType.equals(RaceType.LAP_RACE)) {
+        if(raceType.equals(RaceType.TIME_RACE)) {
             raceModel = new TimeRaceModel(id, startingTime, racewayName, endTime);
         }
-        else if(raceType.equals(RaceType.TIME_RACE)) {
+        else if(raceType.equals(RaceType.LAP_RACE)) {
             raceModel = new LapRaceModel(id, startingTime, racewayName, numberOfLaps);
         }
         return raceModel;
