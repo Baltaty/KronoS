@@ -9,9 +9,17 @@ public class MainCarModel extends CarModel implements MainCar {
 
     private ArrayList<Integer> stopList;
 
+    public MainCarModel() {
 
-    public MainCarModel(long id, int number, String name, String model, String brand, ArrayList<TopModel> topList, LapRaceModel lapRace, TimeRaceModel timeRace, int completedLaps) {
-        super(id, number, name, model, brand, topList, lapRace, timeRace, completedLaps);
+    }
+
+    public MainCarModel(long id, int number, String team, String model, String brand, ArrayList<TopModel> topList, LapRaceModel lapRace, int completedLaps) {
+        super(id, number, team, model, brand, topList, lapRace, completedLaps);
+        stopList = new ArrayList<>();
+    }
+
+    public MainCarModel(long id, int number, String name, String model, String brand, ArrayList<TopModel> topList, TimeRaceModel timeRace, int completedLaps) {
+        super(id, number, name, model, brand, topList, timeRace, completedLaps);
         stopList = new ArrayList<>();
     }
 

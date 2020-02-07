@@ -1,4 +1,4 @@
- 
+
 package com.kronos.global.util;
 
 import javafx.application.Platform;
@@ -12,13 +12,19 @@ import javafx.scene.input.KeyEvent;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
- /**
+/**
  * @author TeamKronos
- * 
+ * <p>
  * Version 1.0
- */ 
+ */
 public class Mask {
-    public static void noSpaces(TextField field){
+    static String regExsimpleString = "[a-zA-Z]*";
+    static String regExcomplexString = "([a-zA-Z_0-9]* |[\\s]*){0,4}";
+    static String regxEpressiondate1 = "^(3[01]|[12][0-9]|0[1-9])-(1[0-2]|0[1-9])-[0-9]{4}$";
+    static String regExNumeric = "[0-9]*";
+    static String regexDouble = "^[0-9]{1,16}(\\.[0-9]{1,2})?$";
+
+    public static void noSpaces(TextField field) {
         field.lengthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -87,7 +93,7 @@ public class Mask {
 
     public static void nameField(final TextField field) {
         field.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if(!newValue){
+            if (!newValue) {
                 String text = field.getText();
                 String[] parts = text.split(" ");
                 StringBuilder sb = new StringBuilder();
@@ -105,7 +111,7 @@ public class Mask {
     }
 
 
-    public static boolean isEmail(TextField field)  { // KeyPressed
+    public static boolean isEmail(TextField field) { // KeyPressed
         boolean is = false;
         if (!field.getText().isEmpty()) {
             if (field.getText().contains("@") && field.getText().contains(".") && !field.getText().contains(" ")) {
@@ -126,7 +132,7 @@ public class Mask {
         return is;
     }
 
-    public static void emailField(TextField field){
+    public static void emailField(TextField field) {
         field.lengthProperty().addListener((observable, oldValue, newValue) -> {
             if (field.getText() != null) {
                 if (field.getText().length() > 0) {
@@ -191,4 +197,41 @@ public class Mask {
             }
         });
     }
+    public static Boolean isSimpleString(String myString) {
+
+        if (myString.matches(regExsimpleString)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static Boolean isDate(String myDate) {
+        if (myDate.matches(regxEpressiondate1)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static Boolean isNumeric(String myNumeric) {
+
+        if (myNumeric.matches(regExNumeric)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static Boolean isComplexString(String myComplexString) {
+        if (myComplexString.matches(regExcomplexString)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static Boolean isDouble(String myDouble) {
+        if (myDouble.matches(regexDouble)) {
+            return true;
+        }
+        return false;
+    }
+
 }

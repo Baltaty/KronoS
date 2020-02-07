@@ -3,6 +3,11 @@ package com.kronos.model;
 import com.kronos.api.Print;
 
 public class PrintModel implements Print {
+
+    public PrintModel() {
+
+    }
+
     /**
      * Gets the tops of each pilot
      */
