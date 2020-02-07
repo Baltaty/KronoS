@@ -66,7 +66,6 @@ public interface Pilote {
      * the car of our pilote
      * @return pilotecar
      */
-
     MainCar getPilotecar();
 
 }
