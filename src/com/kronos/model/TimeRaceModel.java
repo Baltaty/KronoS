@@ -1,6 +1,7 @@
 package com.kronos.model;
 
 import com.kronos.api.TimeRace;
+import com.kronos.global.enums.RaceType;
 
 import java.util.Date;
 
@@ -24,5 +25,15 @@ public class TimeRaceModel extends RaceModel implements TimeRace {
 
     public String getDuration() {
         return duration.toString();
+    }
+
+    /**
+     * getting the type of the race  because we have two type of race
+     *
+     * @return the type of the race
+     */
+    @Override
+    public RaceType getRaceType() {
+        return null;
     }
 }

@@ -11,9 +11,19 @@ import com.kronos.model.CarModel;
  */
 public class CarController {
 
+    private CarModel carModel;
 
     public CarController(CarModel carModel) {
+        this.carModel = carModel;
+    }
 
+    public boolean saveCar() {
+        boolean saved = false;
+        if(checkCar(carModel)) {
+            //save the car
+            saved = true;
+        }
+        return saved;
     }
 
     /**
@@ -30,18 +40,6 @@ public class CarController {
             //mettre une alerte
         }
         if (!Mask.isNumeric(String.valueOf(carModel.getNumber()))) {
-            checked = false;
-            //mettre une alerte
-        }
-        if (!Mask.isSimpleString(carModel.getTeam())) {
-            checked = false;
-            //mettre une alerte
-        }
-        if (!Mask.isSimpleString(carModel.getModel())) {
-            checked = false;
-            //mettre une alerte
-        }
-        if (!Mask.isSimpleString(carModel.getBrand())) {
             checked = false;
             //mettre une alerte
         }
@@ -70,5 +68,9 @@ public class CarController {
         }
 
         return respectsLogic;
+    }
+
+    public CarModel getCarModel() {
+        return this.carModel;
     }
 }

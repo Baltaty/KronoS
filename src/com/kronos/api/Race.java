@@ -1,5 +1,7 @@
 package com.kronos.api;
 
+import com.kronos.global.enums.RaceType;
+
 import java.util.Date;
 
 /**
@@ -26,6 +28,17 @@ public interface Race {
      * @return raceWayName
      */
     String getRacewayName();
+
+    /**
+     * getting the type of the race  because we have two type of race
+     * @return  the type of the race
+     */
+    RaceType getRaceType();
+
+
+
+
+
 
 
 }

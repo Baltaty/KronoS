@@ -10,6 +10,7 @@ public abstract class RaceModel implements Race {
     private Date startingTime;
     private String racewayName;
 
+
     public RaceModel() {
 
     }
@@ -26,11 +27,11 @@ public abstract class RaceModel implements Race {
 
     @Override
     public Date getstartingTime() {
-        return null;
+        return startingTime;
     }
 
     @Override
     public String getRacewayName() {
-        return null;
+        return racewayName;
     }
 }

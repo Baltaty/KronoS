@@ -9,6 +9,10 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -18,7 +22,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Version 1.0
  */
 public class Mask {
-    static String regExsimpleString = "[a-zA-Z]*";
+    static String regExsimpleString = "[a-zA-Z_0-9]*";
     static String regExcomplexString = "([a-zA-Z_0-9]* |[\\s]*){0,4}";
     static String regxEpressiondate1 = "^(3[01]|[12][0-9]|0[1-9])-(1[0-2]|0[1-9])-[0-9]{4}$";
     static String regExNumeric = "[0-9]*";
@@ -197,6 +201,7 @@ public class Mask {
             }
         });
     }
+
     public static Boolean isSimpleString(String myString) {
 
         if (myString.matches(regExsimpleString)) {
@@ -232,6 +237,17 @@ public class Mask {
             return true;
         }
         return false;
+    }
+
+    public static int validateDate(Date myDate) throws ParseException {
+
+        Date currentDate = new Date();
+        SimpleDateFormat DateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Date currentdatecompare = DateFormat.parse(new SimpleDateFormat("dd-MM-yyyy").format(currentDate));
+        Date myDateFormat = DateFormat.parse(new SimpleDateFormat("dd-MM-yyyy").format(myDate));
+
+
+        return currentdatecompare.compareTo(myDateFormat);
     }
 
 }
