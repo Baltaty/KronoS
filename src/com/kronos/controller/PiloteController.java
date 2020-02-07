@@ -1,14 +1,10 @@
 package com.kronos.controller;
 
-import com.kronos.api.Pilote;
-import com.kronos.global.util.Alerts;
 import com.kronos.global.util.Mask;
 import com.kronos.model.PilotModel;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TextField;
 
 import java.net.URL;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -16,10 +12,12 @@ import java.util.ResourceBundle;
 public class PiloteController implements Initializable {
 
 
-    String regExpressionchaine = "[a-zA-Z]*";
-    String regExpressiondate="[0-9 * {1,2} [a-z]+ [0-9]{4}]";
-    String regExpressionNumerique="[0-9]*";
-    String regexEmail="^[A-Za-z0-9+_.-]+@(.+)$";
+    String regExsimpleString = "[a-zA-Z]*";
+    String regExcomplexString = "([a-zA-Z_0-9]* |[\\s]*){0,4}";
+    String regxEpressiondate1 = "^(3[01]|[12][0-9]|0[1-9])-(1[0-2]|0[1-9])-[0-9]{4}$";
+    String regExNumeric = "[0-9]*";
+    String regexEmail = "^[A-Za-z0-9+_.-]+@(.+)$";
+    String regexDouble = "^[0-9]{1,16}(\\.[0-9]{1,2})?$";
 
     /**
      * Called to initialize a controller after its root element has been
@@ -33,65 +31,61 @@ public class PiloteController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
     }
-   Boolean checkname( ){
 
-        return  true;
-   }
-    void createpilote( ) throws ParseException {
+    /**
+     *  checked pilot informations
+     * @param pilot
+     * @return true if all information about the pilot is correct
+     */
 
-    long id= System.currentTimeMillis();
-    String lastname="mon name";
-    String firstname="firstname";
-    String comment="comment  la vie ";
-    Date date= new Date();
-    double weight=222.00;
-    double height=1111.00;
-
-    String email="kouadioyaonarcisse2@gmail.com";
-
-      boolean test= firstname.matches(regExpressionchaine);
-      System.out.println(email.matches(regexEmail));
-      System.out.println(test);
-      System.out.println(String.valueOf(id).matches(regExpressionNumerique));
-      System.out.println( new SimpleDateFormat("dd-MM-yyyy").format(date));
-      System.out.println( new SimpleDateFormat("dd-MM-yyyy").format(date).matches(regExpressiondate));
-
-
-    }
-
-    public Boolean createPilote1(PilotModel pilote){
-        Boolean verify=true;
-        if(!(String.valueOf(pilote.getId()).matches(regExpressionNumerique))){
-            verify=false;
-           // Alerts.error("error","mylong ");
-        }else  if (!(pilote.getFirstName().matches(regExpressionchaine))){
-            verify=false;
+    public Boolean checkingofpilot(PilotModel pilot) {
+        boolean verify = true;
+        if (!(Mask.isNumeric(String.valueOf(pilot.getId())))) {
+            verify = false;
+            // Alerts.error("error","mylong ");
+        }
+        if (!(Mask.isSimpleString(pilot.getLastName()))) {
+            verify = false;
+        }
+        if (!(Mask.isComplexString(pilot.getFirstName()))) {
+            verify = false;
             //Alerts.error("ERROR"," firstname is not a string");
         }
-        else if (!(pilote.getLastName().matches(regExpressionchaine))){
+        if (!(Mask.isDate(new SimpleDateFormat("dd-MM-yyyy").format(pilot.getDateOfBirth())))) {
 
-            verify=false;
-            //Alerts.error("ERROR"," firstname is not a string");
+            verify = false;
+            //Alerts sur l'element en question
+        }
+        if (!(Mask.isDouble(Double.toString(pilot.getWeight())))) {
+
+            verify = false;
+            //action a faire su IHM
+        }
+        if (!(Mask.isDouble(Double.toString(pilot.getHeight())))) {
+            verify = false;
+
         }
 
-        return  verify;
+        return verify;
+    }
+
+    /**
+     * created and register pilot informations in the file
+     * @param pilot
+     * @return true if  all informations about the pilot is ok
+     */
+    public Boolean creationfpilot(PilotModel pilot) {
+
+        if (checkingofpilot(pilot)) {
+            //register of the pilot
+            return true;
+
+        }
+
+        return false;
     }
 
 
 
-    public static void main(String[] args) throws ParseException {
-        PiloteController piloteController= new PiloteController();
-        piloteController.createpilote();
-        long id= System.currentTimeMillis();
-        String lastname="monname";
-        String firstname="firstname";
-        String comment="comment  la vie ";
-        Date date= new Date();
-        double weight=222.00;
-        double height=1111.00;
-        PilotModel pilote= new PilotModel(id,lastname,firstname,comment,date,weight,height);
-
-        System.out.println("checking information about the pilot "+piloteController.createPilote1(pilote));
-    }
 
 }
