@@ -10,21 +10,22 @@ package com.kronos.controller;
 //import com.fxexperience.javafx.animation.FlipTransition;
 //import com.fxexperience.javafx.animation.*;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialogLayout;
+import com.jfoenix.controls.*;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import com.jfoenix.controls.JFXTextField;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Tab;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
@@ -77,7 +78,22 @@ public class HomeController implements Initializable {
     private JFXDialogLayout dialog_new_race;
 
     @FXML
-    private JFXButton btnDataBack;
+    private JFXTabPane NewRaceTabPane;
+
+    @FXML
+    private Tab tab_pilote;
+
+    @FXML
+    private Tab tab_voiture;
+
+    @FXML
+    private Tab tab_course;
+
+    @FXML
+    private JFXButton btn_next_car;
+
+    @FXML
+    private JFXButton btn_next_lap;
 
     @FXML
     private ImageView boulon;
@@ -85,7 +101,7 @@ public class HomeController implements Initializable {
     @FXML
     private void handleNewRaceClicked(ActionEvent event)
     {
-          System.out.println("amorçage du processus de démarrage");
+          System.out.println("amorçage du processus de démarrage d'une course");
         dialog_new_race.setVisible(true);
             JFXDialog alert1= new JFXDialog(homestack,dialog_new_race,JFXDialog.DialogTransition.TOP);
             alert1.show();
@@ -191,6 +207,20 @@ public class HomeController implements Initializable {
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    @FXML
+    private void handleSwitchToCarTab(ActionEvent event)
+    {
+        SingleSelectionModel<Tab> selectionModel = NewRaceTabPane.getSelectionModel();
+        tab_voiture.setDisable(false);
+        selectionModel.select(tab_voiture);
+    }
+    @FXML
+    private void handleSwitchToLapTap(ActionEvent event)
+    {
+        SingleSelectionModel<Tab> selectionModel = NewRaceTabPane.getSelectionModel();
+        tab_course.setDisable(false);
+        selectionModel.select(tab_course);
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -228,6 +258,4 @@ public class HomeController implements Initializable {
             //////
 
         }
-    }   
-    
- 
+    }

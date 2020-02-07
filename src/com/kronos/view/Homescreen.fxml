@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDialogLayout?>
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
@@ -109,21 +111,152 @@
                <children>
                   <Pane prefHeight="752.0" prefWidth="1318.0">
                      <children>
-                        <JFXTabPane layoutX="5.0" layoutY="-26.0" prefHeight="729.0" prefWidth="1010.0">
+                        <JFXTabPane fx:id="NewRaceTabPane" layoutX="5.0" layoutY="-26.0" prefHeight="657.0" prefWidth="1010.0">
                            <tabs>
-                              <Tab text="PILOTE">
+                              <Tab fx:id="tab_pilote" text="PILOTE">
                                  <content>
-                                    <AnchorPane prefHeight="675.0" prefWidth="1370.0" />
+                                    <AnchorPane prefHeight="675.0" prefWidth="1010.0">
+                                       <children>
+                                          <JFXTextField layoutX="200.0" layoutY="170.0" />
+                                          <JFXTextField layoutX="200.0" layoutY="213.0" />
+                                          <JFXTextField layoutX="200.0" layoutY="256.0" />
+                                          <JFXTextField layoutX="200.0" layoutY="298.0" />
+                                          <JFXTextField layoutX="201.0" layoutY="340.0" />
+                                          <Label layoutX="41.0" layoutY="184.0" text="Nom">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="42.0" layoutY="228.0" text="Prénom">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="42.0" layoutY="272.0" text="Poids">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="42.0" layoutY="315.0" text="Taille">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="42.0" layoutY="355.0" text="Commentaire">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <JFXButton fx:id="btn_next_car" layoutX="828.0" layoutY="563.0" onAction="#handleSwitchToCarTab" text="SUIVANT" textFill="WHITE">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </JFXButton>
+                                          <JFXButton layoutX="172.0" layoutY="437.0" text="AJOUTER">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </JFXButton>
+                                          <Label layoutX="281.0" layoutY="33.0" text="ENTREZ LES DONNEES DES PILOTES" textFill="WHITE">
+                                             <font>
+                                                <Font size="25.0" />
+                                             </font>
+                                          </Label>
+                                       </children></AnchorPane>
                                  </content>
                               </Tab>
-                              <Tab text="VOITURE">
+                              <Tab fx:id="tab_voiture" disable="true" text="VOITURE">
                                  <content>
-                                    <AnchorPane prefHeight="675.0" prefWidth="1370.0" />
+                                    <AnchorPane prefHeight="675.0" prefWidth="1010.0">
+                                       <children>
+                                          <Label layoutX="240.0" layoutY="43.0" text="ENTREZ LES DONNEES DES VOITURES" textFill="WHITE">
+                                             <font>
+                                                <Font size="25.0" />
+                                             </font>
+                                          </Label>
+                                          <JFXTextField layoutX="200.0" layoutY="170.0" />
+                                          <JFXTextField layoutX="200.0" layoutY="213.0" />
+                                          <JFXTextField layoutX="200.0" layoutY="256.0" />
+                                          <JFXTextField layoutX="200.0" layoutY="298.0" />
+                                          <Label layoutX="41.0" layoutY="184.0" text="Numéro">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="42.0" layoutY="228.0" text="Equipe">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="42.0" layoutY="272.0" text="Modèle">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="42.0" layoutY="315.0" text="Marque">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <JFXButton fx:id="btn_next_lap" layoutX="828.0" layoutY="563.0" onAction="#handleSwitchToCarTab" text="SUIVANT" textFill="WHITE">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </JFXButton>
+                                          <JFXButton layoutX="172.0" layoutY="437.0" text="AJOUTER">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </JFXButton>
+                                          <Label layoutX="43.0" layoutY="358.0" text="Pilote">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <JFXComboBox layoutX="200.0" layoutY="343.0" prefHeight="27.0" prefWidth="149.0" />
+                                       </children>
+                                    </AnchorPane>
                                  </content>
                               </Tab>
-                              <Tab text="COURSE">
+                              <Tab fx:id="tab_course" disable="true" text="COURSE">
                                  <content>
-                                    <AnchorPane prefHeight="675.0" prefWidth="1370.0" />
+                                    <AnchorPane prefHeight="675.0" prefWidth="1010.0">
+                                       <children>
+                                          <ImageView fitHeight="83.0" fitWidth="49.0" layoutX="925.0" layoutY="555.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../media/img/play.png" />
+                                             </image>
+                                          </ImageView>
+                                          <JFXTextField layoutX="200.0" layoutY="170.0" />
+                                          <JFXTextField layoutX="200.0" layoutY="213.0" />
+                                          <Label layoutX="41.0" layoutY="184.0" text="Date de début">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="42.0" layoutY="228.0" text="Nom du circuit">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="42.0" layoutY="268.0" text="Type de course">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <JFXButton fx:id="btn_next_car2" layoutX="787.0" layoutY="561.0" onAction="#handleSwitchToCarTab" text="COMMENCER" textFill="WHITE">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </JFXButton>
+                                          <Label layoutX="277.0" layoutY="49.0" text="ENTREZ LES DONNEES DE LA COURSE" textFill="WHITE">
+                                             <font>
+                                                <Font size="25.0" />
+                                             </font>
+                                          </Label>
+                                          <JFXComboBox layoutX="203.0" layoutY="261.0" prefHeight="27.0" prefWidth="149.0" />
+                                       </children>
+                                    </AnchorPane>
                                  </content>
                               </Tab>
                            </tabs>
