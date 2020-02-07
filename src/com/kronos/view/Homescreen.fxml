@@ -15,16 +15,16 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="homestack" prefHeight="794.0" prefWidth="1360.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.HomeController">
+<StackPane fx:id="homestack" prefHeight="713.0" prefWidth="1104.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.HomeController">
    <children>
-      <AnchorPane id="AnchorPane" prefHeight="768.0" prefWidth="1370.0" style="-fx-background-color: WHITE;">
+      <AnchorPane id="AnchorPane" prefHeight="704.0" prefWidth="868.0" style="-fx-background-color: WHITE;">
          <children>
-            <ImageView fx:id="appname1" fitHeight="432.0" fitWidth="410.0" layoutX="444.0" layoutY="-11.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="appname1" fitHeight="432.0" fitWidth="410.0" layoutX="352.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../media/img/krono.png" />
                </image>
             </ImageView>
-            <JFXButton fx:id="startbtn" buttonType="RAISED" graphicTextGap="0.0" layoutX="191.0" layoutY="453.0" onAction="#handleNewRaceClicked" onMouseEntered="#handleNewRaceEntered" prefHeight="123.0" prefWidth="123.0" style="-fx-background-color: #57c6f2; -fx-background-radius: 200;" styleClass="btnbino">
+            <JFXButton fx:id="startbtn" buttonType="RAISED" graphicTextGap="0.0" layoutX="338.0" layoutY="525.0" onAction="#handleNewRaceClicked" onMouseEntered="#handleNewRaceEntered" prefHeight="50.0" prefWidth="65.0" style="-fx-background-color: #57c6f2;">
                <effect>
                   <DropShadow height="34.35" radius="15.5625" spread="0.3" width="29.9" />
                </effect>
@@ -32,18 +32,18 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <ImageView fx:id="newraceicon" disable="true" fitHeight="90.0" fitWidth="100.0" layoutX="209.0" layoutY="468.0" onMouseEntered="#handleNewRaceEntered" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="newraceicon" disable="true" fitHeight="32.0" fitWidth="30.0" layoutX="355.0" layoutY="530.0" onMouseEntered="#handleNewRaceEntered" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../media/img/database.png" />
+                  <Image url="@../media/img/play.png" />
                </image>
             </ImageView>
-            <Text layoutX="197.0" layoutY="610.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DEMARRER">
+            <Text layoutX="316.0" layoutY="613.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DEMARRER">
                <font>
                   <Font name="VerbBlack" size="20.0" />
                </font>
             </Text>
-            <JFXButton fx:id="settingbtn" layoutX="39.0" layoutY="34.0" onAction="#handleSettingClicked" onMouseEntered="#handleSettingEntered" prefHeight="42.0" prefWidth="40.0" style="-fx-background-color: #57C6F2; -fx-background-radius: 200;" />
-            <ImageView fx:id="setingicon" disable="true" fitHeight="25.0" fitWidth="29.0" layoutX="47.0" layoutY="42.0" onMouseEntered="#handleSettingEntered" pickOnBounds="true" preserveRatio="true">
+            <JFXButton fx:id="settingbtn" layoutX="61.0" layoutY="30.0" onAction="#handleSettingClicked" onMouseEntered="#handleSettingEntered" prefHeight="42.0" prefWidth="40.0" style="-fx-background-color: #57C6F2; -fx-background-radius: 200;" />
+            <ImageView fx:id="setingicon" disable="true" fitHeight="25.0" fitWidth="29.0" layoutX="69.0" layoutY="38.0" onMouseEntered="#handleSettingEntered" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../media/img/settings.png" />
                </image>
@@ -51,7 +51,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
-            <JFXButton fx:id="bdbtn" buttonType="RAISED" graphicTextGap="0.0" layoutX="1005.0" layoutY="439.0" onAction="#handleOldRaceClicked" prefHeight="123.0" prefWidth="123.0" style="-fx-background-color: #57c6f2; -fx-background-radius: 200;" styleClass="btnbino">
+            <JFXButton fx:id="bdbtn" buttonType="RAISED" graphicTextGap="0.0" layoutX="640.0" layoutY="524.0" onAction="#handleOldRaceClicked" prefHeight="50.0" prefWidth="65.0" style="-fx-background-color: #57c6f2;">
                <effect>
                   <DropShadow />
                </effect>
@@ -59,12 +59,12 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <ImageView fx:id="bdicon" disable="true" fitHeight="90.0" fitWidth="100.0" layoutX="1023.0" layoutY="454.0" onMouseEntered="#handleOldRaceEntered" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="bdicon" disable="true" fitHeight="32.0" fitWidth="30.0" layoutX="657.0" layoutY="530.0" onMouseEntered="#handleOldRaceEntered" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../media/img/database.png" />
                </image>
             </ImageView>
-            <Text layoutX="908.0" layoutY="597.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CHARGER UNE ANCIENNE COURSE">
+            <Text layoutX="579.0" layoutY="603.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CHARGER UNE &#10;ANCIENNE COURSE" textAlignment="CENTER">
                <font>
                   <Font name="VerbBlack" size="20.0" />
                </font>
@@ -73,7 +73,7 @@
                <children>
                   <Pane prefHeight="713.0" prefWidth="956.0">
                      <children>
-                        <ImageView fx:id="boulon" disable="true" fitHeight="549.0" fitWidth="577.0" layoutX="536.0" layoutY="-190.0" opacity="0.6" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="boulon" disable="true" fitHeight="194.0" fitWidth="207.0" layoutX="745.0" layoutY="-43.0" opacity="0.6" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../media/img/settings.png" />
                            </image>
@@ -105,11 +105,11 @@
                   </Pane>
                </children>
             </JFXDialogLayout>
-            <JFXDialogLayout fx:id="dialog_new_race" layoutX="-4.0" layoutY="78.0" prefHeight="716.0" prefWidth="1256.0" style="-fx-background-color: #57c6f2;" visible="false">
+            <JFXDialogLayout fx:id="dialog_new_race" layoutX="-4.0" layoutY="78.0" prefHeight="716.0" prefWidth="1015.0" style="-fx-background-color: #57c6f2;" visible="false">
                <children>
                   <Pane prefHeight="752.0" prefWidth="1318.0">
                      <children>
-                        <JFXTabPane layoutX="5.0" layoutY="-26.0" prefHeight="729.0" prefWidth="1250.0">
+                        <JFXTabPane layoutX="5.0" layoutY="-26.0" prefHeight="729.0" prefWidth="1010.0">
                            <tabs>
                               <Tab text="PILOTE">
                                  <content>
