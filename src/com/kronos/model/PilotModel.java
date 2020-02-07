@@ -122,7 +122,7 @@ public class PilotModel implements Pilote {
      * @return pilotecar
      */
     @Override
-    public MainCarModel getPilotecar() {
+    public MainCar getPilotecar() {
         return pilotecar;
     }
 

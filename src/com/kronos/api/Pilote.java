@@ -1,7 +1,7 @@
 package com.kronos.api;
 
 import com.kronos.model.MainCarModel;
-import com.kronos.parserXML.api.Parceleable;
+
 
 import java.util.Date;
 
@@ -76,6 +76,6 @@ public interface Pilote {
      * @return pilotecar
      */
 
-    MainCarModel getPilotecar();
+    MainCar getPilotecar();
 
 }

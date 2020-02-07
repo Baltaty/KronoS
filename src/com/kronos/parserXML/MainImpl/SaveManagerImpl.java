@@ -5,12 +5,8 @@ import com.kronos.parserXML.api.SaveManager;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * * @author TeamKronoS
@@ -53,24 +49,34 @@ public class SaveManagerImpl implements SaveManager {
      */
     String nameFile;
 
+    /**
+     * XML TAG to be added at the beginning of each XML file for file standardization
+     */
+    private static String  XML_STANDARD_TAG =  "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
+
 
     /**
      * private constructor
      */
-    private SaveManagerImpl(String nameOfFile) {
+    private SaveManagerImpl() {
         listOfBeans = new ArrayList<Object>();
         stringBuilder = new StringBuilder();
+        stringBuilder.append(XML_STANDARD_TAG);
         parser = new ModelParser();
-        nameFile = nameOfFile;
+        String [] date_to_format_string = new Date().toString().split(":");
+        for (String character : date_to_format_string){
+            nameFile +=character;
+        }
+
     }
 
 
     /**
-     * @return SaveManagerImpl
+     * @return singleton instance of SaveManagerImpl
      */
-    public synchronized static SaveManagerImpl getInstance(String nameofFile) {
+    public synchronized static SaveManagerImpl getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new SaveManagerImpl(nameofFile);
+            INSTANCE = new SaveManagerImpl();
         }
         return INSTANCE;
     }
