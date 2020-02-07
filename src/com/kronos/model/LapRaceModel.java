@@ -8,6 +8,9 @@ public class LapRaceModel extends RaceModel implements LapRace {
 
     private int numberOfLaps;
 
+    public LapRaceModel() {
+    }
+
     public LapRaceModel(long id, Date startingTime, String racewayName, int numberOfLaps) {
         super(id, startingTime, racewayName);
         this.numberOfLaps = numberOfLaps;
