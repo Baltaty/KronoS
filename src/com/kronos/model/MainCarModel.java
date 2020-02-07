@@ -13,8 +13,8 @@ public class MainCarModel extends CarModel implements MainCar {
 
     }
 
-    public MainCarModel(long id, int number, String name, String model, String brand, ArrayList<TopModel> topList, LapRaceModel lapRace, int completedLaps) {
-        super(id, number, name, model, brand, topList, lapRace, completedLaps);
+    public MainCarModel(long id, int number, String team, String model, String brand, ArrayList<TopModel> topList, LapRaceModel lapRace, int completedLaps) {
+        super(id, number, team, model, brand, topList, lapRace, completedLaps);
         stopList = new ArrayList<>();
     }
 

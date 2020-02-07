@@ -7,7 +7,7 @@ public abstract class CarModel implements Car {
 
     private long id;
     private int number;
-    private String name;
+    private String team;
     private String model;
     private String brand;
     private ArrayList<TopModel> topList;
@@ -19,10 +19,10 @@ public abstract class CarModel implements Car {
 
     }
 
-    public CarModel(long id, int number, String name, String model, String brand, ArrayList<TopModel> topList, LapRaceModel lapRace, int completedLaps) {
+    public CarModel(long id, int number, String team, String model, String brand, ArrayList<TopModel> topList, LapRaceModel lapRace, int completedLaps) {
         this.id = id;
         this.number = number;
-        this.name = name;
+        this.team = team;
         this.model = model;
         this.brand = brand;
         this.topList = new ArrayList<TopModel>();
@@ -30,10 +30,10 @@ public abstract class CarModel implements Car {
         this.completedLaps = completedLaps;
     }
 
-    public CarModel(long id, int number, String name, String model, String brand, ArrayList<TopModel> topList, TimeRaceModel timeRace, int completedLaps) {
+    public CarModel(long id, int number, String team, String model, String brand, ArrayList<TopModel> topList, TimeRaceModel timeRace, int completedLaps) {
         this.id = id;
         this.number = number;
-        this.name = name;
+        this.team = team;
         this.model = model;
         this.brand = brand;
         this.topList = new ArrayList<TopModel>();
@@ -73,12 +73,12 @@ public abstract class CarModel implements Car {
 
     }
 
-    public String getName() {
-        return name;
+    public String getTeam() {
+        return team;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTeam(String team) {
+        this.team = team;
     }
 
     public String getModel() {
