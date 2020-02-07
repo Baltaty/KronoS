@@ -95,41 +95,43 @@ public class App extends Application {
 
         decorator.setTitle("Kronos v1.0");
 //        decorator.setIcon(null);
-        decorator.addButton(ButtonType.FULL_EFFECT);
-        decorator.initTheme(GNDecorator.Theme.CUSTOM);
+        //decorator.addButton(ButtonType.FULL_EFFECT);
+        decorator.initTheme(GNDecorator.Theme.DEFAULT);
 //        decorator.fullBody();
 
-        String log = logged();
-        assert log != null;
+//        String log = logged();
+//        assert log != null;
 
-        if (log.equals("account") || log.equals("login")) {
-            decorator.setContent(ViewManager.getInstance().get(log));
-        } else {
-            App.decorator.addCustom(userDetail);
-            userDetail.setProfileAction(event -> {
-                Main.ctrl.title.setText("Profile");
-                Main.ctrl.body.setContent(ViewManager.getInstance().get("profile"));
-                userDetail.getPopOver().hide();
-            });
+//        if (log.equals("account") || log.equals("login")) {
+//            decorator.setContent(ViewManager.getInstance().get(log));
+//        }
+//        else {
+//            App.decorator.addCustom(userDetail);
+//            userDetail.setProfileAction(event -> {
+//                Main.ctrl.title.setText("Profile");
+//                Main.ctrl.body.setContent(ViewManager.getInstance().get("profile"));
+//                userDetail.getPopOver().hide();
+//            });
+//
+////            userDetail.setSignAction(event -> {
+////                App.decorator.setContent(ViewManager.getInstance().get("login"));
+////                section.setLogged(false);
+////                SectionManager.save(section);
+////                userDetail.getPopOver().hide();
+////                if(Main.popConfig.isShowing()) Main.popConfig.hide();
+////                //if(Main.popup.isShowing()) Main.popup.hide();
+////                App.decorator.removeCustom(userDetail);
+////            });
+//            decorator.setContent(ViewManager.getInstance().get("Homescreen"));
+//        }
+        decorator.setContent(ViewManager.getInstance().get("Homescreen"));
 
-            userDetail.setSignAction(event -> {
-                App.decorator.setContent(ViewManager.getInstance().get("login"));
-                section.setLogged(false);
-                SectionManager.save(section);
-                userDetail.getPopOver().hide();
-                if(Main.popConfig.isShowing()) Main.popConfig.hide();
-                //if(Main.popup.isShowing()) Main.popup.hide();
-                App.decorator.removeCustom(userDetail);
-            });
-            decorator.setContent(ViewManager.getInstance().get("Homescreen"));
-        }
-
-        decorator.getStage().setOnCloseRequest(event -> {
-            App.getUserDetail().getPopOver().hide();
-            if(Main.popConfig.isShowing()) Main.popConfig.hide();
-            //if(Main.popup.isShowing()) Main.popup.hide();
-            Platform.exit();
-        });
+//        decorator.getStage().setOnCloseRequest(event -> {
+//            App.getUserDetail().getPopOver().hide();
+//            if(Main.popConfig.isShowing()) Main.popConfig.hide();
+//            //if(Main.popup.isShowing()) Main.popup.hide();
+//            Platform.exit();
+//        });
     }
 
     @Override
@@ -152,7 +154,7 @@ public class App extends Application {
                 getClass().getResource("/com/kronos/theme/css/master.css").toExternalForm()
         );
 
-        decorator.setMaximized(true);
+        decorator.setMaximized(false);
         decorator.getStage().getIcons().add(new Image("/com/kronos/module/media/logo2.png"));
         decorator.show();
 
