@@ -59,5 +59,47 @@
             <artifactId>fontawesomefx</artifactId>
             <version>8.9</version>
         </dependency>
+        <dependency>
+            <groupId>GNAvatarView</groupId>
+            <artifactId>GNAvatarView</artifactId>
+            <scope>system</scope>
+            <version>1.0</version>
+            <systemPath>${basedir}/dist/lib/GNAvatarView-1.0-rc.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>GNButton</groupId>
+            <artifactId>GNButton</artifactId>
+            <scope>system</scope>
+            <version>1.1.0</version>
+            <systemPath>${basedir}/dist/lib/GNButton-1.1.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>GNCalendar</groupId>
+            <artifactId>GNCalendar</artifactId>
+            <scope>system</scope>
+            <version>1.0</version>
+            <systemPath>${basedir}/dist/lib/GNCalendar-1.0-alpha.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>GNCarousel</groupId>
+            <artifactId>GNCarousel</artifactId>
+            <scope>system</scope>
+            <version>2.1.5</version>
+            <systemPath>${basedir}/dist/lib/GNCarousel-2.1.5.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>GNDecorator</groupId>
+            <artifactId>GNDecorator</artifactId>
+            <scope>system</scope>
+            <version>2.1.2</version>
+            <systemPath>${basedir}/dist/lib/GNDecorator-2.1.2-alpha.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>scenicView</groupId>
+            <artifactId>scenicView</artifactId>
+            <scope>system</scope>
+            <version>1.0</version>
+            <systemPath>${basedir}/dist/lib/scenicView.jar</systemPath>
+        </dependency>
     </dependencies>
 </project>
