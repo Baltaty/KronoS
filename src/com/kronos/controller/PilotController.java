@@ -1,7 +1,12 @@
 package com.kronos.controller;
 
+import com.kronos.api.Pilote;
+import com.kronos.api.Top;
 import com.kronos.global.util.Mask;
 import com.kronos.model.PilotModel;
+import com.kronos.model.TopModel;
+import com.kronos.parserXML.MainImpl.SaveManagerImpl;
+import com.kronos.parserXML.api.SaveManager;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
@@ -69,11 +74,22 @@ public class PilotController implements Initializable {
 
         if (checkingofpilot(pilot)) {
             //register of the pilot
+            SaveManagerImpl saveManager = SaveManagerImpl.getInstance();
+            saveManager.persist(pilot);
+            saveManager.saveFile();
             return true;
 
         }
 
         return false;
+    }
+
+
+
+    public static void main(String[] args) {
+        PilotModel pilote = new PilotModel(1, "test ", "test", "Yeaver", new Date(), 3.0, 3.0);
+        PilotController ptmanager =  new PilotController();
+        System.out.println(ptmanager.creationfpilot(pilote));
     }
 
 
