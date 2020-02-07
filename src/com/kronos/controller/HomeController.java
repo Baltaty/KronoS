@@ -174,7 +174,6 @@ public class HomeController implements Initializable {
             StackPane test=FXMLLoader.load(getClass().getResource("Racechoice.fxml"));
             stage.setScene(new Scene(test));
             stage.show();
-            
         } catch (IOException ex) {
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
         }
