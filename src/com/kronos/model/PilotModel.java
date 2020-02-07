@@ -2,7 +2,6 @@ package com.kronos.model;
 
 import com.kronos.api.MainCar;
 import com.kronos.api.Pilote;
-import com.kronos.parserXML.api.Parceleable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

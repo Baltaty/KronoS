@@ -2,6 +2,7 @@ package com.kronos.controller;
 
 
 import com.kronos.api.RivalCar;
+import com.kronos.model.CarModel;
 
 /**
  * @author TeamKronoS
@@ -9,6 +10,11 @@ import com.kronos.api.RivalCar;
  * Controller of the {@link com.kronos.model.CarModel car} objects.
  */
 public class CarController {
+
+
+    public CarController (CarModel carModel) {
+
+    }
 
     /**
      * Checks if {@link com.kronos.model.TopModel top} for this car respects the job logic.
@@ -32,5 +38,10 @@ public class CarController {
         }
 
         return respectsLogic;
+    }
+
+    public boolean checkCar(CarModel carModel) {
+
+        return false;
     }
 }

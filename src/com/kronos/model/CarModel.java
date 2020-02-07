@@ -15,7 +15,11 @@ public abstract class CarModel implements Car {
     private TimeRaceModel timeRace;
     private int completedLaps;
 
-    public CarModel(long id, int number, String name, String model, String brand, ArrayList<TopModel> topList, LapRaceModel lapRace, TimeRaceModel timeRace, int completedLaps) {
+    public CarModel() {
+
+    }
+
+    public CarModel(long id, int number, String name, String model, String brand, ArrayList<TopModel> topList, LapRaceModel lapRace, int completedLaps) {
         this.id = id;
         this.number = number;
         this.name = name;
@@ -23,6 +27,16 @@ public abstract class CarModel implements Car {
         this.brand = brand;
         this.topList = new ArrayList<TopModel>();
         this.lapRace = lapRace;
+        this.completedLaps = completedLaps;
+    }
+
+    public CarModel(long id, int number, String name, String model, String brand, ArrayList<TopModel> topList, TimeRaceModel timeRace, int completedLaps) {
+        this.id = id;
+        this.number = number;
+        this.name = name;
+        this.model = model;
+        this.brand = brand;
+        this.topList = new ArrayList<TopModel>();
         this.timeRace = timeRace;
         this.completedLaps = completedLaps;
     }

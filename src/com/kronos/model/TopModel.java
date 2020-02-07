@@ -8,6 +8,7 @@ import java.util.Date;
 @XmlRootElement
 public class TopModel implements Top {
 
+
     private Date horaire ;
     private String typeTop;
 

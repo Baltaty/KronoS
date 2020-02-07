@@ -10,6 +10,10 @@ public abstract class RaceModel implements Race {
     private Date startingTime;
     private String racewayName;
 
+    public RaceModel() {
+
+    }
+
     public RaceModel(long id, Date startingTime, String racewayName) {
         this.id = id;
         this.startingTime = startingTime;

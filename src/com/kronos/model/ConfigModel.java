@@ -3,6 +3,11 @@ package com.kronos.model;
 import com.kronos.api.Config;
 
 public class ConfigModel  implements Config {
+
+    public ConfigModel() {
+
+    }
+
     /**
      * Changing the language of the application
      */
