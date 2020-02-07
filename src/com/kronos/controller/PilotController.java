@@ -5,6 +5,7 @@ import com.kronos.model.PilotModel;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -31,7 +32,7 @@ public class PilotController implements Initializable {
      * @return true if all information about the pilot is correct
      */
 
-    public Boolean checkingofpilot(PilotModel pilot) {
+    public Boolean checkingofpilot(PilotModel pilot) throws ParseException {
         boolean verify = true;
         if (!(Mask.isNumeric(String.valueOf(pilot.getId())))) {
             verify = false;
@@ -40,11 +41,8 @@ public class PilotController implements Initializable {
         if (!(Mask.isSimpleString(pilot.getLastName()))) {
             verify = false;
         }
-        if (!(Mask.isComplexString(pilot.getFirstName()))) {
-            verify = false;
-            //Alerts.error("ERROR"," firstname is not a string");
-        }
-        if (!(Mask.isDate(new SimpleDateFormat("dd-MM-yyyy").format(pilot.getDateOfBirth())))) {
+
+        if (!(Mask.isDate(new SimpleDateFormat("dd-MM-yyyy").format(pilot.getDateOfBirth()))) || (Mask.validateDate(pilot.getDateOfBirth())==-1)) {
 
             verify = false;
             //Alerts sur l'element en question
@@ -67,7 +65,7 @@ public class PilotController implements Initializable {
      * @param pilot
      * @return true if  all informations about the pilot is ok
      */
-    public Boolean creationfpilot(PilotModel pilot) {
+    public Boolean creationfpilot(PilotModel pilot) throws ParseException {
 
         if (checkingofpilot(pilot)) {
             //register of the pilot
