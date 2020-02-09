@@ -1,8 +1,6 @@
 package com.kronos.parserXML.MainImpl;
 
 import com.kronos.parserXML.api.SaveManager;
-
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;

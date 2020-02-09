@@ -12,12 +12,15 @@ package com.kronos.controller;
 
 import com.jfoenix.controls.*;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.kronos.module.main.Main;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.animation.*;
@@ -27,13 +30,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.w3c.dom.ls.LSOutput;
-
-    /**
+/**
  *
  * @author TeamKronos
  */
@@ -97,6 +99,8 @@ public class HomeController implements Initializable {
 
     @FXML
     private ImageView boulon;
+
+    private boolean changeRequest;
 
     @FXML
     private void handleNewRaceClicked(ActionEvent event)
@@ -215,12 +219,52 @@ public class HomeController implements Initializable {
         selectionModel.select(tab_voiture);
     }
     @FXML
-    private void handleSwitchToLapTap(ActionEvent event)
+    private void handleSwitchToLapTab(ActionEvent event)
     {
         SingleSelectionModel<Tab> selectionModel = NewRaceTabPane.getSelectionModel();
         tab_course.setDisable(false);
         selectionModel.select(tab_course);
     }
+
+    @FXML
+    private void handleChangeTopTouch(ActionEvent event) {
+        changeRequest = true ;
+        Scene scene = homestack.getScene();
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(javafx.scene.input.KeyEvent event) {
+                if (changeRequest){
+                    KeyCode keyCode = event.getCode();
+                    System.out.println(keyCode.toString());
+                    File file = new File("top.properties");
+                    Properties properties = new Properties();
+                    try {
+                        if(!file.exists()){
+
+                            file.createNewFile();
+                        }
+                        else {
+
+                            FileInputStream fileInputStream = new FileInputStream(file);
+                            properties.load(fileInputStream);
+                            properties.put("key", keyCode.toString());
+                            FileOutputStream fileOutputStream = new FileOutputStream(file);
+                            properties.store(fileOutputStream, "Top properties");
+                            System.out.println(" saved !");
+                            top_touch_field.setText(properties.getProperty("key"));
+                            changeRequest = false ;
+                        }
+
+                    }
+                    catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -256,6 +300,20 @@ public class HomeController implements Initializable {
               scalebd.setCycleCount(ScaleTransition.INDEFINITE);
               scalebd.play();
             //////
+            changeRequest = false;
+        File file = new File("top.properties");
+        Properties properties = new Properties();
+            try{
+                FileInputStream fileInputStream = new FileInputStream(file);
+                properties.load(fileInputStream);
+                //FileOutputStream fileOutputStream = new FileOutputStream(file);
+                top_touch_field.setText(properties.getProperty("key"));
+            }
+            catch (IOException io){
+
+            }
+
+        //top_touch_field
 
         }
     }

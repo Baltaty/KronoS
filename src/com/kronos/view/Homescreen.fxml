@@ -2,8 +2,10 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXDialogLayout?>
 <?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
@@ -26,7 +28,7 @@
                   <Image url="@../media/img/krono.png" />
                </image>
             </ImageView>
-            <JFXButton fx:id="startbtn" buttonType="RAISED" graphicTextGap="0.0" layoutX="338.0" layoutY="525.0" onAction="#handleNewRaceClicked" onMouseEntered="#handleNewRaceEntered" prefHeight="50.0" prefWidth="65.0" style="-fx-background-color: #57c6f2;">
+            <JFXButton fx:id="startbtn" buttonType="RAISED" graphicTextGap="0.0" layoutX="338.0" layoutY="511.0" onAction="#handleNewRaceClicked" onMouseEntered="#handleNewRaceEntered" prefHeight="65.0" prefWidth="65.0" style="-fx-background-color: #57c6f2; -fx-background-radius: 200;">
                <effect>
                   <DropShadow height="34.35" radius="15.5625" spread="0.3" width="29.9" />
                </effect>
@@ -41,7 +43,7 @@
             </ImageView>
             <Text layoutX="316.0" layoutY="613.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DEMARRER">
                <font>
-                  <Font name="VerbBlack" size="20.0" />
+                  <Font size="20.0" />
                </font>
             </Text>
             <JFXButton fx:id="settingbtn" layoutX="61.0" layoutY="30.0" onAction="#handleSettingClicked" onMouseEntered="#handleSettingEntered" prefHeight="42.0" prefWidth="40.0" style="-fx-background-color: #57C6F2; -fx-background-radius: 200;" />
@@ -53,7 +55,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
-            <JFXButton fx:id="bdbtn" buttonType="RAISED" graphicTextGap="0.0" layoutX="640.0" layoutY="524.0" onAction="#handleOldRaceClicked" prefHeight="50.0" prefWidth="65.0" style="-fx-background-color: #57c6f2;">
+            <JFXButton fx:id="bdbtn" buttonType="RAISED" graphicTextGap="0.0" layoutX="640.0" layoutY="513.0" onAction="#handleOldRaceClicked" prefHeight="65.0" prefWidth="65.0" style="-fx-background-color: #57c6f2; -fx-background-radius: 200;">
                <effect>
                   <DropShadow />
                </effect>
@@ -94,7 +96,7 @@
                            </font>
                         </Text>
                         <JFXTextField fx:id="top_touch_field" layoutX="320.0" layoutY="158.0" maxWidth="350.0" minWidth="315.0" prefHeight="31.0" prefWidth="350.0" />
-                        <JFXButton fx:id="bino_title" buttonType="RAISED" layoutX="687.0" layoutY="158.0" prefHeight="34.0" prefWidth="156.0" styleClass="btnpara" text="CHANGER">
+                        <JFXButton buttonType="RAISED" layoutX="687.0" layoutY="158.0" onAction="#handleChangeTopTouch" prefHeight="34.0" prefWidth="156.0" styleClass="btnpara" text="CHANGER">
                            <font>
                               <Font name="VerbBlack" size="12.0" />
                            </font></JFXButton>
@@ -117,11 +119,17 @@
                                  <content>
                                     <AnchorPane prefHeight="675.0" prefWidth="1010.0">
                                        <children>
-                                          <JFXTextField layoutX="200.0" layoutY="170.0" />
-                                          <JFXTextField layoutX="200.0" layoutY="213.0" />
-                                          <JFXTextField layoutX="200.0" layoutY="256.0" />
-                                          <JFXTextField layoutX="200.0" layoutY="298.0" />
-                                          <JFXTextField layoutX="201.0" layoutY="340.0" />
+                                          <JFXTextField layoutX="234.0" layoutY="170.0" />
+                                          <JFXTextField layoutX="234.0" layoutY="213.0" />
+                                          <JFXTextField layoutX="234.0" layoutY="256.0" />
+                                          <JFXTextField layoutX="234.0" layoutY="298.0" />
+                                          <JFXTextField layoutX="234.0" layoutY="336.0" />
+                                          <JFXTextArea layoutX="199.0" layoutY="412.0" prefHeight="73.0" prefWidth="522.0" />
+                                          <JFXButton layoutX="172.0" layoutY="510.0" text="AJOUTER">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </JFXButton>
                                           <Label layoutX="41.0" layoutY="184.0" text="Nom">
                                              <font>
                                                 <Font size="18.0" />
@@ -132,17 +140,17 @@
                                                 <Font size="18.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="42.0" layoutY="272.0" text="Poids">
+                                          <Label layoutX="42.0" layoutY="272.0" text="Date de naissance">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="42.0" layoutY="315.0" text="Taille">
+                                          <Label layoutX="42.0" layoutY="315.0" text="Poids">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="42.0" layoutY="355.0" text="Commentaire">
+                                          <Label layoutX="42.0" layoutY="428.0" text="Commentaire">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
@@ -152,14 +160,14 @@
                                                 <Font size="18.0" />
                                              </font>
                                           </JFXButton>
-                                          <JFXButton layoutX="172.0" layoutY="437.0" text="AJOUTER">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font>
-                                          </JFXButton>
                                           <Label layoutX="281.0" layoutY="33.0" text="ENTREZ LES DONNEES DES PILOTES" textFill="WHITE">
                                              <font>
                                                 <Font size="25.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="42.0" layoutY="353.0" text="Taille">
+                                             <font>
+                                                <Font size="18.0" />
                                              </font>
                                           </Label>
                                        </children></AnchorPane>
@@ -198,7 +206,7 @@
                                                 <Font size="18.0" />
                                              </font>
                                           </Label>
-                                          <JFXButton fx:id="btn_next_lap" layoutX="828.0" layoutY="563.0" onAction="#handleSwitchToCarTab" text="SUIVANT" textFill="WHITE">
+                                          <JFXButton fx:id="btn_next_lap" layoutX="828.0" layoutY="563.0" onAction="#handleSwitchToLapTab" text="SUIVANT" textFill="WHITE">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
@@ -227,7 +235,6 @@
                                                 <Image url="@../media/img/play.png" />
                                              </image>
                                           </ImageView>
-                                          <JFXTextField layoutX="200.0" layoutY="170.0" />
                                           <JFXTextField layoutX="200.0" layoutY="213.0" />
                                           <Label layoutX="41.0" layoutY="184.0" text="Date de début">
                                              <font>
@@ -244,7 +251,7 @@
                                                 <Font size="18.0" />
                                              </font>
                                           </Label>
-                                          <JFXButton fx:id="btn_next_car2" layoutX="787.0" layoutY="561.0" onAction="#handleSwitchToCarTab" text="COMMENCER" textFill="WHITE">
+                                          <JFXButton fx:id="btn_start_race" layoutX="787.0" layoutY="561.0" text="COMMENCER" textFill="WHITE">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
@@ -255,6 +262,7 @@
                                              </font>
                                           </Label>
                                           <JFXComboBox layoutX="203.0" layoutY="261.0" prefHeight="27.0" prefWidth="149.0" />
+                                          <JFXDatePicker layoutX="201.0" layoutY="172.0" />
                                        </children>
                                     </AnchorPane>
                                  </content>

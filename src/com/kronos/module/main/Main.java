@@ -344,7 +344,7 @@ public class Main implements Initializable {
     private void clearText(){
         search.clear();
     }
-    
+
     @FXML
     private void buttons() {
         body.setContent(ViewManager.getInstance().get("button"));
