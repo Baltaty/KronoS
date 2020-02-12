@@ -14,7 +14,7 @@ public interface TimeRace {
      * the time between  the start time and the end of the race
      * @return raceWaylength
      */
-    String getDuration();
+    long getDuration();
 
     /**
      * the time when the race will be finished

@@ -2,12 +2,21 @@ package com.kronos.model;
 
 import com.kronos.api.Race;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
+@XmlRootElement
 public abstract class RaceModel implements Race {
 
+    @XmlElement
     private long id;
+
+    @XmlElement
     private Date startingTime;
+
+    @XmlElement
     private String racewayName;
 
 
@@ -15,8 +24,8 @@ public abstract class RaceModel implements Race {
 
     }
 
-    public RaceModel(long id, Date startingTime, String racewayName) {
-        this.id = id;
+    public RaceModel(Date startingTime, String racewayName) {
+        this.id = System.currentTimeMillis();
         this.startingTime = startingTime;
         this.racewayName = racewayName;
     }

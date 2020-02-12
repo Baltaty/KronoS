@@ -86,6 +86,7 @@ public class SaveManagerImpl implements SaveManager {
      * @param modelToSave {@link Object}
      * @return boolean
      */
+    @Override
     public boolean persist(final Object modelToSave) {
         Objects.requireNonNull(modelToSave);
         return listOfBeans.add(modelToSave);
@@ -153,10 +154,12 @@ public class SaveManagerImpl implements SaveManager {
             bufferedWriter.flush();
             bufferedWriter.close();
 
+            System.out.println(stringBuilder.toString());
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        System.out.println(stringBuilder.toString());
+
         return false;
     }
 

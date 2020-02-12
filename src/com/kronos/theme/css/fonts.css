@@ -12,3 +12,30 @@
     -fx-font-family : 'Roboto Bold';
     src: url('/com/kronos/theme/fonts/Roboto-Bold.ttf');
 }
+
+/*MONTSERRAT*/
+@font-face {
+    -fx-font-family : 'Montserrat Regular';
+    src: url('/com/kronos/theme/fonts/Montserrat-Regular.ttf');
+}
+
+@font-face {
+    -fx-font-family : 'Montserrat Black';
+    src: url('/com/kronos/theme/fonts/Montserrat-Black.ttf');
+}
+
+@font-face {
+    -fx-font-family : 'Montserrat Bold';
+    src: url('/com/kronos/theme/fonts/Montserrat-Bold.ttf');
+}
+@font-face {
+    -fx-font-family : 'Montserrat Italic';
+    src: url('/com/kronos/theme/fonts/Montserrat-Italic.ttf');
+}
+
+
+@font-face {
+    -fx-font-family : 'Beon-Medium';
+    src: url('/com/kronos/theme/fonts/beon.ttf');
+}
+

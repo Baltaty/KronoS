@@ -3,6 +3,7 @@ package com.kronos.global.util;
 
 import  com.kronos.App;
 import com.jfoenix.controls.JFXDialog;
+import com.kronos.controller.HomeController;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
@@ -13,14 +14,21 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Properties;
 
- /**
+/**
  * @author TeamKronos
  * 
  * Version 1.0
@@ -45,7 +53,6 @@ class Dialog {
     static void createAlert(Type type, String title, String message, EventHandler<MouseEvent>... confirm) {
         createLayout(createHeader(type), createContent(title, message), createActions(type, confirm));
     }
-
 
     private static void createLayout(VBox header, VBox content, HBox actions){
         StackPane root = new StackPane();
@@ -139,6 +146,27 @@ class Dialog {
         }
         return actions;
     }
+     private static HBox createKeyActions(Type type, EventHandler<KeyEvent>[] event){
+         HBox actions = new HBox();
+         actions.setMinSize(480, 73);
+         actions.setAlignment(Pos.CENTER);
+         VBox.setMargin(actions, new Insets(10, 0, 0, 10));
+         actions.setSpacing(5D);
+
+         ArrayList<EventHandler<KeyEvent>> list = new ArrayList<>(Arrays.asList(event));
+
+
+         switch (type) {
+//            case WARNING:
+//                actions.getChildren().add(
+//                            createButton(ButtonType.CANCEL, "Cancel", close));
+//                break;
+             default:
+                 //actions.getChildren().add(createButton(ButtonType.OK,"OK", list.get(0)));
+                 break;
+         }
+         return actions;
+     }
 
     private static Button createButton(ButtonType type, String text, EventHandler<MouseEvent> eventEventHandler){
         Button button = new Button(text);
