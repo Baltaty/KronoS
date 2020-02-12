@@ -14,31 +14,19 @@ public abstract class CarModel implements Car {
     private LapRaceModel lapRace;
     private TimeRaceModel timeRace;
     private int completedLaps;
+    private PilotModel pilotModel;
 
     public CarModel() {
 
     }
 
-    public CarModel(long id, int number, String team, String model, String brand, ArrayList<TopModel> topList, LapRaceModel lapRace, int completedLaps) {
-        this.id = id;
+    public CarModel(int number, String team, String model, String brand, PilotModel pilotModel) {
+        this.id = System.currentTimeMillis();
         this.number = number;
         this.team = team;
         this.model = model;
         this.brand = brand;
-        this.topList = new ArrayList<TopModel>();
-        this.lapRace = lapRace;
-        this.completedLaps = completedLaps;
-    }
-
-    public CarModel(long id, int number, String team, String model, String brand, ArrayList<TopModel> topList, TimeRaceModel timeRace, int completedLaps) {
-        this.id = id;
-        this.number = number;
-        this.team = team;
-        this.model = model;
-        this.brand = brand;
-        this.topList = new ArrayList<TopModel>();
-        this.timeRace = timeRace;
-        this.completedLaps = completedLaps;
+        this.pilotModel = pilotModel;
     }
 
     public LapRaceModel getLapRace() {

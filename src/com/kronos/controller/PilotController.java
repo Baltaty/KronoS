@@ -83,7 +83,7 @@ public class PilotController implements Initializable {
 
 
     public static void main(String[] args) throws ParseException {
-        PilotModel pilote = new PilotModel(1, "test ", "test", "Yeaver", new Date(), 3.0, 3.0);
+        PilotModel pilote = new PilotModel("test ", "test", "Yeaver", new Date(), 3.0, 3.0);
         PilotController ptmanager =  new PilotController();
         System.out.println(ptmanager.creationfpilot(pilote));
     }
