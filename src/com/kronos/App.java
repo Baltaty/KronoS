@@ -105,14 +105,6 @@ public class App extends Application {
 
         stylesheets.addAll(
                 getClass().getResource("/com/kronos/theme/css/fonts.css").toExternalForm()
-//                getClass().getResource("/com/kronos/theme/css/material-color.css").toExternalForm(),
-//                getClass().getResource("/com/kronos/theme/css/skeleton.css").toExternalForm(),
-//                getClass().getResource("/com/kronos/theme/css/light.css").toExternalForm(),
-//                getClass().getResource("/com/kronos/theme/css/bootstrap.css").toExternalForm(),
-//                getClass().getResource("/com/kronos/theme/css/shape.css").toExternalForm(),
-//                getClass().getResource("/com/kronos/theme/css/typographic.css").toExternalForm(),
-//                getClass().getResource("/com/kronos/theme/css/helpers.css").toExternalForm(),
-//                getClass().getResource("/com/kronos/theme/css/master.css").toExternalForm()
         );
         decorator.setMaximized(false);
         decorator.setResizable(false);
