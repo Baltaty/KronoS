@@ -2,6 +2,7 @@ package com.kronos.model;
 
 import com.kronos.api.Race;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public abstract class RaceModel implements Race {
@@ -9,6 +10,7 @@ public abstract class RaceModel implements Race {
     private long id;
     private Date startingTime;
     private String racewayName;
+    private ArrayList<CarModel> carsList;
 
 
     public RaceModel() {
@@ -19,6 +21,7 @@ public abstract class RaceModel implements Race {
         this.id = id;
         this.startingTime = startingTime;
         this.racewayName = racewayName;
+        this.carsList = new ArrayList<>();
     }
 
     public long getid() {

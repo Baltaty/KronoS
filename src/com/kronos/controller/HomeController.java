@@ -248,9 +248,14 @@
 
         @FXML
         private void handleSwitchToLapTab(ActionEvent event) {
-            SingleSelectionModel<Tab> selectionModel = NewRaceTabPane.getSelectionModel();
-            tab_course.setDisable(false);
-            selectionModel.select(tab_course);
+            if(carsList.size() != 0) {
+                SingleSelectionModel<Tab> selectionModel = NewRaceTabPane.getSelectionModel();
+                tab_course.setDisable(false);
+                selectionModel.select(tab_course);
+            }
+            else {
+                //Mettre une dialog d'erreur
+            }
         }
 
         @FXML
@@ -347,6 +352,11 @@
 
         }
 
+        /**
+         * Finds the {@link PilotModel pilot} object corresponding to the pilot selected in the {@link ComboBox combo box} of pilots.
+         * @param index pilot index in the {@link ComboBox combo box} of pilots
+         * @return the correct {@link PilotModel pilot} object
+         */
         private PilotModel findPilot(int index) {
             PilotModel pilot = null;
             try {
@@ -358,21 +368,62 @@
             return pilot;
         }
 
+        /**
+         * Handles the creation of a new car on click on the "add" button in the car creation interface.
+         * @param event the {@link ActionEvent action event}
+         */
         @FXML
         public void handleClickNewCar(ActionEvent event) {
             System.out.println("Clic ajout voiture");
-            if(carType.getSelectionModel().getSelectedItem().equals("Voiture principale")) {
-                if(Mask.isNumeric(carNumber.getText()) && !carTeam.getText().trim().isEmpty() && !carModel.getText().trim().isEmpty() && !carBrand.getText().trim().isEmpty()) {
+            if(checkNewCarFields(carNumber.getText(), carTeam.getText(), carModel.getText(), carBrand.getText(), carPilot.getSelectionModel().getSelectedItem(), carType.getSelectionModel().getSelectedItem())) {
+                if (carType.getSelectionModel().getSelectedItem().equals("Voiture principale")) {
                     MainCarModel mainCarModel = new MainCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
                     carsList.add(mainCarModel);
                 }
-            }
-            else if(carType.getSelectionModel().getSelectedItem().equals("Voiture concurrente")) {
-                if(Mask.isNumeric(carNumber.getText()) && !carTeam.getText().trim().isEmpty() && !carModel.getText().trim().isEmpty() && !carBrand.getText().trim().isEmpty()) {
+                else if(carType.getSelectionModel().getSelectedItem().equals("Voiture concurrente")) {
                     RivalCarModel rivalCarModel = new RivalCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
                     carsList.add(rivalCarModel);
                 }
             }
+        }
+
+        /**
+         * Checks if the field values are valid (numeric {@link String strings} are numbers and fields are not empty).
+         * @param num the car number
+         * @param team the car team
+         * @param model the car model
+         * @param brand the car brand
+         * @param pilot the car pilot
+         * @param type the car type (main car or rival car)
+         * @return true if the field values are valid, false otherwise
+         */
+        private boolean checkNewCarFields(String num, String team, String model, String brand, String pilot, String type) {
+            boolean isValid = true;
+            if(num.trim().isEmpty() || !Mask.isNumeric(num)) {
+                isValid = false;
+                carNumber.setStyle("-fx-accent: red;");
+            }
+            if(team.trim().isEmpty()) {
+                isValid = false;
+                carTeam.setStyle("-fx-accent: red;");
+            }
+            if(model.trim().isEmpty()) {
+                isValid = false;
+                carModel.setStyle("-fx-accent: red;");
+            }
+            if(brand.trim().isEmpty()) {
+                isValid = false;
+                carBrand.setStyle("-fx-accent: red;");
+            }
+            if(pilot == null) {
+                isValid = false;
+                carPilot.setStyle("-fx-accent: red;");
+            }
+            if(type == null) {
+                isValid = false;
+                carType.setStyle("-fx-accent: red;");
+            }
+            return isValid;
         }
 
 
@@ -396,5 +447,4 @@
             }
 
         }
-
-        }
+    }
