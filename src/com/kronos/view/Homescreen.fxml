@@ -95,21 +95,16 @@
                               <Font name="Montserrat Black" size="15.0" />
                            </font>
                         </Text>
-                        <JFXButton buttonType="RAISED" layoutX="687.0" layoutY="176.0" onAction="#handleChangeTopTouch" prefHeight="34.0" prefWidth="156.0" style="-fx-background-color: white; -fx-background-radius: 200;" text="CHANGER">
+                        <JFXButton buttonType="RAISED" layoutX="685.0" layoutY="172.0" onAction="#handleChangeTopTouch" prefHeight="34.0" prefWidth="156.0" style="-fx-background-color: white; -fx-background-radius: 200;" text="CHANGER">
                            <font>
                               <Font name="Montserrat Bold" size="12.0" />
                            </font></JFXButton>
                         <JFXButton fx:id="end_para" layoutX="832.0" layoutY="15.0" prefHeight="49.0" prefWidth="48.0" style="-fx-background-color: white; -fx-background-radius: 50;" text="X">
                            <font>
-                              <Font name="Beon-Medium" size="15.0" />
+                              <Font name="Montserrat Regular" size="15.0" />
                            </font>
                         </JFXButton>
-                        <ImageView fitHeight="113.0" fitWidth="124.0" layoutX="422.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../media/img/kb_control.png" />
-                           </image>
-                        </ImageView>
-                        <Label fx:id="top_key" layoutX="443.0" layoutY="174.0" text="Label">
+                        <Label fx:id="top_key" layoutX="434.0" layoutY="175.0" text="Label">
                            <font>
                               <Font name="Montserrat Bold" size="24.0" />
                            </font>
@@ -148,10 +143,9 @@
                                        <children>
                                           <JFXTextField layoutX="234.0" layoutY="170.0" />
                                           <JFXTextField layoutX="234.0" layoutY="213.0" />
-                                          <JFXTextField layoutX="234.0" layoutY="256.0" />
                                           <JFXTextField layoutX="234.0" layoutY="298.0" />
                                           <JFXTextField layoutX="234.0" layoutY="336.0" />
-                                          <JFXTextArea layoutX="199.0" layoutY="412.0" prefHeight="73.0" prefWidth="522.0" />
+                                          <JFXTextArea layoutX="232.0" layoutY="415.0" prefHeight="73.0" prefWidth="286.0" />
                                           <JFXButton layoutX="172.0" layoutY="510.0" text="AJOUTER">
                                              <font>
                                                 <Font size="15.0" />
@@ -197,6 +191,7 @@
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
+                                          <JFXDatePicker layoutX="234.0" layoutY="258.0" />
                                        </children></AnchorPane>
                                  </content>
                               </Tab>
@@ -209,10 +204,10 @@
                                                 <Font size="25.0" />
                                              </font>
                                           </Label>
-                                          <JFXTextField layoutX="200.0" layoutY="170.0" />
-                                          <JFXTextField layoutX="200.0" layoutY="213.0" />
-                                          <JFXTextField layoutX="200.0" layoutY="256.0" />
-                                          <JFXTextField layoutX="200.0" layoutY="298.0" />
+                                          <JFXTextField layoutX="235.0" layoutY="170.0" />
+                                          <JFXTextField layoutX="235.0" layoutY="213.0" />
+                                          <JFXTextField layoutX="235.0" layoutY="256.0" />
+                                          <JFXTextField layoutX="235.0" layoutY="298.0" />
                                           <Label layoutX="41.0" layoutY="184.0" text="Numéro">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
@@ -238,7 +233,7 @@
                                                 <Font size="18.0" />
                                              </font>
                                           </JFXButton>
-                                          <JFXButton layoutX="172.0" layoutY="437.0" text="AJOUTER">
+                                          <JFXButton layoutX="172.0" layoutY="457.0" text="AJOUTER">
                                              <font>
                                                 <Font size="15.0" />
                                              </font>
@@ -248,7 +243,13 @@
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <JFXComboBox layoutX="200.0" layoutY="343.0" prefHeight="27.0" prefWidth="149.0" />
+                                          <JFXComboBox layoutX="235.0" layoutY="343.0" prefHeight="27.0" prefWidth="149.0" />
+                                          <Label layoutX="44.0" layoutY="395.0" text="Type de voiture">
+                                             <font>
+                                                <Font name="Montserrat Bold" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <JFXComboBox layoutX="236.0" layoutY="380.0" prefHeight="27.0" prefWidth="149.0" />
                                        </children>
                                     </AnchorPane>
                                  </content>
@@ -262,7 +263,7 @@
                                                 <Image url="@../media/img/play.png" />
                                              </image>
                                           </ImageView>
-                                          <JFXTextField layoutX="200.0" layoutY="213.0" />
+                                          <JFXTextField layoutX="239.0" layoutY="213.0" />
                                           <Label layoutX="41.0" layoutY="184.0" text="Date de début">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
@@ -288,8 +289,20 @@
                                                 <Font name="Beon-Medium" size="25.0" />
                                              </font>
                                           </Label>
-                                          <JFXComboBox layoutX="203.0" layoutY="261.0" prefHeight="27.0" prefWidth="149.0" />
-                                          <JFXDatePicker layoutX="201.0" layoutY="172.0" />
+                                          <JFXComboBox layoutX="242.0" layoutY="261.0" prefHeight="27.0" prefWidth="149.0" />
+                                          <JFXDatePicker layoutX="240.0" layoutY="172.0" />
+                                          <JFXTextField layoutX="241.0" layoutY="300.0" visible="false" />
+                                          <Label layoutX="44.0" layoutY="315.0" text="Durée de la course" visible="false">
+                                             <font>
+                                                <Font name="Montserrat Bold" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <JFXTextField layoutX="241.0" layoutY="299.0" visible="false" />
+                                          <Label layoutX="41.0" layoutY="314.0" text="Nombre de tours" visible="false">
+                                             <font>
+                                                <Font name="Montserrat Bold" size="18.0" />
+                                             </font>
+                                          </Label>
                                        </children>
                                     </AnchorPane>
                                  </content>
