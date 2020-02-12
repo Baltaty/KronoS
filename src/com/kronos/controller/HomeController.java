@@ -19,8 +19,10 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.kronos.global.enums.RaceType;
 import com.kronos.global.util.Alerts;
 import com.kronos.module.main.Main;
+import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -107,22 +109,22 @@ public class HomeController implements Initializable {
     @FXML
     private ImageView boulon;
 
+    @FXML
+    private JFXTextField race_duration;
 
+    @FXML
+    private Label race_duration_label ;
+
+    @FXML
+    private JFXTextField race_numberof_tour;
+
+    @FXML
+    private Label race_numberof_tour_label ;
+
+    @FXML
+    private JFXComboBox<String> race_type_combo;
 
     private static  Boolean changeRequest;
-
-
-    public void setTop_keyText(String top_keytext) {
-        this.top_key.setText(top_keytext);
-    }
-
-    public static boolean isChangeRequest() {
-        return changeRequest;
-    }
-
-    public static void setChangeRequest(boolean newchangeRequest) {
-        changeRequest = newchangeRequest;
-    }
 
     @FXML
     private void handleNewRaceClicked(ActionEvent event)
@@ -240,14 +242,31 @@ public class HomeController implements Initializable {
         tab_course.setDisable(false);
         selectionModel.select(tab_course);
     }
+    @FXML
+    private void handleRaceTypeSelected(ActionEvent event){
+        int RaceType = race_type_combo.getSelectionModel().getSelectedIndex();
+        if (RaceType == 0){
+
+            race_numberof_tour_label.setVisible(false);
+            race_numberof_tour.setVisible(false);
+            race_duration_label.setVisible(true);
+            race_duration.setVisible(true);
+
+        }
+        else {
+
+            race_numberof_tour_label.setVisible(true);
+            race_numberof_tour.setVisible(true);
+            race_duration_label.setVisible(false);
+            race_duration.setVisible(false);
+
+        }
+    }
 
     @FXML
     private void handleChangeTopTouch(ActionEvent event) {
         changeRequest = true ;
-        Alerts.info("CHANGEMENT TOP KEY", "Veuillez appuyer sur la nouvelle touche puis sour ok");
-        //scene.setOnKeyPressed();
-//        dialog_select_key.setVisible(true);
-//        JFXDialog alertkey= new JFXDialog(homestack,dialog_select_key,JFXDialog.DialogTransition.CENTER);
+        Alerts.info("CHANGEMENT DE LA TOUCHE DE TOP", "Veuillez appuyer sur la nouvelle touche puis sour ok");
         Scene scene = homestack.getScene();
         EventHandler<KeyEvent> e = new EventHandler<KeyEvent>() {
             @Override
@@ -284,7 +303,6 @@ public class HomeController implements Initializable {
         scene.addEventHandler(KeyEvent.KEY_PRESSED,e);
     }
 
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -320,20 +338,21 @@ public class HomeController implements Initializable {
               scalebd.setCycleCount(ScaleTransition.INDEFINITE);
               scalebd.play();
             //////
-            changeRequest = false;
+
+        changeRequest = false;
         File file = new File("top.properties");
         Properties properties = new Properties();
-            try{
-                FileInputStream fileInputStream = new FileInputStream(file);
-                properties.load(fileInputStream);
-                //FileOutputStream fileOutputStream = new FileOutputStream(file);
-                top_key.setText(properties.getProperty("key"));
-            }
-            catch (IOException io){
+        try{
+            FileInputStream fileInputStream = new FileInputStream(file);
+            properties.load(fileInputStream);
+            //FileOutputStream fileOutputStream = new FileOutputStream(file);
+            top_key.setText(properties.getProperty("key"));
+        }
+        catch (IOException io){}
 
-            }
+        race_type_combo.setItems(FXCollections.observableArrayList("Course au temps","Course au tour"));
 
-        //top_touch_field
+
 
         }
     }
