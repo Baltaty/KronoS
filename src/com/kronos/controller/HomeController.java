@@ -40,6 +40,7 @@
     import java.io.IOException;
     import java.net.URL;
     import java.text.SimpleDateFormat;
+    import java.time.ZoneId;
     import java.util.*;
     import java.util.logging.Level;
     import java.util.logging.Logger;
@@ -49,7 +50,7 @@
      */
     public class HomeController implements Initializable {
         private static Boolean changeRequest;
-        private static PilotController  pilotcontroller= new PilotController();
+        private static PilotController pilotcontroller = new PilotController();
         private ArrayList<PilotModel> pilotsList = new ArrayList<>();
         private ArrayList<CarModel> carsList = new ArrayList();
 
@@ -104,15 +105,14 @@
         @FXML
         private TextField carBrand;
         @FXML
-        private  ComboBox<String> carPilot;
+        private ComboBox<String> carPilot;
         @FXML
         private ComboBox<String> carType;
         @FXML
         private JFXTextField lastnamepilot;
         @FXML
         private JFXTextField firstname;
-        @FXML
-        private JFXTextField dateofbirthpilot;
+
         @FXML
         private JFXTextField pilotweight;
         @FXML
@@ -120,7 +120,10 @@
         @FXML
         private JFXTextArea commentpilot;
 
-
+        @FXML
+        private JFXDatePicker dateofbirthpilot;
+        @FXML
+        private JFXButton btnaddpilot;
 
 
         public static boolean isChangeRequest() {
@@ -348,8 +351,7 @@
             PilotModel pilot = null;
             try {
                 pilot = pilotsList.get(index);
-            }
-            catch (ArrayIndexOutOfBoundsException e) {
+            } catch (ArrayIndexOutOfBoundsException e) {
                 e.printStackTrace();
             }
             return pilot;
@@ -358,14 +360,13 @@
         @FXML
         public void handleClickNewCar(ActionEvent event) {
             System.out.println("Clic ajout voiture");
-            if(carType.getValue().equals("Voiture Principale")) {
-                if(Mask.isNumeric(carNumber.getText()) && !carTeam.getText().trim().isEmpty() && !carModel.getText().trim().isEmpty() && !carBrand.getText().trim().isEmpty()) {
+            if (carType.getValue().equals("Voiture Principale")) {
+                if (Mask.isNumeric(carNumber.getText()) && !carTeam.getText().trim().isEmpty() && !carModel.getText().trim().isEmpty() && !carBrand.getText().trim().isEmpty()) {
                     MainCarModel mainCarModel = new MainCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
                     carsList.add(mainCarModel);
                 }
-            }
-            else {
-                if(Mask.isNumeric(carNumber.getText()) && !carTeam.getText().trim().isEmpty() && !carModel.getText().trim().isEmpty() && !carBrand.getText().trim().isEmpty()) {
+            } else {
+                if (Mask.isNumeric(carNumber.getText()) && !carTeam.getText().trim().isEmpty() && !carModel.getText().trim().isEmpty() && !carBrand.getText().trim().isEmpty()) {
                     RivalCarModel rivalCarModel = new RivalCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
                     carsList.add(rivalCarModel);
                 }
@@ -375,23 +376,36 @@
 
         @FXML
         public void addingofpilot() throws ParseException, java.text.ParseException {
-            SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
-
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
             String firstnamecont = firstname.getText();
             String lastnamecont = lastnamepilot.getText();
             String commentcont = commentpilot.getText();
-            Date pilotdatofbirthcont= formatter.parse(dateofbirthpilot.getText());
-            double pilotweightcont = Double.valueOf(pilotweight.getText());
+            double pilotheightcont = 0.00;
+            double pilotweightcont = 0.00;
+           int count =0;
 
-            double pilotheightcont = Double.valueOf(pilotheight.getText());
+            Date pilotdatofbirthcont = Date.from(dateofbirthpilot.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            String date = formatter.format(pilotdatofbirthcont);
+            if (Mask.isDouble(pilotweight.getText())) {
+                pilotweightcont = Double.parseDouble(pilotweight.getText());
+                count++;
+            }
+            if (Mask.isDouble(pilotheight.getText())) {
+                pilotheightcont = Double.parseDouble(pilotheight.getText());
+                count++;
+            }
 
-            PilotModel pilotcont = new PilotModel(lastnamecont, firstnamecont,commentcont,new Date(),pilotweightcont,pilotweightcont) ;
+            PilotModel pilotcont = new PilotModel(lastnamecont, firstnamecont, commentcont, pilotdatofbirthcont, pilotweightcont, pilotweightcont);
 
-            System.out.println("les informations du pilot sont: " + pilotcontroller.checkingofpilot(pilotcont));
-            if (pilotcontroller.checkingofpilot(pilotcont)) {
-                pilotcontroller.creationfpilot(pilotcont);
+
+            if (pilotcontroller.checkingofpilot(pilotcont) && count==2) {
+                pilotsList.add(pilotcont);
+                System.out.println("les informations du pilot sont: " + pilotcontroller.checkingofpilot(pilotcont));
+            } else {
+
+                System.out.println("verification pas bonne ");
             }
 
         }
 
-        }
+    }
