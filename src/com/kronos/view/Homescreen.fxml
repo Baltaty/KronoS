@@ -19,7 +19,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="homestack" prefHeight="713.0" prefWidth="1104.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.HomeController">
+<StackPane fx:id="homestack" prefHeight="713.0" prefWidth="1104.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.HomeController">
    <children>
       <AnchorPane id="AnchorPane" prefHeight="704.0" prefWidth="868.0" style="-fx-background-color: WHITE;">
          <children>
@@ -131,7 +131,7 @@
                   </Pane>
                </children>
             </JFXDialogLayout>
-            <JFXDialogLayout fx:id="dialog_new_race" layoutX="-4.0" layoutY="78.0" prefHeight="716.0" prefWidth="1015.0" style="-fx-background-color: #57c6f2;" visible="false">
+            <JFXDialogLayout fx:id="dialog_new_race" layoutX="-4.0" layoutY="78.0" prefHeight="716.0" prefWidth="1015.0" style="-fx-background-color: #57c6f2;">
                <children>
                   <Pane prefHeight="752.0" prefWidth="1318.0">
                      <children>
@@ -204,10 +204,10 @@
                                                 <Font size="25.0" />
                                              </font>
                                           </Label>
-                                          <JFXTextField layoutX="235.0" layoutY="170.0" />
-                                          <JFXTextField layoutX="235.0" layoutY="213.0" />
-                                          <JFXTextField layoutX="235.0" layoutY="256.0" />
-                                          <JFXTextField layoutX="235.0" layoutY="298.0" />
+                                          <JFXTextField fx:id="carNumber" layoutX="235.0" layoutY="170.0" />
+                                          <JFXTextField fx:id="carTeam" layoutX="235.0" layoutY="213.0" />
+                                          <JFXTextField fx:id="carModel" layoutX="235.0" layoutY="256.0" />
+                                          <JFXTextField fx:id="carBrand" layoutX="235.0" layoutY="298.0" />
                                           <Label layoutX="41.0" layoutY="184.0" text="Numéro">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
@@ -243,13 +243,13 @@
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <JFXComboBox layoutX="235.0" layoutY="343.0" prefHeight="27.0" prefWidth="149.0" />
+                                          <JFXComboBox fx:id="carPilot" layoutX="235.0" layoutY="343.0" prefHeight="27.0" prefWidth="149.0" />
                                           <Label layoutX="44.0" layoutY="395.0" text="Type de voiture">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <JFXComboBox layoutX="236.0" layoutY="380.0" prefHeight="27.0" prefWidth="149.0" />
+                                          <JFXComboBox fx:id="carType" layoutX="236.0" layoutY="380.0" prefHeight="27.0" prefWidth="149.0" />
                                        </children>
                                     </AnchorPane>
                                  </content>
