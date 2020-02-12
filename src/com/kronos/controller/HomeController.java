@@ -22,6 +22,8 @@
     import com.kronos.model.RivalCarModel;
     import javafx.animation.RotateTransition;
     import javafx.animation.ScaleTransition;
+    import javafx.collections.FXCollections;
+    import javafx.collections.ObservableList;
     import javafx.event.ActionEvent;
     import javafx.event.EventHandler;
     import javafx.fxml.FXML;
@@ -325,6 +327,7 @@
             } catch (IOException io) {
 
             }
+            carType.setItems(FXCollections.observableArrayList("Voiture principale", "Voiture concurrente"));
 
             //top_touch_field
 
@@ -344,13 +347,13 @@
         @FXML
         public void handleClickNewCar(ActionEvent event) {
             System.out.println("Clic ajout voiture");
-            if(carType.getValue().equals("Voiture Principale")) {
+            if(carType.getSelectionModel().getSelectedItem().equals("Voiture principale")) {
                 if(Mask.isNumeric(carNumber.getText()) && !carTeam.getText().trim().isEmpty() && !carModel.getText().trim().isEmpty() && !carBrand.getText().trim().isEmpty()) {
                     MainCarModel mainCarModel = new MainCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
                     carsList.add(mainCarModel);
                 }
             }
-            else {
+            else if(carType.getSelectionModel().getSelectedItem().equals("Voiture concurrente")) {
                 if(Mask.isNumeric(carNumber.getText()) && !carTeam.getText().trim().isEmpty() && !carModel.getText().trim().isEmpty() && !carBrand.getText().trim().isEmpty()) {
                     RivalCarModel rivalCarModel = new RivalCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
                     carsList.add(rivalCarModel);

@@ -233,7 +233,7 @@
                                                 <Font size="18.0" />
                                              </font>
                                           </JFXButton>
-                                          <JFXButton layoutX="172.0" layoutY="457.0" text="AJOUTER">
+                                          <JFXButton fx:id="add_car_btn" layoutX="172.0" layoutY="457.0" onAction="#handleClickNewCar" onTouchReleased="#handleClickNewCar" text="AJOUTER">
                                              <font>
                                                 <Font size="15.0" />
                                              </font>
