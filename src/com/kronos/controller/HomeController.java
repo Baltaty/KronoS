@@ -10,16 +10,14 @@
 //import com.fxexperience.javafx.animation.FlipTransition;
 //import com.fxexperience.javafx.animation.*;
 
-    import com.jfoenix.controls.JFXButton;
-    import com.jfoenix.controls.JFXDialog;
-    import com.jfoenix.controls.JFXDialogLayout;
-    import com.jfoenix.controls.JFXTabPane;
+    import com.jfoenix.controls.*;
     import com.kronos.global.util.Alerts;
     import com.kronos.global.util.Mask;
     import com.kronos.model.CarModel;
     import com.kronos.model.MainCarModel;
     import com.kronos.model.PilotModel;
     import com.kronos.model.RivalCarModel;
+    import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
     import javafx.animation.RotateTransition;
     import javafx.animation.ScaleTransition;
     import javafx.event.ActionEvent;
@@ -41,6 +39,7 @@
     import java.io.FileOutputStream;
     import java.io.IOException;
     import java.net.URL;
+    import java.text.SimpleDateFormat;
     import java.util.*;
     import java.util.logging.Level;
     import java.util.logging.Logger;
@@ -50,6 +49,7 @@
      */
     public class HomeController implements Initializable {
         private static Boolean changeRequest;
+        private static PilotController  pilotcontroller= new PilotController();
         private ArrayList<PilotModel> pilotsList = new ArrayList<>();
         private ArrayList<CarModel> carsList = new ArrayList();
 
@@ -107,6 +107,20 @@
         private  ComboBox<String> carPilot;
         @FXML
         private ComboBox<String> carType;
+        @FXML
+        private JFXTextField lastnamepilot;
+        @FXML
+        private JFXTextField firstname;
+        @FXML
+        private JFXTextField dateofbirthpilot;
+        @FXML
+        private JFXTextField pilotweight;
+        @FXML
+        private JFXTextField pilotheight;
+        @FXML
+        private JFXTextArea commentpilot;
+
+
 
 
         public static boolean isChangeRequest() {
@@ -359,4 +373,25 @@
         }
 
 
-    }
+        @FXML
+        public void addingofpilot() throws ParseException, java.text.ParseException {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+
+            String firstnamecont = firstname.getText();
+            String lastnamecont = lastnamepilot.getText();
+            String commentcont = commentpilot.getText();
+            Date pilotdatofbirthcont= formatter.parse(dateofbirthpilot.getText());
+            double pilotweightcont = Double.valueOf(pilotweight.getText());
+
+            double pilotheightcont = Double.valueOf(pilotheight.getText());
+
+            PilotModel pilotcont = new PilotModel(lastnamecont, firstnamecont,commentcont,new Date(),pilotweightcont,pilotweightcont) ;
+
+            System.out.println("les informations du pilot sont: " + pilotcontroller.checkingofpilot(pilotcont));
+            if (pilotcontroller.checkingofpilot(pilotcont)) {
+                pilotcontroller.creationfpilot(pilotcont);
+            }
+
+        }
+
+        }
