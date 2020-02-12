@@ -21,7 +21,7 @@
 
 <StackPane fx:id="homestack" prefHeight="713.0" prefWidth="1104.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.HomeController">
    <children>
-      <AnchorPane id="AnchorPane" prefHeight="704.0" prefWidth="868.0" style="-fx-background-color: WHITE;">
+      <AnchorPane id="AnchorPane" prefHeight="704.0" prefWidth="868.0" scaleShape="false" style="-fx-background-color: WHITE;">
          <children>
             <ImageView fx:id="appname1" fitHeight="432.0" fitWidth="410.0" layoutX="352.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -131,7 +131,7 @@
                   </Pane>
                </children>
             </JFXDialogLayout>
-            <JFXDialogLayout fx:id="dialog_new_race" layoutX="-4.0" layoutY="78.0" prefHeight="716.0" prefWidth="1015.0" style="-fx-background-color: #57c6f2;">
+            <JFXDialogLayout fx:id="dialog_new_race" layoutX="-4.0" layoutY="78.0" prefHeight="716.0" prefWidth="1015.0" style="-fx-background-color: #57c6f2;" visible="false">
                <children>
                   <Pane prefHeight="752.0" prefWidth="1318.0">
                      <children>
@@ -141,12 +141,12 @@
                                  <content>
                                     <AnchorPane prefHeight="675.0" prefWidth="1010.0">
                                        <children>
-                                          <JFXTextField layoutX="234.0" layoutY="170.0" />
-                                          <JFXTextField layoutX="234.0" layoutY="213.0" />
-                                          <JFXTextField layoutX="234.0" layoutY="298.0" />
-                                          <JFXTextField layoutX="234.0" layoutY="336.0" />
-                                          <JFXTextArea layoutX="232.0" layoutY="415.0" prefHeight="73.0" prefWidth="286.0" />
-                                          <JFXButton layoutX="172.0" layoutY="510.0" text="AJOUTER">
+                                          <JFXTextField fx:id="lastnamepilot" layoutX="234.0" layoutY="170.0" />
+                                          <JFXTextField fx:id="firstname" layoutX="234.0" layoutY="213.0" />
+                                          <JFXTextField fx:id="pilotweight" layoutX="234.0" layoutY="298.0" />
+                                          <JFXTextField fx:id="pilotheight" layoutX="234.0" layoutY="336.0" />
+                                          <JFXTextArea fx:id="commentpilot" layoutX="232.0" layoutY="415.0" prefHeight="73.0" prefWidth="286.0" />
+                                          <JFXButton fx:id="btnaddpilot" layoutX="172.0" layoutY="510.0" onAction="#addingofpilot" text="AJOUTER">
                                              <font>
                                                 <Font size="15.0" />
                                              </font>
@@ -191,7 +191,7 @@
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <JFXDatePicker layoutX="234.0" layoutY="258.0" />
+                                          <JFXDatePicker fx:id="dateofbirthpilot" layoutX="234.0" layoutY="258.0" />
                                        </children></AnchorPane>
                                  </content>
                               </Tab>
