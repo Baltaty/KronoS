@@ -28,7 +28,6 @@ public class PilotModel implements Pilote {
     /**
      * contructor of the class PiloteModel
      *
-     * @param id
      * @param firstName
      * @param lastName
      * @param comment
@@ -36,8 +35,8 @@ public class PilotModel implements Pilote {
      * @param height
      * @param weight
      */
-    public PilotModel(long id, String firstName, String lastName, String comment, Date dateOfBirth, double height, double weight) {
-        this.id = id;
+    public PilotModel(String firstName, String lastName, String comment, Date dateOfBirth, double height, double weight) {
+        this.id = System.currentTimeMillis();
         this.firstName = firstName;
         this.lastName = lastName;
         this.comment = comment;

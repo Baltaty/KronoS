@@ -12,7 +12,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Pilote pilote = new PilotModel(1, "test", "test", "Yeaver", new Date(), 3, 3);
+        Pilote pilote = new PilotModel("test", "test", "Yeaver", new Date(), 3, 3);
         Top top = new TopModel(new Date(), "ROR");
         SaveManagerImpl saveManager = SaveManagerImpl.getInstance();
         saveManager.persist(pilote);

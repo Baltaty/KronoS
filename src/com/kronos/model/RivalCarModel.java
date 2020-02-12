@@ -8,12 +8,8 @@ public class RivalCarModel extends CarModel {
 
     }
 
-    public RivalCarModel(long id, int number, String team, String model, String brand, ArrayList<TopModel> topList, LapRaceModel lapRace, int completedLaps) {
-        super(id, number, team, model, brand, topList, lapRace, completedLaps);
-    }
-
-    public RivalCarModel(long id, int number, String team, String model, String brand, ArrayList<TopModel> topList, TimeRaceModel timeRace, int completedLaps) {
-        super(id, number, team, model, brand, topList, timeRace, completedLaps);
+    public RivalCarModel(int number, String team, String model, String brand, PilotModel pilot) {
+        super(number, team, model, brand, pilot);
     }
 }
 
