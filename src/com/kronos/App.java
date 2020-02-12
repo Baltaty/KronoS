@@ -61,7 +61,6 @@ public class App extends Application {
         load("login", "account");
         load2("Homescreen");
 
-
         // delay
         try {
             wait(300);
@@ -92,46 +91,9 @@ public class App extends Application {
     }
     // PARAMETRGE DU DECORATEUR
     private void initialScene(){
-
         decorator.setTitle("Kronos v1.0");
-//        decorator.setIcon(null);
-        //decorator.addButton(ButtonType.FULL_EFFECT);
         decorator.initTheme(GNDecorator.Theme.DEFAULT);
-//        decorator.fullBody();
-
-//        String log = logged();
-//        assert log != null;
-
-//        if (log.equals("account") || log.equals("login")) {
-//            decorator.setContent(ViewManager.getInstance().get(log));
-//        }
-//        else {
-//            App.decorator.addCustom(userDetail);
-//            userDetail.setProfileAction(event -> {
-//                Main.ctrl.title.setText("Profile");
-//                Main.ctrl.body.setContent(ViewManager.getInstance().get("profile"));
-//                userDetail.getPopOver().hide();
-//            });
-//
-////            userDetail.setSignAction(event -> {
-////                App.decorator.setContent(ViewManager.getInstance().get("login"));
-////                section.setLogged(false);
-////                SectionManager.save(section);
-////                userDetail.getPopOver().hide();
-////                if(Main.popConfig.isShowing()) Main.popConfig.hide();
-////                //if(Main.popup.isShowing()) Main.popup.hide();
-////                App.decorator.removeCustom(userDetail);
-////            });
-//            decorator.setContent(ViewManager.getInstance().get("Homescreen"));
-//        }
         decorator.setContent(ViewManager.getInstance().get("Homescreen"));
-
-//        decorator.getStage().setOnCloseRequest(event -> {
-//            App.getUserDetail().getPopOver().hide();
-//            if(Main.popConfig.isShowing()) Main.popConfig.hide();
-//            //if(Main.popup.isShowing()) Main.popup.hide();
-//            Platform.exit();
-//        });
     }
 
     @Override
@@ -139,32 +101,28 @@ public class App extends Application {
 
         configServices();
         initialScene();
-
         stylesheets = decorator.getScene().getStylesheets();
 
         stylesheets.addAll(
-                getClass().getResource("/com/kronos/theme/css/fonts.css").toExternalForm(),
-                getClass().getResource("/com/kronos/theme/css/material-color.css").toExternalForm(),
-                getClass().getResource("/com/kronos/theme/css/skeleton.css").toExternalForm(),
-                getClass().getResource("/com/kronos/theme/css/light.css").toExternalForm(),
-                getClass().getResource("/com/kronos/theme/css/bootstrap.css").toExternalForm(),
-                getClass().getResource("/com/kronos/theme/css/shape.css").toExternalForm(),
-                getClass().getResource("/com/kronos/theme/css/typographic.css").toExternalForm(),
-                getClass().getResource("/com/kronos/theme/css/helpers.css").toExternalForm(),
-                getClass().getResource("/com/kronos/theme/css/master.css").toExternalForm()
+                getClass().getResource("/com/kronos/theme/css/fonts.css").toExternalForm()
+//                getClass().getResource("/com/kronos/theme/css/material-color.css").toExternalForm(),
+//                getClass().getResource("/com/kronos/theme/css/skeleton.css").toExternalForm(),
+//                getClass().getResource("/com/kronos/theme/css/light.css").toExternalForm(),
+//                getClass().getResource("/com/kronos/theme/css/bootstrap.css").toExternalForm(),
+//                getClass().getResource("/com/kronos/theme/css/shape.css").toExternalForm(),
+//                getClass().getResource("/com/kronos/theme/css/typographic.css").toExternalForm(),
+//                getClass().getResource("/com/kronos/theme/css/helpers.css").toExternalForm(),
+//                getClass().getResource("/com/kronos/theme/css/master.css").toExternalForm()
         );
-
         decorator.setMaximized(false);
-        decorator.getStage().getIcons().add(new Image("/com/kronos/module/media/logo2.png"));
+        decorator.setResizable(false);
         decorator.show();
 
-//        ScenicView.show(decorator.getScene());
     }
 
     public static void main(String[] args) {
         LauncherImpl.launchApplication(App.class, Loader.class, args);
     }
-
     private void load(String module, String name){
         try {
             ViewManager.getInstance().put(
@@ -187,12 +145,10 @@ public class App extends Application {
             e.printStackTrace();
         }
     }
-
     private synchronized void preloaderNotify() {
         progress += increment;
         LauncherImpl.notifyPreloader(this, new Preloader.ProgressNotification(progress));
     }
-
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private String logged(){
         try {
@@ -224,7 +180,6 @@ public class App extends Application {
         }
         return null;
     }
-
     public static UserDetail getUserDetail() {
         return userDetail;
     }

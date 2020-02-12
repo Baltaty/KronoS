@@ -19,7 +19,9 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.kronos.global.util.Alerts;
 import com.kronos.module.main.Main;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,6 +29,7 @@ import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.image.ImageView;
@@ -68,13 +71,17 @@ public class HomeController implements Initializable {
     private JFXDialogLayout dialog_para;
 
     @FXML
+    private JFXDialogLayout dialog_select_key;
+
+
+    @FXML
     private JFXButton end_para;
 
     @FXML
     private JFXDialogLayout dialayout;
 
     @FXML
-    private JFXTextField top_touch_field;
+    private Label top_key;
 
     @FXML
     private JFXDialogLayout dialog_new_race;
@@ -100,7 +107,22 @@ public class HomeController implements Initializable {
     @FXML
     private ImageView boulon;
 
-    private boolean changeRequest;
+
+
+    private static  Boolean changeRequest;
+
+
+    public void setTop_keyText(String top_keytext) {
+        this.top_key.setText(top_keytext);
+    }
+
+    public static boolean isChangeRequest() {
+        return changeRequest;
+    }
+
+    public static void setChangeRequest(boolean newchangeRequest) {
+        changeRequest = newchangeRequest;
+    }
 
     @FXML
     private void handleNewRaceClicked(ActionEvent event)
@@ -158,13 +180,6 @@ public class HomeController implements Initializable {
         });
 
         alert.show();
-
-        ////// ROTATION BOULON
-        RotateTransition rotateboulon=new RotateTransition(Duration.seconds(5), boulon);
-        rotateboulon.setByAngle(360);
-        rotateboulon.setCycleCount(RotateTransition.INDEFINITE);
-        rotateboulon.play();
-        //////
 
     }
     @FXML
@@ -229,8 +244,12 @@ public class HomeController implements Initializable {
     @FXML
     private void handleChangeTopTouch(ActionEvent event) {
         changeRequest = true ;
+        Alerts.info("CHANGEMENT TOP KEY", "Veuillez appuyer sur la nouvelle touche puis sour ok");
+        //scene.setOnKeyPressed();
+//        dialog_select_key.setVisible(true);
+//        JFXDialog alertkey= new JFXDialog(homestack,dialog_select_key,JFXDialog.DialogTransition.CENTER);
         Scene scene = homestack.getScene();
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+        EventHandler<KeyEvent> e = new EventHandler<KeyEvent>() {
             @Override
             public void handle(javafx.scene.input.KeyEvent event) {
                 if (changeRequest){
@@ -251,7 +270,7 @@ public class HomeController implements Initializable {
                             FileOutputStream fileOutputStream = new FileOutputStream(file);
                             properties.store(fileOutputStream, "Top properties");
                             System.out.println(" saved !");
-                            top_touch_field.setText(properties.getProperty("key"));
+                            top_key.setText(properties.getProperty("key"));
                             changeRequest = false ;
                         }
 
@@ -261,7 +280,8 @@ public class HomeController implements Initializable {
                     }
                 }
             }
-        });
+        };
+        scene.addEventHandler(KeyEvent.KEY_PRESSED,e);
     }
 
 
@@ -307,7 +327,7 @@ public class HomeController implements Initializable {
                 FileInputStream fileInputStream = new FileInputStream(file);
                 properties.load(fileInputStream);
                 //FileOutputStream fileOutputStream = new FileOutputStream(file);
-                top_touch_field.setText(properties.getProperty("key"));
+                top_key.setText(properties.getProperty("key"));
             }
             catch (IOException io){
 

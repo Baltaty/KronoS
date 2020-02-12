@@ -2,6 +2,7 @@
 package com.kronos.global.util;
 
 import javafx.event.EventHandler;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
  /**
@@ -46,4 +47,5 @@ public class Alerts {
     public static void success(String title, String content, EventHandler<MouseEvent>... confirm){
         Dialog.createAlert(Dialog.Type.SUCCESS, title, content, confirm);
     }
+
 }
