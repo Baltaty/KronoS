@@ -37,6 +37,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.io.*;
 import java.net.URL;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -169,13 +170,12 @@ public class HomeController implements Initializable {
     @FXML
     private JFXTextField firstname;
     @FXML
-    private JFXTextField dateofbirthpilot;
-    @FXML
     private JFXTextField pilotweight;
     @FXML
     private JFXTextField pilotheight;
     @FXML
     private JFXTextArea commentpilot;
+    @FXML JFXDatePicker dateofbirthpilot;
 
     private static  Boolean changeRequest;
 
@@ -494,21 +494,34 @@ public class HomeController implements Initializable {
 
         @FXML
         public void addingofpilot() throws ParseException, java.text.ParseException {
-            SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
-
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
             String firstnamecont = firstname.getText();
             String lastnamecont = lastnamepilot.getText();
             String commentcont = commentpilot.getText();
-            Date pilotdatofbirthcont= formatter.parse(dateofbirthpilot.getText());
-            double pilotweightcont = Double.valueOf(pilotweight.getText());
+            double pilotheightcont = 0.00;
+            double pilotweightcont = 0.00;
+            int count =0;
 
-            double pilotheightcont = Double.valueOf(pilotheight.getText());
+            Date pilotdatofbirthcont = Date.from(dateofbirthpilot.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            String date = formatter.format(pilotdatofbirthcont);
+            if (Mask.isDouble(pilotweight.getText())) {
+                pilotweightcont = Double.parseDouble(pilotweight.getText());
+                count++;
+            }
+            if (Mask.isDouble(pilotheight.getText())) {
+                pilotheightcont = Double.parseDouble(pilotheight.getText());
+                count++;
+            }
 
-            PilotModel pilotcont = new PilotModel(lastnamecont, firstnamecont,commentcont,new Date(),pilotweightcont,pilotweightcont) ;
+            PilotModel pilotcont = new PilotModel(lastnamecont, firstnamecont, commentcont, pilotdatofbirthcont, pilotweightcont, pilotweightcont);
 
-            System.out.println("les informations du pilot sont: " + pilotcontroller.checkingofpilot(pilotcont));
-            if (pilotcontroller.checkingofpilot(pilotcont)) {
-                pilotcontroller.creationfpilot(pilotcont);
+
+            if (pilotcontroller.checkingofpilot(pilotcont) && count==2) {
+                pilotsList.add(pilotcont);
+                System.out.println("les informations du pilot sont: " + pilotcontroller.checkingofpilot(pilotcont));
+            } else {
+
+                System.out.println("verification pas bonne ");
             }
 
         }
