@@ -10,139 +10,181 @@
 //import com.fxexperience.javafx.animation.FlipTransition;
 //import com.fxexperience.javafx.animation.*;
 
-    import com.jfoenix.controls.*;
-    import com.kronos.global.util.Alerts;
-    import com.kronos.global.util.Mask;
-    import com.kronos.model.CarModel;
-    import com.kronos.model.MainCarModel;
-    import com.kronos.model.PilotModel;
-    import com.kronos.model.RivalCarModel;
-    import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
-    import javafx.animation.RotateTransition;
-    import javafx.animation.ScaleTransition;
-    import javafx.event.ActionEvent;
-    import javafx.event.EventHandler;
-    import javafx.fxml.FXML;
-    import javafx.fxml.FXMLLoader;
-    import javafx.fxml.Initializable;
-    import javafx.scene.Scene;
-    import javafx.scene.control.*;
-    import javafx.scene.image.ImageView;
-    import javafx.scene.input.KeyCode;
-    import javafx.scene.input.KeyEvent;
-    import javafx.scene.layout.StackPane;
-    import javafx.stage.Stage;
-    import javafx.util.Duration;
+import com.jfoenix.controls.*;
+import com.kronos.global.util.Alerts;
+import com.kronos.global.util.Mask;
+import com.kronos.model.CarModel;
+import com.kronos.model.MainCarModel;
+import com.kronos.model.PilotModel;
+import com.kronos.model.RivalCarModel;
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
+import javafx.animation.RotateTransition;
+import javafx.animation.ScaleTransition;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+import java.io.*;
+import java.net.URL;
+import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Properties;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-    import java.io.File;
-    import java.io.FileInputStream;
-    import java.io.FileOutputStream;
-    import java.io.IOException;
-    import java.net.URL;
-    import java.text.SimpleDateFormat;
-    import java.time.ZoneId;
-    import java.util.*;
-    import java.util.logging.Level;
-    import java.util.logging.Logger;
+import com.kronos.global.enums.RaceType;
+import com.kronos.global.util.Alerts;
+import com.kronos.model.CarModel;
+import com.kronos.model.PilotModel;
+import com.kronos.module.main.Main;
+import javafx.collections.FXCollections;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.animation.*;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+/**
+ *
+ * @author TeamKronos
+ */
+public class HomeController implements Initializable {
+    private static PilotController  pilotcontroller= new PilotController();
+    private ArrayList<PilotModel> pilotsList = new ArrayList<>();
+    private ArrayList<CarModel> carsList = new ArrayList();
+    @FXML
+    private JFXButton  startbtn;
 
-    /**
-     * @author TeamKronos
-     */
-    public class HomeController implements Initializable {
-        private static Boolean changeRequest;
-        private static PilotController pilotcontroller = new PilotController();
-        private ArrayList<PilotModel> pilotsList = new ArrayList<>();
-        private ArrayList<CarModel> carsList = new ArrayList();
+    @FXML
+    private JFXButton bdbtn;
 
-        @FXML
-        private JFXButton startbtn;
-        @FXML
-        private JFXButton bdbtn;
-        @FXML
-        private JFXButton settingbtn;
-        @FXML
-        private ImageView newraceicon;
-        @FXML
-        private ImageView setingicon;
-        @FXML
-        private ImageView bdicon;
-        @FXML
-        private ImageView appname1;
-        @FXML
-        private StackPane homestack;
-        @FXML
-        private JFXDialogLayout dialog_para;
-        @FXML
-        private JFXDialogLayout dialog_select_key;
-        @FXML
-        private JFXButton end_para;
-        @FXML
-        private JFXDialogLayout dialayout;
-        @FXML
-        private Label top_key;
-        @FXML
-        private JFXDialogLayout dialog_new_race;
-        @FXML
-        private JFXTabPane NewRaceTabPane;
-        @FXML
-        private Tab tab_pilote;
-        @FXML
-        private Tab tab_voiture;
-        @FXML
-        private Tab tab_course;
-        @FXML
-        private JFXButton btn_next_car;
-        @FXML
-        private JFXButton btn_next_lap;
-        @FXML
-        private ImageView boulon;
-        @FXML
-        private TextField carNumber;
-        @FXML
-        private TextField carTeam;
-        @FXML
-        private TextField carModel;
-        @FXML
-        private TextField carBrand;
-        @FXML
-        private ComboBox<String> carPilot;
-        @FXML
-        private ComboBox<String> carType;
-        @FXML
-        private JFXTextField lastnamepilot;
-        @FXML
-        private JFXTextField firstname;
+    @FXML
+    private JFXButton settingbtn;
 
-        @FXML
-        private JFXTextField pilotweight;
-        @FXML
-        private JFXTextField pilotheight;
-        @FXML
-        private JFXTextArea commentpilot;
+    @FXML
+    private ImageView newraceicon;
 
-        @FXML
-        private JFXDatePicker dateofbirthpilot;
-        @FXML
-        private JFXButton btnaddpilot;
+    @FXML
+    private ImageView setingicon;
+
+    @FXML
+    private ImageView bdicon;
+
+    @FXML
+    private ImageView appname1;
+
+    @FXML
+    private StackPane homestack;
+
+    @FXML
+    private JFXDialogLayout dialog_para;
+
+    @FXML
+    private JFXDialogLayout dialog_select_key;
 
 
-        public static boolean isChangeRequest() {
-            return changeRequest;
-        }
+    @FXML
+    private JFXButton end_para;
 
-        public static void setChangeRequest(boolean newchangeRequest) {
-            changeRequest = newchangeRequest;
-        }
+    @FXML
+    private JFXDialogLayout dialayout;
 
-        public void setTop_keyText(String top_keytext) {
-            this.top_key.setText(top_keytext);
-        }
+    @FXML
+    private Label top_key;
 
-        @FXML
-        private void handleNewRaceClicked(ActionEvent event) {
-            System.out.println("amorçage du processus de démarrage d'une course");
-            dialog_new_race.setVisible(true);
-            JFXDialog alert1 = new JFXDialog(homestack, dialog_new_race, JFXDialog.DialogTransition.TOP);
+    @FXML
+    private JFXDialogLayout dialog_new_race;
+
+    @FXML
+    private JFXTabPane NewRaceTabPane;
+
+    @FXML
+    private Tab tab_pilote;
+
+    @FXML
+    private Tab tab_voiture;
+
+    @FXML
+    private Tab tab_course;
+
+    @FXML
+    private JFXButton btn_next_car;
+
+    @FXML
+    private JFXButton btn_next_lap;
+
+    @FXML
+    private ImageView boulon;
+
+    @FXML
+    private JFXTextField race_duration;
+
+    @FXML
+    private Label race_duration_label ;
+
+    @FXML
+    private JFXTextField race_numberof_tour;
+
+    @FXML
+    private Label race_numberof_tour_label ;
+
+    @FXML
+    private JFXComboBox<String> race_type_combo;
+    @FXML
+    private TextField carNumber;
+    @FXML
+    private TextField carTeam;
+    @FXML
+    private TextField carModel;
+    @FXML
+    private TextField carBrand;
+    @FXML
+    private ComboBox<String> carPilot;
+    @FXML
+    private ComboBox<String> carType;
+    @FXML
+    private JFXTextField lastnamepilot;
+    @FXML
+    private JFXTextField firstname;
+    @FXML
+    private JFXTextField dateofbirthpilot;
+    @FXML
+    private JFXTextField pilotweight;
+    @FXML
+    private JFXTextField pilotheight;
+    @FXML
+    private JFXTextArea commentpilot;
+
+    private static  Boolean changeRequest;
+
+    @FXML
+    private void handleNewRaceClicked(ActionEvent event)
+    {
+          System.out.println("amorçage du processus de démarrage d'une course");
+        dialog_new_race.setVisible(true);
+            JFXDialog alert1= new JFXDialog(homestack,dialog_new_race,JFXDialog.DialogTransition.TOP);
             alert1.show();
 
         }
@@ -249,11 +291,35 @@
 
         @FXML
         private void handleSwitchToLapTab(ActionEvent event) {
-            SingleSelectionModel<Tab> selectionModel = NewRaceTabPane.getSelectionModel();
-            tab_course.setDisable(false);
-            selectionModel.select(tab_course);
+            if(carsList.size() != 0) {
+                SingleSelectionModel<Tab> selectionModel = NewRaceTabPane.getSelectionModel();
+                tab_course.setDisable(false);
+                selectionModel.select(tab_course);
+            }
+            else {
+                //Mettre une dialog d'erreur
+            }
         }
+    @FXML
+    private void handleRaceTypeSelected(ActionEvent event){
+        int RaceType = race_type_combo.getSelectionModel().getSelectedIndex();
+        if (RaceType == 0){
 
+            race_numberof_tour_label.setVisible(false);
+            race_numberof_tour.setVisible(false);
+            race_duration_label.setVisible(true);
+            race_duration.setVisible(true);
+
+        }
+        else {
+
+            race_numberof_tour_label.setVisible(true);
+            race_numberof_tour.setVisible(true);
+            race_duration_label.setVisible(false);
+            race_duration.setVisible(false);
+
+        }
+    }
         @FXML
         private void handleChangeTopTouch(ActionEvent event) {
             changeRequest = true;
@@ -331,81 +397,119 @@
             scalebd.setCycleCount(ScaleTransition.INDEFINITE);
             scalebd.play();
             //////
-            changeRequest = false;
-            File file = new File("top.properties");
-            Properties properties = new Properties();
-            try {
-                FileInputStream fileInputStream = new FileInputStream(file);
-                properties.load(fileInputStream);
-                //FileOutputStream fileOutputStream = new FileOutputStream(file);
-                top_key.setText(properties.getProperty("key"));
-            } catch (IOException io) {
 
-            }
+        changeRequest = false;
+        File file = new File("top.properties");
+        Properties properties = new Properties();
+        try{
+            FileInputStream fileInputStream = new FileInputStream(file);
+            properties.load(fileInputStream);
+            //FileOutputStream fileOutputStream = new FileOutputStream(file);
+            top_key.setText(properties.getProperty("key"));
+        }
+        catch (IOException io){}
 
-            //top_touch_field
+        race_type_combo.setItems(FXCollections.observableArrayList("Course au temps","Course au tour"));
+
+            carType.setItems(FXCollections.observableArrayList("Voiture principale", "Voiture concurrente"));
+
+        //top_touch_field
 
         }
 
+        /**
+         * Finds the {@link PilotModel pilot} object corresponding to the pilot selected in the {@link ComboBox combo box} of pilots.
+         * @param index pilot index in the {@link ComboBox combo box} of pilots
+         * @return the correct {@link PilotModel pilot} object
+         */
         private PilotModel findPilot(int index) {
             PilotModel pilot = null;
             try {
                 pilot = pilotsList.get(index);
-            } catch (ArrayIndexOutOfBoundsException e) {
+            }
+            catch (ArrayIndexOutOfBoundsException e) {
                 e.printStackTrace();
             }
             return pilot;
         }
 
+        /**
+         * Handles the creation of a new car on click on the "add" button in the car creation interface.
+         * @param event the {@link ActionEvent action event}
+         */
         @FXML
         public void handleClickNewCar(ActionEvent event) {
             System.out.println("Clic ajout voiture");
-            if (carType.getValue().equals("Voiture Principale")) {
-                if (Mask.isNumeric(carNumber.getText()) && !carTeam.getText().trim().isEmpty() && !carModel.getText().trim().isEmpty() && !carBrand.getText().trim().isEmpty()) {
+            if(checkNewCarFields(carNumber.getText(), carTeam.getText(), carModel.getText(), carBrand.getText(), carPilot.getSelectionModel().getSelectedItem(), carType.getSelectionModel().getSelectedItem())) {
+                if (carType.getSelectionModel().getSelectedItem().equals("Voiture principale")) {
                     MainCarModel mainCarModel = new MainCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
                     carsList.add(mainCarModel);
                 }
-            } else {
-                if (Mask.isNumeric(carNumber.getText()) && !carTeam.getText().trim().isEmpty() && !carModel.getText().trim().isEmpty() && !carBrand.getText().trim().isEmpty()) {
+                else if(carType.getSelectionModel().getSelectedItem().equals("Voiture concurrente")) {
                     RivalCarModel rivalCarModel = new RivalCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
                     carsList.add(rivalCarModel);
                 }
             }
         }
 
+        /**
+         * Checks if the field values are valid (numeric {@link String strings} are numbers and fields are not empty).
+         * @param num the car number
+         * @param team the car team
+         * @param model the car model
+         * @param brand the car brand
+         * @param pilot the car pilot
+         * @param type the car type (main car or rival car)
+         * @return true if the field values are valid, false otherwise
+         */
+        private boolean checkNewCarFields(String num, String team, String model, String brand, String pilot, String type) {
+            boolean isValid = true;
+            if(num.trim().isEmpty() || !Mask.isNumeric(num)) {
+                isValid = false;
+                carNumber.setStyle("-fx-accent: red;");
+            }
+            if(team.trim().isEmpty()) {
+                isValid = false;
+                carTeam.setStyle("-fx-accent: red;");
+            }
+            if(model.trim().isEmpty()) {
+                isValid = false;
+                carModel.setStyle("-fx-accent: red;");
+            }
+            if(brand.trim().isEmpty()) {
+                isValid = false;
+                carBrand.setStyle("-fx-accent: red;");
+            }
+            if(pilot == null) {
+                isValid = false;
+                carPilot.setStyle("-fx-accent: red;");
+            }
+            if(type == null) {
+                isValid = false;
+                carType.setStyle("-fx-accent: red;");
+            }
+            return isValid;
+        }
+
 
         @FXML
         public void addingofpilot() throws ParseException, java.text.ParseException {
-            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+
             String firstnamecont = firstname.getText();
             String lastnamecont = lastnamepilot.getText();
             String commentcont = commentpilot.getText();
-            double pilotheightcont = 0.00;
-            double pilotweightcont = 0.00;
-           int count =0;
+            Date pilotdatofbirthcont= formatter.parse(dateofbirthpilot.getText());
+            double pilotweightcont = Double.valueOf(pilotweight.getText());
 
-            Date pilotdatofbirthcont = Date.from(dateofbirthpilot.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-            String date = formatter.format(pilotdatofbirthcont);
-            if (Mask.isDouble(pilotweight.getText())) {
-                pilotweightcont = Double.parseDouble(pilotweight.getText());
-                count++;
-            }
-            if (Mask.isDouble(pilotheight.getText())) {
-                pilotheightcont = Double.parseDouble(pilotheight.getText());
-                count++;
-            }
+            double pilotheightcont = Double.valueOf(pilotheight.getText());
 
-            PilotModel pilotcont = new PilotModel(lastnamecont, firstnamecont, commentcont, pilotdatofbirthcont, pilotweightcont, pilotweightcont);
+            PilotModel pilotcont = new PilotModel(lastnamecont, firstnamecont,commentcont,new Date(),pilotweightcont,pilotweightcont) ;
 
-
-            if (pilotcontroller.checkingofpilot(pilotcont) && count==2) {
-                pilotsList.add(pilotcont);
-                System.out.println("les informations du pilot sont: " + pilotcontroller.checkingofpilot(pilotcont));
-            } else {
-
-                System.out.println("verification pas bonne ");
+            System.out.println("les informations du pilot sont: " + pilotcontroller.checkingofpilot(pilotcont));
+            if (pilotcontroller.checkingofpilot(pilotcont)) {
+                pilotcontroller.creationfpilot(pilotcont);
             }
 
         }
-
     }
