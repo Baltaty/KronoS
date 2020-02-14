@@ -256,7 +256,7 @@
                               </Tab>
                               <Tab fx:id="tab_course" disable="true" text="COURSE">
                                  <content>
-                                    <AnchorPane prefHeight="675.0" prefWidth="1010.0" visible="false">
+                                    <AnchorPane prefHeight="675.0" prefWidth="1010.0">
                                        <children>
                                           <ImageView fitHeight="83.0" fitWidth="49.0" layoutX="925.0" layoutY="555.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -278,7 +278,7 @@
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <JFXButton fx:id="btn_start_race" layoutX="787.0" layoutY="561.0" text="COMMENCER" textFill="WHITE">
+                                          <JFXButton fx:id="btn_start_race" layoutX="787.0" layoutY="561.0" onAction="#createRace" text="COMMENCER" textFill="WHITE">
                                              <font>
                                                 <Font name="Montserrat Regular" size="18.0" />
                                              </font>
@@ -288,17 +288,17 @@
                                                 <Font name="Beon-Medium" size="25.0" />
                                              </font>
                                           </Label>
-                                          <JFXDatePicker layoutX="240.0" layoutY="172.0" />
-                                          <JFXTextField layoutX="239.0" layoutY="213.0" />
+                                          <JFXDatePicker fx:id="startingTime_date" layoutX="240.0" layoutY="172.0" />
+                                          <JFXTextField fx:id="racewayName_text" layoutX="239.0" layoutY="213.0" />
                                           <JFXComboBox fx:id="race_type_combo" layoutX="242.0" layoutY="261.0" onAction="#handleRaceTypeSelected" prefHeight="27.0" prefWidth="149.0" />
-                                          <JFXTextField fx:id="race_duration" layoutX="241.0" layoutY="300.0" visible="false" />
-                                          <Label fx:id="race_duration_label" layoutX="44.0" layoutY="315.0" text="Durée de la course" visible="false">
+                                          <JFXTextField fx:id="race_duration" layoutX="244.0" layoutY="327.0" visible="false" />
+                                          <Label fx:id="race_duration_label" layoutX="44.0" layoutY="315.0" text="Durée de la course &#10;en minutes" visible="false">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <JFXTextField fx:id="race_numberof_tour" layoutX="241.0" layoutY="299.0" visible="false" />
-                                          <Label fx:id="race_numberof_tour_label" layoutX="41.0" layoutY="314.0" text="Nombre de tours" visible="false">
+                                          <JFXTextField fx:id="race_numberof_tour" layoutX="244.0" layoutY="326.0" visible="false" />
+                                          <Label fx:id="race_numberof_tour_label" layoutX="41.0" layoutY="336.0" text="Nombre de tours" visible="false">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
