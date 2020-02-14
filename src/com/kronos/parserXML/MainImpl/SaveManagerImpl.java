@@ -92,6 +92,12 @@ public class SaveManagerImpl implements SaveManager {
         return listOfBeans.add(modelToSave);
     }
 
+
+    public void persist(final Collection<? extends Object> collections){
+        Objects.requireNonNull(collections);
+        listOfBeans.addAll(collections);
+    }
+
     /**
      * Disconnects the object to the @param model which will no longer be taken into account when saving in XML.
      *

@@ -1,19 +1,52 @@
 package com.kronos.model;
 
 import com.kronos.api.Car;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public abstract class CarModel implements Car {
 
+    @XmlElement
     private long id;
+
+    @XmlElement
     private int number;
+
+
+    @XmlElement
     private String team;
+
+
+    @XmlElement
     private String model;
+
+
+    @XmlElement
     private String brand;
+
+
+    @XmlElement
     private ArrayList<TopModel> topList;
+
+
+    @XmlElement
     private LapRaceModel lapRace;
+
+
+    @XmlElement
     private TimeRaceModel timeRace;
+
+    @XmlElement
     private int completedLaps;
+
+
+    @XmlElement
     private PilotModel pilotModel;
 
     public CarModel() {
@@ -106,8 +139,7 @@ public abstract class CarModel implements Car {
         int remainingLaps = -1;
         try {
             remainingLaps = this.lapRace.getNumberOfLaps() - this.getCompletedLaps();
-        }
-        catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
         return remainingLaps;

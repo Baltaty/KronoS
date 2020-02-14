@@ -186,6 +186,8 @@
         @FXML
         private JFXComboBox<String> race_type_combo;
 
+        private RaceType typeOfRace;
+
         ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -302,6 +304,7 @@
 
         @FXML
         private void handleSwitchToLapTab(ActionEvent event) {
+
             if (carsList.size() != 0) {
                 SingleSelectionModel<Tab> selectionModel = NewRaceTabPane.getSelectionModel();
                 tab_course.setDisable(false);
@@ -445,12 +448,10 @@
                     carsList.add(rivalCarModel);
                     carPilot.getItems().remove(carPilot.getSelectionModel().getSelectedIndex());
                     Alerts.success("SUCCÈS", "Nouvelle voiture créée");
-                }
-                else {
-                    if(mainCarCreated) {
+                } else {
+                    if (mainCarCreated) {
                         Alerts.error("ERREUR", "Une voiture principale existe déjà");
-                    }
-                    else {
+                    } else {
                         Alerts.error("ERREUR", "Veuillez commencer par créer une voiture principale");
                     }
                 }
@@ -470,11 +471,11 @@
          */
         private boolean checkNewCarFields(String num, String team, String model, String brand, String pilot, String type) {
             boolean isValid = true;
-            if(pilotsList.size() == carsList.size()) {
+            if (pilotsList.size() == carsList.size()) {
                 isValid = false;
                 Alerts.error("ERREUR", "Il n'est pas possible d'avoir plus de voitures que de pilotes");
             }
-            if(carsList.size() == 4) {
+            if (carsList.size() == 4) {
                 Alerts.error("ERREUR", "Il n'est possible d'observer que 4 voitures maximum à la fois");
             }
             if (num.trim().isEmpty() || !Mask.isNumeric(num)) {
@@ -536,7 +537,7 @@
 
                 if (pilotcontroller.checkingofpilot(pilotcont) && count == 2) {
                     pilotsList.add(pilotcont);
-                    carPilot.getItems().add(firstnamecont+" "+lastnamecont);
+                    carPilot.getItems().add(firstnamecont + " " + lastnamecont);
                     Alerts.success("SUCCÈS", "Pilote ajouté");
                     firstname.setText("");
                     lastnamepilot.setText("");
@@ -561,64 +562,27 @@
 
 
         /**
-         * Control if the fields required for the creation of a race instance are valid,
-         * otherwise an alert is sent to the view to call the user.
-         *
-         * @param raceModel
-         * @return
-         * @throws ParseException
-         */
-        public Boolean checkingRace(RaceModel raceModel) throws ParseException, java.text.ParseException {
-            boolean verify = true;
-            if (!(Mask.isNumeric(String.valueOf(raceModel.getid())))) {
-                verify = false;
-                // Alerts.error("error","mylong ");
-            }
-            if (!(Mask.isSimpleString(raceModel.getRacewayName()))) {
-                verify = false;
-            }
-
-            if (!(Mask.isDate(new SimpleDateFormat("dd-MM-yyyy").format(raceModel.getstartingTime()))) || (Mask.validateDate(raceModel.getstartingTime()) == -1)) {
-
-                verify = false;
-                //Alerts sur l'element en question
-            }
-
-            if (raceModel instanceof TimeRaceModel) {
-                if (!(Mask.isNumeric((String.valueOf(((TimeRaceModel) raceModel).getDuration()))))) {
-                    verify = false;
-                }
-
-            } else {
-                if (!(Mask.isNumeric((String.valueOf(((LapRaceModel) raceModel).getNumberOfLaps()))))) {
-                    verify = false;
-                }
-
-            }
-
-            return verify;
-        }
-
-        /**
          * @param event
          */
         @FXML
         private void handleRaceTypeSelected(ActionEvent event) {
 
             int RaceType = race_type_combo.getSelectionModel().getSelectedIndex();
+
             if (RaceType == 0) {
-
-                race_numberof_tour_label.setVisible(false);
-                race_numberof_tour.setVisible(false);
-                race_duration_label.setVisible(true);
-                race_duration.setVisible(true);
-
-            } else {
-
                 race_numberof_tour_label.setVisible(true);
                 race_numberof_tour.setVisible(true);
                 race_duration_label.setVisible(false);
                 race_duration.setVisible(false);
+                typeOfRace = com.kronos.global.enums.RaceType.LAP_RACE;
+
+            } else {
+                race_numberof_tour_label.setVisible(false);
+                race_numberof_tour.setVisible(false);
+                race_duration_label.setVisible(true);
+                race_duration.setVisible(true);
+                typeOfRace = com.kronos.global.enums.RaceType.TIME_RACE;
+
 
             }
         }
@@ -628,19 +592,41 @@
          */
         @FXML
         public void createRace(ActionEvent actionEvent) {
-            RaceModel race;
-            System.err.println("Selected date: " + startingTime_date.getValue());
 
-            RaceFactory raceFactory = new RaceFactory();
-            race = raceFactory.createRace(RaceType.LAP_RACE,
+            RaceController raceController = new RaceController();
+            int race_duration = 0, race_numberOf_tour = 0;
+            if (typeOfRace == RaceType.TIME_RACE) {
+                if (!this.race_duration.getText().isEmpty()) {
+                    race_duration = Integer.parseInt(this.race_duration.getText());
+
+                } else {
+                    // Bloquer le bouton Commencer,
+                }
+
+            } else {
+
+                if (!this.race_numberof_tour.getText().isEmpty()) {
+                    race_numberOf_tour = Integer.parseInt(this.race_numberof_tour.getText());
+
+                } else {
+                    // Bloquer le bouton Commencer,
+                }
+
+            }
+            RaceModel race = raceController.createRace(typeOfRace,
                     Date.from(startingTime_date.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                    racewayName_text.getText(), null, 3
-            );
+                    racewayName_text.getText(), race_duration, race_numberOf_tour);
 
-            // Save test save manager
-            SaveManager saveManager = SaveManagerImpl.getInstance();
-            saveManager.persist(race);
-            System.out.println(saveManager.saveFile());
+            if (race != null) {
+
+                // Save test save manager
+                SaveManagerImpl saveManager = SaveManagerImpl.getInstance();
+                saveManager.persist(pilotsList);
+                saveManager.persist(carsList);
+                saveManager.persist(race);
+                System.out.println(saveManager.saveFile());
+
+            }
 
 
         }
