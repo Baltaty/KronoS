@@ -425,7 +425,7 @@
          */
         @FXML
         public void handleClickNewCar(ActionEvent event) {
-            if(carPilot.getSelectionModel().getSelectedItem() != null || carType.getSelectionModel().getSelectedItem() != null || Mask.isNumeric(carNumber.getText())) {
+            if((carPilot.getSelectionModel().getSelectedItem() != null || carType.getSelectionModel().getSelectedItem() != null) && Mask.isNumeric(carNumber.getText())) {
                 if(!mainCarCreated && carType.getSelectionModel().getSelectedItem().equals("Voiture principale")) {
                     MainCarModel mainCarModel = new MainCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
                     if(checkNewCarFields(mainCarModel)) {
