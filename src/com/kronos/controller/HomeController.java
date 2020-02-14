@@ -75,6 +75,7 @@
      */
     public class HomeController implements Initializable {
         private static PilotController pilotcontroller = new PilotController();
+        private static CarController carController = new CarController();
         private ArrayList<PilotModel> pilotsList = new ArrayList<>();
         private ArrayList<CarModel> carsList = new ArrayList();
         private boolean mainCarCreated;
@@ -450,32 +451,78 @@
          */
         @FXML
         public void handleClickNewCar(ActionEvent event) {
-            System.out.println("Clic ajout voiture");
-            if (checkNewCarFields(carNumber.getText(), carTeam.getText(), carModel.getText(), carBrand.getText(), carPilot.getSelectionModel().getSelectedItem(), carType.getSelectionModel().getSelectedItem())) {
-                if (!mainCarCreated && carType.getSelectionModel().getSelectedItem().equals("Voiture principale")) {
+            if(carPilot.getSelectionModel().getSelectedItem() != null || carType.getSelectionModel().getSelectedItem() != null) {
+                if(!mainCarCreated && carType.getSelectionModel().getSelectedItem().equals("Voiture principale")) {
                     MainCarModel mainCarModel = new MainCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
-                    carsList.add(mainCarModel);
-                    mainCarCreated = true;
-                    carPilot.getItems().remove(carPilot.getSelectionModel().getSelectedIndex());
-                    Alerts.success("SUCCÈS", "Nouvelle voiture créée");
-                } else if (mainCarCreated && carType.getSelectionModel().getSelectedItem().equals("Voiture concurrente")) {
+                    if(checkNewCarFields(mainCarModel)) {
+                        carsList.add(mainCarModel);
+                        mainCarCreated = true;
+                        carPilot.getItems().remove(carPilot.getSelectionModel().getSelectedIndex());
+                        Alerts.success("SUCCÈS", "Nouvelle voiture créée");
+                        clearNewCarFields();
+                    }
+                }
+                else if(mainCarCreated && carType.getSelectionModel().getSelectedItem().equals("Voiture concurrente")) {
                     RivalCarModel rivalCarModel = new RivalCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
-                    carsList.add(rivalCarModel);
-                    carPilot.getItems().remove(carPilot.getSelectionModel().getSelectedIndex());
-                    Alerts.success("SUCCÈS", "Nouvelle voiture créée");
+                    if(checkNewCarFields(rivalCarModel)) {
+                        carsList.add(rivalCarModel);
+                        carPilot.getItems().remove(carPilot.getSelectionModel().getSelectedIndex());
+                        Alerts.success("SUCCÈS", "Nouvelle voiture créée");
+                        clearNewCarFields();
+                    }
+                }
+                else if(mainCarCreated) {
+                    Alerts.error("ERREUR", "Une voiture principale existe déjà");
                 }
                 else {
-                    if(mainCarCreated) {
-                        Alerts.error("ERREUR", "Une voiture principale existe déjà");
-                    }
-                    else {
-                        Alerts.error("ERREUR", "Veuillez commencer par créer une voiture principale");
-                    }
+                    Alerts.error("ERREUR", "Veuillez commencer par créer une voiture principale");
                 }
+            }
+            else {
+                Alerts.error("ERREUR", "Veuillez vérifier les champs");
             }
         }
 
         /**
+         * Resets the fields in the new car interface.
+         */
+        private void clearNewCarFields() {
+            carNumber.clear();
+            carTeam.clear();
+            carModel.clear();
+            carBrand.clear();
+            carPilot.setValue(null);
+            carType.setValue(null);
+        }
+
+        /**
+         * Checks if the field values are valid (numeric {@link String strings} are numbers and fields are not empty).
+         * If an error occurs, shows an error {@link Alerts alert}.
+         * @param carModel the {@link CarModel car} object to check
+         * @return true if the rules are respected and fiel values are valid, false otherwise.
+         */
+        private boolean checkNewCarFields(CarModel carModel) {
+            boolean isValid = true;
+            if (!Mask.isNumeric(carNumber.getText())) {
+                isValid = false;
+                Alerts.error("ERREUR", "Veuillez vérifier les champs");
+            }
+            else if(!carController.checkCar(carModel)) {
+                isValid = false;
+                Alerts.error("ERREUR", "Veuillez vérifier les champs");
+            }
+            else if(pilotsList.size() == carsList.size()) {
+                isValid = false;
+                Alerts.error("ERREUR", "Il n'est pas possible d'avoir plus de voitures que de pilotes");
+            }
+            else if(carsList.size() == 4) {
+                isValid = false;
+                Alerts.error("ERREUR", "Il n'est possible d'observer que 4 voitures maximum à la fois");
+            }
+            return isValid;
+        }
+
+        /*/**
          * Checks if the field values are valid (numeric {@link String strings} are numbers and fields are not empty).
          *
          * @param num   the car number
@@ -486,13 +533,14 @@
          * @param type  the car type (main car or rival car)
          * @return true if the field values are valid, false otherwise
          */
-        private boolean checkNewCarFields(String num, String team, String model, String brand, String pilot, String type) {
+        /*private boolean checkNewCarFields(String num, String team, String model, String brand, String pilot, String type) {
             boolean isValid = true;
             if(pilotsList.size() == carsList.size()) {
                 isValid = false;
                 Alerts.error("ERREUR", "Il n'est pas possible d'avoir plus de voitures que de pilotes");
             }
             if(carsList.size() == 4) {
+                isValid = false;
                 Alerts.error("ERREUR", "Il n'est possible d'observer que 4 voitures maximum à la fois");
             }
             if (num.trim().isEmpty() || !Mask.isNumeric(num)) {
@@ -520,7 +568,7 @@
                 carType.setStyle("-fx-accent: red;");
             }
             return isValid;
-        }
+        }*/
 
 
         @FXML
@@ -563,11 +611,10 @@
                     dateofbirthpilot.setValue(null);
                     commentpilot.setText("");
                 } else {
-                    Alerts.error("ERREUR", "Veuillez verifier les champs");
+                    Alerts.error("ERREUR", "Veuillez vérifier les champs");
                 }
             } else {
-                Alerts.error("ERREUR", "Veuillez verifier les champs");
-
+                Alerts.error("ERREUR", "Veuillez vérifier les champs");
             }
 
         }
