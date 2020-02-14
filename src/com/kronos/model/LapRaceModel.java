@@ -3,8 +3,10 @@ package com.kronos.model;
 import com.kronos.api.LapRace;
 import com.kronos.global.enums.RaceType;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
+@XmlRootElement
 public class LapRaceModel extends RaceModel implements LapRace {
 
     private int numberOfLaps;
@@ -12,8 +14,8 @@ public class LapRaceModel extends RaceModel implements LapRace {
     public LapRaceModel() {
     }
 
-    public LapRaceModel(long id, Date startingTime, String racewayName, int numberOfLaps) {
-        super(id, startingTime, racewayName);
+    public LapRaceModel(Date startingTime, String racewayName, int numberOfLaps) {
+        super(startingTime, racewayName);
         this.numberOfLaps = numberOfLaps;
     }
 

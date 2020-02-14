@@ -11,12 +11,12 @@
 //import com.fxexperience.javafx.animation.*;
 
     import com.jfoenix.controls.*;
+    import com.kronos.global.factory.RaceFactory;
     import com.kronos.global.util.Alerts;
     import com.kronos.global.util.Mask;
-    import com.kronos.model.CarModel;
-    import com.kronos.model.MainCarModel;
-    import com.kronos.model.PilotModel;
-    import com.kronos.model.RivalCarModel;
+    import com.kronos.model.*;
+    import com.kronos.parserXML.MainImpl.SaveManagerImpl;
+    import com.kronos.parserXML.api.SaveManager;
     import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
     import javafx.animation.RotateTransition;
     import javafx.animation.ScaleTransition;
@@ -157,6 +157,29 @@
         @FXML
         JFXDatePicker dateofbirthpilot;
 
+
+        //////////////////////////////////////// Attributes of races data /////////////////////////////////////
+
+        @FXML
+        private JFXDatePicker startingTime_date;
+        @FXML
+        private JFXTextField racewayName_text;
+        @FXML
+        private JFXTextField race_duration;
+        @FXML
+        private Label race_duration_label;
+        @FXML
+        private JFXTextField race_numberof_tour;
+        @FXML
+        private Label race_numberof_tour_label;
+        @FXML
+        private JFXComboBox<String> race_type_combo;
+
+        private RaceType typeOfRace;
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
         private static Boolean changeRequest;
 
         /**
@@ -292,27 +315,6 @@
         }
 
 
-
-        @FXML
-        private void handleRaceTypeSelected(ActionEvent event) {
-            int RaceType = race_type_combo.getSelectionModel().getSelectedIndex();
-            if (RaceType == 0) {
-
-                race_numberof_tour_label.setVisible(false);
-                race_numberof_tour.setVisible(false);
-                race_duration_label.setVisible(true);
-                race_duration.setVisible(true);
-
-            } else {
-
-                race_numberof_tour_label.setVisible(true);
-                race_numberof_tour.setVisible(true);
-                race_duration_label.setVisible(false);
-                race_duration.setVisible(false);
-
-            }
-        }
-
         @FXML
         private void handleChangeTopTouch(ActionEvent event) {
             changeRequest = true;
@@ -402,9 +404,10 @@
             } catch (IOException io) {
             }
 
-            race_type_combo.setItems(FXCollections.observableArrayList("Course au temps", "Course au tour"));
 
             carType.setItems(FXCollections.observableArrayList("Voiture principale", "Voiture concurrente"));
+            race_type_combo.setItems(FXCollections.observableArrayList(RaceType.LAP_RACE.toString(), RaceType.TIME_RACE.toString()));
+
             //top_touch_field
 
         }
@@ -583,7 +586,7 @@
 
                 if (pilotcontroller.checkingofpilot(pilotcont) && count == 2) {
                     pilotsList.add(pilotcont);
-                    carPilot.getItems().add(firstnamecont+" "+lastnamecont);
+                    carPilot.getItems().add(firstnamecont + " " + lastnamecont);
                     Alerts.success("SUCCÈS", "Pilote ajouté");
                     firstname.setText("");
                     lastnamepilot.setText("");
@@ -599,4 +602,86 @@
             }
 
         }
+
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////   Methods and data processing for creating a race ///////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        /**
+         * @param event
+         */
+        @FXML
+        private void handleRaceTypeSelected(ActionEvent event) {
+
+            int RaceType = race_type_combo.getSelectionModel().getSelectedIndex();
+
+            if (RaceType == 0) {
+                race_numberof_tour_label.setVisible(true);
+                race_numberof_tour.setVisible(true);
+                race_duration_label.setVisible(false);
+                race_duration.setVisible(false);
+                typeOfRace = com.kronos.global.enums.RaceType.LAP_RACE;
+
+            } else {
+                race_numberof_tour_label.setVisible(false);
+                race_numberof_tour.setVisible(false);
+                race_duration_label.setVisible(true);
+                race_duration.setVisible(true);
+                typeOfRace = com.kronos.global.enums.RaceType.TIME_RACE;
+
+
+            }
+        }
+
+        /**
+         * @param actionEvent
+         */
+        @FXML
+        public void createRace(ActionEvent actionEvent) {
+
+            RaceController raceController = new RaceController();
+            int race_duration = 0, race_numberOf_tour = 0;
+            if (typeOfRace == RaceType.TIME_RACE) {
+                if (!this.race_duration.getText().isEmpty()) {
+                    race_duration = Integer.parseInt(this.race_duration.getText());
+
+                } else {
+                    // Bloquer le bouton Commencer,
+                }
+
+            } else {
+
+                if (!this.race_numberof_tour.getText().isEmpty()) {
+                    race_numberOf_tour = Integer.parseInt(this.race_numberof_tour.getText());
+
+                } else {
+                    // Bloquer le bouton Commencer,
+                }
+
+            }
+            RaceModel race = raceController.createRace(typeOfRace,
+                    Date.from(startingTime_date.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                    racewayName_text.getText(), race_duration, race_numberOf_tour);
+
+            System.out.println("======================");
+            System.out.println(typeOfRace.toString());
+            System.out.println("======================");
+
+            if (race != null) {
+
+                // Save test save manager
+                SaveManagerImpl saveManager = SaveManagerImpl.getInstance();
+                saveManager.persist(pilotsList);
+                saveManager.persist(carsList);
+                saveManager.persist(race);
+                System.out.println(saveManager.saveFile());
+
+            }
+
+
+        }
+
+
     }
