@@ -82,80 +82,54 @@
 
         @FXML
         private JFXButton startbtn;
-
         @FXML
         private JFXButton bdbtn;
-
         @FXML
         private JFXButton settingbtn;
-
         @FXML
         private ImageView newraceicon;
-
         @FXML
         private ImageView setingicon;
-
         @FXML
         private ImageView bdicon;
-
         @FXML
         private ImageView appname1;
-
         @FXML
         private StackPane homestack;
-
         @FXML
         private JFXDialogLayout dialog_para;
-
         @FXML
         private JFXDialogLayout dialog_select_key;
-
-
         @FXML
         private JFXButton end_para;
-
         @FXML
         private JFXDialogLayout dialayout;
-
         @FXML
         private Label top_key;
-
         @FXML
         private JFXDialogLayout dialog_new_race;
-
         @FXML
         private JFXTabPane NewRaceTabPane;
-
         @FXML
         private Tab tab_pilote;
-
         @FXML
         private Tab tab_voiture;
-
         @FXML
         private Tab tab_course;
-
         @FXML
         private JFXButton btn_next_car;
-
         @FXML
         private JFXButton btn_next_lap;
-
         @FXML
         private ImageView boulon;
-
         @FXML
         private JFXTextField race_duration;
-
         @FXML
         private Label race_duration_label;
-
         @FXML
         private JFXTextField race_numberof_tour;
-
         @FXML
         private Label race_numberof_tour_label;
-
         @FXML
         private JFXComboBox<String> race_type_combo;
         @FXML
@@ -185,6 +159,10 @@
 
         private static Boolean changeRequest;
 
+        /**
+         * Handles the startup of the race creation process.
+         * @param event the event (click on the new race button)
+         */
         @FXML
         private void handleNewRaceClicked(ActionEvent event) {
             System.out.println("amorçage du processus de démarrage d'une course");
@@ -194,6 +172,9 @@
 
         }
 
+        /**
+         * Handles the final race creation process
+         */
         @FXML
         private void handleNewRaceEntered() {
             //////SCALE ICONE BASE DE DONNEES
@@ -451,7 +432,7 @@
          */
         @FXML
         public void handleClickNewCar(ActionEvent event) {
-            if(carPilot.getSelectionModel().getSelectedItem() != null || carType.getSelectionModel().getSelectedItem() != null) {
+            if(carPilot.getSelectionModel().getSelectedItem() != null || carType.getSelectionModel().getSelectedItem() != null || !Mask.isNumeric(carNumber.getText())) {
                 if(!mainCarCreated && carType.getSelectionModel().getSelectedItem().equals("Voiture principale")) {
                     MainCarModel mainCarModel = new MainCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
                     if(checkNewCarFields(mainCarModel)) {
