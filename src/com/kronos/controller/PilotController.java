@@ -59,34 +59,6 @@ public class PilotController implements Initializable {
         return verify;
     }
 
-    /**
-     * created and register pilot informations in the file
-     * @param pilot
-     * @return true if  all informations about the pilot is ok
-     */
-    public Boolean creationfpilot(PilotModel pilot) throws ParseException {
-
-        if (checkingofpilot(pilot)) {
-            //register of the pilot
-            SaveManagerImpl saveManager = SaveManagerImpl.getInstance();
-            saveManager.persist(pilot);
-            saveManager.saveFile();
-            return true;
-
-        }
-
-        return false;
-    }
-
-
-
-    public static void main(String[] args) throws ParseException {
-        PilotModel pilote = new PilotModel("test ", "test", "Yeaver", new Date(), 3.0, 3.0);
-        PilotController ptmanager =  new PilotController();
-        System.out.println(ptmanager.creationfpilot(pilote));
-    }
-
-
 
 
 }
