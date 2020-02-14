@@ -11,12 +11,12 @@
 //import com.fxexperience.javafx.animation.*;
 
     import com.jfoenix.controls.*;
-    import com.kronos.global.factory.RaceFactory;
     import com.kronos.global.util.Alerts;
     import com.kronos.global.util.Mask;
-    import com.kronos.model.*;
-    import com.kronos.parserXML.MainImpl.SaveManagerImpl;
-    import com.kronos.parserXML.api.SaveManager;
+    import com.kronos.model.CarModel;
+    import com.kronos.model.MainCarModel;
+    import com.kronos.model.PilotModel;
+    import com.kronos.model.RivalCarModel;
     import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
     import javafx.animation.RotateTransition;
     import javafx.animation.ScaleTransition;
@@ -38,6 +38,7 @@
 
     import java.io.*;
     import java.net.URL;
+    import java.time.LocalDate;
     import java.time.ZoneId;
     import java.util.ArrayList;
     import java.text.SimpleDateFormat;
@@ -73,7 +74,6 @@
      * @author TeamKronos
      */
     public class HomeController implements Initializable {
-        private static Boolean changeRequest;
         private static PilotController pilotcontroller = new PilotController();
         private ArrayList<PilotModel> pilotsList = new ArrayList<>();
         private ArrayList<CarModel> carsList = new ArrayList();
@@ -141,14 +141,20 @@
         @FXML
         private ImageView boulon;
 
+        @FXML
+        private JFXTextField race_duration;
 
         @FXML
         private Label race_duration_label;
 
+        @FXML
+        private JFXTextField race_numberof_tour;
 
         @FXML
         private Label race_numberof_tour_label;
 
+        @FXML
+        private JFXComboBox<String> race_type_combo;
         @FXML
         private TextField carNumber;
         @FXML
@@ -166,14 +172,15 @@
         @FXML
         private JFXTextField firstname;
         @FXML
-        private JFXTextField dateofbirthpilot;
-        @FXML
         private JFXTextField pilotweight;
         @FXML
         private JFXTextField pilotheight;
         @FXML
         private JFXTextArea commentpilot;
+        @FXML
+        JFXDatePicker dateofbirthpilot;
 
+        private static Boolean changeRequest;
 
         @FXML
         private void handleNewRaceClicked(ActionEvent event) {
@@ -286,9 +293,33 @@
 
         @FXML
         private void handleSwitchToLapTab(ActionEvent event) {
-            SingleSelectionModel<Tab> selectionModel = NewRaceTabPane.getSelectionModel();
-            tab_course.setDisable(false);
-            selectionModel.select(tab_course);
+            if (carsList.size() != 0) {
+                SingleSelectionModel<Tab> selectionModel = NewRaceTabPane.getSelectionModel();
+                tab_course.setDisable(false);
+                selectionModel.select(tab_course);
+            } else {
+                //Mettre une dialog d'erreur
+            }
+        }
+
+        @FXML
+        private void handleRaceTypeSelected(ActionEvent event) {
+            int RaceType = race_type_combo.getSelectionModel().getSelectedIndex();
+            if (RaceType == 0) {
+
+                race_numberof_tour_label.setVisible(false);
+                race_numberof_tour.setVisible(false);
+                race_duration_label.setVisible(true);
+                race_duration.setVisible(true);
+
+            } else {
+
+                race_numberof_tour_label.setVisible(true);
+                race_numberof_tour.setVisible(true);
+                race_duration_label.setVisible(false);
+                race_duration.setVisible(false);
+
+            }
         }
 
         @FXML
@@ -368,6 +399,7 @@
             scalebd.setCycleCount(ScaleTransition.INDEFINITE);
             scalebd.play();
             //////
+
             changeRequest = false;
             File file = new File("top.properties");
             Properties properties = new Properties();
@@ -377,8 +409,9 @@
                 //FileOutputStream fileOutputStream = new FileOutputStream(file);
                 top_key.setText(properties.getProperty("key"));
             } catch (IOException io) {
-
             }
+
+
             carType.setItems(FXCollections.observableArrayList("Voiture principale", "Voiture concurrente"));
 //            race_type_combo.setItems(FXCollections.observableArrayList(RaceType.LAP_RACE.toString(), RaceType.TIME_RACE.toString()));
 
@@ -386,6 +419,12 @@
 
         }
 
+        /**
+         * Finds the {@link PilotModel pilot} object corresponding to the pilot selected in the {@link ComboBox combo box} of pilots.
+         *
+         * @param index pilot index in the {@link ComboBox combo box} of pilots
+         * @return the correct {@link PilotModel pilot} object
+         */
         private PilotModel findPilot(int index) {
             PilotModel pilot = null;
             try {
@@ -396,43 +435,111 @@
             return pilot;
         }
 
+        /**
+         * Handles the creation of a new car on click on the "add" button in the car creation interface.
+         *
+         * @param event the {@link ActionEvent action event}
+         */
         @FXML
         public void handleClickNewCar(ActionEvent event) {
             System.out.println("Clic ajout voiture");
-            if (carType.getSelectionModel().getSelectedItem().equals("Voiture principale")) {
-                if (Mask.isNumeric(carNumber.getText()) && !carTeam.getText().trim().isEmpty() && !carModel.getText().trim().isEmpty() && !carBrand.getText().trim().isEmpty()) {
+            if (checkNewCarFields(carNumber.getText(), carTeam.getText(), carModel.getText(), carBrand.getText(), carPilot.getSelectionModel().getSelectedItem(), carType.getSelectionModel().getSelectedItem())) {
+                if (carType.getSelectionModel().getSelectedItem().equals("Voiture principale")) {
                     MainCarModel mainCarModel = new MainCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
                     carsList.add(mainCarModel);
-                }
-            } else if (carType.getSelectionModel().getSelectedItem().equals("Voiture concurrente")) {
-                if (Mask.isNumeric(carNumber.getText()) && !carTeam.getText().trim().isEmpty() && !carModel.getText().trim().isEmpty() && !carBrand.getText().trim().isEmpty()) {
+                } else if (carType.getSelectionModel().getSelectedItem().equals("Voiture concurrente")) {
                     RivalCarModel rivalCarModel = new RivalCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
                     carsList.add(rivalCarModel);
                 }
             }
         }
 
-
-        @FXML
-        public void addingofpilot() throws ParseException, java.text.ParseException {
-            SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
-
-            String firstnamecont = firstname.getText();
-            String lastnamecont = lastnamepilot.getText();
-            String commentcont = commentpilot.getText();
-            Date pilotdatofbirthcont = formatter.parse(dateofbirthpilot.getText());
-            double pilotweightcont = Double.valueOf(pilotweight.getText());
-
-            double pilotheightcont = Double.valueOf(pilotheight.getText());
-
-            PilotModel pilotcont = new PilotModel(lastnamecont, firstnamecont, commentcont, new Date(), pilotweightcont, pilotweightcont);
-
-            System.out.println("les informations du pilot sont: " + pilotcontroller.checkingofpilot(pilotcont));
-            if (pilotcontroller.checkingofpilot(pilotcont)) {
-                pilotcontroller.creationfpilot(pilotcont);
+        /**
+         * Checks if the field values are valid (numeric {@link String strings} are numbers and fields are not empty).
+         *
+         * @param num   the car number
+         * @param team  the car team
+         * @param model the car model
+         * @param brand the car brand
+         * @param pilot the car pilot
+         * @param type  the car type (main car or rival car)
+         * @return true if the field values are valid, false otherwise
+         */
+        private boolean checkNewCarFields(String num, String team, String model, String brand, String pilot, String type) {
+            boolean isValid = true;
+            if (num.trim().isEmpty() || !Mask.isNumeric(num)) {
+                isValid = false;
+                carNumber.setStyle("-fx-accent: red;");
             }
-
+            if (team.trim().isEmpty()) {
+                isValid = false;
+                carTeam.setStyle("-fx-accent: red;");
+            }
+            if (model.trim().isEmpty()) {
+                isValid = false;
+                carModel.setStyle("-fx-accent: red;");
+            }
+            if (brand.trim().isEmpty()) {
+                isValid = false;
+                carBrand.setStyle("-fx-accent: red;");
+            }
+            if (pilot == null) {
+                isValid = false;
+                carPilot.setStyle("-fx-accent: red;");
+            }
+            if (type == null) {
+                isValid = false;
+                carType.setStyle("-fx-accent: red;");
+            }
+            return isValid;
         }
 
 
+        @FXML
+        public void addingofpilot() throws ParseException, java.text.ParseException {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            String firstnamecont = firstname.getText();
+            String lastnamecont = lastnamepilot.getText();
+            String commentcont = commentpilot.getText();
+            double pilotheightcont = 0.00;
+            double pilotweightcont = 0.00;
+            Date pilotdatofbirthcont = null;
+            int count = 0;
+            LocalDate localDate = dateofbirthpilot.getValue();
+
+            if (localDate != null) {
+                pilotdatofbirthcont = Date.from(dateofbirthpilot.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+            }
+
+            if (Mask.isDouble(pilotweight.getText())) {
+                pilotweightcont = Double.parseDouble(pilotweight.getText());
+                count++;
+            }
+            if (Mask.isDouble(pilotheight.getText())) {
+                pilotheightcont = Double.parseDouble(pilotheight.getText());
+                count++;
+            }
+
+            PilotModel pilotcont = new PilotModel(lastnamecont, firstnamecont, commentcont, pilotdatofbirthcont, pilotweightcont, pilotweightcont);
+            if (dateofbirthpilot.getValue() != null) {
+
+                if (pilotcontroller.checkingofpilot(pilotcont) && count == 2) {
+                    pilotsList.add(pilotcont);
+                    Alerts.success("Iformation", "pilote ajouter");
+                    firstname.setText("");
+                    lastnamepilot.setText("");
+                    pilotheight.setText("");
+                    pilotweight.setText("");
+                    dateofbirthpilot.setValue(null);
+                    commentpilot.setText("");
+                } else {
+                    Alerts.error("ERROR", "veuillez verifier les champs");
+                }
+            } else {
+                Alerts.error("ERROR", "veuillez verifier les champs");
+
+            }
+
+        }
     }

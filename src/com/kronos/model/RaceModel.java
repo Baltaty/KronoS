@@ -2,6 +2,7 @@ package com.kronos.model;
 
 import com.kronos.api.Race;
 
+import java.util.ArrayList;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -18,6 +19,7 @@ public abstract class RaceModel implements Race {
 
     @XmlElement
     private String racewayName;
+    private ArrayList<CarModel> carsList;
 
 
     public RaceModel() {
@@ -28,6 +30,7 @@ public abstract class RaceModel implements Race {
         this.id = System.currentTimeMillis();
         this.startingTime = startingTime;
         this.racewayName = racewayName;
+        this.carsList = new ArrayList<>();
     }
 
     public long getid() {
