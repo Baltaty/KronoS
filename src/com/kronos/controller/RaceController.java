@@ -82,20 +82,20 @@ public class RaceController {
     }
 
     /**
-     * @param type
+     * @param typeOfRace
      * @param debutRace
      * @param racewayName
      * @param timeOfRace
      * @param numbeOfLap
      * @return
      */
-    public RaceModel createRace(RaceType type, Date debutRace, String racewayName, int timeOfRace, int numbeOfLap) {
+    public RaceModel createRace(RaceType typeOfRace, Date debutRace, String racewayName, int timeOfRace, int numbeOfLap) {
 
         RaceModel race;
         RaceFactory raceFactory = new RaceFactory();
 
         this.convertDate(debutRace, timeOfRace);
-        race = raceFactory.createRace(RaceType.LAP_RACE, debutRace, racewayName, this.convertDate(debutRace, timeOfRace), numbeOfLap);
+        race = raceFactory.createRace(typeOfRace, debutRace, racewayName, this.convertDate(debutRace, timeOfRace), numbeOfLap);
 
         try {
             if (!this.checkRaceControl(race)) {

@@ -2,10 +2,14 @@ package com.kronos.model;
 
 import com.kronos.api.MainCar;
 import com.kronos.api.TimeRace;
+import com.sun.xml.internal.txw2.annotation.XmlElement;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 
+@XmlRootElement
 public class MainCarModel extends CarModel implements MainCar {
+
 
     private ArrayList<Integer> stopList;
 

@@ -671,6 +671,10 @@
                     Date.from(startingTime_date.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
                     racewayName_text.getText(), race_duration, race_numberOf_tour);
 
+            System.out.println("======================");
+            System.out.println(typeOfRace.toString());
+            System.out.println("======================");
+
             if (race != null) {
 
                 // Save test save manager
