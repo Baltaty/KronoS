@@ -13,9 +13,6 @@ public class CarController {
 
     private CarModel carModel;
 
-    public CarController(CarModel carModel) {
-        this.carModel = carModel;
-    }
 
     public boolean saveCar() {
         boolean saved = false;
@@ -37,13 +34,14 @@ public class CarController {
 
         if (!Mask.isNumeric(String.valueOf(carModel.getId()))) {
             checked = false;
+            System.out.println("là");
             //mettre une alerte
         }
         if (!Mask.isNumeric(String.valueOf(carModel.getNumber()))) {
             checked = false;
+            System.out.println("non là");
             //mettre une alerte
         }
-
         return checked;
     }
 
