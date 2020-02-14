@@ -297,9 +297,14 @@
 
         @FXML
         private void handleSwitchToCarTab(ActionEvent event) {
-            SingleSelectionModel<Tab> selectionModel = NewRaceTabPane.getSelectionModel();
-            tab_voiture.setDisable(false);
-            selectionModel.select(tab_voiture);
+            if (pilotsList.size() !=0) {
+                SingleSelectionModel<Tab> selectionModel = NewRaceTabPane.getSelectionModel();
+                tab_voiture.setDisable(false);
+                selectionModel.select(tab_voiture);
+            }
+            else {
+                Alerts.error("ERREUR", "Veuillez créer au moins un pilote");
+            }
         }
 
         @FXML
