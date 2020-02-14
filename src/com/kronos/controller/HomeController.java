@@ -123,16 +123,6 @@
         @FXML
         private ImageView boulon;
         @FXML
-        private JFXTextField race_duration;
-        @FXML
-        private Label race_duration_label;
-        @FXML
-        private JFXTextField race_numberof_tour;
-        @FXML
-        private Label race_numberof_tour_label;
-        @FXML
-        private JFXComboBox<String> race_type_combo;
-        @FXML
         private TextField carNumber;
         @FXML
         private TextField carTeam;
@@ -435,7 +425,7 @@
          */
         @FXML
         public void handleClickNewCar(ActionEvent event) {
-            if(carPilot.getSelectionModel().getSelectedItem() != null || carType.getSelectionModel().getSelectedItem() != null || !Mask.isNumeric(carNumber.getText())) {
+            if(carPilot.getSelectionModel().getSelectedItem() != null || carType.getSelectionModel().getSelectedItem() != null || Mask.isNumeric(carNumber.getText())) {
                 if(!mainCarCreated && carType.getSelectionModel().getSelectedItem().equals("Voiture principale")) {
                     MainCarModel mainCarModel = new MainCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
                     if(checkNewCarFields(mainCarModel)) {
