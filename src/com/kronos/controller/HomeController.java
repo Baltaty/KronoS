@@ -77,6 +77,8 @@
         private static PilotController pilotcontroller = new PilotController();
         private ArrayList<PilotModel> pilotsList = new ArrayList<>();
         private ArrayList<CarModel> carsList = new ArrayList();
+        private boolean mainCarCreated;
+
         @FXML
         private JFXButton startbtn;
 
@@ -298,7 +300,7 @@
                 tab_course.setDisable(false);
                 selectionModel.select(tab_course);
             } else {
-                //Mettre une dialog d'erreur
+                Alerts.error("ERREUR", "Veuillez créer au moins une voiture");
             }
         }
 
@@ -414,7 +416,6 @@
             race_type_combo.setItems(FXCollections.observableArrayList("Course au temps", "Course au tour"));
 
             carType.setItems(FXCollections.observableArrayList("Voiture principale", "Voiture concurrente"));
-
             //top_touch_field
 
         }
@@ -444,12 +445,25 @@
         public void handleClickNewCar(ActionEvent event) {
             System.out.println("Clic ajout voiture");
             if (checkNewCarFields(carNumber.getText(), carTeam.getText(), carModel.getText(), carBrand.getText(), carPilot.getSelectionModel().getSelectedItem(), carType.getSelectionModel().getSelectedItem())) {
-                if (carType.getSelectionModel().getSelectedItem().equals("Voiture principale")) {
+                if (!mainCarCreated && carType.getSelectionModel().getSelectedItem().equals("Voiture principale")) {
                     MainCarModel mainCarModel = new MainCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
                     carsList.add(mainCarModel);
-                } else if (carType.getSelectionModel().getSelectedItem().equals("Voiture concurrente")) {
+                    mainCarCreated = true;
+                    carPilot.getItems().remove(carPilot.getSelectionModel().getSelectedIndex());
+                    Alerts.success("SUCCÈS", "Nouvelle voiture créée");
+                } else if (mainCarCreated && carType.getSelectionModel().getSelectedItem().equals("Voiture concurrente")) {
                     RivalCarModel rivalCarModel = new RivalCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
                     carsList.add(rivalCarModel);
+                    carPilot.getItems().remove(carPilot.getSelectionModel().getSelectedIndex());
+                    Alerts.success("SUCCÈS", "Nouvelle voiture créée");
+                }
+                else {
+                    if(mainCarCreated) {
+                        Alerts.error("ERREUR", "Une voiture principale existe déjà");
+                    }
+                    else {
+                        Alerts.error("ERREUR", "Veuillez commencer par créer une voiture principale");
+                    }
                 }
             }
         }
@@ -467,6 +481,13 @@
          */
         private boolean checkNewCarFields(String num, String team, String model, String brand, String pilot, String type) {
             boolean isValid = true;
+            if(pilotsList.size() == carsList.size()) {
+                isValid = false;
+                Alerts.error("ERREUR", "Il n'est pas possible d'avoir plus de voitures que de pilotes");
+            }
+            if(carsList.size() == 4) {
+                Alerts.error("ERREUR", "Il n'est possible d'observer que 4 voitures maximum à la fois");
+            }
             if (num.trim().isEmpty() || !Mask.isNumeric(num)) {
                 isValid = false;
                 carNumber.setStyle("-fx-accent: red;");
@@ -526,7 +547,8 @@
 
                 if (pilotcontroller.checkingofpilot(pilotcont) && count == 2) {
                     pilotsList.add(pilotcont);
-                    Alerts.success("Iformation", "pilote ajouter");
+                    carPilot.getItems().add(firstnamecont+" "+lastnamecont);
+                    Alerts.success("SUCCÈS", "Pilote ajouté");
                     firstname.setText("");
                     lastnamepilot.setText("");
                     pilotheight.setText("");
@@ -534,10 +556,10 @@
                     dateofbirthpilot.setValue(null);
                     commentpilot.setText("");
                 } else {
-                    Alerts.error("ERROR", "veuillez verifier les champs");
+                    Alerts.error("ERREUR", "Veuillez verifier les champs");
                 }
             } else {
-                Alerts.error("ERROR", "veuillez verifier les champs");
+                Alerts.error("ERREUR", "Veuillez verifier les champs");
 
             }
 
