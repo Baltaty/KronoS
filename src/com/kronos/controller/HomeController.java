@@ -186,7 +186,7 @@
         }
 
         /**
-         * Handles the final race creation process
+         * Handles the animation of the new race button of the home window when it is hovered.
          */
         @FXML
         private void handleNewRaceEntered() {
@@ -223,6 +223,9 @@
         //////*/
         }
 
+        /**
+         * Handles the opening of the settings window.
+         */
         @FXML
         private void handleSettingClicked() {
             System.out.print("Ouverture des paramètres\n");
@@ -237,6 +240,9 @@
 
         }
 
+        /**
+         * Handles the rotate animation when the settings button on the home window is hovered.
+         */
         @FXML
         private void handleSettingEntered() {
             ////// ROTATION BOUTON SETTINGS
@@ -256,6 +262,10 @@
             //////
         }
 
+        /**
+         * Navigates to the interface used reload an old race.
+         * @param event the event
+         */
         @FXML
         private void handleOldRaceClicked(ActionEvent event) {
             try {
@@ -268,6 +278,10 @@
             }
         }
 
+        /**
+         * Handles the animation of the old race button on the home window.
+         * @param event the event
+         */
         @FXML
         private void handleOldRaceEntered(ActionEvent event) {
             try {
@@ -281,6 +295,10 @@
             }
         }
 
+        /**
+         * Handles the navigation to the {@link CarModel car} creation tab.
+         * @param event the event
+         */
         @FXML
         private void handleSwitchToCarTab(ActionEvent event) {
             if (pilotsList.size() !=0) {
@@ -293,6 +311,10 @@
             }
         }
 
+        /**
+         * Handles the navigation to the {@link RaceModel race} final creation tab.
+         * @param event the event
+         */
         @FXML
         private void handleSwitchToLapTab(ActionEvent event) {
             if (carsList.size() != 0) {
@@ -305,6 +327,10 @@
         }
 
 
+        /**
+         * Handles the change of top control.
+         * @param event the event
+         */
         @FXML
         private void handleChangeTopTouch(ActionEvent event) {
             changeRequest = true;
@@ -347,6 +373,11 @@
         }
 
 
+        /**
+         * Initializes parameters of JFX components which needs to be initialized upon startup.
+         * @param url creates an {@link URL url} object from the {@link String} representation
+         * @param rb contains local specific objects.
+         */
         @Override
         public void initialize(URL url, ResourceBundle rb) {
 
