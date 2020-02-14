@@ -526,7 +526,13 @@
 
                 if (pilotcontroller.checkingofpilot(pilotcont) && count == 2) {
                     pilotsList.add(pilotcont);
-                    Alerts.info("Iformation", "pilote ajouter");
+                    Alerts.success("Iformation", "pilote ajouter");
+                    firstname.setText("");
+                    lastnamepilot.setText("");
+                    pilotheight.setText("");
+                    pilotweight.setText("");
+                    dateofbirthpilot.setValue(null);
+                    commentpilot.setText("");
                 } else {
                     Alerts.error("ERROR", "veuillez verifier les champs");
                 }
