@@ -256,7 +256,7 @@
                               </Tab>
                               <Tab fx:id="tab_course" disable="true" text="COURSE">
                                  <content>
-                                    <AnchorPane prefHeight="675.0" prefWidth="1010.0" visible="false">
+                                    <AnchorPane prefHeight="675.0" prefWidth="1010.0">
                                        <children>
                                           <ImageView fitHeight="83.0" fitWidth="49.0" layoutX="925.0" layoutY="555.0" pickOnBounds="true" preserveRatio="true">
                                              <image>

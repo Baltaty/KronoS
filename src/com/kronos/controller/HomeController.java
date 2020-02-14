@@ -11,12 +11,12 @@
 //import com.fxexperience.javafx.animation.*;
 
     import com.jfoenix.controls.*;
+    import com.kronos.global.factory.RaceFactory;
     import com.kronos.global.util.Alerts;
     import com.kronos.global.util.Mask;
-    import com.kronos.model.CarModel;
-    import com.kronos.model.MainCarModel;
-    import com.kronos.model.PilotModel;
-    import com.kronos.model.RivalCarModel;
+    import com.kronos.model.*;
+    import com.kronos.parserXML.MainImpl.SaveManagerImpl;
+    import com.kronos.parserXML.api.SaveManager;
     import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
     import javafx.animation.RotateTransition;
     import javafx.animation.ScaleTransition;
@@ -142,20 +142,6 @@
         private ImageView boulon;
 
         @FXML
-        private JFXTextField race_duration;
-
-        @FXML
-        private Label race_duration_label;
-
-        @FXML
-        private JFXTextField race_numberof_tour;
-
-        @FXML
-        private Label race_numberof_tour_label;
-
-        @FXML
-        private JFXComboBox<String> race_type_combo;
-        @FXML
         private TextField carNumber;
         @FXML
         private TextField carTeam;
@@ -179,6 +165,27 @@
         private JFXTextArea commentpilot;
         @FXML
         JFXDatePicker dateofbirthpilot;
+
+
+        //////////////////////////////////////// Attributes of races data /////////////////////////////////////
+
+        @FXML
+        private JFXDatePicker startingTime_date;
+        @FXML
+        private JFXTextField racewayName_text;
+        @FXML
+        private JFXTextField race_duration;
+        @FXML
+        private Label race_duration_label;
+        @FXML
+        private JFXTextField race_numberof_tour;
+        @FXML
+        private Label race_numberof_tour_label;
+        @FXML
+        private JFXComboBox<String> race_type_combo;
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
         private static Boolean changeRequest;
 
@@ -302,25 +309,6 @@
             }
         }
 
-        @FXML
-        private void handleRaceTypeSelected(ActionEvent event) {
-            int RaceType = race_type_combo.getSelectionModel().getSelectedIndex();
-            if (RaceType == 0) {
-
-                race_numberof_tour_label.setVisible(false);
-                race_numberof_tour.setVisible(false);
-                race_duration_label.setVisible(true);
-                race_duration.setVisible(true);
-
-            } else {
-
-                race_numberof_tour_label.setVisible(true);
-                race_numberof_tour.setVisible(true);
-                race_duration_label.setVisible(false);
-                race_duration.setVisible(false);
-
-            }
-        }
 
         @FXML
         private void handleChangeTopTouch(ActionEvent event) {
@@ -413,7 +401,7 @@
 
 
             carType.setItems(FXCollections.observableArrayList("Voiture principale", "Voiture concurrente"));
-//            race_type_combo.setItems(FXCollections.observableArrayList(RaceType.LAP_RACE.toString(), RaceType.TIME_RACE.toString()));
+            race_type_combo.setItems(FXCollections.observableArrayList(RaceType.LAP_RACE.toString(), RaceType.TIME_RACE.toString()));
 
             //top_touch_field
 
@@ -542,4 +530,97 @@
             }
 
         }
+
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////   Methods and data processing for creating a race ///////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        /**
+         * Control if the fields required for the creation of a race instance are valid,
+         * otherwise an alert is sent to the view to call the user.
+         *
+         * @param raceModel
+         * @return
+         * @throws ParseException
+         */
+        public Boolean checkingRace(RaceModel raceModel) throws ParseException, java.text.ParseException {
+            boolean verify = true;
+            if (!(Mask.isNumeric(String.valueOf(raceModel.getid())))) {
+                verify = false;
+                // Alerts.error("error","mylong ");
+            }
+            if (!(Mask.isSimpleString(raceModel.getRacewayName()))) {
+                verify = false;
+            }
+
+            if (!(Mask.isDate(new SimpleDateFormat("dd-MM-yyyy").format(raceModel.getstartingTime()))) || (Mask.validateDate(raceModel.getstartingTime()) == -1)) {
+
+                verify = false;
+                //Alerts sur l'element en question
+            }
+
+            if (raceModel instanceof TimeRaceModel) {
+                if (!(Mask.isNumeric((String.valueOf(((TimeRaceModel) raceModel).getDuration()))))) {
+                    verify = false;
+                }
+
+            } else {
+                if (!(Mask.isNumeric((String.valueOf(((LapRaceModel) raceModel).getNumberOfLaps()))))) {
+                    verify = false;
+                }
+
+            }
+
+            return verify;
+        }
+
+        /**
+         * @param event
+         */
+        @FXML
+        private void handleRaceTypeSelected(ActionEvent event) {
+
+            int RaceType = race_type_combo.getSelectionModel().getSelectedIndex();
+            if (RaceType == 0) {
+
+                race_numberof_tour_label.setVisible(false);
+                race_numberof_tour.setVisible(false);
+                race_duration_label.setVisible(true);
+                race_duration.setVisible(true);
+
+            } else {
+
+                race_numberof_tour_label.setVisible(true);
+                race_numberof_tour.setVisible(true);
+                race_duration_label.setVisible(false);
+                race_duration.setVisible(false);
+
+            }
+        }
+
+        /**
+         * @param actionEvent
+         */
+        @FXML
+        public void createRace(ActionEvent actionEvent) {
+            RaceModel race;
+            System.err.println("Selected date: " + startingTime_date.getValue());
+
+            RaceFactory raceFactory = new RaceFactory();
+            race = raceFactory.createRace(RaceType.LAP_RACE,
+                    Date.from(startingTime_date.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                    racewayName_text.getText(), null, 3
+            );
+
+            // Save test save manager
+            SaveManager saveManager = SaveManagerImpl.getInstance();
+            saveManager.persist(race);
+            System.out.println(saveManager.saveFile());
+
+
+        }
+
+
     }
