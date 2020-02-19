@@ -42,21 +42,20 @@ public class RaceController {
             //Alerts sur l'element en question
         }
 
-        if (!(Mask.isSimpleString(raceModel.getRacewayName()))) {
-            verify = false;
-            //Alerts sur l'element en question
-        }
-
 
         if (raceModel instanceof TimeRaceModel) {
-            if (!(Mask.isNumeric((String.valueOf(((TimeRaceModel) raceModel).getDuration()))))) {
+            if (!(Mask.isNumeric((String.valueOf(((TimeRaceModel) raceModel).getDuration()))))
+                    && ((TimeRaceModel) raceModel).getDuration() == -1
+            ) {
                 verify = false;
                 //Alerts sur l'element en question
             }
 
         } else {
-            if (!(Mask.isNumeric((String.valueOf(((LapRaceModel) raceModel).getNumberOfLaps()))))) {
+            if (!(Mask.isNumeric((String.valueOf(((LapRaceModel) raceModel).getNumberOfLaps()))))
+                    && ((LapRaceModel) raceModel).getNumberOfLaps() == -1) {
                 verify = false;
+
             }
 
         }
@@ -66,7 +65,6 @@ public class RaceController {
 
 
     /**
-     *
      * @param beginOfRace
      * @param minutes
      * @return

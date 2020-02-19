@@ -174,6 +174,7 @@
 
         /**
          * Handles the startup of the race creation process.
+         *
          * @param event the event (click on the new race button)
          */
         @FXML
@@ -264,6 +265,7 @@
 
         /**
          * Navigates to the interface used reload an old race.
+         *
          * @param event the event
          */
         @FXML
@@ -280,6 +282,7 @@
 
         /**
          * Handles the animation of the old race button on the home window.
+         *
          * @param event the event
          */
         @FXML
@@ -297,22 +300,23 @@
 
         /**
          * Handles the navigation to the {@link CarModel car} creation tab.
+         *
          * @param event the event
          */
         @FXML
         private void handleSwitchToCarTab(ActionEvent event) {
-            if (pilotsList.size() !=0) {
+            if (pilotsList.size() != 0) {
                 SingleSelectionModel<Tab> selectionModel = NewRaceTabPane.getSelectionModel();
                 tab_voiture.setDisable(false);
                 selectionModel.select(tab_voiture);
-            }
-            else {
+            } else {
                 Alerts.error("ERREUR", "Veuillez créer au moins un pilote");
             }
         }
 
         /**
          * Handles the navigation to the {@link RaceModel race} final creation tab.
+         *
          * @param event the event
          */
         @FXML
@@ -329,6 +333,7 @@
 
         /**
          * Handles the change of top control.
+         *
          * @param event the event
          */
         @FXML
@@ -375,8 +380,9 @@
 
         /**
          * Initializes parameters of JFX components which needs to be initialized upon startup.
+         *
          * @param url creates an {@link URL url} object from the {@link String} representation
-         * @param rb contains local specific objects.
+         * @param rb  contains local specific objects.
          */
         @Override
         public void initialize(URL url, ResourceBundle rb) {
@@ -456,34 +462,30 @@
          */
         @FXML
         public void handleClickNewCar(ActionEvent event) {
-            if((carPilot.getSelectionModel().getSelectedItem() != null || carType.getSelectionModel().getSelectedItem() != null) && Mask.isNumeric(carNumber.getText())) {
-                if(!mainCarCreated && carType.getSelectionModel().getSelectedItem().equals("Voiture principale")) {
+            if ((carPilot.getSelectionModel().getSelectedItem() != null || carType.getSelectionModel().getSelectedItem() != null) && Mask.isNumeric(carNumber.getText())) {
+                if (!mainCarCreated && carType.getSelectionModel().getSelectedItem().equals("Voiture principale")) {
                     MainCarModel mainCarModel = new MainCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
-                    if(checkNewCarFields(mainCarModel)) {
+                    if (checkNewCarFields(mainCarModel)) {
                         carsList.add(mainCarModel);
                         mainCarCreated = true;
                         carPilot.getItems().remove(carPilot.getSelectionModel().getSelectedIndex());
                         Alerts.success("SUCCÈS", "Nouvelle voiture créée");
                         clearNewCarFields();
                     }
-                }
-                else if(mainCarCreated && carType.getSelectionModel().getSelectedItem().equals("Voiture concurrente")) {
+                } else if (mainCarCreated && carType.getSelectionModel().getSelectedItem().equals("Voiture concurrente")) {
                     RivalCarModel rivalCarModel = new RivalCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
-                    if(checkNewCarFields(rivalCarModel)) {
+                    if (checkNewCarFields(rivalCarModel)) {
                         carsList.add(rivalCarModel);
                         carPilot.getItems().remove(carPilot.getSelectionModel().getSelectedIndex());
                         Alerts.success("SUCCÈS", "Nouvelle voiture créée");
                         clearNewCarFields();
                     }
-                }
-                else if(mainCarCreated) {
+                } else if (mainCarCreated) {
                     Alerts.error("ERREUR", "Une voiture principale existe déjà");
-                }
-                else {
+                } else {
                     Alerts.error("ERREUR", "Veuillez commencer par créer une voiture principale");
                 }
-            }
-            else {
+            } else {
                 Alerts.error("ERREUR", "Veuillez vérifier les champs");
             }
         }
@@ -503,6 +505,7 @@
         /**
          * Checks if the field values are valid (numeric {@link String strings} are numbers and fields are not empty).
          * If an error occurs, shows an error {@link Alerts alert}.
+         *
          * @param carModel the {@link CarModel car} object to check
          * @return true if the rules are respected and fiel values are valid, false otherwise.
          */
@@ -511,16 +514,13 @@
             if (!Mask.isNumeric(carNumber.getText())) {
                 isValid = false;
                 Alerts.error("ERREUR", "Veuillez vérifier les champs");
-            }
-            else if(!carController.checkCar(carModel)) {
+            } else if (!carController.checkCar(carModel)) {
                 isValid = false;
                 Alerts.error("ERREUR", "Veuillez vérifier les champs");
-            }
-            else if(pilotsList.size() == carsList.size()) {
+            } else if (pilotsList.size() == carsList.size()) {
                 isValid = false;
                 Alerts.error("ERREUR", "Il n'est pas possible d'avoir plus de voitures que de pilotes");
-            }
-            else if(carsList.size() == 4) {
+            } else if (carsList.size() == 4) {
                 isValid = false;
                 Alerts.error("ERREUR", "Il n'est possible d'observer que 4 voitures maximum à la fois");
             }
@@ -663,10 +663,11 @@
         public void createRace(ActionEvent actionEvent) {
 
             RaceController raceController = new RaceController();
-            int race_duration = 0, race_numberOf_tour = 0;
+            int race_duration = -1, race_numberOf_tour = -1;
             if (typeOfRace == RaceType.TIME_RACE) {
                 if (!this.race_duration.getText().isEmpty()) {
-                    race_duration = Integer.parseInt(this.race_duration.getText());
+                    if (Mask.isNumeric(this.race_duration.getText()))
+                        race_duration = Integer.parseInt(this.race_duration.getText());
 
                 } else {
                     // Bloquer le bouton Commencer,
@@ -675,7 +676,9 @@
             } else {
 
                 if (!this.race_numberof_tour.getText().isEmpty()) {
-                    race_numberOf_tour = Integer.parseInt(this.race_numberof_tour.getText());
+                    if (Mask.isNumeric(this.race_numberof_tour.getText()))
+                        race_numberOf_tour = Integer.parseInt(this.race_numberof_tour.getText());
+
 
                 } else {
                     // Bloquer le bouton Commencer,
