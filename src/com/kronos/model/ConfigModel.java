@@ -2,14 +2,22 @@ package com.kronos.model;
 
 import com.kronos.api.Config;
 
+/**
+ * @author TeamKronoS
+ * @version 1.0
+ * Represents a configuration (language, mode, top keyboard control).
+ */
 public class ConfigModel  implements Config {
 
+    /**
+     * Constructor.
+     */
     public ConfigModel() {
 
     }
 
     /**
-     * Changing the language of the application
+     * Changes the language of the application
      */
     @Override
     public void changeLanguage() {

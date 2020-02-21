@@ -29,12 +29,6 @@ public interface Race {
     String getRacewayName();
 
     /**
-     * Getting the type of the race  because we have two type of race
-     * @return the type of the race
-     */
-    RaceType getRaceType();
-
-    /**
      *
      * @return
      */
