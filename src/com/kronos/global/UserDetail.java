@@ -1,8 +1,7 @@
- 
 package com.kronos.global;
 
-import  com.gn.GNAvatarView;
-import   com.gn.decorator.component.GNControl;
+import com.gn.GNAvatarView;
+import com.gn.decorator.component.GNControl;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
@@ -21,23 +20,25 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import org.controlsfx.control.PopOver;
 
- /**
- * @author TeamKronos
- * 
- * Version 1.0
+/**
+ * @author TeamKronoS
+ * @version 1.0
+ *
  */
 public class UserDetail extends GNControl {
 
-    private         String  name;
-    public static   PopOver root;
-
-    private Button signOut  = new Button("Sign out");
-    private Button profile  = new Button("About");
+    public static PopOver root;
+    private String name;
+    private Button signOut = new Button("Sign out");
+    private Button profile = new Button("About");
     private PopOver popOver = new PopOver();
 
     private StringProperty header = new SimpleStringProperty();
 
-    public UserDetail(){
+    /**
+     * Constructor.
+     */
+    public UserDetail() {
         super("", "");
         UserDetail.root = popOver;
         popOver.setArrowLocation(PopOver.ArrowLocation.TOP_CENTER);
@@ -47,6 +48,12 @@ public class UserDetail extends GNControl {
         popOver.setContentNode(configLayout());
     }
 
+    /**
+     * Constructor.
+     * @param name
+     * @param text
+     * @param subtitle
+     */
     public UserDetail(String name, String text, String subtitle) {
         super(text, subtitle);
         this.headerProperty().set(name);
@@ -58,6 +65,10 @@ public class UserDetail extends GNControl {
         popOver.setContentNode(configLayout());
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public Node icon() {
         Image image = new Image(getClass().getResource("/com/kronos/media/img/car.png").toExternalForm());
@@ -75,11 +86,19 @@ public class UserDetail extends GNControl {
         return imageView;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public Node status() {
         return null;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public Node action() {
         Hyperlink link = new Hyperlink();
@@ -89,6 +108,10 @@ public class UserDetail extends GNControl {
         return link;
     }
 
+    /**
+     *
+     * @return
+     */
     private VBox configLayout() {
 
         VBox box = new VBox();
@@ -158,30 +181,58 @@ public class UserDetail extends GNControl {
         return box;
     }
 
-    public String getName(){
+    /**
+     *
+     * @return
+     */
+    public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @return
+     */
     public PopOver getPopOver() {
         return popOver;
     }
 
+    /**
+     *
+     * @param event
+     */
     public void setSignAction(EventHandler<MouseEvent> event) {
         this.signOut.setOnMouseClicked(event);
     }
 
+    /**
+     *
+     * @param event
+     */
     public void setProfileAction(EventHandler<MouseEvent> event) {
         this.profile.setOnMouseClicked(event);
     }
 
-    public void setHeader(String header){
-        headerProperty().setValue(header);
-    }
-
+    /**
+     *
+     * @return
+     */
     public String getHeader() {
         return header.get();
     }
 
+    /**
+     *
+     * @param header
+     */
+    public void setHeader(String header) {
+        headerProperty().setValue(header);
+    }
+
+    /**
+     *
+     * @return
+     */
     public StringProperty headerProperty() {
         return header;
     }

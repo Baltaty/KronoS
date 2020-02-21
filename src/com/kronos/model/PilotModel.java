@@ -8,6 +8,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
+/**
+ * @author TeamKronoS
+ * @version 1.0
+ * Represents the pilot and his properties.
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PilotModel implements Pilote {
@@ -22,18 +27,21 @@ public class PilotModel implements Pilote {
     private MainCarModel pilotecar;
 
 
+    /**
+     * Constructor.
+     */
     public PilotModel() {
     }
 
     /**
-     * contructor of the class PiloteModel
+     * Constructor.
      *
-     * @param firstName
-     * @param lastName
-     * @param comment
-     * @param dateOfBirth
-     * @param height
-     * @param weight
+     * @param firstName pilot first name
+     * @param lastName pilot last name
+     * @param comment comment
+     * @param dateOfBirth pilot date of birth
+     * @param height pilot height
+     * @param weight pilot weight
      */
     public PilotModel(String firstName, String lastName, String comment, Date dateOfBirth, double height, double weight) {
         this.id = System.currentTimeMillis();
@@ -46,9 +54,8 @@ public class PilotModel implements Pilote {
     }
 
     /**
-     * Get the unique identifier of the driver that will be generated in the constructor.
-     *
-     * @return long
+     * Gets the unique identifier of the driver that will be generated in the constructor.
+     * @return the pilot id
      */
     @Override
     public long getId() {
@@ -56,9 +63,8 @@ public class PilotModel implements Pilote {
     }
 
     /**
-     * Get the name of the driver
-     *
-     * @return String {@link}
+     * Gets the first name of the pilot.
+     * @return the pilot's first name
      */
     @Override
     public String getFirstName() {
@@ -66,9 +72,8 @@ public class PilotModel implements Pilote {
     }
 
     /**
-     * Get the first name of the driver
-     *
-     * @return String {@link}
+     * Gets the last name of the pilot.
+     * @return the pilot's last name
      */
     @Override
     public String getLastName() {
@@ -76,9 +81,8 @@ public class PilotModel implements Pilote {
     }
 
     /**
-     * Get the comments added by the panel on driver during the race
-     *
-     * @return String {@link}
+     * Gets the comments about the pilot.
+     * @return the comment about the pilot
      */
     @Override
     public String getComment() {
@@ -86,9 +90,8 @@ public class PilotModel implements Pilote {
     }
 
     /**
-     * Get the pilot's date of birth
-     *
-     * @return Date
+     * Gets the pilot's date of birth.
+     * @return the pilot's date of birth
      */
     @Override
     public Date getDateOfBirth() {
@@ -96,9 +99,8 @@ public class PilotModel implements Pilote {
     }
 
     /**
-     * Get the pilot's height of birth
-     *
-     * @return double
+     * Gets the pilot's height.
+     * @return the pilot's height
      */
     @Override
     public double getHeight() {
@@ -106,9 +108,8 @@ public class PilotModel implements Pilote {
     }
 
     /**
-     * Get the pilot's date of birth
-     *
-     * @return double
+     * Gets the pilot weight.
+     * @return the pilot's weight
      */
     @Override
     public double getWeight() {
@@ -116,9 +117,8 @@ public class PilotModel implements Pilote {
     }
 
     /**
-     * the car of our pilote
-     *
-     * @return pilotecar
+     * Gets the pilot's car.
+     * @return the pilot's car
      */
     @Override
     public MainCar getPilotecar() {
@@ -126,34 +126,66 @@ public class PilotModel implements Pilote {
     }
 
 
+    /**
+     * Sets the pilot id.
+     * @param id pilot id
+     */
     public void setId(long id) {
         this.id = id;
     }
 
+    /**
+     * Sets the pilot first name.
+     * @param firstName pilot's first name
+     */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    /**
+     * Sets the pilot's last name.
+     * @param lastName pilot's last name
+     */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
+    /**
+     * Sets the comment about the pilot.
+     * @param comment the comments pilot
+     */
     public void setComment(String comment) {
         this.comment = comment;
     }
 
+    /**
+     * Sets the pilot's date of birth.
+     * @param dateOfBirth pilot's date of birth
+     */
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
+    /**
+     * Sets the pilot's height.
+     * @param height pilot's height
+     */
     public void setHeight(double height) {
         this.height = height;
     }
 
+    /**
+     * Sets the pilot's weight.
+     * @param weight pilot's weight
+     */
     public void setWeight(double weight) {
         this.weight = weight;
     }
 
+    /**
+     * Sets the pilot's car.
+     * @param pilotecar pilot's car
+     */
     public void setPilotecar(MainCarModel pilotecar) {
         this.pilotecar = pilotecar;
     }

@@ -1,6 +1,7 @@
 package com.kronos.model;
 
 import com.kronos.api.Race;
+import com.kronos.global.enums.RaceType;
 
 import java.util.ArrayList;
 import javax.xml.bind.annotation.XmlAttribute;
