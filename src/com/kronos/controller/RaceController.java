@@ -7,13 +7,11 @@ import com.kronos.global.util.Mask;
 import com.kronos.model.LapRaceModel;
 import com.kronos.model.RaceModel;
 import com.kronos.model.TimeRaceModel;
-import com.kronos.parserXML.MainImpl.SaveManagerImpl;
-import com.kronos.parserXML.api.SaveManager;
+
 
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.ZoneId;
 import java.util.Date;
 
 /**
