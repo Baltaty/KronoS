@@ -41,7 +41,7 @@
                   <Image url="@../media/img/play.png" />
                </image>
             </ImageView>
-            <Text layoutX="310.0" layoutY="614.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DEMARRER">
+            <Text layoutX="274.0" layoutY="617.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CREER UNE COURSE">
                <font>
                   <Font name="Montserrat Bold" size="20.0" />
                </font>
@@ -131,7 +131,7 @@
                   </Pane>
                </children>
             </JFXDialogLayout>
-            <JFXDialogLayout fx:id="dialog_new_race" layoutX="-4.0" layoutY="78.0" prefHeight="716.0" prefWidth="1015.0" style="-fx-background-color: #57c6f2;" visible="false">
+            <JFXDialogLayout fx:id="dialog_new_race" layoutX="-4.0" layoutY="78.0" prefHeight="716.0" prefWidth="1015.0" style="-fx-background-color: #57c6f2;">
                <children>
                   <Pane prefHeight="752.0" prefWidth="1318.0">
                      <children>
@@ -166,7 +166,7 @@
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="42.0" layoutY="315.0" text="Poids">
+                                          <Label layoutX="42.0" layoutY="315.0" text="Poids (kg)">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
@@ -186,7 +186,7 @@
                                                 <Font name="Beon-Medium" size="25.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="42.0" layoutY="353.0" text="Taille">
+                                          <Label layoutX="42.0" layoutY="353.0" text="Taille (cm)">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
@@ -263,22 +263,22 @@
                                                 <Image url="@../media/img/play.png" />
                                              </image>
                                           </ImageView>
-                                          <Label layoutX="41.0" layoutY="184.0" text="Date de début">
+                                          <Label layoutX="41.0" layoutY="255.0" prefHeight="25.0" prefWidth="133.0" text="Date de début">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="42.0" layoutY="228.0" text="Nom du circuit">
+                                          <Label layoutX="42.0" layoutY="299.0" text="Nom du circuit">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="42.0" layoutY="268.0" text="Type de course">
+                                          <Label layoutX="42.0" layoutY="339.0" text="Type de course">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <JFXButton fx:id="btn_start_race" layoutX="787.0" layoutY="561.0" onAction="#createRace" text="COMMENCER" textFill="WHITE">
+                                          <JFXButton fx:id="btn_start_race" layoutX="675.0" layoutY="562.0" onAction="#createRace" text="PANNEAU DE CONTROLE" textFill="WHITE">
                                              <font>
                                                 <Font name="Montserrat Regular" size="18.0" />
                                              </font>
@@ -288,19 +288,25 @@
                                                 <Font name="Beon-Medium" size="25.0" />
                                              </font>
                                           </Label>
-                                          <JFXDatePicker fx:id="startingTime_date" layoutX="240.0" layoutY="172.0" />
-                                          <JFXTextField fx:id="racewayName_text" layoutX="239.0" layoutY="213.0" />
-                                          <JFXComboBox fx:id="race_type_combo" layoutX="242.0" layoutY="261.0" onAction="#handleRaceTypeSelected" prefHeight="27.0" prefWidth="149.0" />
-                                          <JFXTextField fx:id="race_duration" layoutX="244.0" layoutY="327.0" visible="false" />
-                                          <Label fx:id="race_duration_label" layoutX="44.0" layoutY="315.0" text="Durée de la course &#10;en minutes" visible="false">
+                                          <JFXDatePicker fx:id="startingTime_date" layoutX="240.0" layoutY="247.0" />
+                                          <JFXTextField fx:id="racewayName_text" layoutX="239.0" layoutY="284.0" />
+                                          <JFXComboBox fx:id="race_type_combo" layoutX="242.0" layoutY="332.0" onAction="#handleRaceTypeSelected" prefHeight="27.0" prefWidth="149.0" />
+                                          <JFXTextField fx:id="race_duration" layoutX="244.0" layoutY="403.0" />
+                                          <Label fx:id="race_duration_label" layoutX="44.0" layoutY="392.0" text="Durée de la course &#10;en minutes (min.)">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <JFXTextField fx:id="race_numberof_tour" layoutX="244.0" layoutY="326.0" visible="false" />
-                                          <Label fx:id="race_numberof_tour_label" layoutX="41.0" layoutY="336.0" text="Nombre de tours" visible="false">
+                                          <JFXTextField fx:id="race_numberof_tour" layoutX="244.0" layoutY="403.0" />
+                                          <Label fx:id="race_numberof_tour_label" layoutX="41.0" layoutY="413.0" text="Nombre de tours">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <JFXTextField fx:id="raceName" layoutX="241.0" layoutY="207.0" prefHeight="28.0" prefWidth="149.0" />
+                                          <Label layoutX="42.0" layoutY="208.0" prefHeight="30.0" prefWidth="174.0" text="Nom de la course">
+                                             <font>
+                                                <Font size="18.0" />
                                              </font>
                                           </Label>
                                        </children>

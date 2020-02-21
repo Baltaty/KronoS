@@ -151,6 +151,8 @@
         //////////////////////////////////////// Attributes of races data /////////////////////////////////////
 
         @FXML
+        private JFXTextField raceName;
+        @FXML
         private JFXDatePicker startingTime_date;
         @FXML
         private JFXTextField racewayName_text;
