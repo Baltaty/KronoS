@@ -11,15 +11,21 @@ import java.util.Properties;
 
  /**
  * @author TeamKronos
- * 
- * Version 1.0
+ * @version 1.0
  */ 
 public class SectionManager {
 
+     /**
+      * Constructor.
+      */
     private SectionManager(){
 
     }
 
+     /**
+      *
+      * @return
+      */
     public static Section get(){
         try {
             File file = new File("dashboard.properties");
@@ -39,6 +45,10 @@ public class SectionManager {
         }
     }
 
+     /**
+      *
+      * @param section
+      */
     public static void save(Section section) {
         try {
             File file = new File("dashboard.properties");

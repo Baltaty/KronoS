@@ -6,9 +6,8 @@ import javafx.scene.control.ListView;
 import javafx.util.Callback;
 
  /**
- * @author TeamKronos
- * 
- * Version 1.0
+ * @author TeamKronoS
+ * @version 1.0
  */
 public class AlertFactory<T> implements Callback<ListView<T>, ListCell<AlertCell>> {
 

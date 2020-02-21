@@ -16,19 +16,24 @@ import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.Date;
 
+/**
+ * @author TeamKronoS
+ * @version 1.0
+ * Controller of the {@link com.kronos.model.RaceModel race} objects.
+ */
 public class RaceController {
 
     private static final int INVALID_INDEX = -1;
 
     /**
-     *
+     * Constructor.
      */
     public RaceController() {
     }
 
 
     /**
-     * Control if the fields required for the creation of a race instance are valid,
+     * Controls if the fields required for the creation of a race instance are valid,
      * otherwise an alert is sent to the view to call the user.
      *
      * @param raceModel
@@ -67,9 +72,10 @@ public class RaceController {
 
 
     /**
-     * @param beginOfRace
-     * @param minutes
-     * @return
+     * Computes the end date of the race.
+     * @param beginOfRace date of beginning of th race
+     * @param minutes duration of the race in minutes
+     * @return the end date of the race
      */
     private Date convertDate(final Date beginOfRace, int minutes) {
 
@@ -86,12 +92,14 @@ public class RaceController {
     }
 
     /**
-     * @param typeOfRace
-     * @param debutRace
-     * @param racewayName
-     * @param timeOfRace
-     * @param numbeOfLap
-     * @return
+     * Creates a new {@link RaceModel race} object. It creates a factory which is able to create different types of race.
+     * It can create two race types : a time race whose end is determined by a duration or a lap race whose end is determined by a number of laps.
+     * @param typeOfRace a lap race or a time race
+     * @param debutRace beginning of the race
+     * @param racewayName the name of the raceway
+     * @param timeOfRace duration of race (in case of a time race)
+     * @param numbeOfLap the number of laps (in case of a lap race)
+     * @return the new {@link RaceModel race}
      */
     public RaceModel createRace(RaceType typeOfRace, Date debutRace, String racewayName, int timeOfRace, int numbeOfLap) {
 

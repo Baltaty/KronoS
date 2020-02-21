@@ -1,7 +1,6 @@
- 
 package com.kronos.global.plugin;
 
-import  com.kronos.global.User;
+import com.kronos.global.User;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,14 +8,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
- /**
+/**
  * @author TeamKronos
- * 
- * Version 1.0
+ * @version 1.0
+ *
  */
 public class UserManager {
 
-    public static User get(String name){
+    /**
+     * Constructor.
+     * @param name
+     * @return
+     */
+    public static User get(String name) {
         try {
             File file = new File("user/" + name + ".properties");
             Properties properties = new Properties();
@@ -29,12 +33,16 @@ public class UserManager {
             user.setEmail(properties.getProperty("email"));
             user.setPassword(properties.getProperty("password"));
             return user;
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
     }
 
+    /**
+     *
+     * @param user
+     */
     public static void save(User user) {
         try {
             File file = new File("user/" + user.getUserName() + ".properties");
@@ -50,7 +58,7 @@ public class UserManager {
             properties.setProperty("password", user.getPassword());
             properties.store(outputStream, "Update Section");
             properties.clear();
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

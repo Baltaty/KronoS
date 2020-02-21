@@ -9,6 +9,11 @@ import javafx.stage.Window;
 
 import java.awt.event.KeyEvent;
 
+/**
+ * @author TeamKronoS
+ * @version 1.0
+ * Controller of the {@link com.kronos.model.TopModel top} objects.
+ */
 public class TopController<ScreenManager> {
 
     /*

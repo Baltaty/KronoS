@@ -7,14 +7,13 @@ import java.util.Date;
 /**
  * @author TeamsKronos
  * @version 1.0
+ * Represents a race and its properties.
  */
 
 /**
- * the class is a singleton and we will get all informations  about the current
+ * The class is a singleton and we will get all informations  about the current
  * race  with this class
  */
-
-
 public interface Race {
 
     /**

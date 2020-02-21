@@ -1,8 +1,7 @@
- 
 package com.kronos.global.factory;
 
-import  com.gn.AvatarType;
-import  com.gn.GNAvatarView;
+import com.gn.AvatarType;
+import com.gn.GNAvatarView;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -20,24 +19,30 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 
- /**
- * @author TeamKronos
- * 
- * Version 1.0
+/**
+ * @author TeamKronoS
+ * @version 1.0
+ *
  */
 public class AlertCell extends HBox {
 
     private FontAwesomeIconView fontIcon;
-    private ImageView           imageView;
-    private SVGPath             path;
+    private ImageView imageView;
+    private SVGPath path;
 
     private VBox content = new VBox();
 
     private TextFlow textFlow = new TextFlow();
     private Text text = new Text();
     private Label title = new Label("tile");
-    private Label time  = new Label("n minutes ago");
+    private Label time = new Label("n minutes ago");
 
+    /**
+     * Constructor.
+     * @param title
+     * @param text
+     * @param time
+     */
     public AlertCell(String title, String text, String time) {
         this.title.setText(title);
         this.time.setText(time);
@@ -45,6 +50,13 @@ public class AlertCell extends HBox {
         config();
     }
 
+    /**
+     * Constructor.
+     * @param avatar
+     * @param title
+     * @param text
+     * @param time
+     */
     public AlertCell(GNAvatarView avatar, String title, String text, String time) {
         setIcon(avatar);
         this.title.setText(title);
@@ -53,6 +65,12 @@ public class AlertCell extends HBox {
         config();
     }
 
+    /**
+     *
+     * @param icon
+     * @param title
+     * @param time
+     */
     public AlertCell(FontAwesomeIconView icon, String title, String time) {
         icon.setSize("22");
         this.setIcon(icon);
@@ -61,6 +79,12 @@ public class AlertCell extends HBox {
         config();
     }
 
+    /**
+     *
+     * @param icon
+     * @param title
+     * @param time
+     */
     public AlertCell(SVGPath icon, String title, String time) {
         this.setIcon(icon);
         this.title.setText(title);
@@ -68,6 +92,12 @@ public class AlertCell extends HBox {
         config();
     }
 
+    /**
+     *
+     * @param icon
+     * @param title
+     * @param time
+     */
     public AlertCell(ImageView icon, String title, String time) {
         setIcon(icon);
         this.title.setText(title);
@@ -75,7 +105,10 @@ public class AlertCell extends HBox {
         config();
     }
 
-    private void config(){
+    /**
+     *
+     */
+    private void config() {
         this.getStyleClass().add("alert-cell");
         this.setAlignment(Pos.CENTER_LEFT);
         this.setPrefHeight(40D);
@@ -92,32 +125,50 @@ public class AlertCell extends HBox {
         GridPane.setHalignment(this.time, HPos.RIGHT);
         GridPane.setValignment(this.time, VPos.CENTER);
         GridPane.setHgrow(this.time, Priority.ALWAYS);
-        HBox.setMargin(this.content, new Insets(0,0,0,10));
+        HBox.setMargin(this.content, new Insets(0, 0, 0, 10));
     }
 
-    public void setTitle(Label title) {
-        title.setStyle("-fx-text-fill : -text-color;");
-        this.title = title;
-    }
-
-
+    /**
+     *
+     * @param time
+     */
     public void setTime(Label time) {
         time.setStyle("-fx-text-fill : -text-color;");
         this.time = time;
     }
 
-    public void setIcon(FontAwesomeIconView icon){
+    /**
+     *
+     * @return
+     */
+    public FontAwesomeIconView getIcon() {
+        return fontIcon;
+    }
+
+    /**
+     *
+     * @param icon
+     */
+    public void setIcon(FontAwesomeIconView icon) {
         icon.setStyle("-fx-fill : -text-color;");
         this.getChildren().add(icon);
         icon.toBack();
     }
 
-    public void setIcon(ImageView icon){
+    /**
+     *
+     * @param icon
+     */
+    public void setIcon(ImageView icon) {
         this.getChildren().add(icon);
         icon.toBack();
     }
 
-    public void setIcon(GNAvatarView icon){
+    /**
+     *
+     * @param icon
+     */
+    public void setIcon(GNAvatarView icon) {
         icon.setType(AvatarType.CIRCLE);
         icon.setStrokeWidth(0);
         icon.setStroke(Color.WHITE);
@@ -126,16 +177,29 @@ public class AlertCell extends HBox {
         icon.toBack();
     }
 
-    public void setIcon(SVGPath icon){
+    /**
+     *
+     * @param icon
+     */
+    public void setIcon(SVGPath icon) {
         this.getChildren().add(icon);
         icon.toBack();
     }
 
-    public FontAwesomeIconView getIcon() {
-        return fontIcon;
-    }
-
+    /**
+     *
+     * @return
+     */
     public Label getTitle() {
         return title;
+    }
+
+    /**
+     *
+     * @param title
+     */
+    public void setTitle(Label title) {
+        title.setStyle("-fx-text-fill : -text-color;");
+        this.title = title;
     }
 }

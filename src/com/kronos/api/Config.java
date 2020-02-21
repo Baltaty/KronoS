@@ -3,7 +3,6 @@ package com.kronos.api;
 /**
  * @author TeamKronoS
  * @version 1.0
- *
  * Manages the configuration of the application
  */
 public interface Config {

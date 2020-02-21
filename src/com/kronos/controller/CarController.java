@@ -11,18 +11,6 @@ import com.kronos.model.CarModel;
  */
 public class CarController {
 
-    private CarModel carModel;
-
-
-    public boolean saveCar() {
-        boolean saved = false;
-        if(checkCar(carModel)) {
-            //save the car
-            saved = true;
-        }
-        return saved;
-    }
-
     /**
      * Checks if the data input for a {@link com.kronos.api.Car car} is correct.
      * @param carModel the model
@@ -68,7 +56,4 @@ public class CarController {
         return respectsLogic;
     }
 
-    public CarModel getCarModel() {
-        return this.carModel;
-    }
 }
