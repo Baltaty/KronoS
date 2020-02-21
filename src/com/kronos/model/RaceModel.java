@@ -10,16 +10,16 @@ import java.util.Date;
 @XmlRootElement
 public abstract class RaceModel implements Race {
 
-    @XmlElement
+
     private String raceName;
 
-    @XmlElement
+
     private long id;
 
-    @XmlElement
+
     private Date startingTime;
 
-    @XmlElement
+
     private String racewayName;
     private ArrayList<CarModel> carsList;
 
@@ -28,6 +28,12 @@ public abstract class RaceModel implements Race {
 
     }
 
+    /**
+     *
+     * @param raceName
+     * @param startingTime
+     * @param racewayName
+     */
     public RaceModel(String raceName, Date startingTime, String racewayName) {
         this.raceName = raceName;
         this.id = System.currentTimeMillis();
@@ -36,19 +42,25 @@ public abstract class RaceModel implements Race {
         this.carsList = new ArrayList<>();
     }
 
+    @XmlElement
     public long getid() {
         return 0;
     }
 
+    @XmlElement
+    @Override
     public String getRaceName() {
         return raceName;
     }
+
 
     public void setRaceName(String raceName) {
         this.raceName = raceName;
     }
 
 
+    @XmlElement
+    @Override
     public Date getStartingTime() {
         return startingTime;
     }
@@ -62,11 +74,13 @@ public abstract class RaceModel implements Race {
         this.racewayName = racewayName;
     }
 
+    @XmlElement
     @Override
     public String getRacewayName() {
         return racewayName;
     }
 
+    @XmlElement
     public ArrayList<CarModel> getCarsList() {
         return carsList;
     }

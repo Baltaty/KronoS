@@ -15,8 +15,8 @@ public class TimeRaceModel extends RaceModel implements TimeRace {
 
     }
 
-    public TimeRaceModel(Date startingTime, String racewayName, Date endTime) {
-        super(startingTime, racewayName);
+    public TimeRaceModel(String raceName, Date startingTime, String racewayName, Date endTime) {
+        super(raceName, startingTime, racewayName);
         this.duration = (endTime.getTime() - startingTime.getTime()) / (60 * 1000) % 60;
     }
 

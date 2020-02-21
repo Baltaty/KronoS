@@ -24,20 +24,21 @@ public class RaceFactory {
 
     /**
      * Creates a new race.
-     * @param raceType race type
+     *
+     * @param raceType     race type
      * @param startingTime starting time
-     * @param racewayName raceway name
-     * @param endTime end time (in case of a time race)
+     * @param raceName     name of race for save
+     * @param racewayName  raceway name
+     * @param endTime      end time (in case of a time race)
      * @param numberOfLaps number of laps (in case of a lap race)
      * @return the new race with the correct parameters
      */
-    public RaceModel createRace(RaceType raceType, Date startingTime, String racewayName, Date endTime, int numberOfLaps) {
+    public RaceModel createRace(RaceType raceType, String raceName, Date startingTime, String racewayName, Date endTime, int numberOfLaps) {
         RaceModel raceModel = null;
-        if(raceType.equals(RaceType.TIME_RACE)) {
-            raceModel = new TimeRaceModel(startingTime, racewayName, endTime);
-        }
-        else if(raceType.equals(RaceType.LAP_RACE)) {
-            raceModel = new LapRaceModel(startingTime, racewayName, numberOfLaps);
+        if (raceType.equals(RaceType.TIME_RACE)) {
+            raceModel = new TimeRaceModel(raceName, startingTime, racewayName, endTime);
+        } else if (raceType.equals(RaceType.LAP_RACE)) {
+            raceModel = new LapRaceModel(raceName, startingTime, racewayName, numberOfLaps);
         }
         return raceModel;
     }

@@ -698,7 +698,7 @@
                 }
 
             }
-            RaceModel race = raceController.createRace(typeOfRace,
+            RaceModel race = raceController.createRace(typeOfRace, raceName.getText(),
                     Date.from(startingTime_date.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
                     racewayName_text.getText(), race_duration, race_numberOf_tour);
 
@@ -713,7 +713,7 @@
                 saveManager.persist(pilotsList);
                 saveManager.persist(carsList);
                 saveManager.persist(race);
-//                System.out.println(saveManager.saveFile());
+                System.out.println(saveManager.saveFile());
 
             }
 

@@ -14,8 +14,8 @@ public class LapRaceModel extends RaceModel implements LapRace {
     public LapRaceModel() {
     }
 
-    public LapRaceModel(Date startingTime, String racewayName, int numberOfLaps) {
-        super(startingTime, racewayName);
+    public LapRaceModel(String raceName, Date startingTime, String racewayName, int numberOfLaps) {
+        super(raceName, startingTime, racewayName);
         this.numberOfLaps = numberOfLaps;
     }
 

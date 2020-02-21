@@ -131,7 +131,7 @@
                   </Pane>
                </children>
             </JFXDialogLayout>
-            <JFXDialogLayout fx:id="dialog_new_race" layoutX="-4.0" layoutY="78.0" prefHeight="716.0" prefWidth="1015.0" style="-fx-background-color: #57c6f2;">
+            <JFXDialogLayout fx:id="dialog_new_race" layoutX="-4.0" layoutY="78.0" prefHeight="716.0" prefWidth="1015.0" style="-fx-background-color: #57c6f2;" visible="false">
                <children>
                   <Pane prefHeight="752.0" prefWidth="1318.0">
                      <children>
@@ -263,7 +263,7 @@
                                                 <Image url="@../media/img/play.png" />
                                              </image>
                                           </ImageView>
-                                          <Label layoutX="41.0" layoutY="255.0" prefHeight="25.0" prefWidth="133.0" text="Date de début">
+                                          <Label layoutX="41.0" layoutY="255.0" prefHeight="25.0" prefWidth="171.0" text="Date de début">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
@@ -291,14 +291,14 @@
                                           <JFXDatePicker fx:id="startingTime_date" layoutX="240.0" layoutY="247.0" />
                                           <JFXTextField fx:id="racewayName_text" layoutX="239.0" layoutY="284.0" />
                                           <JFXComboBox fx:id="race_type_combo" layoutX="242.0" layoutY="332.0" onAction="#handleRaceTypeSelected" prefHeight="27.0" prefWidth="149.0" />
-                                          <JFXTextField fx:id="race_duration" layoutX="244.0" layoutY="403.0" />
-                                          <Label fx:id="race_duration_label" layoutX="44.0" layoutY="392.0" text="Durée de la course &#10;en minutes (min.)">
+                                          <JFXTextField fx:id="race_duration" layoutX="244.0" layoutY="403.0" visible="false" />
+                                          <Label fx:id="race_duration_label" layoutX="44.0" layoutY="392.0" text="Durée de la course &#10;en minutes (min.)" visible="false">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <JFXTextField fx:id="race_numberof_tour" layoutX="244.0" layoutY="403.0" />
-                                          <Label fx:id="race_numberof_tour_label" layoutX="41.0" layoutY="413.0" text="Nombre de tours">
+                                          <JFXTextField fx:id="race_numberof_tour" layoutX="244.0" layoutY="403.0" visible="false" />
+                                          <Label fx:id="race_numberof_tour_label" layoutX="41.0" layoutY="413.0" text="Nombre de tours" visible="false">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
@@ -306,7 +306,7 @@
                                           <JFXTextField fx:id="raceName" layoutX="241.0" layoutY="207.0" prefHeight="28.0" prefWidth="149.0" />
                                           <Label layoutX="42.0" layoutY="208.0" prefHeight="30.0" prefWidth="174.0" text="Nom de la course">
                                              <font>
-                                                <Font size="18.0" />
+                                                <Font name="System Bold" size="18.0" />
                                              </font>
                                           </Label>
                                        </children>
