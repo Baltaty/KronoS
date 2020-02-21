@@ -8,6 +8,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
+/**
+ * @author TeamKronoS
+ * @version 1.0
+ * Represents a race and its properties. This class is abstract. It contains common properties to all races.
+ */
 @XmlRootElement
 public abstract class RaceModel implements Race {
 
@@ -25,6 +30,9 @@ public abstract class RaceModel implements Race {
     private ArrayList<CarModel> carsList;
 
 
+    /**
+     * Constructor.
+     */
     public RaceModel() {
 
     }
@@ -43,12 +51,20 @@ public abstract class RaceModel implements Race {
         this.carsList = new ArrayList<>();
     }
 
+    /**
+     * Gets the race id.
+     * @return the race id
+     */
     @XmlElement
     public long getid() {
-        return 0;
+        return this.id;
     }
 
     @XmlElement
+    /**
+     * Gets the race starting time.
+     * @return the race starting time
+     */
     @Override
     public String getRaceName() {
         return raceName;
@@ -66,6 +82,10 @@ public abstract class RaceModel implements Race {
         return startingTime;
     }
 
+    /**
+     * Gets the raceway name.
+     * @return the raceway name
+     */
     public void setStartingTime(Date startingTime) {
         this.startingTime = startingTime;
     }

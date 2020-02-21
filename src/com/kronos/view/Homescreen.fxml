@@ -19,16 +19,16 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="homestack" prefHeight="713.0" prefWidth="1104.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.HomeController">
+<StackPane fx:id="homeStack" prefHeight="713.0" prefWidth="1104.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.HomeController">
    <children>
       <AnchorPane id="AnchorPane" prefHeight="704.0" prefWidth="868.0" scaleShape="false" style="-fx-background-color: WHITE;">
          <children>
-            <ImageView fx:id="appname1" fitHeight="432.0" fitWidth="410.0" layoutX="352.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="appName1" fitHeight="432.0" fitWidth="410.0" layoutX="352.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../media/img/krono.png" />
                </image>
             </ImageView>
-            <JFXButton fx:id="startbtn" buttonType="RAISED" graphicTextGap="0.0" layoutX="338.0" layoutY="511.0" onAction="#handleNewRaceClicked" onMouseEntered="#handleNewRaceEntered" prefHeight="65.0" prefWidth="65.0" style="-fx-background-color: #57c6f2; -fx-background-radius: 200;">
+            <JFXButton fx:id="startBtn" buttonType="RAISED" graphicTextGap="0.0" layoutX="338.0" layoutY="511.0" onAction="#handleNewRaceClicked" onMouseEntered="#handleNewRaceEntered" prefHeight="65.0" prefWidth="65.0" style="-fx-background-color: #57c6f2; -fx-background-radius: 200;">
                <effect>
                   <DropShadow height="34.35" radius="15.5625" spread="0.3" width="29.9" />
                </effect>
@@ -36,18 +36,18 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <ImageView fx:id="newraceicon" disable="true" fitHeight="32.0" fitWidth="30.0" layoutX="355.0" layoutY="530.0" onMouseEntered="#handleNewRaceEntered" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="newRaceIcon" disable="true" fitHeight="32.0" fitWidth="30.0" layoutX="355.0" layoutY="530.0" onMouseEntered="#handleNewRaceEntered" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../media/img/play.png" />
                </image>
             </ImageView>
-            <Text layoutX="274.0" layoutY="617.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CREER UNE COURSE">
+            <Text layoutX="310.0" layoutY="614.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DEMARRER">
                <font>
                   <Font name="Montserrat Bold" size="20.0" />
                </font>
             </Text>
-            <JFXButton fx:id="settingbtn" layoutX="61.0" layoutY="30.0" onAction="#handleSettingClicked" onMouseEntered="#handleSettingEntered" prefHeight="42.0" prefWidth="40.0" style="-fx-background-color: #57C6F2; -fx-background-radius: 200;" />
-            <ImageView fx:id="setingicon" disable="true" fitHeight="25.0" fitWidth="29.0" layoutX="69.0" layoutY="38.0" onMouseEntered="#handleSettingEntered" pickOnBounds="true" preserveRatio="true">
+            <JFXButton fx:id="settingBtn" layoutX="61.0" layoutY="30.0" onAction="#handleSettingClicked" onMouseEntered="#handleSettingEntered" prefHeight="42.0" prefWidth="40.0" style="-fx-background-color: #57C6F2; -fx-background-radius: 200;" />
+            <ImageView fx:id="settingIcon" disable="true" fitHeight="25.0" fitWidth="29.0" layoutX="69.0" layoutY="38.0" onMouseEntered="#handleSettingEntered" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../media/img/settings.png" />
                </image>
@@ -55,7 +55,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
-            <JFXButton fx:id="bdbtn" buttonType="RAISED" graphicTextGap="0.0" layoutX="640.0" layoutY="513.0" onAction="#handleOldRaceClicked" prefHeight="65.0" prefWidth="65.0" style="-fx-background-color: #57c6f2; -fx-background-radius: 200;">
+            <JFXButton fx:id="bdBtn" buttonType="RAISED" graphicTextGap="0.0" layoutX="640.0" layoutY="513.0" onAction="#handleOldRaceClicked" prefHeight="65.0" prefWidth="65.0" style="-fx-background-color: #57c6f2; -fx-background-radius: 200;">
                <effect>
                   <DropShadow />
                </effect>
@@ -63,7 +63,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <ImageView fx:id="bdicon" disable="true" fitHeight="32.0" fitWidth="30.0" layoutX="657.0" layoutY="530.0" onMouseEntered="#handleOldRaceEntered" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="bdIcon" disable="true" fitHeight="32.0" fitWidth="30.0" layoutX="657.0" layoutY="530.0" onMouseEntered="#handleOldRaceEntered" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../media/img/database.png" />
                </image>
@@ -73,11 +73,11 @@
                   <Font name="Montserrat Bold" size="20.0" />
                </font>
             </Text>
-            <JFXDialogLayout fx:id="dialog_para" style="-fx-background-color: #57c6f2;" visible="false">
+            <JFXDialogLayout fx:id="dialogPara" style="-fx-background-color: #57c6f2;" visible="false">
                <children>
                   <Pane prefHeight="713.0" prefWidth="956.0">
                      <children>
-                        <ImageView fx:id="boulon" disable="true" fitHeight="194.0" fitWidth="207.0" layoutX="7.0" layoutY="-82.0" opacity="0.6" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="bolt" disable="true" fitHeight="194.0" fitWidth="207.0" layoutX="7.0" layoutY="-82.0" opacity="0.6" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../media/img/settings.png" />
                            </image>
@@ -95,21 +95,21 @@
                               <Font name="Montserrat Black" size="15.0" />
                            </font>
                         </Text>
-                        <JFXButton buttonType="RAISED" layoutX="685.0" layoutY="172.0" onAction="#handleChangeTopTouch" prefHeight="34.0" prefWidth="156.0" style="-fx-background-color: white; -fx-background-radius: 200;" text="CHANGER">
+                        <JFXButton buttonType="RAISED" layoutX="685.0" layoutY="172.0" onAction="#handleChangeTopControl" prefHeight="34.0" prefWidth="156.0" style="-fx-background-color: white; -fx-background-radius: 200;" text="CHANGER">
                            <font>
                               <Font name="Montserrat Bold" size="12.0" />
                            </font></JFXButton>
-                        <JFXButton fx:id="end_para" layoutX="832.0" layoutY="15.0" prefHeight="49.0" prefWidth="48.0" style="-fx-background-color: white; -fx-background-radius: 50;" text="X">
+                        <JFXButton fx:id="endPara" layoutX="832.0" layoutY="15.0" prefHeight="49.0" prefWidth="48.0" style="-fx-background-color: white; -fx-background-radius: 50;" text="X">
                            <font>
                               <Font name="Montserrat Regular" size="15.0" />
                            </font>
                         </JFXButton>
-                        <Label fx:id="top_key" layoutX="434.0" layoutY="175.0" text="Label">
+                        <Label fx:id="topKey" layoutX="434.0" layoutY="175.0" text="Label">
                            <font>
                               <Font name="Montserrat Bold" size="24.0" />
                            </font>
                         </Label>
-                        <JFXDialogLayout fx:id="dialog_select_key" layoutX="250.0" layoutY="64.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="320.0" prefWidth="419.0" style="-fx-background-radius: 50;" visible="false">
+                        <JFXDialogLayout fx:id="dialogSelectKey" layoutX="250.0" layoutY="64.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="320.0" prefWidth="419.0" style="-fx-background-radius: 50;" visible="false">
                            <children>
                               <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="175.0" prefWidth="419.0" style="-fx-background-color: white; -fx-background-radius: 20;">
                                  <children>
@@ -131,22 +131,22 @@
                   </Pane>
                </children>
             </JFXDialogLayout>
-            <JFXDialogLayout fx:id="dialog_new_race" layoutX="-4.0" layoutY="78.0" prefHeight="716.0" prefWidth="1015.0" style="-fx-background-color: #57c6f2;" visible="false">
+            <JFXDialogLayout fx:id="dialogNewRace" layoutX="-4.0" layoutY="78.0" prefHeight="716.0" prefWidth="1015.0" style="-fx-background-color: #57c6f2;" visible="false">
                <children>
                   <Pane prefHeight="752.0" prefWidth="1318.0">
                      <children>
-                        <JFXTabPane fx:id="NewRaceTabPane" layoutX="5.0" layoutY="-26.0" prefHeight="657.0" prefWidth="1010.0">
+                        <JFXTabPane fx:id="newRaceTabPane" layoutX="5.0" layoutY="-26.0" prefHeight="657.0" prefWidth="1010.0">
                            <tabs>
-                              <Tab fx:id="tab_pilote" text="PILOTE">
+                              <Tab fx:id="tabPilot" text="PILOTE">
                                  <content>
                                     <AnchorPane prefHeight="675.0" prefWidth="1010.0">
                                        <children>
-                                          <JFXTextField fx:id="lastnamepilot" layoutX="234.0" layoutY="170.0" />
-                                          <JFXTextField fx:id="firstname" layoutX="234.0" layoutY="213.0" />
-                                          <JFXTextField fx:id="pilotweight" layoutX="234.0" layoutY="298.0" />
-                                          <JFXTextField fx:id="pilotheight" layoutX="234.0" layoutY="336.0" />
-                                          <JFXTextArea fx:id="commentpilot" layoutX="232.0" layoutY="415.0" prefHeight="73.0" prefWidth="286.0" />
-                                          <JFXButton fx:id="btnaddpilot" layoutX="172.0" layoutY="510.0" onAction="#addingofpilot" text="AJOUTER">
+                                          <JFXTextField fx:id="lastNamePilot" layoutX="234.0" layoutY="170.0" />
+                                          <JFXTextField fx:id="firstName" layoutX="234.0" layoutY="213.0" />
+                                          <JFXTextField fx:id="pilotWeight" layoutX="234.0" layoutY="298.0" />
+                                          <JFXTextField fx:id="pilotHeight" layoutX="234.0" layoutY="336.0" />
+                                          <JFXTextArea fx:id="commentPilot" layoutX="232.0" layoutY="415.0" prefHeight="73.0" prefWidth="286.0" />
+                                          <JFXButton fx:id="btnaddpilot" layoutX="172.0" layoutY="510.0" onAction="#handleClickNewPilot" text="AJOUTER">
                                              <font>
                                                 <Font size="15.0" />
                                              </font>
@@ -176,7 +176,7 @@
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <JFXButton fx:id="btn_next_car" layoutX="828.0" layoutY="563.0" onAction="#handleSwitchToCarTab" text="SUIVANT" textFill="WHITE">
+                                          <JFXButton fx:id="btnNextCar" layoutX="828.0" layoutY="563.0" onAction="#handleSwitchToCarTab" text="SUIVANT" textFill="WHITE">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
@@ -191,11 +191,11 @@
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <JFXDatePicker fx:id="dateofbirthpilot" layoutX="234.0" layoutY="258.0" />
+                                          <JFXDatePicker fx:id="dateOfBirthPilot" layoutX="234.0" layoutY="258.0" />
                                        </children></AnchorPane>
                                  </content>
                               </Tab>
-                              <Tab fx:id="tab_voiture" disable="true" text="VOITURE">
+                              <Tab fx:id="tabCar" disable="true" text="VOITURE">
                                  <content>
                                     <AnchorPane prefHeight="675.0" prefWidth="1010.0">
                                        <children>
@@ -228,7 +228,7 @@
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <JFXButton fx:id="btn_next_lap" layoutX="828.0" layoutY="563.0" onAction="#handleSwitchToLapTab" text="SUIVANT" textFill="WHITE">
+                                          <JFXButton fx:id="btnNextLap" layoutX="828.0" layoutY="563.0" onAction="#handleSwitchToRaceTab" text="SUIVANT" textFill="WHITE">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
@@ -254,7 +254,7 @@
                                     </AnchorPane>
                                  </content>
                               </Tab>
-                              <Tab fx:id="tab_course" disable="true" text="COURSE">
+                              <Tab fx:id="tabCourse" disable="true" text="COURSE">
                                  <content>
                                     <AnchorPane prefHeight="675.0" prefWidth="1010.0">
                                        <children>
@@ -288,17 +288,17 @@
                                                 <Font name="Beon-Medium" size="25.0" />
                                              </font>
                                           </Label>
-                                          <JFXDatePicker fx:id="startingTime_date" layoutX="240.0" layoutY="247.0" />
-                                          <JFXTextField fx:id="racewayName_text" layoutX="239.0" layoutY="284.0" />
-                                          <JFXComboBox fx:id="race_type_combo" layoutX="242.0" layoutY="332.0" onAction="#handleRaceTypeSelected" prefHeight="27.0" prefWidth="149.0" />
-                                          <JFXTextField fx:id="race_duration" layoutX="244.0" layoutY="403.0" visible="false" />
-                                          <Label fx:id="race_duration_label" layoutX="44.0" layoutY="392.0" text="Durée de la course &#10;en minutes (min.)" visible="false">
+                                          <JFXDatePicker fx:id="startingTimeDate" layoutX="240.0" layoutY="247.0" />
+                                          <JFXTextField fx:id="racewayNameText" layoutX="239.0" layoutY="284.0" />
+                                          <JFXComboBox fx:id="raceTypeCombo" layoutX="242.0" layoutY="332.0" onAction="#handleRaceTypeSelected" prefHeight="27.0" prefWidth="149.0" />
+                                          <JFXTextField fx:id="raceDuration" layoutX="244.0" layoutY="403.0" visible="false" />
+                                          <Label fx:id="raceDurationLabel" layoutX="44.0" layoutY="392.0" text="Durée de la course &#10;en minutes (min.)" visible="false">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <JFXTextField fx:id="race_numberof_tour" layoutX="244.0" layoutY="403.0" visible="false" />
-                                          <Label fx:id="race_numberof_tour_label" layoutX="41.0" layoutY="413.0" text="Nombre de tours" visible="false">
+                                          <JFXTextField fx:id="raceNumberOfLaps" layoutX="244.0" layoutY="403.0" visible="false" />
+                                          <Label fx:id="raceNumberOfLapsLabel" layoutX="41.0" layoutY="413.0" text="Nombre de tours" visible="false">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>

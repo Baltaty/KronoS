@@ -1,7 +1,7 @@
 package com.kronos.model;
 
 import com.kronos.api.MainCar;
-import com.kronos.api.Pilote;
+import com.kronos.api.Pilot;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -15,7 +15,7 @@ import java.util.Date;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PilotModel implements Pilote {
+public class PilotModel implements Pilot {
 
     private long id;
     private String firstName;
@@ -121,7 +121,7 @@ public class PilotModel implements Pilote {
      * @return the pilot's car
      */
     @Override
-    public MainCar getPilotecar() {
+    public MainCar getPilotCar() {
         return pilotecar;
     }
 
