@@ -18,6 +18,8 @@ import java.util.Date;
 
 public class RaceController {
 
+    private static final int INVALID_INDEX = -1;
+
     /**
      *
      */
@@ -45,15 +47,15 @@ public class RaceController {
 
         if (raceModel instanceof TimeRaceModel) {
             if (!(Mask.isNumeric((String.valueOf(((TimeRaceModel) raceModel).getDuration()))))
-                    && ((TimeRaceModel) raceModel).getDuration() == -1
-            ) {
+                    || ((TimeRaceModel) raceModel).getDuration() == 0) {
                 verify = false;
                 //Alerts sur l'element en question
             }
 
+
         } else {
             if (!(Mask.isNumeric((String.valueOf(((LapRaceModel) raceModel).getNumberOfLaps()))))
-                    && ((LapRaceModel) raceModel).getNumberOfLaps() == -1) {
+                    || ((LapRaceModel) raceModel).getNumberOfLaps() == INVALID_INDEX) {
                 verify = false;
 
             }
@@ -70,6 +72,10 @@ public class RaceController {
      * @return
      */
     private Date convertDate(final Date beginOfRace, int minutes) {
+
+        if (minutes == INVALID_INDEX)
+            return beginOfRace;
+
         Date endRace;
         long timestamp = beginOfRace.getTime();
         timestamp += (minutes * 60) * 1000;
@@ -94,6 +100,7 @@ public class RaceController {
 
         this.convertDate(debutRace, timeOfRace);
         race = raceFactory.createRace(typeOfRace, debutRace, racewayName, this.convertDate(debutRace, timeOfRace), numbeOfLap);
+
 
         try {
             if (!this.checkRaceControl(race)) {

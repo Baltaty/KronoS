@@ -674,9 +674,12 @@
             int race_duration = -1, race_numberOf_tour = -1;
             if (typeOfRace == RaceType.TIME_RACE) {
                 if (!this.race_duration.getText().isEmpty()) {
-                    if (Mask.isNumeric(this.race_duration.getText()))
+                    if (Mask.isNumeric(this.race_duration.getText())) {
+                        System.out.println("in timeRace");
                         race_duration = Integer.parseInt(this.race_duration.getText());
-
+                        System.out.println(race_duration);
+                        System.out.println("=================");
+                    }
                 } else {
                     // Bloquer le bouton Commencer,
                 }
@@ -708,7 +711,7 @@
                 saveManager.persist(pilotsList);
                 saveManager.persist(carsList);
                 saveManager.persist(race);
-                System.out.println(saveManager.saveFile());
+//                System.out.println(saveManager.saveFile());
 
             }
 
