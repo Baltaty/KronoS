@@ -18,8 +18,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author TeamKronos
- * <p>
- * Version 1.0
+ * @version 1.0
+ * Masks contain regex used to control the validity of new data input.
  */
 public class Mask {
     static String regExsimpleString = "[a-zA-Z_0-9]*";
@@ -28,6 +28,10 @@ public class Mask {
     static String regExNumeric = "[0-9]*";
     static String regexDouble = "^[0-9]{1,16}(\\.[0-9]{1,2})?$";
 
+    /**
+     * Suppresses spaces of the value contained in the text field.
+     * @param field text field
+     */
     public static void noSpaces(TextField field) {
         field.lengthProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -43,6 +47,11 @@ public class Mask {
         });
     }
 
+    /**
+     * Replaces the new value of the text field by the old value if the new value is longer than a defined length.
+     * @param field text field
+     * @param length max length
+     */
     public static void maxField(TextField field, int length) {
         field.textProperty().addListener((observableValue, oldValue, newValue) -> {
             if (newValue == null || newValue.length() > length) {
@@ -51,6 +60,10 @@ public class Mask {
         });
     }
 
+    /**
+     * Suppresses spaces at the beginning of the value contained in the text field.
+     * @param field text field
+     */
     public static void noInitSpace(TextField field) {
         field.lengthProperty().addListener((observable, oldValue, newValue) -> {
 
@@ -66,6 +79,10 @@ public class Mask {
         });
     }
 
+    /**
+     * Replaces symbols (characters which are not letters or numbers) contained in the text field by an empty value.
+     * @param field text field
+     */
     public static void noSymbols(final TextField field) {
 
         ChangeListener listener = (ChangeListener<Number>) (observable, oldValue, newValue) -> {
@@ -80,6 +97,12 @@ public class Mask {
         field.lengthProperty().addListener(listener);
     }
 
+    /**
+     * Replaces symbols (characters which are not letters or numbers) contained in the text field by an empty value.
+     * Gives the possibility to add exceptions to this rule.
+     * @param field text field
+     * @param exceptions eventual exceptions
+     */
     public static void noSymbols(final TextField field, String exceptions) {
 
         ChangeListener listener = (ChangeListener<Number>) (observable, oldValue, newValue) -> {
@@ -95,6 +118,10 @@ public class Mask {
     }
 
 
+    /**
+     * Adds a capital letter to the beginning of the value contained in the text field.
+     * @param field text field
+     */
     public static void nameField(final TextField field) {
         field.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
@@ -115,6 +142,11 @@ public class Mask {
     }
 
 
+    /**
+     * Checks if the text field value has the email format (xxxxx.xxxxx@xxxxx.xxxxx or xxxxx@xxxxx.xxxxx).
+     * @param field text field
+     * @return true if the format is respected, false otherwise
+     */
     public static boolean isEmail(TextField field) { // KeyPressed
         boolean is = false;
         if (!field.getText().isEmpty()) {
@@ -136,6 +168,10 @@ public class Mask {
         return is;
     }
 
+    /**
+     * Deletes all characters in the text field which are not valid for an email address.
+     * @param field text field
+     */
     public static void emailField(TextField field) {
         field.lengthProperty().addListener((observable, oldValue, newValue) -> {
             if (field.getText() != null) {
@@ -149,6 +185,10 @@ public class Mask {
         });
     }
 
+    /**
+     * Deletes all letters for the value contained in the text field.
+     * @param textField text field
+     */
     public static void noLetters(final TextField textField) {
 
         textField.lengthProperty().addListener((observable, oldValue, newValue) -> {
@@ -162,6 +202,11 @@ public class Mask {
         });
     }
 
+    /**
+     * Reformats the monetary fields.
+     * @param field text field
+     * @param locale locale time zone
+     */
     public static void monetaryField(final TextField field, Locale locale) {
         AtomicInteger position = new AtomicInteger(1);
         if (locale.toString().equals("pt_BR")) {
@@ -202,43 +247,62 @@ public class Mask {
         });
     }
 
+    /**
+     * Checks if the string is a simple string (string without spaces).
+     * @param myString string to test
+     * @return true if the format is respected, false otherwise
+     */
     public static Boolean isSimpleString(String myString) {
 
-        if (myString.matches(regExsimpleString)) {
-            return true;
-        }
-        return false;
+        return  myString.matches(regExcomplexString);
     }
 
+    /**
+     * Checks if the string respects the format JJ-MM-YYYY.
+     * @param myDate string to test
+     * @return true if the format is respected, false otherwise
+     */
     public static Boolean isDate(String myDate) {
-        if (myDate.matches(regxEpressiondate1)) {
-            return true;
-        }
-        return false;
+
+        return myDate.matches(regxEpressiondate1);
     }
 
+    /**
+     * Checks if the string is numeric.
+     * @param myNumeric string to test
+     * @return true if the format is respected, false otherwise
+     */
     public static Boolean isNumeric(String myNumeric) {
 
-        if (myNumeric.matches(regExNumeric)) {
-            return true;
-        }
-        return false;
+        return myNumeric.matches(regExNumeric);
     }
 
+    /**
+     * Checks the string is a complex string (string which can contain space).
+     * @param myComplexString string to check
+     * @return true if the format is respected, false otherwise
+     */
     public static Boolean isComplexString(String myComplexString) {
-        if (myComplexString.matches(regExcomplexString)) {
-            return true;
-        }
-        return false;
+
+        return myComplexString.matches(regExcomplexString);
     }
 
+    /**
+     * Checks the string is a double.
+     * @param myDouble string to check
+     * @return true if the format is respected, false otherwise
+     */
     public static Boolean isDouble(String myDouble) {
-        if (myDouble.matches(regexDouble)) {
-            return true;
-        }
-        return false;
+
+        return myDouble.matches(regexDouble);
     }
 
+    /**
+     * Checks the format of the date and returns one with the correct format.
+     * @param myDate date
+     * @return a date with the correct format
+     * @throws ParseException exception in case the date has a wrong format
+     */
     public static int validateDate(Date myDate) throws ParseException {
 
         Date currentDate = new Date();

@@ -71,7 +71,9 @@
     import javafx.util.Duration;
 
     /**
+     * Controller of the home window. Manages the actions and events when configuring a race.
      * @author TeamKronos
+     * @version 1.0
      */
     public class HomeController implements Initializable {
         private static PilotController pilotcontroller = new PilotController();
@@ -577,7 +579,11 @@
             return isValid;
         }*/
 
-
+        /**
+         * Handles the creation of a new pilot on click on the "add" button in the pilot creation interface.
+         * @throws ParseException occurs when failing to parse
+         * @throws java.text.ParseException occurs when failing to parse a string
+         */
         @FXML
         public void addingofpilot() throws ParseException, java.text.ParseException {
             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
@@ -633,7 +639,8 @@
 
 
         /**
-         * @param event
+         * Handles the selection of the race type.
+         * @param event the event
          */
         @FXML
         private void handleRaceTypeSelected(ActionEvent event) {
@@ -659,7 +666,8 @@
         }
 
         /**
-         * @param actionEvent
+         * Handles the race creation after adding pilots and cars.
+         * @param actionEvent the event
          */
         @FXML
         public void createRace(ActionEvent actionEvent) {

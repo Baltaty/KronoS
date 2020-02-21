@@ -11,6 +11,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 
+/**
+ * @author TeamKronoS
+ * @version 1.0
+ * Controller of the {@link com.kronos.model.PilotModel pilot} objects.
+ */
 public class PilotController implements Initializable {
 
 

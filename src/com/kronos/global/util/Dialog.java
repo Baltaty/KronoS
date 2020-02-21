@@ -29,9 +29,9 @@ import java.util.Arrays;
 import java.util.Properties;
 
 /**
- * @author TeamKronos
- * 
- * Version 1.0
+ * @author TeamKronoS
+ * @version 1.0
+ * Manages the dialog creation process.
  */
 @SuppressWarnings("unchecked")
 class Dialog {
@@ -44,16 +44,35 @@ class Dialog {
     public enum Type { INFO, WARNING, ERROR, SUCCESS }
     public enum ButtonType { OK, CANCEL }
 
+    /**
+     * Creates an alert dialog.
+     * @param type dialog type
+     * @param title dialog title
+     * @param message dialog message
+     */
     static void createAlert(Type type, String title, String message) {
         createLayout(createHeader(type), createContent(title, message), createActions(type, new EventHandler[]{
            close
         }));
     }
 
+    /**
+     * Creates an alert dialog with ability to receive a {@link MouseEvent mouse event}.
+     * @param type dialog type
+     * @param title dialog title
+     * @param message dialog message
+     * @param confirm dialog {@link MouseEvent mouse event} confirmation
+     */
     static void createAlert(Type type, String title, String message, EventHandler<MouseEvent>... confirm) {
         createLayout(createHeader(type), createContent(title, message), createActions(type, confirm));
     }
 
+    /**
+     * Creates the dialog layout.
+     * @param header dialog header
+     * @param content dialog content
+     * @param actions dialog actions
+     */
     private static void createLayout(VBox header, VBox content, HBox actions){
         StackPane root = new StackPane();
         root.setPadding(new Insets(10));

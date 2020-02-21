@@ -7,9 +7,8 @@ import java.util.Date;
 
 /**
  * @author TeamKronos
- * Version 1.0
- * <p>
- * object representing a pilot,
+ * @version 1.0
+ * Object representing a pilot,
  * which contains the attributes of the pilot and information such as (id, last name, first name, comments, date of birth, height, weight)
  */
 public interface Pilote {

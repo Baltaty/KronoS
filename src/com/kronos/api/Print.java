@@ -3,7 +3,6 @@ package com.kronos.api;
 /**
  * @author TeamKronoS
  * @version 1.0
- *
  * Manages the generation of time sheet
  */
 public interface Print {
