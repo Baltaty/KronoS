@@ -1,7 +1,6 @@
 package com.kronos.model;
 
 import com.kronos.api.LapRace;
-import com.kronos.global.enums.RaceType;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
@@ -22,8 +21,9 @@ public class LapRaceModel extends RaceModel implements LapRace {
 
     /**
      * Constructor.
+     *
      * @param startingTime race starting time
-     * @param racewayName raceway name
+     * @param racewayName  raceway name
      * @param numberOfLaps number of laps
      */
     public LapRaceModel(Date startingTime, String racewayName, int numberOfLaps) {
@@ -33,6 +33,7 @@ public class LapRaceModel extends RaceModel implements LapRace {
 
     /**
      * Gets the number of laps of the race.
+     *
      * @return the number of laps of the race
      */
     @Override
@@ -42,6 +43,7 @@ public class LapRaceModel extends RaceModel implements LapRace {
 
     /**
      * Sets the number of laps of the race.
+     *
      * @param numberOfLaps number of laps
      */
     @Override

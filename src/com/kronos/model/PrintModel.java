@@ -9,6 +9,9 @@ import com.kronos.api.Print;
  */
 public class PrintModel implements Print {
 
+    /**
+     * Constructor.
+     */
     public PrintModel() {
 
     }

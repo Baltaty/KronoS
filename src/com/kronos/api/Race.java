@@ -20,7 +20,7 @@ public interface Race {
      * Each race has the Time that it will start
      * @return startingTime it represent when the race will start
      */
-    Date getstartingTime();
+    Date getStartingTime();
 
     /**
      * The name of the race

@@ -11,7 +11,7 @@ import java.util.Date;
  * Object representing a pilot,
  * which contains the attributes of the pilot and information such as (id, last name, first name, comments, date of birth, height, weight)
  */
-public interface Pilote {
+public interface Pilot {
 
 
     /**
@@ -76,6 +76,6 @@ public interface Pilote {
      */
 
 
-    MainCar getPilotecar();
+    MainCar getPilotCar();
 
 }

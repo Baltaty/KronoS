@@ -7,13 +7,10 @@ import com.kronos.global.util.Mask;
 import com.kronos.model.LapRaceModel;
 import com.kronos.model.RaceModel;
 import com.kronos.model.TimeRaceModel;
-import com.kronos.parserXML.MainImpl.SaveManagerImpl;
-import com.kronos.parserXML.api.SaveManager;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -43,7 +40,7 @@ public class RaceController {
     private boolean checkRaceControl(RaceModel raceModel) throws ParseException {
         boolean verify = true;
 
-        if (!(Mask.isDate(new SimpleDateFormat("dd-MM-yyyy").format(raceModel.getstartingTime()))) || (Mask.validateDate(raceModel.getstartingTime()) == 1)) {
+        if (!(Mask.isDate(new SimpleDateFormat("dd-MM-yyyy").format(raceModel.getStartingTime()))) || (Mask.validateDate(raceModel.getStartingTime()) == 1)) {
 
             verify = false;
             //Alerts sur l'element en question

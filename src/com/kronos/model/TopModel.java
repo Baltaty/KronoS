@@ -15,8 +15,8 @@ import java.util.Date;
 public class TopModel implements Top {
 
 
-    private Date horaire ;
-    private String typeTop;
+    private Date time;
+    private String topType;
 
 
     /**
@@ -26,44 +26,44 @@ public class TopModel implements Top {
 
     /**
      * Constructor.
-     * @param horaire top time
-     * @param typeTop top type.
+     * @param time top time
+     * @param topType top type.
      */
-    public TopModel (Date horaire, String typeTop){
-        this.horaire = horaire;
-        this.typeTop = typeTop;
+    public TopModel (Date time, String topType){
+        this.time = time;
+        this.topType = topType;
     }
 
     /**
      * Gets the top time.
      * @return the top time
      */
-    public Date getHoraire() {
-        return horaire;
+    public Date getTime() {
+        return time;
     }
 
     /**
      * Sets the top time.
-     * @param horaire top time
+     * @param time top time
      */
-    public void setHoraire(Date horaire) {
-        this.horaire = horaire;
+    public void setTime(Date time) {
+        this.time = time;
     }
 
     /**
-     * Gets the top type
+     * Gets the top type.
      * @return the top type
      */
-    public String getTypeTop() {
-        return typeTop;
+    public String getTopType() {
+        return topType;
     }
 
     /**
      * Sets the top type.
-     * @param typeTop top type
+     * @param topType top type
      */
-    public void setTypeTop(String typeTop) {
-        this.typeTop = typeTop;
+    public void setTopType(String topType) {
+        this.topType = topType;
     }
 
 
