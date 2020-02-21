@@ -17,27 +17,22 @@ import java.util.Date;
 public interface Race {
 
     /**
-     *  each race has the Time that it will start
+     * Each race has the Time that it will start
      * @return startingTime it represent when the race will start
      */
     Date getstartingTime();
 
     /**
-     * the name of the race
+     * The name of the race
      * @return raceWayName
      */
     String getRacewayName();
 
     /**
-     * getting the type of the race  because we have two type of race
-     * @return  the type of the race
+     * Getting the type of the race  because we have two type of race
+     * @return the type of the race
      */
     RaceType getRaceType();
-
-
-
-
-
 
 
 }
