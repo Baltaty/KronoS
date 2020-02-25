@@ -18,6 +18,7 @@
     import com.kronos.parserXML.MainImpl.SaveManagerImpl;
     import com.kronos.parserXML.api.SaveManager;
     import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
+    import com.sun.org.apache.xml.internal.serializer.ElemDesc;
     import javafx.animation.RotateTransition;
     import javafx.animation.ScaleTransition;
     import javafx.collections.FXCollections;
@@ -72,6 +73,7 @@
 
     /**
      * Controller of the home window. Manages the actions and events when configuring a race.
+     *
      * @author TeamKronos
      * @version 1.0
      */
@@ -504,6 +506,16 @@
             carType.setValue(null);
         }
 
+        private void clearNewPilotFields() {
+            firstname.setText("");
+            lastnamepilot.setText("");
+            pilotheight.setText("");
+            pilotweight.setText("");
+            dateofbirthpilot.setValue(null);
+            commentpilot.setText("");
+
+        }
+
         /**
          * Checks if the field values are valid (numeric {@link String strings} are numbers and fields are not empty).
          * If an error occurs, shows an error {@link Alerts alert}.
@@ -579,7 +591,8 @@
 
         /**
          * Handles the creation of a new pilot on click on the "add" button in the pilot creation interface.
-         * @throws ParseException occurs when failing to parse
+         *
+         * @throws ParseException           occurs when failing to parse
          * @throws java.text.ParseException occurs when failing to parse a string
          */
         @FXML
@@ -591,39 +604,38 @@
             double pilotheightcont = 0.00;
             double pilotweightcont = 0.00;
             Date pilotdatofbirthcont = null;
-            int count = 0;
             LocalDate localDate = dateofbirthpilot.getValue();
+            boolean check = true;
 
             if (localDate != null) {
                 pilotdatofbirthcont = Date.from(dateofbirthpilot.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
 
             }
-
-            if (Mask.isDouble(pilotweight.getText())) {
-                pilotweightcont = Double.parseDouble(pilotweight.getText());
-                count++;
+            if (!(pilotweight.getText().isEmpty())) {
+                if (Mask.isDouble(pilotweight.getText())) {
+                    pilotweightcont = Double.parseDouble(pilotweight.getText());
+                    System.out.println("check of double 1");
+                } else {
+                    check = false;
+                }
             }
-            if (Mask.isDouble(pilotheight.getText())) {
-                pilotheightcont = Double.parseDouble(pilotheight.getText());
-                count++;
+            if (!(pilotheight.getText().isEmpty())) {
+                if (Mask.isDouble(pilotheight.getText())) {
+                    pilotheightcont = Double.parseDouble(pilotheight.getText());
+                } else {
+                    check = false;
+                }
             }
 
             PilotModel pilotcont = new PilotModel(lastnamecont, firstnamecont, commentcont, pilotdatofbirthcont, pilotweightcont, pilotweightcont);
-            if (dateofbirthpilot.getValue() != null) {
 
-                if (pilotcontroller.checkingofpilot(pilotcont) && count == 2) {
-                    pilotsList.add(pilotcont);
-                    carPilot.getItems().add(firstnamecont + " " + lastnamecont);
-                    Alerts.success("SUCCÈS", "Pilote ajouté");
-                    firstname.setText("");
-                    lastnamepilot.setText("");
-                    pilotheight.setText("");
-                    pilotweight.setText("");
-                    dateofbirthpilot.setValue(null);
-                    commentpilot.setText("");
-                } else {
-                    Alerts.error("ERREUR", "Veuillez vérifier les champs");
-                }
+
+            if (pilotcontroller.checkingofpilot(pilotcont) && check) {
+                pilotsList.add(pilotcont);
+                carPilot.getItems().add(firstnamecont + " " + lastnamecont);
+                Alerts.success("SUCCÈS", "Pilote ajouté");
+                clearNewPilotFields();
+
             } else {
                 Alerts.error("ERREUR", "Veuillez vérifier les champs");
             }
@@ -638,6 +650,7 @@
 
         /**
          * Handles the selection of the race type.
+         *
          * @param event the event
          */
         @FXML
@@ -665,6 +678,7 @@
 
         /**
          * Handles the race creation after adding pilots and cars.
+         *
          * @param actionEvent the event
          */
         @FXML

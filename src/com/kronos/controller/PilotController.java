@@ -44,14 +44,18 @@ public class PilotController implements Initializable {
             verify = false;
             // Alerts.error("error","mylong ");
         }
-
-        if (!(Mask.isDate(new SimpleDateFormat("dd-MM-yyyy").format(pilot.getDateOfBirth()))) || (Mask.validateDate(pilot.getDateOfBirth())==-1)) {
-
-            verify = false;
-            //Alerts sur l'element en question
-
+        if(pilot.getFirstName().isEmpty()){
+            verify=false;
         }
-        if (!(Mask.isDouble(Double.toString(pilot.getWeight())))) {
+        if(!(pilot.getDateOfBirth()==null)) {
+            if (!(Mask.isDate(new SimpleDateFormat("dd-MM-yyyy").format(pilot.getDateOfBirth()))) || (Mask.validateDate(pilot.getDateOfBirth()) == -1)) {
+
+                verify = false;
+                //Alerts sur l'element en question
+
+            }
+        }
+     /*   if (!(Mask.isDouble(Double.toString(pilot.getWeight())))) {
 
             verify = false;
             //action a faire su IHM
@@ -60,7 +64,7 @@ public class PilotController implements Initializable {
             verify = false;
 
         }
-
+*/
         return verify;
     }
 
