@@ -483,6 +483,19 @@
         }
 
         /**
+         *Resets the fields in the new pilot interface
+         */
+        private  void  clearNewPilotFields(){
+            firstName.setText("");
+            lastNamePilot.setText("");
+            pilotHeight.setText("");
+            pilotWeight.setText("");
+            dateOfBirthPilot.setValue(null);
+            commentPilot.setText("");
+
+        }
+
+        /**
          * Checks if the field values are valid (numeric {@link String strings} are numbers and fields are not empty).
          * If an error occurs, shows an error {@link Alerts alert}.
          *
@@ -571,41 +584,43 @@
             double pilotweightcont = 0.00;
             Date pilotdatofbirthcont = null;
             int count = 0;
+            boolean check=true;
             LocalDate localDate = dateOfBirthPilot.getValue();
 
             if (localDate != null) {
                 pilotdatofbirthcont = Date.from(dateOfBirthPilot.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
 
             }
+            if(!(pilotWeight.getText().isEmpty())) {
+                if (Mask.isDouble(pilotWeight.getText())) {
+                    pilotweightcont = Double.parseDouble(pilotWeight.getText());
+                }else {
+                    check=false;
+                }
+            }
+            if (!(pilotHeight.getText().isEmpty())) {
+                if (Mask.isDouble(pilotHeight.getText())) {
+                    pilotheightcont = Double.parseDouble(pilotHeight.getText());
+                }
+                else{
+                    check=false;
+                }
+            }
 
-            if (Mask.isDouble(pilotWeight.getText())) {
-                pilotweightcont = Double.parseDouble(pilotWeight.getText());
-                count++;
-            }
-            if (Mask.isDouble(pilotHeight.getText())) {
-                pilotheightcont = Double.parseDouble(pilotHeight.getText());
-                count++;
-            }
 
             PilotModel pilotcont = new PilotModel(lastnamecont, firstnamecont, commentcont, pilotdatofbirthcont, pilotweightcont, pilotweightcont);
-            if (dateOfBirthPilot.getValue() != null) {
 
-                if (pilotcontroller.checkingofpilot(pilotcont) && count == 2) {
+
+                if (pilotcontroller.checkingofpilot(pilotcont) && check) {
                     pilotsList.add(pilotcont);
                     carPilot.getItems().add(firstnamecont + " " + lastnamecont);
                     Alerts.success("SUCCÈS", "Pilote ajouté");
-                    firstName.setText("");
-                    lastNamePilot.setText("");
-                    pilotHeight.setText("");
-                    pilotWeight.setText("");
-                    dateOfBirthPilot.setValue(null);
-                    commentPilot.setText("");
+                    clearNewPilotFields();
+
                 } else {
                     Alerts.error("ERREUR", "Veuillez vérifier les champs");
                 }
-            } else {
-                Alerts.error("ERREUR", "Veuillez vérifier les champs");
-            }
+
 
         }
 
@@ -677,7 +692,7 @@
                 }
 
             }
-            RaceModel race = raceController.createRace(typeOfRace, raceName
+            RaceModel race = raceController.createRace(typeOfRace, raceName.getText(),
                     Date.from(startingTimeDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
                     racewayNameText.getText(), race_duration, race_numberOf_tour);
 
