@@ -11,18 +11,15 @@
 //import com.fxexperience.javafx.animation.*;
 
     import com.jfoenix.controls.*;
-    import com.kronos.global.factory.RaceFactory;
+    import com.kronos.global.enums.RaceType;
     import com.kronos.global.util.Alerts;
     import com.kronos.global.util.Mask;
     import com.kronos.model.*;
     import com.kronos.parserXML.MainImpl.SaveManagerImpl;
-    import com.kronos.parserXML.api.SaveManager;
     import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
-    import com.sun.org.apache.xml.internal.serializer.ElemDesc;
     import javafx.animation.RotateTransition;
     import javafx.animation.ScaleTransition;
     import javafx.collections.FXCollections;
-    import javafx.collections.ObservableList;
     import javafx.event.ActionEvent;
     import javafx.event.EventHandler;
     import javafx.fxml.FXML;
@@ -37,39 +34,20 @@
     import javafx.stage.Stage;
     import javafx.util.Duration;
 
-    import java.io.*;
+    import java.io.File;
+    import java.io.FileInputStream;
+    import java.io.FileOutputStream;
+    import java.io.IOException;
     import java.net.URL;
+    import java.text.SimpleDateFormat;
     import java.time.LocalDate;
     import java.time.ZoneId;
     import java.util.ArrayList;
-    import java.text.SimpleDateFormat;
     import java.util.Date;
     import java.util.Properties;
     import java.util.ResourceBundle;
     import java.util.logging.Level;
     import java.util.logging.Logger;
-
-    import com.kronos.global.enums.RaceType;
-    import com.kronos.global.util.Alerts;
-    import com.kronos.model.CarModel;
-    import com.kronos.model.PilotModel;
-    import com.kronos.module.main.Main;
-    import javafx.collections.FXCollections;
-    import javafx.event.Event;
-    import javafx.event.EventHandler;
-    import javafx.fxml.FXML;
-    import javafx.fxml.Initializable;
-    import javafx.animation.*;
-    import javafx.event.ActionEvent;
-    import javafx.fxml.FXMLLoader;
-    import javafx.scene.Scene;
-    import javafx.scene.control.*;
-    import javafx.scene.image.ImageView;
-    import javafx.scene.input.KeyCode;
-    import javafx.scene.input.KeyEvent;
-    import javafx.scene.layout.StackPane;
-    import javafx.stage.Stage;
-    import javafx.util.Duration;
 
     /**
      * Controller of the home window. Manages the actions and events when configuring a race.
@@ -80,52 +58,54 @@
     public class HomeController implements Initializable {
         private static PilotController pilotcontroller = new PilotController();
         private static CarController carController = new CarController();
+        private static Boolean changeRequest;
+        @FXML
+        JFXDatePicker dateOfBirthPilot;
         private ArrayList<PilotModel> pilotsList = new ArrayList<>();
         private ArrayList<CarModel> carsList = new ArrayList();
         private boolean mainCarCreated;
-
         @FXML
-        private JFXButton startbtn;
+        private JFXButton startBtn;
         @FXML
-        private JFXButton bdbtn;
+        private JFXButton bdBtn;
         @FXML
-        private JFXButton settingbtn;
+        private JFXButton settingBtn;
         @FXML
-        private ImageView newraceicon;
+        private ImageView newRaceIcon;
         @FXML
-        private ImageView setingicon;
+        private ImageView settingIcon;
         @FXML
-        private ImageView bdicon;
+        private ImageView bdIcon;
         @FXML
-        private ImageView appname1;
+        private ImageView appName1;
         @FXML
-        private StackPane homestack;
+        private StackPane homeStack;
         @FXML
-        private JFXDialogLayout dialog_para;
+        private JFXDialogLayout dialogPara;
         @FXML
-        private JFXDialogLayout dialog_select_key;
+        private JFXDialogLayout dialogSelectKey;
         @FXML
-        private JFXButton end_para;
+        private JFXButton endPara;
         @FXML
-        private JFXDialogLayout dialayout;
+        private JFXDialogLayout dialLayout;
         @FXML
-        private Label top_key;
+        private Label topKey;
         @FXML
-        private JFXDialogLayout dialog_new_race;
+        private JFXDialogLayout dialogNewRace;
         @FXML
-        private JFXTabPane NewRaceTabPane;
+        private JFXTabPane newRaceTabPane;
         @FXML
-        private Tab tab_pilote;
+        private Tab tabPilot;
         @FXML
-        private Tab tab_voiture;
+        private Tab tabCar;
         @FXML
-        private Tab tab_course;
+        private Tab tabCourse;
         @FXML
-        private JFXButton btn_next_car;
+        private JFXButton btnNextCar;
         @FXML
-        private JFXButton btn_next_lap;
+        private JFXButton btnNextLap;
         @FXML
-        private ImageView boulon;
+        private ImageView bolt;
         @FXML
         private TextField carNumber;
         @FXML
@@ -139,42 +119,38 @@
         @FXML
         private ComboBox<String> carType;
         @FXML
-        private JFXTextField lastnamepilot;
+        private JFXTextField lastNamePilot;
         @FXML
-        private JFXTextField firstname;
+        private JFXTextField firstName;
         @FXML
-        private JFXTextField pilotweight;
+        private JFXTextField pilotWeight;
         @FXML
-        private JFXTextField pilotheight;
-        @FXML
-        private JFXTextArea commentpilot;
-        @FXML
-        JFXDatePicker dateofbirthpilot;
+        private JFXTextField pilotHeight;
 
 
         //////////////////////////////////////// Attributes of races data /////////////////////////////////////
 
         @FXML
-        private JFXDatePicker startingTime_date;
+        private JFXTextField raceName;
         @FXML
-        private JFXTextField racewayName_text;
+        private JFXTextArea commentPilot;
         @FXML
-        private JFXTextField race_duration;
+        private JFXDatePicker startingTimeDate;
         @FXML
-        private Label race_duration_label;
+        private JFXTextField racewayNameText;
         @FXML
-        private JFXTextField race_numberof_tour;
+        private JFXTextField raceDuration;
         @FXML
-        private Label race_numberof_tour_label;
+        private Label raceDurationLabel;
         @FXML
-        private JFXComboBox<String> race_type_combo;
-
-        private RaceType typeOfRace;
+        private JFXTextField raceNumberOfLaps;
+        @FXML
+        private Label raceNumberOfLapsLabel;
+        @FXML
+        private JFXComboBox<String> raceTypeCombo;
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-        private static Boolean changeRequest;
+        private RaceType typeOfRace;
 
         /**
          * Handles the startup of the race creation process.
@@ -184,8 +160,8 @@
         @FXML
         private void handleNewRaceClicked(ActionEvent event) {
             System.out.println("amorçage du processus de démarrage d'une course");
-            dialog_new_race.setVisible(true);
-            JFXDialog alert1 = new JFXDialog(homestack, dialog_new_race, JFXDialog.DialogTransition.TOP);
+            dialogNewRace.setVisible(true);
+            JFXDialog alert1 = new JFXDialog(homeStack, dialogNewRace, JFXDialog.DialogTransition.TOP);
             alert1.show();
 
         }
@@ -234,10 +210,10 @@
         @FXML
         private void handleSettingClicked() {
             System.out.print("Ouverture des paramètres\n");
-            dialog_para.setVisible(true);
-            JFXDialog alert = new JFXDialog(homestack, dialog_para, JFXDialog.DialogTransition.CENTER);
+            dialogPara.setVisible(true);
+            JFXDialog alert = new JFXDialog(homeStack, dialogPara, JFXDialog.DialogTransition.CENTER);
 
-            end_para.setOnAction((ActionEvent event) -> {
+            endPara.setOnAction((ActionEvent event) -> {
                 alert.close();
             });
 
@@ -251,8 +227,8 @@
         @FXML
         private void handleSettingEntered() {
             ////// ROTATION BOUTON SETTINGS
-            RotateTransition rotatepara = new RotateTransition(Duration.seconds(1), settingbtn);
-            RotateTransition rotateparaicon = new RotateTransition(Duration.seconds(1), setingicon);
+            RotateTransition rotatepara = new RotateTransition(Duration.seconds(1), settingBtn);
+            RotateTransition rotateparaicon = new RotateTransition(Duration.seconds(1), settingIcon);
 
             rotatepara.setByAngle(360);
             rotateparaicon.setByAngle(360);
@@ -275,7 +251,7 @@
         @FXML
         private void handleOldRaceClicked(ActionEvent event) {
             try {
-                Stage stage = (Stage) startbtn.getScene().getWindow();
+                Stage stage = (Stage) startBtn.getScene().getWindow();
                 StackPane test = FXMLLoader.load(getClass().getResource("Racechoice.fxml"));
                 stage.setScene(new Scene(test));
                 stage.show();
@@ -292,7 +268,7 @@
         @FXML
         private void handleOldRaceEntered(ActionEvent event) {
             try {
-                Stage stage = (Stage) startbtn.getScene().getWindow();
+                Stage stage = (Stage) startBtn.getScene().getWindow();
                 StackPane test = FXMLLoader.load(getClass().getResource("Racechoice.fxml"));
                 stage.setScene(new Scene(test));
                 stage.show();
@@ -310,9 +286,9 @@
         @FXML
         private void handleSwitchToCarTab(ActionEvent event) {
             if (pilotsList.size() != 0) {
-                SingleSelectionModel<Tab> selectionModel = NewRaceTabPane.getSelectionModel();
-                tab_voiture.setDisable(false);
-                selectionModel.select(tab_voiture);
+                SingleSelectionModel<Tab> selectionModel = newRaceTabPane.getSelectionModel();
+                tabCar.setDisable(false);
+                selectionModel.select(tabCar);
             } else {
                 Alerts.error("ERREUR", "Veuillez créer au moins un pilote");
             }
@@ -324,11 +300,11 @@
          * @param event the event
          */
         @FXML
-        private void handleSwitchToLapTab(ActionEvent event) {
+        private void handleSwitchToRaceTab(ActionEvent event) {
             if (carsList.size() != 0) {
-                SingleSelectionModel<Tab> selectionModel = NewRaceTabPane.getSelectionModel();
-                tab_course.setDisable(false);
-                selectionModel.select(tab_course);
+                SingleSelectionModel<Tab> selectionModel = newRaceTabPane.getSelectionModel();
+                tabCourse.setDisable(false);
+                selectionModel.select(tabCourse);
             } else {
                 Alerts.error("ERREUR", "Veuillez créer au moins une voiture");
             }
@@ -341,13 +317,13 @@
          * @param event the event
          */
         @FXML
-        private void handleChangeTopTouch(ActionEvent event) {
+        private void handleChangeTopControl(ActionEvent event) {
             changeRequest = true;
             Alerts.info("CHANGEMENT TOP KEY", "Veuillez appuyer sur la nouvelle touche puis sour ok");
             //scene.setOnKeyPressed();
 //        dialog_select_key.setVisible(true);
 //        JFXDialog alertkey= new JFXDialog(homestack,dialog_select_key,JFXDialog.DialogTransition.CENTER);
-            Scene scene = homestack.getScene();
+            Scene scene = homeStack.getScene();
             EventHandler<KeyEvent> e = new EventHandler<KeyEvent>() {
                 @Override
                 public void handle(javafx.scene.input.KeyEvent event) {
@@ -368,7 +344,7 @@
                                 FileOutputStream fileOutputStream = new FileOutputStream(file);
                                 properties.store(fileOutputStream, "Top properties");
                                 System.out.println(" saved !");
-                                top_key.setText(properties.getProperty("key"));
+                                topKey.setText(properties.getProperty("key"));
                                 changeRequest = false;
                             }
 
@@ -399,7 +375,7 @@
 //
 
             ////// SCALE BOUTON DEMARRER
-            ScaleTransition scalestart = new ScaleTransition(Duration.seconds(1), startbtn);
+            ScaleTransition scalestart = new ScaleTransition(Duration.seconds(1), startBtn);
             scalestart.setToX(1.2);
             scalestart.setToY(1.2);
             scalestart.setAutoReverse(true);
@@ -407,7 +383,7 @@
             scalestart.play();
 
             ////// SCALE BOUTON SETTINGS
-            ScaleTransition scalepara = new ScaleTransition(Duration.seconds(1), settingbtn);
+            ScaleTransition scalepara = new ScaleTransition(Duration.seconds(1), settingBtn);
             scalepara.setToX(1.2);
             scalepara.setToY(1.2);
             scalepara.setAutoReverse(true);
@@ -416,7 +392,7 @@
             //////
 
             ////// SCALE BOUTON  BASE DE DONNEES
-            ScaleTransition scalebd = new ScaleTransition(Duration.seconds(1), bdbtn);
+            ScaleTransition scalebd = new ScaleTransition(Duration.seconds(1), bdBtn);
             scalebd.setToX(1.2);
             scalebd.setToY(1.2);
             scalebd.setAutoReverse(true);
@@ -431,13 +407,13 @@
                 FileInputStream fileInputStream = new FileInputStream(file);
                 properties.load(fileInputStream);
                 //FileOutputStream fileOutputStream = new FileOutputStream(file);
-                top_key.setText(properties.getProperty("key"));
+                topKey.setText(properties.getProperty("key"));
             } catch (IOException io) {
             }
 
 
             carType.setItems(FXCollections.observableArrayList("Voiture principale", "Voiture concurrente"));
-            race_type_combo.setItems(FXCollections.observableArrayList(RaceType.LAP_RACE.toString(), RaceType.TIME_RACE.toString()));
+            raceTypeCombo.setItems(FXCollections.observableArrayList(RaceType.LAP_RACE.toString(), RaceType.TIME_RACE.toString()));
 
             //top_touch_field
 
@@ -504,16 +480,6 @@
             carBrand.clear();
             carPilot.setValue(null);
             carType.setValue(null);
-        }
-
-        private void clearNewPilotFields() {
-            firstname.setText("");
-            lastnamepilot.setText("");
-            pilotheight.setText("");
-            pilotweight.setText("");
-            dateofbirthpilot.setValue(null);
-            commentpilot.setText("");
-
         }
 
         /**
@@ -596,46 +562,47 @@
          * @throws java.text.ParseException occurs when failing to parse a string
          */
         @FXML
-        public void addingofpilot() throws ParseException, java.text.ParseException {
+        public void handleClickNewPilot() throws ParseException, java.text.ParseException {
             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-            String firstnamecont = firstname.getText();
-            String lastnamecont = lastnamepilot.getText();
-            String commentcont = commentpilot.getText();
+            String firstnamecont = firstName.getText();
+            String lastnamecont = lastNamePilot.getText();
+            String commentcont = commentPilot.getText();
             double pilotheightcont = 0.00;
             double pilotweightcont = 0.00;
             Date pilotdatofbirthcont = null;
-            LocalDate localDate = dateofbirthpilot.getValue();
-            boolean check = true;
+            int count = 0;
+            LocalDate localDate = dateOfBirthPilot.getValue();
 
             if (localDate != null) {
-                pilotdatofbirthcont = Date.from(dateofbirthpilot.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                pilotdatofbirthcont = Date.from(dateOfBirthPilot.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
 
             }
-            if (!(pilotweight.getText().isEmpty())) {
-                if (Mask.isDouble(pilotweight.getText())) {
-                    pilotweightcont = Double.parseDouble(pilotweight.getText());
-                    System.out.println("check of double 1");
-                } else {
-                    check = false;
-                }
+
+            if (Mask.isDouble(pilotWeight.getText())) {
+                pilotweightcont = Double.parseDouble(pilotWeight.getText());
+                count++;
             }
-            if (!(pilotheight.getText().isEmpty())) {
-                if (Mask.isDouble(pilotheight.getText())) {
-                    pilotheightcont = Double.parseDouble(pilotheight.getText());
-                } else {
-                    check = false;
-                }
+            if (Mask.isDouble(pilotHeight.getText())) {
+                pilotheightcont = Double.parseDouble(pilotHeight.getText());
+                count++;
             }
 
             PilotModel pilotcont = new PilotModel(lastnamecont, firstnamecont, commentcont, pilotdatofbirthcont, pilotweightcont, pilotweightcont);
+            if (dateOfBirthPilot.getValue() != null) {
 
-
-            if (pilotcontroller.checkingofpilot(pilotcont) && check) {
-                pilotsList.add(pilotcont);
-                carPilot.getItems().add(firstnamecont + " " + lastnamecont);
-                Alerts.success("SUCCÈS", "Pilote ajouté");
-                clearNewPilotFields();
-
+                if (pilotcontroller.checkingofpilot(pilotcont) && count == 2) {
+                    pilotsList.add(pilotcont);
+                    carPilot.getItems().add(firstnamecont + " " + lastnamecont);
+                    Alerts.success("SUCCÈS", "Pilote ajouté");
+                    firstName.setText("");
+                    lastNamePilot.setText("");
+                    pilotHeight.setText("");
+                    pilotWeight.setText("");
+                    dateOfBirthPilot.setValue(null);
+                    commentPilot.setText("");
+                } else {
+                    Alerts.error("ERREUR", "Veuillez vérifier les champs");
+                }
             } else {
                 Alerts.error("ERREUR", "Veuillez vérifier les champs");
             }
@@ -656,20 +623,20 @@
         @FXML
         private void handleRaceTypeSelected(ActionEvent event) {
 
-            int RaceType = race_type_combo.getSelectionModel().getSelectedIndex();
+            int RaceType = raceTypeCombo.getSelectionModel().getSelectedIndex();
 
             if (RaceType == 0) {
-                race_numberof_tour_label.setVisible(true);
-                race_numberof_tour.setVisible(true);
-                race_duration_label.setVisible(false);
-                race_duration.setVisible(false);
+                raceNumberOfLapsLabel.setVisible(true);
+                raceNumberOfLaps.setVisible(true);
+                raceDurationLabel.setVisible(false);
+                raceDuration.setVisible(false);
                 typeOfRace = com.kronos.global.enums.RaceType.LAP_RACE;
 
             } else {
-                race_numberof_tour_label.setVisible(false);
-                race_numberof_tour.setVisible(false);
-                race_duration_label.setVisible(true);
-                race_duration.setVisible(true);
+                raceNumberOfLapsLabel.setVisible(false);
+                raceNumberOfLaps.setVisible(false);
+                raceDurationLabel.setVisible(true);
+                raceDuration.setVisible(true);
                 typeOfRace = com.kronos.global.enums.RaceType.TIME_RACE;
 
 
@@ -687,10 +654,10 @@
             RaceController raceController = new RaceController();
             int race_duration = -1, race_numberOf_tour = -1;
             if (typeOfRace == RaceType.TIME_RACE) {
-                if (!this.race_duration.getText().isEmpty()) {
-                    if (Mask.isNumeric(this.race_duration.getText())) {
+                if (!this.raceDuration.getText().isEmpty()) {
+                    if (Mask.isNumeric(this.raceDuration.getText())) {
                         System.out.println("in timeRace");
-                        race_duration = Integer.parseInt(this.race_duration.getText());
+                        race_duration = Integer.parseInt(this.raceDuration.getText());
                         System.out.println(race_duration);
                         System.out.println("=================");
                     }
@@ -700,9 +667,9 @@
 
             } else {
 
-                if (!this.race_numberof_tour.getText().isEmpty()) {
-                    if (Mask.isNumeric(this.race_numberof_tour.getText()))
-                        race_numberOf_tour = Integer.parseInt(this.race_numberof_tour.getText());
+                if (!this.raceNumberOfLaps.getText().isEmpty()) {
+                    if (Mask.isNumeric(this.raceNumberOfLaps.getText()))
+                        race_numberOf_tour = Integer.parseInt(this.raceNumberOfLaps.getText());
 
 
                 } else {
@@ -710,9 +677,9 @@
                 }
 
             }
-            RaceModel race = raceController.createRace(typeOfRace,
-                    Date.from(startingTime_date.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                    racewayName_text.getText(), race_duration, race_numberOf_tour);
+            RaceModel race = raceController.createRace(typeOfRace, raceName
+                    Date.from(startingTimeDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                    racewayNameText.getText(), race_duration, race_numberOf_tour);
 
             System.out.println("======================");
             System.out.println(typeOfRace.toString());
@@ -725,7 +692,7 @@
                 saveManager.persist(pilotsList);
                 saveManager.persist(carsList);
                 saveManager.persist(race);
-//                System.out.println(saveManager.saveFile());
+                System.out.println(saveManager.saveFile());
 
             }
 

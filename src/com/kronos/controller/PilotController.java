@@ -2,13 +2,11 @@ package com.kronos.controller;
 
 import com.kronos.global.util.Mask;
 import com.kronos.model.PilotModel;
-import com.kronos.parserXML.MainImpl.SaveManagerImpl;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 /**
@@ -33,7 +31,8 @@ public class PilotController implements Initializable {
     }
 
     /**
-     *  checked pilot informations
+     * checked pilot informations
+     *
      * @param pilot
      * @return true if all information about the pilot is correct
      */
@@ -44,18 +43,14 @@ public class PilotController implements Initializable {
             verify = false;
             // Alerts.error("error","mylong ");
         }
-        if(pilot.getFirstName().isEmpty()){
-            verify=false;
-        }
-        if(!(pilot.getDateOfBirth()==null)) {
-            if (!(Mask.isDate(new SimpleDateFormat("dd-MM-yyyy").format(pilot.getDateOfBirth()))) || (Mask.validateDate(pilot.getDateOfBirth()) == -1)) {
 
-                verify = false;
-                //Alerts sur l'element en question
+        if (!(Mask.isDate(new SimpleDateFormat("dd-MM-yyyy").format(pilot.getDateOfBirth()))) || (Mask.validateDate(pilot.getDateOfBirth()) == -1)) {
 
-            }
+            verify = false;
+            //Alerts sur l'element en question
+
         }
-     /*   if (!(Mask.isDouble(Double.toString(pilot.getWeight())))) {
+        if (!(Mask.isDouble(Double.toString(pilot.getWeight())))) {
 
             verify = false;
             //action a faire su IHM
@@ -64,10 +59,9 @@ public class PilotController implements Initializable {
             verify = false;
 
         }
-*/
+
         return verify;
     }
-
 
 
 }

@@ -7,13 +7,10 @@ import com.kronos.global.util.Mask;
 import com.kronos.model.LapRaceModel;
 import com.kronos.model.RaceModel;
 import com.kronos.model.TimeRaceModel;
-import com.kronos.parserXML.MainImpl.SaveManagerImpl;
-import com.kronos.parserXML.api.SaveManager;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -43,7 +40,7 @@ public class RaceController {
     private boolean checkRaceControl(RaceModel raceModel) throws ParseException {
         boolean verify = true;
 
-        if (!(Mask.isDate(new SimpleDateFormat("dd-MM-yyyy").format(raceModel.getstartingTime()))) || (Mask.validateDate(raceModel.getstartingTime()) == 1)) {
+        if (!(Mask.isDate(new SimpleDateFormat("dd-MM-yyyy").format(raceModel.getStartingTime()))) || (Mask.validateDate(raceModel.getStartingTime()) == 1)) {
 
             verify = false;
             //Alerts sur l'element en question
@@ -73,8 +70,9 @@ public class RaceController {
 
     /**
      * Computes the end date of the race.
+     *
      * @param beginOfRace date of beginning of th race
-     * @param minutes duration of the race in minutes
+     * @param minutes     duration of the race in minutes
      * @return the end date of the race
      */
     private Date convertDate(final Date beginOfRace, int minutes) {
@@ -94,20 +92,21 @@ public class RaceController {
     /**
      * Creates a new {@link RaceModel race} object. It creates a factory which is able to create different types of race.
      * It can create two race types : a time race whose end is determined by a duration or a lap race whose end is determined by a number of laps.
-     * @param typeOfRace a lap race or a time race
-     * @param debutRace beginning of the race
+     *
+     * @param typeOfRace  a lap race or a time race
+     * @param debutRace   beginning of the race
      * @param racewayName the name of the raceway
-     * @param timeOfRace duration of race (in case of a time race)
-     * @param numbeOfLap the number of laps (in case of a lap race)
+     * @param timeOfRace  duration of race (in case of a time race)
+     * @param numbeOfLap  the number of laps (in case of a lap race)
      * @return the new {@link RaceModel race}
      */
-    public RaceModel createRace(RaceType typeOfRace, Date debutRace, String racewayName, int timeOfRace, int numbeOfLap) {
+    public RaceModel createRace(RaceType typeOfRace, String raceName, Date debutRace, String racewayName, int timeOfRace, int numbeOfLap) {
 
         RaceModel race;
         RaceFactory raceFactory = new RaceFactory();
 
         this.convertDate(debutRace, timeOfRace);
-        race = raceFactory.createRace(typeOfRace, debutRace, racewayName, this.convertDate(debutRace, timeOfRace), numbeOfLap);
+        race = raceFactory.createRace(typeOfRace, raceName, debutRace, racewayName, this.convertDate(debutRace, timeOfRace), numbeOfLap);
 
 
         try {

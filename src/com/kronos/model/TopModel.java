@@ -5,35 +5,65 @@ import com.kronos.api.Top;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
+/**
+ * @author TeamKronoS
+ * @version 1.0
+ * Represents a top and its properties. The top can be of three different types : R for Race (for a normal lap), I for In (when the car is entering into the pit-stop)
+ * and O for Out (when the car is leaving the pit-stop).
+ */
 @XmlRootElement
 public class TopModel implements Top {
 
 
-    private Date horaire ;
-    private String typeTop;
+    private Date time;
+    private String topType;
 
 
+    /**
+     * Constructor.
+     */
     public TopModel() { };
 
-    public TopModel (Date horaire, String typeTop){
-        this.horaire = horaire;
-        this.typeTop = typeTop;
+    /**
+     * Constructor.
+     * @param time top time
+     * @param topType top type.
+     */
+    public TopModel (Date time, String topType){
+        this.time = time;
+        this.topType = topType;
     }
 
-    public Date getHoraire() {
-        return horaire;
+    /**
+     * Gets the top time.
+     * @return the top time
+     */
+    public Date getTime() {
+        return time;
     }
 
-    public void setHoraire(Date horaire) {
-        this.horaire = horaire;
+    /**
+     * Sets the top time.
+     * @param time top time
+     */
+    public void setTime(Date time) {
+        this.time = time;
     }
 
-    public String getTypeTop() {
-        return typeTop;
+    /**
+     * Gets the top type.
+     * @return the top type
+     */
+    public String getTopType() {
+        return topType;
     }
 
-    public void setTypeTop(String typeTop) {
-        this.typeTop = typeTop;
+    /**
+     * Sets the top type.
+     * @param topType top type
+     */
+    public void setTopType(String topType) {
+        this.topType = topType;
     }
 
 

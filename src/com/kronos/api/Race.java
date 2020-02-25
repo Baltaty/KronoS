@@ -20,7 +20,7 @@ public interface Race {
      * Each race has the Time that it will start
      * @return startingTime it represent when the race will start
      */
-    Date getstartingTime();
+    Date getStartingTime();
 
     /**
      * The name of the race
@@ -29,10 +29,10 @@ public interface Race {
     String getRacewayName();
 
     /**
-     * Getting the type of the race  because we have two type of race
-     * @return the type of the race
+     *
+     * @return
      */
-    RaceType getRaceType();
+    String getRaceName();
 
 
 }

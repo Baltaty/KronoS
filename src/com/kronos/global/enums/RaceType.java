@@ -6,5 +6,5 @@ package com.kronos.global.enums;
  * Enumeration of race types.
  */
 public enum RaceType {
-    LAP_RACE, TIME_RACE
+    LAP_RACE, TIME_RACE, WARMUP_RACE
 }

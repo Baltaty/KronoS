@@ -2,14 +2,22 @@ package com.kronos.model;
 
 import com.kronos.api.Print;
 
+/**
+ * @author TeamKronoS
+ * @version 1.0
+ * Represents the properties necessary to generate the time sheets.
+ */
 public class PrintModel implements Print {
 
+    /**
+     * Constructor.
+     */
     public PrintModel() {
 
     }
 
     /**
-     * Gets the tops of each pilot
+     * Gets the tops of each pilot.
      */
     @Override
     public void getTopsForPilots() {
@@ -17,7 +25,7 @@ public class PrintModel implements Print {
     }
 
     /**
-     * Gets the tops of each car
+     * Gets the tops of each car.
      */
     @Override
     public void getTopsForCars() {
@@ -25,7 +33,7 @@ public class PrintModel implements Print {
     }
 
     /**
-     * Gets all the tops of the races
+     * Gets all the tops of each race.
      */
     @Override
     public void getTopsForRaces() {
