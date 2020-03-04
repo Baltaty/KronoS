@@ -1,14 +1,21 @@
 package com.kronos.parserXML.MainImpl;
 
+import com.kronos.model.PilotModel;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.StringWriter;
+import java.nio.file.Files;
 import java.util.regex.Pattern;
 
 public class ModelParser {
 
     /**
-     * constructir
+     * construction
      */
     public ModelParser() {
     }
@@ -45,6 +52,44 @@ public class ModelParser {
         }
 
         return null;
+    }
+
+
+    /**
+     *
+     */
+    private static String PATH = ".." + File.separator + "test.xml";
+
+    public void loadXmlFile() {
+
+
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(PilotModel.class);
+
+            /* Create Unmarshaller */
+            Unmarshaller unmarshaller =  jaxbContext.createUnmarshaller();
+
+            InputStream path = new FileInputStream(PATH);
+
+            PilotModel pilotModel = (PilotModel) unmarshaller.unmarshal(path);
+
+            System.out.println(pilotModel.toString());
+
+
+
+        } catch (Exception ex) {
+                ex.printStackTrace();
+        }
+
+    }
+
+
+
+    public static void main(String [] args){
+
+        ModelParser parser = new ModelParser();
+        parser.loadXmlFile();
+        System.out.println("===================");
     }
 
 

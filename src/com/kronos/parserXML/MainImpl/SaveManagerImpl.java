@@ -35,7 +35,7 @@ public class SaveManagerImpl implements SaveManager {
     /**
      * Model parser converter from model class to XML tag
      */
-    ModelParser parser;
+    private ModelParser parser;
 
     /**
      *
@@ -178,5 +178,6 @@ public class SaveManagerImpl implements SaveManager {
     public void redoState() {
 
     }
+
 
 }
