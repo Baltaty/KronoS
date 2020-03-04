@@ -3,7 +3,6 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTabPane?>
-<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
@@ -20,7 +19,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="1500.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.RaceresumeController">
+<StackPane prefHeight="1500.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.RaceresumeController">
 
 <!--    <stylesheets>-->
 <!--        <URL value="@../theme/css/material-color.css" />-->
@@ -91,7 +90,7 @@
                         <Pane prefHeight="261.0" prefWidth="404.0">
                             <children>
                                 <Label layoutX="112.0" layoutY="31.0" text="TEMPS MOYEN AU TOUR" />
-                                <ProgressBar layoutX="75.0" layoutY="102.0" prefHeight="20.0" prefWidth="244.0" progress="0.0" />
+                                <ProgressBar fx:id="meanTimeBar" layoutX="75.0" layoutY="102.0" prefHeight="20.0" prefWidth="244.0" progress="0.0" />
                             </children>
                         </Pane>
                         <Pane prefHeight="295.0" prefWidth="273.0">
@@ -102,7 +101,7 @@
                                             <children>
                                                 <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="94.0" layoutY="11.0" prefHeight="70.0" prefWidth="67.0" style="-fx-background-color: #57c6f2; -fx-background-radius: 200;">
                                                     <graphic>
-                                                        <ImageView fitHeight="54.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                                                        <ImageView fx:id="TopBtn" fitHeight="54.0" fitWidth="58.0" onTouchPressed="#handleMeanTimeBar" pickOnBounds="true" preserveRatio="true">
                                                             <image>
                                                                 <Image url="@../media/img/chrono.png" />
                                                             </image>
