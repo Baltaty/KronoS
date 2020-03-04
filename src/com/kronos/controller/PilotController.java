@@ -37,7 +37,7 @@ public class PilotController implements Initializable {
      * @return true if all information about the pilot is correct
      */
 
-    public Boolean checkingofpilot(PilotModel pilot) throws ParseException {
+    public Boolean checkPilot(PilotModel pilot) throws ParseException {
         boolean verify = true;
         if (!(Mask.isNumeric(String.valueOf(pilot.getId())))) {
             verify = false;
