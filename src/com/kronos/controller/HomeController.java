@@ -11,7 +11,9 @@
 //import com.fxexperience.javafx.animation.*;
 
     import com.jfoenix.controls.*;
+    import com.kronos.App;
     import com.kronos.global.enums.RaceType;
+    import com.kronos.global.plugin.ViewManager;
     import com.kronos.global.util.Alerts;
     import com.kronos.global.util.Mask;
     import com.kronos.model.*;
@@ -151,6 +153,7 @@
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////
         private RaceType typeOfRace;
+
 
         /**
          * Handles the startup of the race creation process.
@@ -357,6 +360,15 @@
             scene.addEventHandler(KeyEvent.KEY_PRESSED, e);
         }
 
+        /**
+         * Navigates to the interface used to control a race.
+         *
+         */
+
+        private void handleToControlPanel() {
+            //Stage stage = (Stage) startBtn.getScene().getWindow();
+            App.getDecorator().setContent(ViewManager.getInstance().get("main"));
+        }
 
         /**
          * Initializes parameters of JFX components which needs to be initialized upon startup.
@@ -710,6 +722,7 @@
                 System.out.println(saveManager.saveFile());
 
             }
+            handleToControlPanel();
 
 
         }
