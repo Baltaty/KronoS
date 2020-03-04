@@ -677,7 +677,7 @@
                 }
 
             }
-            RaceModel race = raceController.createRace(typeOfRace, raceName
+            RaceModel race = raceController.createRace(typeOfRace, raceName.getText(),
                     Date.from(startingTimeDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
                     racewayNameText.getText(), race_duration, race_numberOf_tour);
 
