@@ -22,21 +22,21 @@
 
 <StackPane prefHeight="1500.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.RaceresumeController">
 
-<!--    <stylesheets>-->
-<!--        <URL value="@../theme/css/material-color.css" />-->
-<!--        <URL value="@../theme/css/skeleton.css" />-->
-<!--        <URL value="@../theme/css/light.css" />-->
-<!--        <URL value="@../theme/css/bootstrap.css" />-->
-<!--        <URL value="@../theme/css/shape.css" />-->
-<!--        <URL value="@../theme/css/typographic.css" />-->
-<!--        <URL value="@../theme/css/helpers.css" />-->
-<!--        <URL value="@../theme/css/master.css" />-->
-<!--    </stylesheets>-->
-
+    <stylesheets>
+        <URL value="@../theme/css/material-color.css" />
+        <URL value="@../theme/css/skeleton.css" />
+        <URL value="@../theme/css/light.css" />
+        <URL value="@../theme/css/bootstrap.css" />
+        <URL value="@../theme/css/shape.css" />
+        <URL value="@../theme/css/typographic.css" />
+        <URL value="@../theme/css/helpers.css" />
+        <URL value="@../theme/css/master.css" />
+    </stylesheets>
+    
     <children>
         <VBox prefHeight="200.0" prefWidth="100.0">
             <children>
-                <HBox prefHeight="428.0" prefWidth="1053.0" style="-fx-border-color: black;">
+                <HBox prefHeight="495.0" prefWidth="1053.0" style="-fx-border-color: black;">
                     <children>
                         <Pane prefHeight="375.0" prefWidth="372.0" style="-fx-border-color: black;">
                             <children>
@@ -50,9 +50,9 @@
                                 <Label layoutX="46.0" layoutY="227.0" text="00 : 00 : 00" />
                                 <Label layoutX="209.0" layoutY="208.0" prefHeight="17.0" prefWidth="112.0" text="Temps restant" />
                                 <Label layoutX="224.0" layoutY="225.0" text="00 : 00 : 00" />
-                                <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="72.0" layoutY="289.0" prefHeight="30.0" prefWidth="26.0" style="-fx-background-radius: 200;" styleClass="btn-base" />
-                                <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="157.0" layoutY="289.0" prefHeight="30.0" prefWidth="26.0" style="-fx-background-radius: 200;" styleClass="btn-base" />
-                                <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="240.0" layoutY="287.0" prefHeight="30.0" prefWidth="26.0" style="-fx-background-color: #ff3d00ff3d00; -fx-background-radius: 200;" styleClass="btn-red" />
+                                <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="72.0" layoutY="264.0" prefHeight="30.0" prefWidth="39.0" style="-fx-background-radius: 200;" styleClass="btn-base" />
+                                <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="157.0" layoutY="264.0" prefHeight="30.0" prefWidth="39.0" style="-fx-background-radius: 200;" styleClass="btn-base" />
+                                <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="240.0" layoutY="262.0" prefHeight="30.0" prefWidth="39.0" style="-fx-background-color: #ff3d00ff3d00; -fx-background-radius: 200;" />
                             </children>
                         </Pane>
                         <Pane layoutX="10.0" layoutY="10.0" prefHeight="350.0" prefWidth="329.0" style="-fx-border-color: black;">
@@ -86,12 +86,12 @@
                         </Pane>
                     </children>
                 </HBox>
-                <HBox prefHeight="296.0" prefWidth="1053.0" style="-fx-border-color: black; -fx-spacing: 10;">
+                <HBox prefHeight="385.0" prefWidth="1053.0" style="-fx-border-color: black; -fx-spacing: 10;">
                     <children>
-                        <Pane prefHeight="261.0" prefWidth="404.0">
+                        <Pane id="btn" prefHeight="261.0" prefWidth="404.0">
                             <children>
                                 <Label layoutX="112.0" layoutY="31.0" text="TEMPS MOYEN AU TOUR" />
-                                <ProgressBar layoutX="75.0" layoutY="102.0" prefHeight="20.0" prefWidth="244.0" progress="0.0" />
+                                <ProgressBar layoutX="75.0" layoutY="123.0" prefHeight="20.0" prefWidth="244.0" progress="0.0" />
                             </children>
                         </Pane>
                         <Pane prefHeight="295.0" prefWidth="273.0">
@@ -154,7 +154,7 @@
                 </HBox>
                 <VBox prefHeight="439.0" prefWidth="1053.0">
                     <children>
-                        <TableView prefHeight="445.0" prefWidth="1053.0">
+                        <TableView prefHeight="388.0" prefWidth="1053.0">
                             <columns>
                                 <TableColumn prefWidth="75.0" text="C1" />
                                 <TableColumn prefWidth="75.0" text="C2" />
