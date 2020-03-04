@@ -93,8 +93,6 @@ public class Main implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources)  {
         ctrl = this;
-        App.getDecorator().setMaximized(true);
-        App.getDecorator().setResizable(true);
         loadContentPopup();
         //populateItems();
         filteredList = new FilteredList<>(items, s -> true);
@@ -114,18 +112,6 @@ public class Main implements Initializable {
             }
         });
         body.setContent(ViewManager.getInstance().get("raceresume"));
-        stylesheets = App.getDecorator().getScene().getStylesheets();
-        stylesheets.addAll(
-                getClass().getResource("/com/kronos/theme/css/fonts.css").toExternalForm(),
-                getClass().getResource("/com/kronos/theme/css/material-color.css").toExternalForm(),
-                getClass().getResource("/com/kronos/theme/css/skeleton.css").toExternalForm(),
-                getClass().getResource("/com/kronos/theme/css/light.css").toExternalForm(),
-                getClass().getResource("/com/kronos/theme/css/bootstrap.css").toExternalForm(),
-                getClass().getResource("/com/kronos/theme/css/shape.css").toExternalForm(),
-                getClass().getResource("/com/kronos/theme/css/typographic.css").toExternalForm(),
-                getClass().getResource("/com/kronos/theme/css/helpers.css").toExternalForm(),
-                getClass().getResource("/com/kronos/theme/css/master.css").toExternalForm()
-        );
         Scene scene = App.getDecorator().getScene();
         scene.setOnKeyPressed(new EventHandler<javafx.scene.input.KeyEvent>() {
             @Override

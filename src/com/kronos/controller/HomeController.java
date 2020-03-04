@@ -22,6 +22,7 @@
     import javafx.animation.RotateTransition;
     import javafx.animation.ScaleTransition;
     import javafx.collections.FXCollections;
+    import javafx.collections.ObservableList;
     import javafx.event.ActionEvent;
     import javafx.event.EventHandler;
     import javafx.fxml.FXML;
@@ -153,6 +154,7 @@
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////
         private RaceType typeOfRace;
+        public static ObservableList<String> stylesheets;
 
 
         /**
@@ -253,14 +255,15 @@
          */
         @FXML
         private void handleOldRaceClicked(ActionEvent event) {
-            try {
-                Stage stage = (Stage) startBtn.getScene().getWindow();
-                StackPane test = FXMLLoader.load(getClass().getResource("Racechoice.fxml"));
-                stage.setScene(new Scene(test));
-                stage.show();
-            } catch (IOException ex) {
-                Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            try {
+//                Stage stage = (Stage) startBtn.getScene().getWindow();
+//                StackPane test = FXMLLoader.load(getClass().getResource("Racechoice.fxml"));
+//                stage.setScene(new Scene(test));
+//                stage.show();
+//            } catch (IOException ex) {
+//                Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+            handleToControlPanel();
         }
 
         /**
@@ -367,6 +370,20 @@
 
         private void handleToControlPanel() {
             //Stage stage = (Stage) startBtn.getScene().getWindow();
+            stylesheets = App.getDecorator().getScene().getStylesheets();
+            stylesheets.addAll(
+                    getClass().getResource("/com/kronos/theme/css/fonts.css").toExternalForm(),
+                    getClass().getResource("/com/kronos/theme/css/material-color.css").toExternalForm(),
+                    getClass().getResource("/com/kronos/theme/css/skeleton.css").toExternalForm(),
+                    getClass().getResource("/com/kronos/theme/css/light.css").toExternalForm(),
+                    getClass().getResource("/com/kronos/theme/css/bootstrap.css").toExternalForm(),
+                    getClass().getResource("/com/kronos/theme/css/shape.css").toExternalForm(),
+                    getClass().getResource("/com/kronos/theme/css/typographic.css").toExternalForm(),
+                    getClass().getResource("/com/kronos/theme/css/helpers.css").toExternalForm(),
+                    getClass().getResource("/com/kronos/theme/css/master.css").toExternalForm()
+            );
+            App.getDecorator().setMaximized(true);
+            App.getDecorator().setResizable(true);
             App.getDecorator().setContent(ViewManager.getInstance().get("main"));
         }
 
