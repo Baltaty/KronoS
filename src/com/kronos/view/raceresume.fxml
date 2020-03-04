@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<StackPane prefHeight="1500.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.RaceresumeController">
+
+<!--    <stylesheets>-->
+<!--        <URL value="@../theme/css/material-color.css" />-->
+<!--        <URL value="@../theme/css/skeleton.css" />-->
+<!--        <URL value="@../theme/css/light.css" />-->
+<!--        <URL value="@../theme/css/bootstrap.css" />-->
+<!--        <URL value="@../theme/css/shape.css" />-->
+<!--        <URL value="@../theme/css/typographic.css" />-->
+<!--        <URL value="@../theme/css/helpers.css" />-->
+<!--        <URL value="@../theme/css/master.css" />-->
+<!--    </stylesheets>-->
+
+    <children>
+        <VBox prefHeight="200.0" prefWidth="100.0">
+            <children>
+                <HBox prefHeight="428.0" prefWidth="1053.0" style="-fx-border-color: black;">
+                    <children>
+                        <Pane prefHeight="375.0" prefWidth="372.0" style="-fx-border-color: black;">
+                            <children>
+                                <Circle fill="WHITE" layoutX="60.0" layoutY="63.0" radius="35.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" />
+                                <Label layoutX="146.0" layoutY="53.0" text="INFOS COURSE" />
+                                <Label layoutX="25.0" layoutY="127.0" prefHeight="17.0" prefWidth="112.0" text="Heure de depart" />
+                                <Label layoutX="46.0" layoutY="144.0" text="00 : 00 : 00" />
+                                <Label layoutX="216.0" layoutY="127.0" prefHeight="17.0" prefWidth="112.0" text="Heure actuelle" />
+                                <Label layoutX="230.0" layoutY="144.0" text="00 : 00 : 00" />
+                                <Label layoutX="35.0" layoutY="210.0" prefHeight="17.0" prefWidth="112.0" text="Temps ecoulé" />
+                                <Label layoutX="46.0" layoutY="227.0" text="00 : 00 : 00" />
+                                <Label layoutX="209.0" layoutY="208.0" prefHeight="17.0" prefWidth="112.0" text="Temps restant" />
+                                <Label layoutX="224.0" layoutY="225.0" text="00 : 00 : 00" />
+                                <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="72.0" layoutY="289.0" prefHeight="30.0" prefWidth="26.0" style="-fx-background-radius: 200;" styleClass="btn-base" />
+                                <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="157.0" layoutY="289.0" prefHeight="30.0" prefWidth="26.0" style="-fx-background-radius: 200;" styleClass="btn-base" />
+                                <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="240.0" layoutY="287.0" prefHeight="30.0" prefWidth="26.0" style="-fx-background-color: #ff3d00ff3d00; -fx-background-radius: 200;" styleClass="btn-red" />
+                            </children>
+                        </Pane>
+                        <Pane layoutX="10.0" layoutY="10.0" prefHeight="350.0" prefWidth="329.0" style="-fx-border-color: black;">
+                            <children>
+                                <Label layoutX="127.0" layoutY="47.0" text="PANNEAU" />
+                            </children>
+                        </Pane>
+                        <Pane prefHeight="375.0" prefWidth="372.0" style="-fx-border-color: black;">
+                            <children>
+                                <Circle fill="WHITE" layoutX="60.0" layoutY="63.0" radius="35.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" />
+                                <Label layoutX="102.0" layoutY="54.0" text="DETAILS DE LA VOITURE PRINCIPALE">
+                                    <font>
+                                        <Font name="System Bold" size="13.0" />
+                                    </font>
+                                </Label>
+                                <JFXTabPane layoutX="1.0" layoutY="102.0" prefHeight="223.0" prefWidth="359.0">
+                                    <tabs>
+                                        <Tab text="Pilote">
+                                            <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="260.0" prefWidth="359.0" />
+                                            </content>
+                                        </Tab>
+                                        <Tab text="Voiture">
+                                            <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                            </content>
+                                        </Tab>
+                                    </tabs>
+                                </JFXTabPane>
+                            </children>
+                        </Pane>
+                    </children>
+                </HBox>
+                <HBox prefHeight="296.0" prefWidth="1053.0" style="-fx-border-color: black; -fx-spacing: 10;">
+                    <children>
+                        <Pane prefHeight="261.0" prefWidth="404.0">
+                            <children>
+                                <Label layoutX="112.0" layoutY="31.0" text="TEMPS MOYEN AU TOUR" />
+                                <ProgressBar layoutX="75.0" layoutY="102.0" prefHeight="20.0" prefWidth="244.0" progress="0.0" />
+                            </children>
+                        </Pane>
+                        <Pane prefHeight="295.0" prefWidth="273.0">
+                            <children>
+                                <VBox alignment="CENTER" prefHeight="179.0" prefWidth="256.0">
+                                    <children>
+                                        <Pane prefHeight="99.0" prefWidth="256.0">
+                                            <children>
+                                                <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="94.0" layoutY="11.0" prefHeight="70.0" prefWidth="67.0" style="-fx-background-color: #57c6f2; -fx-background-radius: 200;">
+                                                    <graphic>
+                                                        <ImageView fitHeight="54.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                                                            <image>
+                                                                <Image url="@../media/img/chrono.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                    </graphic>
+                                                </JFXButton>
+                                            </children>
+                                        </Pane>
+                                        <HBox alignment="CENTER" prefHeight="65.0" prefWidth="256.0">
+                                            <children>
+                                                <Label alignment="CENTER" contentDisplay="CENTER" text="TYPE">
+                                                    <padding>
+                                                        <Insets right="20.0" top="20.0" />
+                                                    </padding>
+                                                </Label>
+                                                <JFXComboBox prefHeight="42.0" prefWidth="124.0" />
+                                            </children>
+                                        </HBox>
+                                        <VBox>
+                                            <children>
+                                                <HBox alignment="CENTER" prefHeight="65.0" prefWidth="256.0">
+                                                    <children>
+                                                        <Label alignment="CENTER" contentDisplay="CENTER" text="VOITURE">
+                                                            <padding>
+                                                                <Insets top="20.0" />
+                                                            </padding>
+                                                            <HBox.margin>
+                                                                <Insets left="-10.0" right="5.0" />
+                                                            </HBox.margin>
+                                                        </Label>
+                                                        <JFXComboBox prefHeight="42.0" prefWidth="124.0" />
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </Pane>
+                        <Pane prefHeight="261.0" prefWidth="404.0">
+                            <children>
+                                <Label alignment="TOP_CENTER" layoutX="98.0" layoutY="31.0" text="CLASSEMENT DE LA COURSE" />
+                            </children>
+                        </Pane>
+                    </children>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                </HBox>
+                <VBox prefHeight="439.0" prefWidth="1053.0">
+                    <children>
+                        <TableView prefHeight="445.0" prefWidth="1053.0">
+                            <columns>
+                                <TableColumn prefWidth="75.0" text="C1" />
+                                <TableColumn prefWidth="75.0" text="C2" />
+                            </columns>
+                        </TableView>
+                    </children></VBox>
+            </children>
+        </VBox>
+    </children>
+</StackPane>

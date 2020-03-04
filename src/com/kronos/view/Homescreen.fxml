@@ -19,7 +19,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="homeStack" prefHeight="713.0" prefWidth="1104.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.HomeController">
+<StackPane fx:id="homeStack" prefHeight="713.0" prefWidth="1104.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.HomeController">
    <children>
       <AnchorPane id="AnchorPane" prefHeight="704.0" prefWidth="868.0" scaleShape="false" style="-fx-background-color: WHITE;">
          <children>
@@ -41,7 +41,7 @@
                   <Image url="@../media/img/play.png" />
                </image>
             </ImageView>
-            <Text layoutX="310.0" layoutY="614.0" strokeType="OUTSIDE" strokeWidth="0.0" text="      CREER UNE &#10;NOUVELLE COURSE">
+            <Text layoutX="266.0" layoutY="603.0" strokeType="OUTSIDE" strokeWidth="0.0" text="      CREER UNE &#10;NOUVELLE COURSE">
                <font>
                   <Font name="Montserrat Bold" size="20.0" />
                </font>
@@ -304,9 +304,9 @@
                                              </font>
                                           </Label>
                                           <JFXTextField fx:id="raceName" layoutX="241.0" layoutY="207.0" prefHeight="28.0" prefWidth="149.0" />
-                                          <Label layoutX="42.0" layoutY="208.0" prefHeight="30.0" prefWidth="174.0" text="Nom de la course">
+                                          <Label layoutX="35.0" layoutY="214.0" prefHeight="30.0" prefWidth="174.0" text="Nom de la course">
                                              <font>
-                                                <Font name="System Bold" size="18.0" />
+                                                <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
                                        </children>
