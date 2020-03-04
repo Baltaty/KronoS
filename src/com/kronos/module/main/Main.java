@@ -1,6 +1,7 @@
 package com.kronos.module.main;
 
 import  com.gn.GNAvatarView;
+import com.kronos.App;
 import  com.kronos.global.plugin.ViewManager;
 import  com.kronos.global.factory.AlertCell;
 import com.jfoenix.controls.JFXBadge;
@@ -39,9 +40,9 @@ import java.util.ResourceBundle;
 
  /**
  * @author TeamKronos
- * 
+ *
  * Version 1.0
- */ 
+ */
 public class Main implements Initializable {
 
     @FXML private GNAvatarView avatar;
@@ -68,8 +69,10 @@ public class Main implements Initializable {
     @FXML private JFXBadge notifications;
     @FXML private JFXBadge bg_info;
     @FXML private RadioButton available;
+     public static ObservableList<String> stylesheets;
 
-    private FilteredList<Button> filteredList = null;
+
+     private FilteredList<Button> filteredList = null;
 
     public static  final PopOver popConfig = new PopOver();
 
@@ -91,7 +94,7 @@ public class Main implements Initializable {
     public void initialize(URL location, ResourceBundle resources)  {
         ctrl = this;
         loadContentPopup();
-        populateItems();
+        //populateItems();
         filteredList = new FilteredList<>(items, s -> true);
 
         search.textProperty().addListener(obs -> {
@@ -108,32 +111,23 @@ public class Main implements Initializable {
 
             }
         });
-        body.setContent(ViewManager.getInstance().get("dashboard"));
-
-        try {
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-        Scene scene = Main.popConfig.getScene();
+        body.setContent(ViewManager.getInstance().get("raceresume"));
+        Scene scene = App.getDecorator().getScene();
         scene.setOnKeyPressed(new EventHandler<javafx.scene.input.KeyEvent>() {
             @Override
             public void handle(javafx.scene.input.KeyEvent event) {
-                //System.out.println(" je suis dans la fonction  ");
+                System.out.println(" je suis dans la fonction  ");
                 KeyCode keyCode = event.getCode();
                 Integer keyTop = KeyEvent.VK_F1;
-
                 if (keyCode == KeyCode.F1)
                     System.out.println("You have pressed the F1 key ");
             }
         });
-
     }
 
     @FXML
     private void altLayout() {
-        
+
         int minimum = 70;
         int max = 250;
 
@@ -527,11 +521,11 @@ public class Main implements Initializable {
     }
 
 
-    @FXML
-    private void dashboard(){
-        title.setText("Dashboard");
-        body.setContent(ViewManager.getInstance().get("dashboard"));
-    }
+     @FXML
+     private void dashboard(){
+         title.setText("Dashboard");
+         body.setContent(ViewManager.getInstance().get("raceresume"));
+     }
 
     @FXML
     private void areaChart(){
