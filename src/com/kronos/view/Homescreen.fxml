@@ -41,7 +41,7 @@
                   <Image url="@../media/img/play.png" />
                </image>
             </ImageView>
-            <Text layoutX="310.0" layoutY="614.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DEMARRER">
+            <Text layoutX="310.0" layoutY="614.0" strokeType="OUTSIDE" strokeWidth="0.0" text="      CREER UNE &#10;NOUVELLE COURSE">
                <font>
                   <Font name="Montserrat Bold" size="20.0" />
                </font>
