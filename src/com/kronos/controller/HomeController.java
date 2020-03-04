@@ -611,7 +611,7 @@
             PilotModel pilotcont = new PilotModel(lastnamecont, firstnamecont, commentcont, pilotdatofbirthcont, pilotweightcont, pilotweightcont);
 
 
-                if (pilotcontroller.checkingofpilot(pilotcont) && check) {
+                if (pilotcontroller.checkPilot(pilotcont) && check) {
                     pilotsList.add(pilotcont);
                     carPilot.getItems().add(firstnamecont + " " + lastnamecont);
                     Alerts.success("SUCCÈS", "Pilote ajouté");
