@@ -1,6 +1,9 @@
 package com.kronos.parserXML.MainImpl;
 
 import com.kronos.parserXML.api.SaveManager;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -141,16 +144,20 @@ public class SaveManagerImpl implements SaveManager {
         this.nameFile = nameFile;
     }
 
+    /**
+     *
+     * @param fileXML
+     * @return boolean
+     */
+    private boolean processSave(File fileXML){
+        if(fileXML == null)
+            return false;
 
-    @Override
-    public boolean saveFile() {
         for (Object beans : listOfBeans) {
             stringBuilder.append(parser.parseModel(beans));
         }
 
         try {
-            String file = PATH + getNameFile() + ".xml";
-            File fileXML = new File(file);
             if(fileXML.exists()){
                 fileXML.delete();
             }
@@ -168,6 +175,37 @@ public class SaveManagerImpl implements SaveManager {
 
         return false;
     }
+
+
+    /**
+     *
+     * @return boolean
+     */
+    @Override
+    public boolean saveFile() {
+        String filePath = PATH + getNameFile() + ".xml";
+        File fileXML = new File(filePath);
+        return processSave(fileXML);
+    }
+
+
+    /**
+     *
+     * @param stage
+     * @return boolean
+     */
+    public boolean saveFileUnder(Stage stage) {
+        String file = PATH + getNameFile() + ".xml";
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialFileName(file);
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Text Files", "*.xml")
+        );
+        File selectedFile = fileChooser.showSaveDialog(stage);
+
+        return processSave(selectedFile);
+    }
+
 
     @Override
     public void undoState() {

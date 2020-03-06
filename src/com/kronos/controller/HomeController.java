@@ -702,8 +702,7 @@
                     if (Mask.isNumeric(this.raceDuration.getText())) {
                         System.out.println("in timeRace");
                         race_duration = Integer.parseInt(this.raceDuration.getText());
-                        System.out.println(race_duration);
-                        System.out.println("=================");
+
                     }
                 } else {
                     // Bloquer le bouton Commencer,
@@ -725,14 +724,10 @@
                     Date.from(startingTimeDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
                     racewayNameText.getText(), race_duration, race_numberOf_tour);
 
-            System.out.println("======================");
-            System.out.println(typeOfRace.toString());
-            System.out.println("======================");
-
             if (race != null) {
 
                 // Save test save manager
-                SaveManagerImpl saveManager = SaveManagerImpl.getInstance();
+                SaveManagerImpl saveManager = App.getDataManager();
                 saveManager.persist(pilotsList);
                 saveManager.persist(carsList);
                 saveManager.persist(race);

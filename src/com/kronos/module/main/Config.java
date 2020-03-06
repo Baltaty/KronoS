@@ -5,13 +5,17 @@ import  com.kronos.App;
 import  com.kronos.global.plugin.ViewManager;
 import   com.gn.decorator.GNDecorator;
 import com.jfoenix.controls.JFXButton;
+import com.kronos.parserXML.MainImpl.SaveManagerImpl;
+import com.kronos.parserXML.api.SaveManager;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.Locale;
@@ -32,6 +36,9 @@ public class Config implements Initializable {
     
     @FXML
     private JFXButton btn_eng;
+
+    @FXML
+    private JFXButton  btnSaveUnderFile;
     
 
     @FXML
@@ -120,5 +127,13 @@ public class Config implements Initializable {
         locale = new Locale(lang);
         bundle = ResourceBundle.getBundle("com.kronos.lang",locale);
         Main.ctrl.title.setText(bundle.getString("title"));
+    }
+
+
+    @FXML
+     public void saveUnderFile(ActionEvent event) {
+
+        SaveManagerImpl saveManager =  App.getDataManager();
+        saveManager.saveFileUnder((Stage) App.getDecorator().getScene().getWindow());
     }
 }
