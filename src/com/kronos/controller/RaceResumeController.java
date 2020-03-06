@@ -9,7 +9,7 @@ import javafx.scene.control.ProgressBar;
 
 import java.util.ArrayList;
 
-public class RaceresumeController {
+public class RaceResumeController {
     @FXML
     ProgressBar meanTimeBar;
     @FXML
@@ -18,7 +18,6 @@ public class RaceresumeController {
     private static ArrayList<Double> listOfMeanTime = new ArrayList<>();
     private static Double meantime = 0.00;
     PulseTransition pulseTransition;
-
 
     @FXML
     public void handleMeanTimeBar(ActionEvent actionEvent) {

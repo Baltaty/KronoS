@@ -476,6 +476,8 @@
                     MainCarModel mainCarModel = new MainCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
                     if (checkNewCarFields(mainCarModel)) {
                         carsList.add(mainCarModel);
+                        carController.getCarModels().add(mainCarModel);
+                        carController.getCarNumbers().add(Integer.toString(mainCarModel.getNumber()));
                         mainCarCreated = true;
                         carPilot.getItems().remove(carPilot.getSelectionModel().getSelectedIndex());
                         Alerts.success("SUCCÈS", "Nouvelle voiture créée");
@@ -485,6 +487,8 @@
                     RivalCarModel rivalCarModel = new RivalCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
                     if (checkNewCarFields(rivalCarModel)) {
                         carsList.add(rivalCarModel);
+                        carController.getCarModels().add(rivalCarModel);
+                        carController.getCarNumbers().add(Integer.toString(rivalCarModel.getNumber()));
                         carPilot.getItems().remove(carPilot.getSelectionModel().getSelectedIndex());
                         Alerts.success("SUCCÈS", "Nouvelle voiture créée");
                         clearNewCarFields();
@@ -723,6 +727,10 @@
             RaceModel race = raceController.createRace(typeOfRace, raceName.getText(),
                     Date.from(startingTimeDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
                     racewayNameText.getText(), race_duration, race_numberOf_tour);
+            carController.setRaceModel(race);
+            System.out.println("======================");
+            System.out.println(typeOfRace.toString());
+            System.out.println("======================");
 
             if (race != null) {
 
