@@ -219,7 +219,7 @@ public class SaveManagerImpl implements SaveManager {
      * @param instance Class
      * @return
      */
-    public List<Object> getModel(final Class instance) {
+    public List<Object> getModels(final Class instance) {
 
         List<Object> objects = new ArrayList<>();
 
