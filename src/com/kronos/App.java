@@ -10,6 +10,7 @@ import   com.gn.decorator.GNDecorator;
 import   com.gn.decorator.options.ButtonType;
 import  com.kronos.module.loader.Loader;
 import  com.kronos.module.main.Main;
+import com.kronos.parserXML.MainImpl.SaveManagerImpl;
 import com.sun.javafx.application.LauncherImpl;
 import javafx.application.Application;
 import javafx.application.HostServices;
@@ -61,7 +62,7 @@ public class App extends Application {
         load("login", "account");
         load2("Homescreen");
         load2("raceresume");
-
+        dataManager =  SaveManagerImpl.getInstance();
         // delay
         try {
             wait(300);
@@ -97,6 +98,14 @@ public class App extends Application {
         decorator.setContent(ViewManager.getInstance().get("Homescreen"));
     }
 
+
+    /*  */
+    private static SaveManagerImpl dataManager;
+    public  static SaveManagerImpl getDataManager() {
+        return dataManager;
+    }
+
+
     @Override
     public  void start(Stage primary) {
 
@@ -116,6 +125,8 @@ public class App extends Application {
     public static void main(String[] args) {
         LauncherImpl.launchApplication(App.class, Loader.class, args);
     }
+
+
     private void load(String module, String name){
         try {
             ViewManager.getInstance().put(

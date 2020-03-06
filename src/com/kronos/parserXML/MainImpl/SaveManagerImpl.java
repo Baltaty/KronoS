@@ -1,6 +1,9 @@
 package com.kronos.parserXML.MainImpl;
 
 import com.kronos.parserXML.api.SaveManager;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -35,7 +38,7 @@ public class SaveManagerImpl implements SaveManager {
     /**
      * Model parser converter from model class to XML tag
      */
-    ModelParser parser;
+    private ModelParser parser;
 
     /**
      *
@@ -50,7 +53,7 @@ public class SaveManagerImpl implements SaveManager {
     /**
      * XML TAG to be added at the beginning of each XML file for file standardization
      */
-    private static String  XML_STANDARD_TAG =  "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
+    private static String XML_STANDARD_TAG = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
 
 
     /**
@@ -61,9 +64,9 @@ public class SaveManagerImpl implements SaveManager {
         stringBuilder = new StringBuilder();
         stringBuilder.append(XML_STANDARD_TAG);
         parser = new ModelParser();
-        String [] date_to_format_string = new Date().toString().split(":");
-        for (String character : date_to_format_string){
-            nameFile +=character;
+        String[] date_to_format_string = new Date().toString().split(":");
+        for (String character : date_to_format_string) {
+            nameFile += character;
         }
 
     }
@@ -93,7 +96,7 @@ public class SaveManagerImpl implements SaveManager {
     }
 
 
-    public void persist(final Collection<? extends Object> collections){
+    public void persist(final Collection<? extends Object> collections) {
         Objects.requireNonNull(collections);
         listOfBeans.addAll(collections);
     }
@@ -141,17 +144,20 @@ public class SaveManagerImpl implements SaveManager {
         this.nameFile = nameFile;
     }
 
+    /**
+     * @param fileXML
+     * @return boolean
+     */
+    private boolean processSave(File fileXML) {
+        if (fileXML == null)
+            return false;
 
-    @Override
-    public boolean saveFile() {
         for (Object beans : listOfBeans) {
             stringBuilder.append(parser.parseModel(beans));
         }
 
         try {
-            String file = PATH + getNameFile() + ".xml";
-            File fileXML = new File(file);
-            if(fileXML.exists()){
+            if (fileXML.exists()) {
                 fileXML.delete();
             }
             FileWriter fileWriter = new FileWriter(fileXML, true);
@@ -169,6 +175,35 @@ public class SaveManagerImpl implements SaveManager {
         return false;
     }
 
+
+    /**
+     * @return boolean
+     */
+    @Override
+    public boolean saveFile() {
+        String filePath = PATH + getNameFile() + ".xml";
+        File fileXML = new File(filePath);
+        return processSave(fileXML);
+    }
+
+
+    /**
+     * @param stage
+     * @return boolean
+     */
+    public boolean saveFileUnder(Stage stage) {
+        String file = PATH + getNameFile() + ".xml";
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialFileName(file);
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Text Files", "*.xml")
+        );
+        File selectedFile = fileChooser.showSaveDialog(stage);
+
+        return processSave(selectedFile);
+    }
+
+
     @Override
     public void undoState() {
 
@@ -178,5 +213,24 @@ public class SaveManagerImpl implements SaveManager {
     public void redoState() {
 
     }
+
+
+    /**
+     * @param instance Class
+     * @return
+     */
+    public List<Object> getModels(final Class instance) {
+
+        List<Object> objects = new ArrayList<>();
+
+        for (Object model : getListOfBeans()) {
+            if (model.getClass().equals(instance)) {
+                objects.add(model);
+            }
+        }
+
+        return objects;
+    }
+
 
 }

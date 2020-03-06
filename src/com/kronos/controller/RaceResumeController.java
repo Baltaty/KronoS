@@ -1,5 +1,6 @@
 package com.kronos.controller;
 
+import com.kronos.global.animation.PulseTransition;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,39 +9,40 @@ import javafx.scene.control.ProgressBar;
 
 import java.util.ArrayList;
 
-public class RaceresumeController {
+public class RaceResumeController {
     @FXML
     ProgressBar meanTimeBar;
     @FXML
     Button TopBtn;
 
-   private static ArrayList<Double> listOfMeanTime = new ArrayList<>();
-   private static Double meantime = 0.00;
-
+    private static ArrayList<Double> listOfMeanTime = new ArrayList<>();
+    private static Double meantime = 0.00;
+    PulseTransition pulseTransition;
 
     @FXML
     public void handleMeanTimeBar(ActionEvent actionEvent) {
-        listOfMeanTime.add((double) 2);
+
+        pulseTransition = new PulseTransition(meanTimeBar);
+        listOfMeanTime.add(0.2);
         meantime = getMeanTime(listOfMeanTime);
-        System.out.println(meantime);
         int timeToUpload = (int) (meantime * 60);
+        stopanimation();
 
         Task<Void> task = new Task<Void>() {
 
             @Override
             protected Void call() throws Exception {
 
-                meanTimeBar.setStyle("-fx-accent: blue");
+                meanTimeBar.setStyle("-fx-accent: blue;");
                 updateProgress(1, timeToUpload);
                 for (int i = 0; i < timeToUpload; i++) {
                     updateProgress(i + 1, timeToUpload);
                     Thread.sleep(1000);
                 }
-                meanTimeBar.setStyle("-fx-accent: red");
-                /*pulse.setCycleCount(PulseTransition.INDEFINITE);
-                pulse.play();
-*/
 
+                meanTimeBar.setStyle("-fx-accent: red;");
+                pulseTransition.setCycleCount(PulseTransition.INDEFINITE);
+                pulseTransition.play();
                 return null;
             }
         };
@@ -54,8 +56,16 @@ public class RaceresumeController {
 
     }
 
+    public void stopanimation() {
+
+        pulseTransition.stop();
+        System.out.println("bouton pressed");
+
+    }
+
     /**
      * function to calculate the mean time of laps
+     *
      * @param mylistoftime
      * @return meanTime  of laps
      */
