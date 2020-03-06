@@ -53,7 +53,7 @@ public class SaveManagerImpl implements SaveManager {
     /**
      * XML TAG to be added at the beginning of each XML file for file standardization
      */
-    private static String  XML_STANDARD_TAG =  "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
+    private static String XML_STANDARD_TAG = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
 
 
     /**
@@ -64,9 +64,9 @@ public class SaveManagerImpl implements SaveManager {
         stringBuilder = new StringBuilder();
         stringBuilder.append(XML_STANDARD_TAG);
         parser = new ModelParser();
-        String [] date_to_format_string = new Date().toString().split(":");
-        for (String character : date_to_format_string){
-            nameFile +=character;
+        String[] date_to_format_string = new Date().toString().split(":");
+        for (String character : date_to_format_string) {
+            nameFile += character;
         }
 
     }
@@ -96,7 +96,7 @@ public class SaveManagerImpl implements SaveManager {
     }
 
 
-    public void persist(final Collection<? extends Object> collections){
+    public void persist(final Collection<? extends Object> collections) {
         Objects.requireNonNull(collections);
         listOfBeans.addAll(collections);
     }
@@ -145,12 +145,11 @@ public class SaveManagerImpl implements SaveManager {
     }
 
     /**
-     *
      * @param fileXML
      * @return boolean
      */
-    private boolean processSave(File fileXML){
-        if(fileXML == null)
+    private boolean processSave(File fileXML) {
+        if (fileXML == null)
             return false;
 
         for (Object beans : listOfBeans) {
@@ -158,7 +157,7 @@ public class SaveManagerImpl implements SaveManager {
         }
 
         try {
-            if(fileXML.exists()){
+            if (fileXML.exists()) {
                 fileXML.delete();
             }
             FileWriter fileWriter = new FileWriter(fileXML, true);
@@ -178,7 +177,6 @@ public class SaveManagerImpl implements SaveManager {
 
 
     /**
-     *
      * @return boolean
      */
     @Override
@@ -190,7 +188,6 @@ public class SaveManagerImpl implements SaveManager {
 
 
     /**
-     *
      * @param stage
      * @return boolean
      */
@@ -215,6 +212,24 @@ public class SaveManagerImpl implements SaveManager {
     @Override
     public void redoState() {
 
+    }
+
+
+    /**
+     * @param instance Class
+     * @return
+     */
+    public List<Object> getModel(final Class instance) {
+
+        List<Object> objects = new ArrayList<>();
+
+        for (Object model : getListOfBeans()) {
+            if (model.getClass().equals(instance)) {
+                objects.add(model);
+            }
+        }
+
+        return objects;
     }
 
 
