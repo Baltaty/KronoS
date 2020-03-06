@@ -1,5 +1,7 @@
 package com.kronos.parserXML.MainImpl;
 
+import com.kronos.api.Observer;
+import com.kronos.api.Subject;
 import com.kronos.parserXML.api.SaveManager;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -15,8 +17,9 @@ import java.util.*;
  * @version 1.0
  * Implementation of the Savemanager interface, this class is a singleton
  */
-public class SaveManagerImpl implements SaveManager {
+public class SaveManagerImpl implements SaveManager, Subject {
 
+    private List<Observer> observers = new ArrayList<>();
 
     /**
      * collection of models to be persisted in the XML file
@@ -233,4 +236,13 @@ public class SaveManagerImpl implements SaveManager {
     }
 
 
+    @Override
+    public void attach(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void detach(Observer observer) {
+        observers.remove(observer);
+    }
 }

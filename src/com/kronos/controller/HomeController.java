@@ -476,8 +476,8 @@
                     MainCarModel mainCarModel = new MainCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
                     if (checkNewCarFields(mainCarModel)) {
                         carsList.add(mainCarModel);
-                        carController.getCarModels().add(mainCarModel);
-                        carController.getCarNumbers().add(Integer.toString(mainCarModel.getNumber()));
+                        App.getDataManager().persist(mainCarModel);
+                        carController.update();
                         mainCarCreated = true;
                         carPilot.getItems().remove(carPilot.getSelectionModel().getSelectedIndex());
                         Alerts.success("SUCCÈS", "Nouvelle voiture créée");
@@ -487,8 +487,8 @@
                     RivalCarModel rivalCarModel = new RivalCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
                     if (checkNewCarFields(rivalCarModel)) {
                         carsList.add(rivalCarModel);
-                        carController.getCarModels().add(rivalCarModel);
-                        carController.getCarNumbers().add(Integer.toString(rivalCarModel.getNumber()));
+                        App.getDataManager().persist(rivalCarModel);
+                        carController.update();
                         carPilot.getItems().remove(carPilot.getSelectionModel().getSelectedIndex());
                         Alerts.success("SUCCÈS", "Nouvelle voiture créée");
                         clearNewCarFields();

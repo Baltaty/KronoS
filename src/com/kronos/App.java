@@ -62,7 +62,7 @@ public class App extends Application {
         load("login", "account");
         load2("Homescreen");
         load2("raceresume");
-        dataManager =  SaveManagerImpl.getInstance();
+
         // delay
         try {
             wait(300);
@@ -100,7 +100,7 @@ public class App extends Application {
 
 
     /*  */
-    private static SaveManagerImpl dataManager;
+    public static SaveManagerImpl dataManager;
     public  static SaveManagerImpl getDataManager() {
         return dataManager;
     }
@@ -119,7 +119,6 @@ public class App extends Application {
         decorator.setMaximized(false);
         decorator.setResizable(false);
         decorator.show();
-
     }
 
     public static void main(String[] args) {

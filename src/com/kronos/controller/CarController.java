@@ -3,6 +3,8 @@ package com.kronos.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.kronos.App;
+import com.kronos.api.Observer;
 import com.kronos.api.TimeRace;
 import com.kronos.api.Top;
 import com.kronos.global.util.Mask;
@@ -20,6 +22,7 @@ import javafx.scene.control.ComboBox;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -27,12 +30,10 @@ import java.util.ResourceBundle;
  * @version 1.0
  * Controller of the {@link com.kronos.model.CarModel car} objects.
  */
-public class CarController implements Initializable {
+public class CarController implements Initializable, Observer {
 
     private RaceModel raceModel;
-    private ArrayList<CarModel> carModels = new ArrayList<>();
-    private ArrayList<String> carNumbers = new ArrayList<>();
-    private ObservableList<String> carModelsObs = FXCollections.observableArrayList(carNumbers);
+    private List<CarModel> carModels = new ArrayList<>();
 
     @FXML
     private JFXButton TopBtn;
@@ -42,13 +43,12 @@ public class CarController implements Initializable {
     private ComboBox<String> topType;
 
     public CarController() {
-
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        App.getDataManager().attach(this);
         topType.setItems(FXCollections.observableArrayList("I", "O", "R"));
-        car.setItems(FXCollections.observableArrayList(carModelsObs));
     }
 
     /**
@@ -162,33 +162,15 @@ public class CarController implements Initializable {
 
     /**
      *
-     * @return
-     */
-    public ArrayList<CarModel> getCarModels() {
-        return carModels;
-    }
-
-    /**
-     *
      * @param carModels
      */
     public void setCarModels(ArrayList<CarModel> carModels) {
         this.carModels = carModels;
     }
 
-    /**
-     *
-     * @return
-     */
-    public ArrayList<String> getCarNumbers() {
-        return carNumbers;
-    }
 
-    /**
-     *
-     * @param carNumbers
-     */
-    public void setCarNumbers(ArrayList<String> carNumbers) {
-        this.carNumbers = carNumbers;
+    @Override
+    public void update() {
+        carModels = (List<CarModel>) (List<?>) App.getDataManager().getModels(CarModel.class);
     }
 }

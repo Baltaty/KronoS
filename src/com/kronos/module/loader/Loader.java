@@ -2,6 +2,8 @@
 package com.kronos.module.loader;
 
 import com.jfoenix.controls.JFXProgressBar;
+import com.kronos.App;
+import com.kronos.parserXML.MainImpl.SaveManagerImpl;
 import javafx.application.Preloader;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -27,6 +29,8 @@ public class Loader extends Preloader {
     @Override
     public void init(){
         try {
+            App.dataManager =  SaveManagerImpl.getInstance();
+            System.out.println("initialization de datamanager");
             view = FXMLLoader.load(getClass().getResource("/com/kronos/module/loader/loader.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
