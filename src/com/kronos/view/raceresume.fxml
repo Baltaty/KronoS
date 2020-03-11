@@ -101,7 +101,7 @@
                                     <children>
                                         <Pane prefHeight="99.0" prefWidth="256.0">
                                             <children>
-                                                <JFXButton fx:id="TopBtn" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="94.0" layoutY="11.0" onAction="#handleMeanTimeBar" prefHeight="70.0" prefWidth="67.0" style="-fx-background-color: #57c6f2; -fx-background-radius: 200;">
+                                                <JFXButton fx:id="TopBtn" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="94.0" layoutY="11.0" onAction="#handleTopButtonClick" prefHeight="70.0" prefWidth="67.0" style="-fx-background-color: #57c6f2; -fx-background-radius: 200;">
                                                     <graphic>
                                                         <ImageView fitHeight="54.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
                                                             <image>

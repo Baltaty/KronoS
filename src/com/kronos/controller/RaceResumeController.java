@@ -1,29 +1,31 @@
 package com.kronos.controller;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXToggleButton;
+import com.kronos.App;
+import com.kronos.api.Observer;
 import com.kronos.global.animation.PulseTransition;
-import com.kronos.model.TopModel;
+import com.kronos.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.DateStringConverter;
 import javafx.util.converter.DoubleStringConverter;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.ResourceBundle;
+import java.util.*;
 
-public class RaceResumeController implements Initializable{
+public class RaceResumeController implements Initializable, Observer {
+
+    private RaceModel raceModel;
+    private CarController carController = new CarController();
+
     @FXML
     ProgressBar meanTimeBar;
 
@@ -58,7 +60,67 @@ public class RaceResumeController implements Initializable{
     PulseTransition pulseTransition;
 
     @FXML
-    public void handleMeanTimeBar(ActionEvent actionEvent) {
+    private ComboBox<String> car;
+    @FXML
+    private ComboBox<String> topType;
+
+    /**
+     *
+     * @param url
+     * @param rb
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        App.getDataManager().attach(this);
+        topType.setItems(FXCollections.observableArrayList("I", "O", "R"));
+        System.out.println("coucou");
+        System.out.println(getFollowedCarsNumbers(getFollowedCars()).size());
+        car.setItems(FXCollections.observableArrayList(getFollowedCarsNumbers(getFollowedCars())));
+
+        initTable();
+        loadData();
+    }
+
+    /**
+     *
+     * @param event
+     */
+    @FXML
+    public void handleTopButtonClick(ActionEvent event) {
+        handleNewTop();
+        handleMeanTimeBar();
+    }
+
+    /**
+     *
+     */
+    private void handleNewTop() {
+        String type = topType.getSelectionModel().getSelectedItem();
+        int carNumber = Integer.parseInt(car.getSelectionModel().getSelectedItem());
+        Date topTime = null;
+        Double raceTime = null;
+        Double lapTime = null;
+        Integer lap = null;
+        String comment = "";
+        CarModel carModel = carController.findCar(carNumber);
+        if (carController.checkTopLogic(type, carModel.getTopList().get(carModel.getTopList().size() - 1).getTopType())) {
+            TopModel topModel = null;
+            if(raceModel instanceof TimeRaceModel) {
+                topModel = new TopModel(topTime, type, raceTime , lapTime, comment);
+                System.out.println("top time");
+            }
+            else {
+                topModel = new TopModel(topTime, type, lap, lapTime, comment);
+                System.out.println("top lap");
+            }
+            carController.findCar(carNumber).getTopList().add(topModel);
+        }
+    }
+
+    /**
+     *
+     */
+    private void handleMeanTimeBar() {
 
         pulseTransition = new PulseTransition(meanTimeBar);
         listOfMeanTime.add(0.2);
@@ -92,6 +154,9 @@ public class RaceResumeController implements Initializable{
         thread.start();
     }
 
+    /**
+     *
+     */
     @FXML
     public void editable() {
         if (toogleedit.isSelected()) {
@@ -101,16 +166,16 @@ public class RaceResumeController implements Initializable{
         }
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        initTable();
-        loadData();
-    }
-
+    /**
+     *
+     */
     private void initTable() {
         initCols();
     }
 
+    /**
+     *
+     */
     private void initCols() {
 
         col_typetop.setCellValueFactory(new PropertyValueFactory<>("topType"));
@@ -122,6 +187,9 @@ public class RaceResumeController implements Initializable{
         editableCols();
     }
 
+    /**
+     *
+     */
     private void editableCols() {
 
         col_typetop.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -146,6 +214,9 @@ public class RaceResumeController implements Initializable{
 
     }
 
+    /**
+     *
+     */
     private void loadData() {
         table_info.getItems().clear();
         data_table = FXCollections.observableArrayList(
@@ -160,6 +231,9 @@ public class RaceResumeController implements Initializable{
 
     }
 
+    /**
+     *
+     */
     public void stopanimation() {
 
         pulseTransition.stop();
@@ -188,6 +262,40 @@ public class RaceResumeController implements Initializable{
         }
 
         return meantimeaux;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public ArrayList<CarModel> getFollowedCars() {
+        ArrayList<CarModel> followedCars = new ArrayList<>();
+        List<GenericParser> genericModels = App.getDataManager().getModels(CarModel.class);
+        for(GenericParser genericModel : genericModels) {
+            followedCars.add((CarModel) genericModel.getObjectToGenerify());
+        }
+        return followedCars;
+    }
+
+    /**
+     *
+     * @param followedCars
+     * @return
+     */
+    public ArrayList<String> getFollowedCarsNumbers(ArrayList<CarModel> followedCars) {
+        ArrayList<String> followedCarsNumbers = new ArrayList<>();
+        for(CarModel followedCar : followedCars) {
+            followedCarsNumbers.add(Integer.toString(followedCar.getNumber()));
+        }
+        return followedCarsNumbers;
+    }
+
+    /**
+     *
+     */
+    @Override
+    public void update() {
+
     }
 
 

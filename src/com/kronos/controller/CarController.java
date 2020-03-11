@@ -28,61 +28,15 @@ import java.util.ResourceBundle;
  * @version 1.0
  * Controller of the {@link com.kronos.model.CarModel car} objects.
  */
-public class CarController implements Initializable, Observer {
+public class CarController {
 
     private RaceModel raceModel;
     private List<CarModel> carModels = new ArrayList<>();
-    private ObservableList<String> carNumbersObservable = FXCollections.observableArrayList();
 
-    @FXML
-    private JFXButton TopBtn;
-    @FXML
-    private ComboBox<String> car;
-    @FXML
-    private ComboBox<String> topType;
 
 
     public CarController() {
     }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        App.getDataManager().attach(this);
-        topType.setItems(FXCollections.observableArrayList("I", "O", "R"));
-        car.setItems(carNumbersObservable);
-
-    }
-
-
-
-    /**
-     *
-     * @param event
-     */
-    @FXML
-    public void handleTopButtonClicked(ActionEvent event) {
-        String type = topType.getSelectionModel().getSelectedItem();
-        int carNumber = Integer.parseInt(car.getSelectionModel().getSelectedItem());
-        Date topTime = null;
-        Double raceTime = null;
-        Integer lap = null;
-        String comment = "";
-        CarModel carModel = findCar(carNumber);
-        if (checkTopLogic(type, carModel.getTopList().get(carModel.getTopList().size() - 1).getTopType())) {
-            TopModel topModel = null;
-            if(raceModel instanceof TimeRaceModel) {
-                topModel = new TopModel(topTime, type, raceTime, comment);
-                System.out.println("top time");
-            }
-            else {
-                topModel = new TopModel(topTime, type, lap, comment);
-                System.out.println("top lap");
-            }
-            findCar(carNumber).getTopList().add(topModel);
-        }
-    }
-
-
 
     /**
      * Checks if the data input for a {@link com.kronos.api.Car car} is correct.
@@ -170,17 +124,5 @@ public class CarController implements Initializable, Observer {
      */
     public void setCarModels(ArrayList<CarModel> carModels) {
         this.carModels = carModels;
-    }
-
-
-    @Override
-    public void update() {
-        List<GenericParser> genericModels = App.getDataManager().getModels(CarModel.class);
-        for(GenericParser genericModel : genericModels) {
-            carModels.add((CarModel) genericModel.getObjectToGenerify());
-        }
-        for(CarModel carModel : carModels) {
-            carNumbersObservable.add(Integer.toString(carModel.getNumber()));
-        }
     }
 }

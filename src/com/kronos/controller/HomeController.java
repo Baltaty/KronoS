@@ -369,6 +369,7 @@
          */
 
         private void handleToControlPanel() {
+            loadDashBoardController("raceresume");
             //Stage stage = (Stage) startBtn.getScene().getWindow();
             stylesheets = App.getDecorator().getScene().getStylesheets();
             stylesheets.addAll(
@@ -385,6 +386,17 @@
             App.getDecorator().setMaximized(true);
             App.getDecorator().setResizable(true);
             App.getDecorator().setContent(ViewManager.getInstance().get("main"));
+        }
+
+        private void loadDashBoardController(String name) {
+            try {
+                ViewManager.getInstance().put(
+                        name,
+                        FXMLLoader.load(getClass().getResource("/com/kronos/view/"+ name + ".fxml"))
+                );
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         /**
@@ -477,8 +489,6 @@
                     if (checkNewCarFields(mainCarModel)) {
                         carsList.add(mainCarModel);
                         App.getDataManager().persist(new GenericParser(mainCarModel));
-                        System.out.println(App.getDataManager().getListOfBeans());
-                        carController.update();
                         mainCarCreated = true;
                         carPilot.getItems().remove(carPilot.getSelectionModel().getSelectedIndex());
                         Alerts.success("SUCCÈS", "Nouvelle voiture créée");
@@ -489,7 +499,6 @@
                     if (checkNewCarFields(rivalCarModel)) {
                         carsList.add(rivalCarModel);
                         App.getDataManager().persist(new GenericParser(rivalCarModel));
-                        carController.update();
                         carPilot.getItems().remove(carPilot.getSelectionModel().getSelectedIndex());
                         Alerts.success("SUCCÈS", "Nouvelle voiture créée");
                         clearNewCarFields();

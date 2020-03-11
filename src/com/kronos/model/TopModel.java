@@ -50,10 +50,11 @@ public class TopModel implements Top {
      * @param lap lap when the top was triggered
      * @param comment comment
      */
-    public TopModel (Date time, String topType, int lap, String comment) {
+    public TopModel (Date time, String topType, int lap, double lapTime, String comment) {
         this.time = time;
         this.topType = topType;
         this.lap = lap;
+        this.lapTime = lapTime;
         this.comment = comment;
     }
 
