@@ -1,23 +1,16 @@
 package com.kronos.controller;
 
-import com.kronos.App;
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXToggleButton;
 import com.kronos.App;
 import com.kronos.api.Observer;
 import com.kronos.global.animation.PulseTransition;
-import com.kronos.model.GenericParser;
-import com.kronos.model.MainCarModel;
-import com.kronos.module.main.Main;
 import com.kronos.model.*;
+import com.kronos.module.main.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -26,11 +19,12 @@ import javafx.util.converter.DateStringConverter;
 import javafx.util.converter.DoubleStringConverter;
 
 import java.net.URL;
-import java.util.*;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
+
 public class RaceResumeController implements Initializable, Observer {
 
     private RaceModel raceModel;
@@ -42,7 +36,17 @@ public class RaceResumeController implements Initializable, Observer {
     @FXML
     Button TopBtn;
     @FXML
-    Label lastNamePilotMainCar, firstNamePilotMainCar, dateOfBirthPilot, maincarBrand, mainCarModel, mainCarTeam;
+    Label lastNamePilotMainCar;
+    @FXML
+    Label firstNamePilotMainCar;
+    @FXML
+    Label dateOfBirthPilot;
+    @FXML
+    Label mainCarBrand;
+    @FXML
+    Label mainCarModel;
+    @FXML
+    Label mainCarTeam;
 
 
     @FXML
@@ -71,6 +75,7 @@ public class RaceResumeController implements Initializable, Observer {
     private static ArrayList<Double> listOfMeanTime = new ArrayList<>();
     private static Double meantime = 0.00;
     PulseTransition pulseTransition;
+    MainCarModel mycar;
 
     @FXML
     private ComboBox<String> car;
@@ -78,7 +83,6 @@ public class RaceResumeController implements Initializable, Observer {
     private ComboBox<String> topType;
 
     /**
-     *
      * @param url
      * @param rb
      */
@@ -95,12 +99,11 @@ public class RaceResumeController implements Initializable, Observer {
     }
 
     /**
-     *
      * @param event
      */
     @FXML
     public void handleTopButtonClick(ActionEvent event) {
-        handleNewTop();
+        //handleNewTop();
         handleMeanTimeBar();
     }
 
@@ -118,11 +121,10 @@ public class RaceResumeController implements Initializable, Observer {
         CarModel carModel = carController.findCar(carNumber);
         if (carController.checkTopLogic(type, carModel.getTopList().get(carModel.getTopList().size() - 1).getTopType())) {
             TopModel topModel = null;
-            if(raceModel instanceof TimeRaceModel) {
-                topModel = new TopModel(topTime, type, raceTime , lapTime, comment);
+            if (raceModel instanceof TimeRaceModel) {
+                topModel = new TopModel(topTime, type, raceTime, lapTime, comment);
                 System.out.println("top time");
-            }
-            else {
+            } else {
                 topModel = new TopModel(topTime, type, lap, lapTime, comment);
                 System.out.println("top lap");
             }
@@ -234,12 +236,12 @@ public class RaceResumeController implements Initializable, Observer {
     private void loadData() {
         table_info.getItems().clear();
         data_table = FXCollections.observableArrayList(
-                new TopModel(new Date(),"R",15,4, "Hac ex causa conlaticia stipe "),
-                new TopModel(new Date(),"R",15,4, "Hac ex causa conlaticia stipe "),
-                new TopModel(new Date(),"R",15,4, "Hac ex causa conlaticia stipe "),
-                new TopModel(new Date(),"R",15,4, "Hac ex causa conlaticia stipe "),
-                new TopModel(new Date(),"R",15,4, "Hac ex causa conlaticia stipe "),
-                new TopModel(new Date(),"R",15,4, "Hac ex causa conlaticia stipe "));
+                new TopModel(new Date(), "R", 15, 4, "Hac ex causa conlaticia stipe "),
+                new TopModel(new Date(), "R", 15, 4, "Hac ex causa conlaticia stipe "),
+                new TopModel(new Date(), "R", 15, 4, "Hac ex causa conlaticia stipe "),
+                new TopModel(new Date(), "R", 15, 4, "Hac ex causa conlaticia stipe "),
+                new TopModel(new Date(), "R", 15, 4, "Hac ex causa conlaticia stipe "),
+                new TopModel(new Date(), "R", 15, 4, "Hac ex causa conlaticia stipe "));
 
         table_info.setItems(data_table);
 
@@ -298,39 +300,46 @@ public class RaceResumeController implements Initializable, Observer {
 
     public void maincarinformation() {
 
-        List<GenericParser> maincarinformation = App.getDataManager().getModels(MainCarModel.class);
-        MainCarModel maincar = (MainCarModel) maincarinformation.get(0).getObjectToGenerify();
-        lastNamePilotMainCar.setText(maincar.getPilotModel().getLastName());
-        firstNamePilotMainCar.setText(maincar.getPilotModel().getFirstName());
-        dateOfBirthPilot.setText(new SimpleDateFormat("dd-MM-yyyy").format(maincar.getPilotModel().getDateOfBirth()));
-        maincarBrand.setText(maincar.getBrand());
-        mainCarModel.setText(maincar.getModel());
-        mainCarTeam.setText(maincar.getTeam());
 
+        List<GenericParser> maincarinformation = App.getDataManager().getModels(CarModel.class);
+        for (GenericParser model : maincarinformation) {
+
+            if (model.getObjectToGenerify() instanceof MainCarModel) {
+                mycar = (MainCarModel) model.getObjectToGenerify();
+            }
+
+        }
+
+        lastNamePilotMainCar.setText(mycar.getPilotModel().getLastName());
+        firstNamePilotMainCar.setText(mycar.getPilotModel().getFirstName());
+        if (!(mycar.getPilotModel().getDateOfBirth() == null)) {
+            dateOfBirthPilot.setText(new SimpleDateFormat("dd-MM-yyyy").format(mycar.getPilotModel().getDateOfBirth()));
+        }
+        mainCarBrand.setText(mycar.getBrand());
+        mainCarModel.setText(mycar.getModel());
+        mainCarTeam.setText(mycar.getTeam());
 
     }
 
     /**
-     *
      * @return
      */
     public ArrayList<CarModel> getFollowedCars() {
         ArrayList<CarModel> followedCars = new ArrayList<>();
         List<GenericParser> genericModels = App.getDataManager().getModels(CarModel.class);
-        for(GenericParser genericModel : genericModels) {
+        for (GenericParser genericModel : genericModels) {
             followedCars.add((CarModel) genericModel.getObjectToGenerify());
         }
         return followedCars;
     }
 
     /**
-     *
      * @param followedCars
      * @return
      */
     public ArrayList<String> getFollowedCarsNumbers(ArrayList<CarModel> followedCars) {
         ArrayList<String> followedCarsNumbers = new ArrayList<>();
-        for(CarModel followedCar : followedCars) {
+        for (CarModel followedCar : followedCars) {
             followedCarsNumbers.add(Integer.toString(followedCar.getNumber()));
         }
         return followedCarsNumbers;
