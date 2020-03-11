@@ -740,7 +740,6 @@
                 //saveManager.persist(pilotsList);
                 //saveManager.persist(carsList);
                 //saveManager.persist(race);
-                System.out.println(saveManager.saveFile());
 
             }
             handleToControlPanel();
