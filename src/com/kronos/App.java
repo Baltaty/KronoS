@@ -100,7 +100,7 @@ public class App extends Application {
 
 
     /*  */
-    public static SaveManagerImpl dataManager;
+    public static SaveManagerImpl dataManager = SaveManagerImpl.getInstance();
     public  static SaveManagerImpl getDataManager() {
         return dataManager;
     }

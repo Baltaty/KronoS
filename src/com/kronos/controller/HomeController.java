@@ -476,7 +476,8 @@
                     MainCarModel mainCarModel = new MainCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
                     if (checkNewCarFields(mainCarModel)) {
                         carsList.add(mainCarModel);
-                        App.getDataManager().persist(mainCarModel);
+                        App.getDataManager().persist(new GenericParser(mainCarModel));
+                        System.out.println(App.getDataManager().getListOfBeans());
                         carController.update();
                         mainCarCreated = true;
                         carPilot.getItems().remove(carPilot.getSelectionModel().getSelectedIndex());
@@ -487,7 +488,7 @@
                     RivalCarModel rivalCarModel = new RivalCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
                     if (checkNewCarFields(rivalCarModel)) {
                         carsList.add(rivalCarModel);
-                        App.getDataManager().persist(rivalCarModel);
+                        App.getDataManager().persist(new GenericParser(rivalCarModel));
                         carController.update();
                         carPilot.getItems().remove(carPilot.getSelectionModel().getSelectedIndex());
                         Alerts.success("SUCCÈS", "Nouvelle voiture créée");
@@ -736,9 +737,9 @@
 
                 // Save test save manager
                 SaveManagerImpl saveManager = App.getDataManager();
-                saveManager.persist(pilotsList);
-                saveManager.persist(carsList);
-                saveManager.persist(race);
+                //saveManager.persist(pilotsList);
+                //saveManager.persist(carsList);
+                //saveManager.persist(race);
                 System.out.println(saveManager.saveFile());
 
             }

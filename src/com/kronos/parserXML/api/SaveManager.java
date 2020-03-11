@@ -1,5 +1,7 @@
 package com.kronos.parserXML.api;
 
+import com.kronos.model.GenericParser;
+
 /**
  * @author TeamKronoS
  * @version 1.0
@@ -11,7 +13,7 @@ public interface SaveManager {
     /**
      *
      */
-    boolean persist(final Object modelToSave);
+    boolean persist(final GenericParser modelToSave);
 
     /**
      * saves all java objects related to the class in xml format.

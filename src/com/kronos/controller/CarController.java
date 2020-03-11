@@ -8,10 +8,7 @@ import com.kronos.api.Observer;
 import com.kronos.api.TimeRace;
 import com.kronos.api.Top;
 import com.kronos.global.util.Mask;
-import com.kronos.model.CarModel;
-import com.kronos.model.RaceModel;
-import com.kronos.model.TimeRaceModel;
-import com.kronos.model.TopModel;
+import com.kronos.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -34,6 +31,8 @@ public class CarController implements Initializable, Observer {
 
     private RaceModel raceModel;
     private List<CarModel> carModels = new ArrayList<>();
+    private List<String> carNumbers = new ArrayList<>();
+    private ObservableList carsObservable = FXCollections.observableArrayList();
 
     @FXML
     private JFXButton TopBtn;
@@ -49,6 +48,7 @@ public class CarController implements Initializable, Observer {
     public void initialize(URL location, ResourceBundle resources) {
         App.getDataManager().attach(this);
         topType.setItems(FXCollections.observableArrayList("I", "O", "R"));
+        car.setItems(FXCollections.observableArrayList(carNumbers));
     }
 
     /**
@@ -171,6 +171,13 @@ public class CarController implements Initializable, Observer {
 
     @Override
     public void update() {
-        carModels = (List<CarModel>) (List<?>) App.getDataManager().getModels(CarModel.class);
+        List<GenericParser> genericModels = App.getDataManager().getModels(CarModel.class);
+        for(GenericParser genericModel : genericModels) {
+            carModels.add((CarModel) genericModel.getObjectToGenerify());
+        }
+        for(CarModel carModel : carModels) {
+            carNumbers.add(Integer.toString(carModel.getNumber()));
+        }
+        car.setItems(FXCollections.observableArrayList(carNumbers));
     }
 }
