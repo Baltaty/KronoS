@@ -1,19 +1,29 @@
 package com.kronos.controller;
 
+import com.kronos.App;
 import com.kronos.global.animation.PulseTransition;
+import com.kronos.model.GenericParser;
+import com.kronos.model.MainCarModel;
+import com.kronos.module.main.Main;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class RaceResumeController {
     @FXML
     ProgressBar meanTimeBar;
     @FXML
     Button TopBtn;
+    @FXML
+    Label lastNamePilotMainCar, firstNamePilotMainCar, dateOfBirthPilot, maincarBrand, mainCarModel, mainCarTeam;
+
 
     private static ArrayList<Double> listOfMeanTime = new ArrayList<>();
     private static Double meantime = 0.00;
@@ -22,6 +32,7 @@ public class RaceResumeController {
     @FXML
     public void handleMeanTimeBar(ActionEvent actionEvent) {
 
+        maincarinformation();
         pulseTransition = new PulseTransition(meanTimeBar);
         listOfMeanTime.add(0.2);
         meantime = getMeanTime(listOfMeanTime);
@@ -56,6 +67,11 @@ public class RaceResumeController {
 
     }
 
+    /**
+     * Pulse animation
+     * stop animation on the progress Bar
+     */
+
     public void stopanimation() {
 
         pulseTransition.stop();
@@ -64,7 +80,7 @@ public class RaceResumeController {
     }
 
     /**
-     * function to calculate the mean time of laps
+     * Get's the mean Time to upload the progess Bar
      *
      * @param mylistoftime
      * @return meanTime  of laps
@@ -84,6 +100,33 @@ public class RaceResumeController {
         }
 
         return meantimeaux;
+    }
+
+    /**
+     * Display main car information and the currently pilot
+     * pilot information
+     * first name
+     * last name
+     * birthday
+     * <p>
+     * car information
+     * car model
+     * car Brand
+     * car Team
+     */
+
+    public void maincarinformation() {
+
+        List<GenericParser> maincarinformation = App.getDataManager().getModels(MainCarModel.class);
+        MainCarModel maincar = (MainCarModel) maincarinformation.get(0).getObjectToGenerify();
+        lastNamePilotMainCar.setText(maincar.getPilotModel().getLastName());
+        firstNamePilotMainCar.setText(maincar.getPilotModel().getFirstName());
+        dateOfBirthPilot.setText(new SimpleDateFormat("dd-MM-yyyy").format(maincar.getPilotModel().getDateOfBirth()));
+        maincarBrand.setText(maincar.getBrand());
+        mainCarModel.setText(maincar.getModel());
+        mainCarTeam.setText(maincar.getTeam());
+
+
     }
 
 
