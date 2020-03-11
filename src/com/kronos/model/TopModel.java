@@ -14,13 +14,13 @@ import java.util.Date;
 @XmlRootElement
 public class TopModel implements Top {
 
-
+    private Long id;
     private Date time;
     private String topType;
     private String comment;
-    private double raceTime;
-    private int lap;
-
+    private double lapTime;
+    private double raceTime;    // Time Of Top
+    private int lap;    // Nombre de tour
 
     /**
      * Constructor.
@@ -34,10 +34,12 @@ public class TopModel implements Top {
      * @param raceTime time in minutes since the beginning of the race
      * @param comment comment
      */
-    public TopModel (Date time, String topType, double raceTime, String comment){
+    public TopModel (Date time, String topType, double raceTime, double lapTime, String comment){
+        this.id=System.currentTimeMillis();
         this.time = time;
         this.topType = topType;
         this.raceTime = raceTime;
+        this.lapTime = lapTime;
         this.comment = comment;
     }
 
@@ -54,6 +56,18 @@ public class TopModel implements Top {
         this.lap = lap;
         this.comment = comment;
     }
+
+    /**
+     * Gets the top id.
+     * @return the top id
+     */
+    public Long getId() { return id;  }
+
+    /**
+     * Sets the top id.
+     * @param id top id
+     */
+    public void setId(Long id) { this.id = id;  }
 
     /**
      * Gets the top time.
@@ -117,6 +131,22 @@ public class TopModel implements Top {
      */
     public void setRaceTime(double raceTime) {
         this.raceTime = raceTime;
+    }
+
+    /**
+     * Gets the lap time, the time in minutes elapsed during the lap
+     * @return the lap time
+     */
+    public double getLapTime() {
+        return lapTime;
+    }
+
+    /**
+     * Sets the lap time, the time in minutes elapsed during the lap.
+     * @param lapTime lap time
+     */
+    public void setLapTime(double lapTime) {
+        this.lapTime = lapTime;
     }
 
     /**
