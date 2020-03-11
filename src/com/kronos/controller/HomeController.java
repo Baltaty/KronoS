@@ -371,17 +371,17 @@
         private void handleToControlPanel() {
             //Stage stage = (Stage) startBtn.getScene().getWindow();
             stylesheets = App.getDecorator().getScene().getStylesheets();
-            stylesheets.addAll(
-                    getClass().getResource("/com/kronos/theme/css/fonts.css").toExternalForm(),
-                    getClass().getResource("/com/kronos/theme/css/material-color.css").toExternalForm(),
-                    getClass().getResource("/com/kronos/theme/css/skeleton.css").toExternalForm(),
-                    getClass().getResource("/com/kronos/theme/css/light.css").toExternalForm(),
-                    getClass().getResource("/com/kronos/theme/css/bootstrap.css").toExternalForm(),
-                    getClass().getResource("/com/kronos/theme/css/shape.css").toExternalForm(),
-                    getClass().getResource("/com/kronos/theme/css/typographic.css").toExternalForm(),
-                    getClass().getResource("/com/kronos/theme/css/helpers.css").toExternalForm(),
-                    getClass().getResource("/com/kronos/theme/css/master.css").toExternalForm()
-            );
+//            stylesheets.addAll(
+//                    getClass().getResource("/com/kronos/theme/css/fonts.css").toExternalForm(),
+//                    getClass().getResource("/com/kronos/theme/css/material-color.css").toExternalForm(),
+//                    //getClass().getResource("/com/kronos/theme/css/skeleton.css").toExternalForm(),
+//                    getClass().getResource("/com/kronos/theme/css/light.css").toExternalForm(),
+//                    getClass().getResource("/com/kronos/theme/css/bootstrap.css").toExternalForm(),
+//                    getClass().getResource("/com/kronos/theme/css/shape.css").toExternalForm(),
+//                    getClass().getResource("/com/kronos/theme/css/typographic.css").toExternalForm(),
+//                    getClass().getResource("/com/kronos/theme/css/helpers.css").toExternalForm(),
+//                    getClass().getResource("/com/kronos/theme/css/master.css").toExternalForm()
+//            );
             App.getDecorator().setMaximized(true);
             App.getDecorator().setResizable(true);
             App.getDecorator().setContent(ViewManager.getInstance().get("main"));

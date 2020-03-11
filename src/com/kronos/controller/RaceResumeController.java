@@ -1,23 +1,65 @@
 package com.kronos.controller;
 
+import com.jfoenix.controls.JFXButton;
 import com.kronos.global.animation.PulseTransition;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.util.Duration;
 
+import java.net.URL;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
-public class RaceResumeController {
+public class RaceResumeController implements Initializable {
     @FXML
     ProgressBar meanTimeBar;
     @FXML
     Button TopBtn;
+    @FXML
+    private Label departureHour;
+
+    @FXML
+    private Label currentHour;
+
+    @FXML
+    private Label spentTime;
+
+    @FXML
+    private Label remainingTime;
+
+    @FXML
+    private JFXButton startRace;
+
+    @FXML
+    private JFXButton pauseRace;
+
+    @FXML
+    private JFXButton stopRace;
+
+    Timeline spentTimeline;
+    Timeline remainingTimeline;
+    LocalTime time = LocalTime.parse("00:00:00");
+    LocalTime localRemainningTime = LocalTime.parse("00:00:05");
+    LocalTime time2 = LocalTime.parse("00:00");
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+    LocalTime currentTime;
+
+
 
     private static ArrayList<Double> listOfMeanTime = new ArrayList<>();
     private static Double meantime = 0.00;
     PulseTransition pulseTransition;
+
 
     @FXML
     public void handleMeanTimeBar(ActionEvent actionEvent) {
@@ -86,5 +128,79 @@ public class RaceResumeController {
         return meantimeaux;
     }
 
+    private void incrementTime() {
+        time = time.plusSeconds(1);
+        spentTime.setText(time.format(dtf));
+    }
+    private void decrementTime() {
+        localRemainningTime = localRemainningTime.minusSeconds(1);
+        if(localRemainningTime.equals(LocalTime.parse("00:00:00"))){
+            stopRace.setDisable(true);
+            startRace.setDisable(false);
+            remainingTimeline.stop();
+            spentTimeline.stop();
+        }
+        remainingTime.setText(localRemainningTime.format(dtf));
+    }
+    private void getCurrentTime() {
+        currentTime = LocalTime.now();
+        currentHour.setText(currentTime.format(dtf));
+    }
+
+    @FXML
+    private void startTimer(ActionEvent event) {
+        if(!localRemainningTime.equals(LocalTime.parse("00:00:00"))) {
+            spentTimeline.play();
+            remainingTimeline.play();
+            departureHour.setText(currentTime.format(dtf));
+            startRace.setDisable(true);
+        }
+    }
+
+    @FXML
+    private void pauseTimer(ActionEvent event) {
+        if (spentTimeline.getStatus().equals(Animation.Status.PAUSED)) {
+            spentTimeline.play();
+            pauseRace.setText("Pause");
+        } else if (spentTimeline.getStatus().equals(Animation.Status.RUNNING)) {
+            spentTimeline.pause();
+            pauseRace.setText("Continue");
+        }
+    }
+
+    @FXML
+    private void endTimer(ActionEvent event) {
+        if (startRace.isDisable()) {
+            spentTimeline.stop();
+            remainingTimeline.stop();
+            startRace.setDisable(false);
+            time = LocalTime.parse("00:00:00");
+            spentTime.setText(time.format(dtf));
+            remainingTime.setText(time.format(dtf));
+
+        }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        time = LocalTime.parse("00:00:00");
+        time2 = LocalTime.parse("00:00");
+
+        departureHour.setText(time2.format(dtf));
+        spentTime.setText(time.format(dtf));
+        remainingTime.setText(localRemainningTime.format(dtf));
+
+        spentTimeline = new Timeline(new KeyFrame(Duration.millis(1000), ae -> incrementTime()));
+        spentTimeline.setCycleCount(Animation.INDEFINITE);
+
+        Timeline clock = new Timeline(new KeyFrame(Duration.millis(1000), e -> getCurrentTime()));
+        clock.setCycleCount(Animation.INDEFINITE);
+        clock.play();
+
+        remainingTimeline = new Timeline(new KeyFrame(Duration.millis(1000), e -> decrementTime()));
+        remainingTimeline.setCycleCount(Animation.INDEFINITE);
+
+    }
 
 }
