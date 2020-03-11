@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXToggleButton?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -20,7 +21,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="1500.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.RaceResumeController">
+<StackPane prefHeight="1500.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.RaceResumeController">
 
     <stylesheets>
         <URL value="@../theme/css/material-color.css" />
@@ -154,12 +155,16 @@
                 </HBox>
                 <VBox prefHeight="439.0" prefWidth="1053.0">
                     <children>
-                        <TableView prefHeight="388.0" prefWidth="1053.0">
+                        <TableView fx:id="table_info" prefHeight="388.0" prefWidth="1053.0">
                             <columns>
-                                <TableColumn prefWidth="75.0" text="C1" />
-                                <TableColumn prefWidth="75.0" text="C2" />
+                                <TableColumn fx:id="col_typetop" prefWidth="121.0" text="Type de top" />
+                        <TableColumn fx:id="col_laptime" prefWidth="153.0" text="Temps du tour" />
+                        <TableColumn fx:id="col_racetime" prefWidth="132.0" text="Temps écoulé" />
+                        <TableColumn fx:id="col_time" prefWidth="134.0" text="Heure du top" />
+                                <TableColumn fx:id="col_comment" prefWidth="507.0" text="Commentaires" />
                             </columns>
                         </TableView>
+                  <JFXToggleButton fx:id="toogleedit" onAction="#editable" text="Modifier un top" />
                     </children></VBox>
             </children>
         </VBox>

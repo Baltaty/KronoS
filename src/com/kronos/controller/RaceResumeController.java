@@ -1,19 +1,57 @@
 package com.kronos.controller;
 
+import com.jfoenix.controls.JFXToggleButton;
 import com.kronos.global.animation.PulseTransition;
+import com.kronos.model.TopModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.converter.DateStringConverter;
+import javafx.util.converter.DoubleStringConverter;
 
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.ResourceBundle;
 
-public class RaceResumeController {
+public class RaceResumeController implements Initializable{
     @FXML
     ProgressBar meanTimeBar;
+
     @FXML
     Button TopBtn;
+
+    @FXML
+    private TableView<TopModel> table_info;
+
+    @FXML
+    private TableColumn<TopModel, String> col_typetop;
+
+    @FXML
+    private TableColumn<TopModel, String> col_comment;
+
+    @FXML
+    private TableColumn<TopModel, Date> col_time;
+
+    @FXML
+    private TableColumn<TopModel, Double> col_racetime;
+
+    @FXML
+    private TableColumn<TopModel, Double> col_laptime;
+
+    @FXML
+    private JFXToggleButton toogleedit;
+
+    public static ObservableList<TopModel> data_table;
 
     private static ArrayList<Double> listOfMeanTime = new ArrayList<>();
     private static Double meantime = 0.00;
@@ -52,7 +90,73 @@ public class RaceResumeController {
         Thread thread = new Thread(task);
         thread.setDaemon(true);
         thread.start();
+    }
 
+    @FXML
+    public void editable() {
+        if (toogleedit.isSelected()) {
+            table_info.setEditable(true);
+        } else {
+            table_info.setEditable(false);
+        }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        initTable();
+        loadData();
+    }
+
+    private void initTable() {
+        initCols();
+    }
+
+    private void initCols() {
+
+        col_typetop.setCellValueFactory(new PropertyValueFactory<>("topType"));
+        col_laptime.setCellValueFactory(new PropertyValueFactory<>("lapTime"));
+        col_racetime.setCellValueFactory(new PropertyValueFactory<>("raceTime"));
+        col_time.setCellValueFactory(new PropertyValueFactory<>("time"));
+        col_comment.setCellValueFactory(new PropertyValueFactory<>("comment"));
+
+        editableCols();
+    }
+
+    private void editableCols() {
+
+        col_typetop.setCellFactory(TextFieldTableCell.forTableColumn());
+        col_typetop.setOnEditCommit(e -> {
+            e.getTableView().getItems().get(e.getTablePosition().getRow()).setTopType(e.getNewValue());
+        });
+
+        col_racetime.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        col_racetime.setOnEditCommit(e -> {
+            e.getTableView().getItems().get(e.getTablePosition().getRow()).setRaceTime(e.getNewValue());
+        });
+
+        col_time.setCellFactory(TextFieldTableCell.forTableColumn(new DateStringConverter()));
+        col_time.setOnEditCommit(e -> {
+            e.getTableView().getItems().get(e.getTablePosition().getRow()).setTime(e.getNewValue());
+        });
+
+        col_comment.setCellFactory(TextFieldTableCell.forTableColumn());
+        col_comment.setOnEditCommit(e -> {
+            e.getTableView().getItems().get(e.getTablePosition().getRow()).setComment(e.getNewValue());
+        });
+
+    }
+
+    private void loadData() {
+        table_info.getItems().clear();
+        data_table = FXCollections.observableArrayList(
+                new TopModel(new Date(),"R",15,4, "Hac ex causa conlaticia stipe "),
+                new TopModel(new Date(),"R",15,4, "Hac ex causa conlaticia stipe "),
+                new TopModel(new Date(),"R",15,4, "Hac ex causa conlaticia stipe "),
+                new TopModel(new Date(),"R",15,4, "Hac ex causa conlaticia stipe "),
+                new TopModel(new Date(),"R",15,4, "Hac ex causa conlaticia stipe "),
+                new TopModel(new Date(),"R",15,4, "Hac ex causa conlaticia stipe "));
+
+        table_info.setItems(data_table);
 
     }
 
