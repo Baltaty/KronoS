@@ -384,20 +384,16 @@ public class RaceResumeController implements Initializable, Observer {
         List<GenericParser> timeRaceGenericParsers = App.getDataManager().getModels(TimeRaceModel.class);
         List<GenericParser> lapRaceGenericParsers = App.getDataManager().getModels(LapRaceModel.class);
         if(!timeRaceGenericParsers.isEmpty()) {
-            System.out.println("here");
             for(GenericParser genericParser : timeRaceGenericParsers) {
                 raceModels.add((TimeRaceModel) genericParser.getObjectToGenerify());
             }
         }
         else {
-            System.out.println("or here");
             for(GenericParser genericParser : lapRaceGenericParsers) {
                 raceModels.add((LapRaceModel) genericParser.getObjectToGenerify());
             }
         }
-        System.out.println(raceModels);
         GenericParser generic = lapRaceGenericParsers.get(0);
-        System.out.println((LapRaceModel) generic.getObjectToGenerify());
         return raceModels;
     }
 
