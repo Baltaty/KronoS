@@ -1,9 +1,10 @@
 package com.kronos.controller;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXToggleButton;
 import com.kronos.App;
+import com.kronos.api.LapRace;
 import com.kronos.api.Observer;
+import com.kronos.api.Race;
 import com.kronos.global.animation.PulseTransition;
 import com.kronos.model.*;
 import javafx.collections.FXCollections;
@@ -25,6 +26,8 @@ public class RaceResumeController implements Initializable, Observer {
 
     private RaceModel raceModel;
     private CarController carController = new CarController();
+    private ArrayList<TopModel> topModels = new ArrayList<>();
+    private ArrayList<CarModel> carModels = new ArrayList<>();
 
     @FXML
     ProgressBar meanTimeBar;
@@ -33,7 +36,7 @@ public class RaceResumeController implements Initializable, Observer {
     Button TopBtn;
 
     @FXML
-    private TableView<TopModel> table_info;
+    private TableView<String> table_info;
 
     @FXML
     private TableColumn<TopModel, String> col_typetop;
@@ -53,7 +56,7 @@ public class RaceResumeController implements Initializable, Observer {
     @FXML
     private JFXToggleButton toogleedit;
 
-    public static ObservableList<TopModel> data_table;
+    public static ObservableList<String> data_table;
 
     private static ArrayList<Double> listOfMeanTime = new ArrayList<>();
     private static Double meantime = 0.00;
@@ -72,13 +75,15 @@ public class RaceResumeController implements Initializable, Observer {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         App.getDataManager().attach(this);
+        if(!getRace().isEmpty()) {
+            raceModel = getRace().get(0);
+        }
         topType.setItems(FXCollections.observableArrayList("I", "O", "R"));
-        System.out.println("coucou");
-        System.out.println(getFollowedCarsNumbers(getFollowedCars()).size());
+        carModels.addAll(getFollowedCars());
         car.setItems(FXCollections.observableArrayList(getFollowedCarsNumbers(getFollowedCars())));
 
         initTable();
-        loadData();
+        //loadData();
     }
 
     /**
@@ -99,22 +104,58 @@ public class RaceResumeController implements Initializable, Observer {
         int carNumber = Integer.parseInt(car.getSelectionModel().getSelectedItem());
         Date topTime = null;
         Double raceTime = null;
-        Double lapTime = null;
-        Integer lap = null;
+        double lapTime = 0.0;
+        int lap = 0;
         String comment = "";
-        CarModel carModel = carController.findCar(carNumber);
-        if (carController.checkTopLogic(type, carModel.getTopList().get(carModel.getTopList().size() - 1).getTopType())) {
+        CarModel carModel = carController.findCar(carModels, carNumber);
+        if (findPreviousTop(carNumber) == null || checkTopLogic(type, findPreviousTop(carNumber).getTopType())) {
             TopModel topModel = null;
             if(raceModel instanceof TimeRaceModel) {
-                topModel = new TopModel(topTime, type, raceTime , lapTime, comment);
-                System.out.println("top time");
+                topModel = new TopModel(new Date(), type, raceTime , lapTime, comment);
+                topModels.add(topModel);
+                if(carModel.getTimeRace().getTopsMap().containsKey(carNumber)) {
+                    carModel.getTimeRace().getTopsMap().get(carNumber).add(topModel);
+                }
+                else {
+                    carModel.getTimeRace().getTopsMap().put(carNumber, new ArrayList<>());
+                }
             }
             else {
-                topModel = new TopModel(topTime, type, lap, lapTime, comment);
-                System.out.println("top lap");
+                topModel = new TopModel(new Date(), type, lap, lapTime, comment);
+                topModels.add(topModel);
+                loadData(topModel);
+                if(carModel.getLapRace().getTopsMap().containsKey(carNumber)) {
+                    carModel.getLapRace().getTopsMap().get(carNumber).add(topModel);
+                }
+                else {
+                    carModel.getLapRace().getTopsMap().put(carNumber, new ArrayList<>());
+                }
             }
-            carController.findCar(carNumber).getTopList().add(topModel);
+            carController.findCar(carModels, carNumber).getTopList().add(topModel);
         }
+    }
+
+    /**
+     * Checks if {@link com.kronos.model.TopModel top} for this car respects the job logic.
+     * A "RACE" top should only happen after a "RACE" or a "OUT" top.
+     * An "IN" top should only happen after a "RACE" or an "OUT" top.
+     * An "OUT" top should only happen after an "IN" top.
+     *
+     * @param lastTopType     the last top type entered by the board man
+     * @param previousTopType the previous top entered by the board man
+     * @return true if the job logic is respected, false otherwise
+     */
+    public boolean checkTopLogic(String lastTopType, String previousTopType) {
+        boolean respectsLogic = false;
+        if (previousTopType.equals("RACE") && (lastTopType.equals("RACE") || lastTopType.equals("IN"))) {
+            respectsLogic = true;
+        } else if (previousTopType.equals("IN") && lastTopType.equals("OUT")) {
+            respectsLogic = true;
+        } else if (previousTopType.equals("OUT") && (lastTopType.equals("RACE") || lastTopType.equals("IN"))) {
+            respectsLogic = true;
+        }
+
+        return respectsLogic;
     }
 
     /**
@@ -214,21 +255,26 @@ public class RaceResumeController implements Initializable, Observer {
 
     }
 
+
     /**
      *
      */
-    private void loadData() {
-        table_info.getItems().clear();
-        data_table = FXCollections.observableArrayList(
+    private void loadData(TopModel topModel) {
+        if(raceModel instanceof TimeRaceModel) {
+            data_table = FXCollections.observableArrayList("date", topModel.getTopType(), null, null, null);
+        }
+        else {
+            data_table = FXCollections.observableArrayList("date", topModel.getTopType(), null, null, null);
+        }
+        /*data_table = FXCollections.observableArrayList(
                 new TopModel(new Date(),"R",15,4, "Hac ex causa conlaticia stipe "),
                 new TopModel(new Date(),"R",15,4, "Hac ex causa conlaticia stipe "),
                 new TopModel(new Date(),"R",15,4, "Hac ex causa conlaticia stipe "),
                 new TopModel(new Date(),"R",15,4, "Hac ex causa conlaticia stipe "),
                 new TopModel(new Date(),"R",15,4, "Hac ex causa conlaticia stipe "),
-                new TopModel(new Date(),"R",15,4, "Hac ex causa conlaticia stipe "));
+                new TopModel(new Date(),"R",15,4, "Hac ex causa conlaticia stipe "));*/
 
         table_info.setItems(data_table);
-
     }
 
     /**
@@ -237,7 +283,6 @@ public class RaceResumeController implements Initializable, Observer {
     public void stopanimation() {
 
         pulseTransition.stop();
-        System.out.println("bouton pressed");
 
     }
 
@@ -270,11 +315,33 @@ public class RaceResumeController implements Initializable, Observer {
      */
     public ArrayList<CarModel> getFollowedCars() {
         ArrayList<CarModel> followedCars = new ArrayList<>();
-        List<GenericParser> genericModels = App.getDataManager().getModels(CarModel.class);
-        for(GenericParser genericModel : genericModels) {
-            followedCars.add((CarModel) genericModel.getObjectToGenerify());
+        List<GenericParser> genericParsers = App.getDataManager().getModels(CarModel.class);
+        for(GenericParser genericParser : genericParsers) {
+            followedCars.add((CarModel) genericParser.getObjectToGenerify());
         }
         return followedCars;
+    }
+
+    public ArrayList<RaceModel> getRace() {
+        ArrayList<RaceModel> raceModels = new ArrayList<>();
+        List<GenericParser> timeRaceGenericParsers = App.getDataManager().getModels(TimeRaceModel.class);
+        List<GenericParser> lapRaceGenericParsers = App.getDataManager().getModels(LapRaceModel.class);
+        if(!timeRaceGenericParsers.isEmpty()) {
+            System.out.println("here");
+            for(GenericParser genericParser : timeRaceGenericParsers) {
+                raceModels.add((TimeRaceModel) genericParser.getObjectToGenerify());
+            }
+        }
+        else {
+            System.out.println("or here");
+            for(GenericParser genericParser : lapRaceGenericParsers) {
+                raceModels.add((LapRaceModel) genericParser.getObjectToGenerify());
+            }
+        }
+        System.out.println(raceModels);
+        GenericParser generic = lapRaceGenericParsers.get(0);
+        System.out.println((LapRaceModel) generic.getObjectToGenerify());
+        return raceModels;
     }
 
     /**
@@ -288,6 +355,23 @@ public class RaceResumeController implements Initializable, Observer {
             followedCarsNumbers.add(Integer.toString(followedCar.getNumber()));
         }
         return followedCarsNumbers;
+    }
+
+    /**
+     *
+     * @param carNumber
+     * @return
+     */
+    public TopModel findPreviousTop(int carNumber) {
+        TopModel topModel = null;
+        if(raceModel.getTopsMap() != null && raceModel.getTopsMap().containsKey(carNumber)) {
+            ArrayList<TopModel> topModels;
+            topModels = raceModel.getTopsMap().get(carNumber);
+            if(!topModels.isEmpty()) {
+                topModel = topModels.get(topModels.size() - 1);
+            }
+        }
+        return topModel;
     }
 
     /**
