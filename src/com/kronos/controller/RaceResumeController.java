@@ -7,6 +7,7 @@ import com.kronos.api.Observer;
 import com.kronos.api.Race;
 import com.kronos.global.animation.PulseTransition;
 import com.kronos.model.*;
+import com.kronos.module.main.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -20,7 +21,11 @@ import javafx.util.converter.DateStringConverter;
 import javafx.util.converter.DoubleStringConverter;
 
 import java.net.URL;
-import java.util.*;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class RaceResumeController implements Initializable, Observer {
 
@@ -34,6 +39,19 @@ public class RaceResumeController implements Initializable, Observer {
 
     @FXML
     Button TopBtn;
+    @FXML
+    Label lastNamePilotMainCar;
+    @FXML
+    Label firstNamePilotMainCar;
+    @FXML
+    Label dateOfBirthPilot;
+    @FXML
+    Label mainCarBrand;
+    @FXML
+    Label mainCarModel;
+    @FXML
+    Label mainCarTeam;
+
 
     @FXML
     private TableView<String> table_info;
@@ -61,6 +79,7 @@ public class RaceResumeController implements Initializable, Observer {
     private static ArrayList<Double> listOfMeanTime = new ArrayList<>();
     private static Double meantime = 0.00;
     PulseTransition pulseTransition;
+    MainCarModel mycar;
 
     @FXML
     private ComboBox<String> car;
@@ -163,6 +182,7 @@ public class RaceResumeController implements Initializable, Observer {
      */
     private void handleMeanTimeBar() {
 
+        maincarinformation();
         pulseTransition = new PulseTransition(meanTimeBar);
         listOfMeanTime.add(0.2);
         meantime = getMeanTime(listOfMeanTime);
@@ -255,7 +275,6 @@ public class RaceResumeController implements Initializable, Observer {
 
     }
 
-
     /**
      *
      */
@@ -277,9 +296,12 @@ public class RaceResumeController implements Initializable, Observer {
         table_info.setItems(data_table);
     }
 
+
     /**
-     *
+     * Pulse animation
+     * stop animation on the progress Bar
      */
+
     public void stopanimation() {
 
         pulseTransition.stop();
@@ -287,7 +309,7 @@ public class RaceResumeController implements Initializable, Observer {
     }
 
     /**
-     * function to calculate the mean time of laps
+     * Get's the mean Time to upload the progess Bar
      *
      * @param mylistoftime
      * @return meanTime  of laps
@@ -310,7 +332,42 @@ public class RaceResumeController implements Initializable, Observer {
     }
 
     /**
-     *
+     * Display main car information and the currently pilot
+     * pilot information
+     * first name
+     * last name
+     * birthday
+     * <p>
+     * car information
+     * car model
+     * car Brand
+     * car Team
+     */
+
+    public void maincarinformation() {
+
+
+        List<GenericParser> maincarinformation = App.getDataManager().getModels(CarModel.class);
+        for (GenericParser model : maincarinformation) {
+
+            if (model.getObjectToGenerify() instanceof MainCarModel) {
+                mycar = (MainCarModel) model.getObjectToGenerify();
+            }
+
+        }
+
+        lastNamePilotMainCar.setText(mycar.getPilotModel().getLastName());
+        firstNamePilotMainCar.setText(mycar.getPilotModel().getFirstName());
+        if (!(mycar.getPilotModel().getDateOfBirth() == null)) {
+            dateOfBirthPilot.setText(new SimpleDateFormat("dd-MM-yyyy").format(mycar.getPilotModel().getDateOfBirth()));
+        }
+        mainCarBrand.setText(mycar.getBrand());
+        mainCarModel.setText(mycar.getModel());
+        mainCarTeam.setText(mycar.getTeam());
+
+    }
+
+    /**
      * @return
      */
     public ArrayList<CarModel> getFollowedCars() {
@@ -351,7 +408,7 @@ public class RaceResumeController implements Initializable, Observer {
      */
     public ArrayList<String> getFollowedCarsNumbers(ArrayList<CarModel> followedCars) {
         ArrayList<String> followedCarsNumbers = new ArrayList<>();
-        for(CarModel followedCar : followedCars) {
+        for (CarModel followedCar : followedCars) {
             followedCarsNumbers.add(Integer.toString(followedCar.getNumber()));
         }
         return followedCarsNumbers;

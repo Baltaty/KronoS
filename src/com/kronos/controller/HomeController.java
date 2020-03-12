@@ -659,6 +659,7 @@
                     pilotsList.add(pilotcont);
                     carPilot.getItems().add(firstnamecont + " " + lastnamecont);
                     Alerts.success("SUCCÈS", "Pilote ajouté");
+                    App.getDataManager().persist(  new GenericParser(pilotcont));
                     clearNewPilotFields();
 
                 } else {
