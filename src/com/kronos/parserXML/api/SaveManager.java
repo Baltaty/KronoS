@@ -13,7 +13,7 @@ public interface SaveManager {
     /**
      *
      */
-    boolean persist(final GenericParser modelToSave);
+    boolean persist(final Object modelToSave);
 
     /**
      * saves all java objects related to the class in xml format.

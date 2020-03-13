@@ -2,8 +2,6 @@ package com.kronos.parserXML.MainImpl;
 
 import com.kronos.api.Observer;
 import com.kronos.api.Subject;
-import com.kronos.model.CarModel;
-import com.kronos.model.GenericParser;
 import com.kronos.parserXML.api.SaveManager;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -26,7 +24,7 @@ public class SaveManagerImpl implements SaveManager, Subject {
     /**
      * collection of models to be persisted in the XML file
      */
-    private List<GenericParser> listOfBeans;
+    private List<Object> listOfBeans;
 
 
     /**
@@ -60,19 +58,31 @@ public class SaveManagerImpl implements SaveManager, Subject {
      */
     private static String XML_STANDARD_TAG = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
 
+    /**
+     *
+     */
+    private ImportManagerImpl importManager;
+
+
+    private static final String CONTENT_TAG = "<data>", CONTENT_END_TAG = "</data>";
+
+
+    public ImportManagerImpl getImportManager() {
+        return this.importManager;
+    }
 
     /**
      * private constructor
      */
     private SaveManagerImpl() {
-        listOfBeans = new ArrayList<>();
-        stringBuilder = new StringBuilder();
-        stringBuilder.append(XML_STANDARD_TAG);
+        listOfBeans = new ArrayList<Object>();
+
         parser = new ModelParser();
         String[] date_to_format_string = new Date().toString().split(":");
         for (String character : date_to_format_string) {
             nameFile += character;
         }
+        importManager = new ImportManagerImpl();
 
     }
 
@@ -95,16 +105,16 @@ public class SaveManagerImpl implements SaveManager, Subject {
      * @return boolean
      */
     @Override
-    public boolean persist(final GenericParser modelToSave) {
-       Objects.requireNonNull(modelToSave);
-       return listOfBeans.add(modelToSave);
+    public boolean persist(final Object modelToSave) {
+        Objects.requireNonNull(modelToSave);
+        return listOfBeans.add(modelToSave);
     }
 
 
-    /*public void persist(final Collection<? extends GenericParser> collections) {
+    public void persist(final Collection<? extends Object> collections) {
         Objects.requireNonNull(collections);
         listOfBeans.addAll(collections);
-    }*/
+    }
 
     /**
      * Disconnects the object to the @param model which will no longer be taken into account when saving in XML.
@@ -130,7 +140,7 @@ public class SaveManagerImpl implements SaveManager, Subject {
      *
      * @return List
      */
-    public List<GenericParser> getListOfBeans() {
+    public List<Object> getListOfBeans() {
         return Collections.unmodifiableList(listOfBeans);
     }
 
@@ -157,11 +167,15 @@ public class SaveManagerImpl implements SaveManager, Subject {
         if (fileXML == null)
             return false;
 
-        for (GenericParser beans : listOfBeans) {
-            stringBuilder.append(parser.parseModel(beans));
-        }
-
         try {
+            stringBuilder = new StringBuilder();
+            stringBuilder.append(XML_STANDARD_TAG);
+            stringBuilder.append("\n"+CONTENT_TAG+"\n");
+            for (Object beans : listOfBeans) {
+                stringBuilder.append(parser.parseModel(beans));
+            }
+            stringBuilder.append("\n"+CONTENT_END_TAG+"\n");
+
             if (fileXML.exists()) {
                 fileXML.delete();
             }
@@ -171,7 +185,6 @@ public class SaveManagerImpl implements SaveManager, Subject {
             bufferedWriter.flush();
             bufferedWriter.close();
 
-            System.out.println(stringBuilder.toString());
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -219,20 +232,16 @@ public class SaveManagerImpl implements SaveManager, Subject {
 
     }
 
-
     /**
-     * @param instance Class
+     * @param typeClass
      * @return
      */
-    public List<GenericParser> getModels(final Class instance) {
+    public List<Object> getModels(final Class typeClass) {
 
-        List<GenericParser> objects = new ArrayList<>();
-        System.out.println(instance);
+        List<Object> objects = new ArrayList<>();
 
-        for (GenericParser model : getListOfBeans()) {
-            System.out.println(model.getObjectClass());
-            System.out.println(instance);
-            if (instance.isAssignableFrom(model.getObjectClass())) {
+        for (Object model : listOfBeans) {
+            if (typeClass.isInstance(model)) {
                 objects.add(model);
             }
         }

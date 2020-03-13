@@ -7,6 +7,7 @@ import com.kronos.api.Observer;
 import com.jfoenix.controls.JFXButton;
 
 import com.kronos.api.Race;
+import com.kronos.api.TimeRace;
 import com.kronos.global.animation.PulseTransition;
 import com.kronos.global.util.Alerts;
 import com.kronos.model.*;
@@ -504,13 +505,9 @@ public class RaceResumeController implements Initializable, Observer {
     public void maincarinformation() {
 
 
-        List<GenericParser> maincarinformation = App.getDataManager().getModels(CarModel.class);
-        for (GenericParser model : maincarinformation) {
-
-            if (model.getObjectToGenerify() instanceof MainCarModel) {
-                mycar = (MainCarModel) model.getObjectToGenerify();
-            }
-
+        List<MainCarModel> maincarinformation = (List<MainCarModel>) (List<?>) App.getDataManager().getModels(MainCarModel.class);
+        for (MainCarModel model : maincarinformation) {
+            mycar = model;
         }
 
         lastNamePilotMainCar.setText(mycar.getPilotModel().getLastName());
@@ -529,28 +526,31 @@ public class RaceResumeController implements Initializable, Observer {
      */
     public ArrayList<CarModel> getFollowedCars() {
         ArrayList<CarModel> followedCars = new ArrayList<>();
-        List<GenericParser> genericParsers = App.getDataManager().getModels(CarModel.class);
-        for(GenericParser genericParser : genericParsers) {
-            followedCars.add((CarModel) genericParser.getObjectToGenerify());
+        List<CarModel> carModels = (List<CarModel>) (List<?>) App.getDataManager().getModels(CarModel.class);
+//        List<GenericParser> genericParsers = App.getDataManager().getModels(CarModel.class);
+        for (CarModel carModel : carModels) {
+//            followedCars.add((CarModel) genericParser.getObjectToGenerify());
+            followedCars.add(carModel);
         }
         return followedCars;
     }
 
     public ArrayList<RaceModel> getRace() {
         ArrayList<RaceModel> raceModels = new ArrayList<>();
-        List<GenericParser> timeRaceGenericParsers = App.getDataManager().getModels(TimeRaceModel.class);
-        List<GenericParser> lapRaceGenericParsers = App.getDataManager().getModels(LapRaceModel.class);
-        if(!timeRaceGenericParsers.isEmpty()) {
-            for(GenericParser genericParser : timeRaceGenericParsers) {
-                raceModels.add((TimeRaceModel) genericParser.getObjectToGenerify());
+        List<TimeRaceModel> timeRaceModels = (List<TimeRaceModel>) (List<?>) App.getDataManager().getModels(TimeRaceModel.class);
+        List<LapRaceModel> lapRaceModels = (List<LapRaceModel>) (List<?>) App.getDataManager().getModels(LapRaceModel.class);
+
+//        List<GenericParser> timeRaceGenericParsers = App.getDataManager().getModels(TimeRaceModel.class);
+//        List<GenericParser> lapRaceGenericParsers = App.getDataManager().getModels(LapRaceModel.class);
+        if (!timeRaceModels.isEmpty()) {
+            for (TimeRaceModel model : timeRaceModels) {
+                raceModels.add(model);
+            }
+        } else {
+            for (LapRaceModel model : lapRaceModels) {
+                raceModels.add(model);
             }
         }
-        else {
-            for(GenericParser genericParser : lapRaceGenericParsers) {
-                raceModels.add((LapRaceModel) genericParser.getObjectToGenerify());
-            }
-        }
-        GenericParser generic = lapRaceGenericParsers.get(0);
         return raceModels;
     }
 
@@ -568,7 +568,6 @@ public class RaceResumeController implements Initializable, Observer {
     }
 
     /**
-     *
      * @param carNumber
      * @return
      */
