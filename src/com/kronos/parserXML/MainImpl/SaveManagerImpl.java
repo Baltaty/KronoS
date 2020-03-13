@@ -76,8 +76,7 @@ public class SaveManagerImpl implements SaveManager, Subject {
      */
     private SaveManagerImpl() {
         listOfBeans = new ArrayList<Object>();
-        stringBuilder = new StringBuilder();
-        stringBuilder.append(XML_STANDARD_TAG);
+
         parser = new ModelParser();
         String[] date_to_format_string = new Date().toString().split(":");
         for (String character : date_to_format_string) {
@@ -169,6 +168,8 @@ public class SaveManagerImpl implements SaveManager, Subject {
             return false;
 
         try {
+            stringBuilder = new StringBuilder();
+            stringBuilder.append(XML_STANDARD_TAG);
             stringBuilder.append("\n"+CONTENT_TAG+"\n");
             for (Object beans : listOfBeans) {
                 stringBuilder.append(parser.parseModel(beans));

@@ -110,7 +110,7 @@ public class RaceResumeController implements Initializable, Observer {
      */
     @FXML
     public void handleTopButtonClick(ActionEvent event) {
-        handleNewTop();
+       // handleNewTop();
         handleMeanTimeBar();
     }
 
@@ -344,8 +344,12 @@ public class RaceResumeController implements Initializable, Observer {
 
         List<MainCarModel> maincarinformation = (List<MainCarModel>) (List<?>) App.getDataManager().getModels(MainCarModel.class);
         for (MainCarModel model : maincarinformation) {
-            mycar = (MainCarModel) model;
+            mycar = model;
         }
+        System.out.println("======= RACESUME =========");
+        System.out.println(mycar.getTeam());
+        System.out.println(mycar.getPilotModel().getFirstName());
+        System.out.println("======= RACESUME =========");
 
         lastNamePilotMainCar.setText(mycar.getPilotModel().getLastName());
         firstNamePilotMainCar.setText(mycar.getPilotModel().getFirstName());

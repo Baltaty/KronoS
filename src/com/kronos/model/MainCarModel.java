@@ -13,11 +13,6 @@ import java.util.ArrayList;
 @XmlRootElement
 public class MainCarModel extends CarModel implements MainCar {
 
-    int number;
-    String team;
-    String model;
-    String brand;
-    PilotModel pilotModel;
 
 
     private ArrayList<Integer> stopList;

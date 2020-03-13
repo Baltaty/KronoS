@@ -753,9 +753,10 @@
                 // Save test save manager
                 SaveManagerImpl saveManager = App.getDataManager();
                 saveManager.saveFile();
+                handleToControlPanel();
 
             }
-            handleToControlPanel();
+
 
 
         }
