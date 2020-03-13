@@ -320,7 +320,7 @@ public class Main implements Initializable {
         grid = new GridPane();
         grid.add(finalpane,0,0);
         grid.setMinSize(body.getWidth(),body.getHeight());
-        body.setBackground(new Background(new BackgroundFill(Color.web("red"), CornerRadii.EMPTY, Insets.EMPTY)));
+        //body.setBackground(new Background(new BackgroundFill(Color.web("red"), CornerRadii.EMPTY, Insets.EMPTY)));
 //        body.fitToHeightProperty().set(true);
 
 
@@ -727,7 +727,7 @@ public class Main implements Initializable {
      @FXML
      private void dashboard(){
          title.setText("Dashboard");
-         body.setContent(grid);
+         //body.setContent(grid);
          body.setContent(ViewManager.getInstance().get("raceresume"));
      }
 
