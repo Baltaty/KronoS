@@ -79,7 +79,6 @@ public class RaceResumeController implements Initializable, Observer {
     @FXML
     private JFXToggleButton toogleedit;
 
-    public static ObservableList<TopModel> data_table;
 
     private static ArrayList<Double> listOfMeanTime = new ArrayList<>();
     private static Double meantime = 0.00;
