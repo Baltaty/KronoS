@@ -369,6 +369,7 @@
          */
 
         private void handleToControlPanel() {
+            loadDashBoardController("raceresume");
             //Stage stage = (Stage) startBtn.getScene().getWindow();
             stylesheets = App.getDecorator().getScene().getStylesheets();
 //            stylesheets.addAll(
@@ -385,6 +386,17 @@
             App.getDecorator().setMaximized(true);
             App.getDecorator().setResizable(true);
             App.getDecorator().setContent(ViewManager.getInstance().get("main"));
+        }
+
+        private void loadDashBoardController(String name) {
+            try {
+                ViewManager.getInstance().put(
+                        name,
+                        FXMLLoader.load(getClass().getResource("/com/kronos/view/"+ name + ".fxml"))
+                );
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         /**
@@ -476,8 +488,7 @@
                     MainCarModel mainCarModel = new MainCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
                     if (checkNewCarFields(mainCarModel)) {
                         carsList.add(mainCarModel);
-                        carController.getCarModels().add(mainCarModel);
-                        carController.getCarNumbers().add(Integer.toString(mainCarModel.getNumber()));
+                        App.getDataManager().persist(new GenericParser(mainCarModel));
                         mainCarCreated = true;
                         carPilot.getItems().remove(carPilot.getSelectionModel().getSelectedIndex());
                         Alerts.success("SUCCÈS", "Nouvelle voiture créée");
@@ -487,8 +498,7 @@
                     RivalCarModel rivalCarModel = new RivalCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
                     if (checkNewCarFields(rivalCarModel)) {
                         carsList.add(rivalCarModel);
-                        carController.getCarModels().add(rivalCarModel);
-                        carController.getCarNumbers().add(Integer.toString(rivalCarModel.getNumber()));
+                        App.getDataManager().persist(new GenericParser(rivalCarModel));
                         carPilot.getItems().remove(carPilot.getSelectionModel().getSelectedIndex());
                         Alerts.success("SUCCÈS", "Nouvelle voiture créée");
                         clearNewCarFields();
@@ -648,6 +658,7 @@
                     pilotsList.add(pilotcont);
                     carPilot.getItems().add(firstnamecont + " " + lastnamecont);
                     Alerts.success("SUCCÈS", "Pilote ajouté");
+                    App.getDataManager().persist(  new GenericParser(pilotcont));
                     clearNewPilotFields();
 
                 } else {
@@ -736,10 +747,9 @@
 
                 // Save test save manager
                 SaveManagerImpl saveManager = App.getDataManager();
-                saveManager.persist(pilotsList);
-                saveManager.persist(carsList);
-                saveManager.persist(race);
-                System.out.println(saveManager.saveFile());
+                //saveManager.persist(pilotsList);
+                //saveManager.persist(carsList);
+                //saveManager.persist(race);
 
             }
             handleToControlPanel();

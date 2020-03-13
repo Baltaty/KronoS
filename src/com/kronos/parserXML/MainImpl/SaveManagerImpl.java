@@ -1,5 +1,9 @@
 package com.kronos.parserXML.MainImpl;
 
+import com.kronos.api.Observer;
+import com.kronos.api.Subject;
+import com.kronos.model.CarModel;
+import com.kronos.model.GenericParser;
 import com.kronos.parserXML.api.SaveManager;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -15,13 +19,14 @@ import java.util.*;
  * @version 1.0
  * Implementation of the Savemanager interface, this class is a singleton
  */
-public class SaveManagerImpl implements SaveManager {
+public class SaveManagerImpl implements SaveManager, Subject {
 
+    private List<Observer> observers = new ArrayList<>();
 
     /**
      * collection of models to be persisted in the XML file
      */
-    private List<Object> listOfBeans;
+    private List<GenericParser> listOfBeans;
 
 
     /**
@@ -60,7 +65,7 @@ public class SaveManagerImpl implements SaveManager {
      * private constructor
      */
     private SaveManagerImpl() {
-        listOfBeans = new ArrayList<Object>();
+        listOfBeans = new ArrayList<>();
         stringBuilder = new StringBuilder();
         stringBuilder.append(XML_STANDARD_TAG);
         parser = new ModelParser();
@@ -90,16 +95,16 @@ public class SaveManagerImpl implements SaveManager {
      * @return boolean
      */
     @Override
-    public boolean persist(final Object modelToSave) {
-        Objects.requireNonNull(modelToSave);
-        return listOfBeans.add(modelToSave);
+    public boolean persist(final GenericParser modelToSave) {
+       Objects.requireNonNull(modelToSave);
+       return listOfBeans.add(modelToSave);
     }
 
 
-    public void persist(final Collection<? extends Object> collections) {
+    /*public void persist(final Collection<? extends GenericParser> collections) {
         Objects.requireNonNull(collections);
         listOfBeans.addAll(collections);
-    }
+    }*/
 
     /**
      * Disconnects the object to the @param model which will no longer be taken into account when saving in XML.
@@ -125,7 +130,7 @@ public class SaveManagerImpl implements SaveManager {
      *
      * @return List
      */
-    public List<Object> getListOfBeans() {
+    public List<GenericParser> getListOfBeans() {
         return Collections.unmodifiableList(listOfBeans);
     }
 
@@ -152,7 +157,7 @@ public class SaveManagerImpl implements SaveManager {
         if (fileXML == null)
             return false;
 
-        for (Object beans : listOfBeans) {
+        for (GenericParser beans : listOfBeans) {
             stringBuilder.append(parser.parseModel(beans));
         }
 
@@ -219,12 +224,15 @@ public class SaveManagerImpl implements SaveManager {
      * @param instance Class
      * @return
      */
-    public List<Object> getModels(final Class instance) {
+    public List<GenericParser> getModels(final Class instance) {
 
-        List<Object> objects = new ArrayList<>();
+        List<GenericParser> objects = new ArrayList<>();
+        System.out.println(instance);
 
-        for (Object model : getListOfBeans()) {
-            if (model.getClass().equals(instance)) {
+        for (GenericParser model : getListOfBeans()) {
+            System.out.println(model.getObjectClass());
+            System.out.println(instance);
+            if (instance.isAssignableFrom(model.getObjectClass())) {
                 objects.add(model);
             }
         }
@@ -233,4 +241,13 @@ public class SaveManagerImpl implements SaveManager {
     }
 
 
+    @Override
+    public void attach(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void detach(Observer observer) {
+        observers.remove(observer);
+    }
 }

@@ -236,4 +236,12 @@ public abstract class CarModel implements Car {
         }
         return remainingLaps;
     }
+
+    public PilotModel getPilotModel() {
+        return pilotModel;
+    }
+
+    public void setPilotModel(PilotModel pilotModel) {
+        this.pilotModel = pilotModel;
+    }
 }

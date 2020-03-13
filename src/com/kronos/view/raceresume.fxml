@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
@@ -71,12 +72,28 @@
                                     <tabs>
                                         <Tab text="Pilote">
                                             <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="260.0" prefWidth="359.0" />
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="260.0" prefWidth="359.0">
+                                       <children>
+                                          <Label layoutX="14.0" layoutY="30.0" text="NOM :" />
+                                          <Label layoutX="14.0" layoutY="65.0" text="Prenoms :" />
+                                          <Label fx:id="datOfBirthPilot" layoutX="14.0" layoutY="101.0" text="Date de Naissance :" />
+                                          <Label fx:id="lastNamePilotMainCar" layoutX="66.0" layoutY="30.0" />
+                                          <Label fx:id="firstNamePilotMainCar" layoutX="84.0" layoutY="65.0" />
+                                          <Label fx:id="dateOfBirthPilot" layoutX="135.0" layoutY="101.0" />
+                                       </children></AnchorPane>
                                             </content>
                                         </Tab>
                                         <Tab text="Voiture">
                                             <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <Label layoutX="14.0" layoutY="39.0" text="Marque :" />
+                                          <Label layoutX="15.0" layoutY="76.0" text="Modele :" />
+                                          <Label layoutX="14.0" layoutY="112.0" text="Equipe :" />
+                                          <Label fx:id="mainCarBrand" layoutX="84.0" layoutY="39.0" />
+                                          <Label fx:id="mainCarModel" layoutX="84.0" layoutY="76.0" />
+                                          <Label fx:id="mainCarTeam" layoutX="84.0" layoutY="112.0" />
+                                       </children></AnchorPane>
                                             </content>
                                         </Tab>
                                     </tabs>
@@ -99,7 +116,7 @@
                                     <children>
                                         <Pane prefHeight="99.0" prefWidth="256.0">
                                             <children>
-                                                <JFXButton fx:id="TopBtn" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="94.0" layoutY="11.0" onAction="#handleMeanTimeBar" prefHeight="70.0" prefWidth="67.0" style="-fx-background-color: #57c6f2; -fx-background-radius: 200;">
+                                                <JFXButton fx:id="TopBtn" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="94.0" layoutY="11.0" onAction="#handleTopButtonClick" prefHeight="70.0" prefWidth="67.0" style="-fx-background-color: #57c6f2; -fx-background-radius: 200;">
                                                     <graphic>
                                                         <ImageView fitHeight="54.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
                                                             <image>
@@ -153,12 +170,16 @@
                 </HBox>
                 <VBox prefHeight="439.0" prefWidth="1053.0">
                     <children>
-                        <TableView prefHeight="388.0" prefWidth="1053.0">
+                        <TableView fx:id="table_info" prefHeight="388.0" prefWidth="1053.0">
                             <columns>
-                                <TableColumn prefWidth="75.0" text="C1" />
-                                <TableColumn prefWidth="75.0" text="C2" />
+                                <TableColumn fx:id="col_typetop" prefWidth="121.0" text="Type de top" />
+                        <TableColumn fx:id="col_laptime" prefWidth="153.0" text="Temps du tour" />
+                        <TableColumn fx:id="col_racetime" prefWidth="132.0" text="Temps écoulé" />
+                        <TableColumn fx:id="col_time" prefWidth="134.0" text="Heure du top" />
+                                <TableColumn fx:id="col_comment" prefWidth="507.0" text="Commentaires" />
                             </columns>
                         </TableView>
+                  <JFXToggleButton fx:id="toogleedit" onAction="#editable" text="Modifier un top" />
                     </children></VBox>
             </children>
         </VBox>

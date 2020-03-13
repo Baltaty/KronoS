@@ -13,6 +13,12 @@ import java.util.ArrayList;
 @XmlRootElement
 public class MainCarModel extends CarModel implements MainCar {
 
+    int number;
+    String team;
+    String model;
+    String brand;
+    PilotModel pilotModel;
+
 
     private ArrayList<Integer> stopList;
 
@@ -66,4 +72,6 @@ public class MainCarModel extends CarModel implements MainCar {
     public void setStopList(ArrayList<Integer> stopList) {
         this.stopList = stopList;
     }
+
+
 }
