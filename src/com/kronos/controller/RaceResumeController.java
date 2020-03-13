@@ -44,7 +44,6 @@ public class RaceResumeController implements Initializable, Observer {
     @FXML
     Label lastNamePilotMainCar, firstNamePilotMainCar, dateOfBirthPilot, maincarBrand, mainCarModel, mainCarTeam;
 
-
     @FXML
     private TableView<TopModel> table_info;
 

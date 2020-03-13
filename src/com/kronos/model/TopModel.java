@@ -34,7 +34,7 @@ public class TopModel implements Top {
      * @param raceTime time in minutes since the beginning of the race
      * @param comment comment
      */
-    public TopModel (Date time, String topType, double raceTime, double lapTime, String comment){
+    public TopModel (int numCar, Date time, String topType, double raceTime, double lapTime, String comment){
         this.id=System.currentTimeMillis();
         this.time = time;
         this.topType = topType;
@@ -166,5 +166,15 @@ public class TopModel implements Top {
         this.lap = lap;
     }
 
+    /**
+     * Gets the numero of the car
+     * @return the num of car
+     */
+    public int getNumCar() { return numCar; }
 
+    /**
+     * Sets the num car.
+     * @param numCar numero of car
+     */
+    public void setNumCar(int numCar) { this.numCar = numCar;    }
 }
