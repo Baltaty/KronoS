@@ -37,7 +37,7 @@ public abstract class CarModel implements Car {
 
 
     @XmlElement
-    private ArrayList<TopModel> topList;
+    private ArrayList<TopModel> topList = new ArrayList<>();
 
 
     @XmlElement

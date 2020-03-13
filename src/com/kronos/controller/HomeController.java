@@ -12,6 +12,7 @@
 
     import com.jfoenix.controls.*;
     import com.kronos.App;
+    import com.kronos.api.TimeRace;
     import com.kronos.global.enums.RaceType;
     import com.kronos.global.plugin.ViewManager;
     import com.kronos.global.util.Alerts;
@@ -715,7 +716,6 @@
             if (typeOfRace == RaceType.TIME_RACE) {
                 if (!this.raceDuration.getText().isEmpty()) {
                     if (Mask.isNumeric(this.raceDuration.getText())) {
-                        System.out.println("in timeRace");
                         race_duration = Integer.parseInt(this.raceDuration.getText());
 
                     }
@@ -738,10 +738,20 @@
             RaceModel race = raceController.createRace(typeOfRace, raceName.getText(),
                     Date.from(startingTimeDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
                     racewayNameText.getText(), race_duration, race_numberOf_tour);
+
+            if(typeOfRace.equals(RaceType.TIME_RACE)) {
+               for(CarModel carModel : carsList) {
+                   carModel.setTimeRace((TimeRaceModel)race);
+               }
+            }
+            else {
+                for(CarModel carModel : carsList) {
+                    carModel.setLapRace((LapRaceModel)race);
+                }
+            }
+
+            App.getDataManager().persist(new GenericParser(race));
             carController.setRaceModel(race);
-            System.out.println("======================");
-            System.out.println(typeOfRace.toString());
-            System.out.println("======================");
 
             if (race != null) {
 
