@@ -221,9 +221,12 @@ public class ImportManagerImpl implements ImportManager {
             }
             App.getDataManager().clear();
             App.getDataManager().persist(models);
-            System.out.println(App.getDataManager().getListOfBeans().size());
-            App.getDataManager().getModels(MainCarModel.class);
-            System.out.println(models.toString());
+           // System.out.println(App.getDataManager().getListOfBeans().size());
+//            List<MainCarModel> mainCarModelList = (List<MainCarModel>)(List<?>) App.getDataManager().getModels(MainCarModel.class);
+//            for ( MainCarModel testmodel: mainCarModelList) {
+//                System.out.println(testmodel.getTeam());
+//                System.out.println(testmodel.getId());
+//            }
 
         } catch (Exception ex) {
             ex.printStackTrace();

@@ -241,8 +241,6 @@ public class SaveManagerImpl implements SaveManager, Subject {
             // model.getClass().equals(instance)
             if (typeClass.isInstance(model)) {
                 objects.add(model);
-                System.out.println(" il retrouve ehe eh ");
-                System.out.println(model.toString());
             }
         }
 
