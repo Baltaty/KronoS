@@ -237,14 +237,4 @@ public class ImportManagerImpl implements ImportManager {
         return true;
     }
 
-
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-        ImportManager manager = new ImportManagerImpl();
-        File file = new File(PATH);
-        manager.loadFileXml(file);
-    }
-
 }
