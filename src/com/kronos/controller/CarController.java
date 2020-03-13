@@ -31,7 +31,6 @@ import java.util.ResourceBundle;
 public class CarController {
 
     private RaceModel raceModel;
-    private List<CarModel> carModels = new ArrayList<>();
 
 
 
@@ -49,38 +48,13 @@ public class CarController {
 
         if (!Mask.isNumeric(String.valueOf(carModel.getId()))) {
             checked = false;
-            System.out.println("là");
             //mettre une alerte
         }
         if (!Mask.isNumeric(String.valueOf(carModel.getNumber()))) {
             checked = false;
-            System.out.println("non là");
             //mettre une alerte
         }
         return checked;
-    }
-
-    /**
-     * Checks if {@link com.kronos.model.TopModel top} for this car respects the job logic.
-     * A "RACE" top should only happen after a "RACE" or a "OUT" top.
-     * An "IN" top should only happen after a "RACE" or an "OUT" top.
-     * An "OUT" top should only happen after an "IN" top.
-     *
-     * @param lastTopType     the last top type entered by the board man
-     * @param previousTopType the previous top entered by the board man
-     * @return true if the job logic is respected, false otherwise
-     */
-    public boolean checkTopLogic(String lastTopType, String previousTopType) {
-        boolean respectsLogic = false;
-        if (previousTopType.equals("RACE") && (lastTopType.equals("RACE") || lastTopType.equals("IN"))) {
-            respectsLogic = true;
-        } else if (previousTopType.equals("IN") && lastTopType.equals("OUT")) {
-            respectsLogic = true;
-        } else if (previousTopType.equals("OUT") && (lastTopType.equals("RACE") || lastTopType.equals("IN"))) {
-            respectsLogic = true;
-        }
-
-        return respectsLogic;
     }
 
     /**
@@ -88,7 +62,7 @@ public class CarController {
      * @param carNumber
      * @return
      */
-    public CarModel findCar(int carNumber) {
+    public CarModel findCar(ArrayList<CarModel> carModels, int carNumber) {
         int i = 0;
         boolean found = false;
         CarModel ret = null;
@@ -116,13 +90,5 @@ public class CarController {
      */
     public void setRaceModel(RaceModel raceModel) {
         this.raceModel = raceModel;
-    }
-
-    /**
-     *
-     * @param carModels
-     */
-    public void setCarModels(ArrayList<CarModel> carModels) {
-        this.carModels = carModels;
     }
 }
