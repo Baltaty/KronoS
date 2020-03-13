@@ -255,15 +255,14 @@
          */
         @FXML
         private void handleOldRaceClicked(ActionEvent event) {
-//            try {
-//                Stage stage = (Stage) startBtn.getScene().getWindow();
-//                StackPane test = FXMLLoader.load(getClass().getResource("Racechoice.fxml"));
-//                stage.setScene(new Scene(test));
-//                stage.show();
-//            } catch (IOException ex) {
-//                Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-            handleToControlPanel();
+
+            SaveManagerImpl saveManager = App.getDataManager();
+            boolean isUpload = saveManager.getImportManager().importFile((Stage) App.getDecorator().getScene().getWindow());
+            if (isUpload)
+                handleToControlPanel();
+            else
+                Alerts.error("ERREUR DE CHARGEMENT" , "Le Fichier n'as pu être chargé");
+
         }
 
         /**
@@ -365,7 +364,6 @@
 
         /**
          * Navigates to the interface used to control a race.
-         *
          */
 
         private void handleToControlPanel() {
@@ -516,9 +514,9 @@
         }
 
         /**
-         *Resets the fields in the new pilot interface
+         * Resets the fields in the new pilot interface
          */
-        private  void  clearNewPilotFields(){
+        private void clearNewPilotFields() {
             firstName.setText("");
             lastNamePilot.setText("");
             pilotHeight.setText("");
@@ -617,26 +615,25 @@
             double pilotweightcont = 0.00;
             Date pilotdatofbirthcont = null;
             int count = 0;
-            boolean check=true;
+            boolean check = true;
             LocalDate localDate = dateOfBirthPilot.getValue();
 
             if (localDate != null) {
                 pilotdatofbirthcont = Date.from(dateOfBirthPilot.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
 
             }
-            if(!(pilotWeight.getText().isEmpty())) {
+            if (!(pilotWeight.getText().isEmpty())) {
                 if (Mask.isDouble(pilotWeight.getText())) {
                     pilotweightcont = Double.parseDouble(pilotWeight.getText());
-                }else {
-                    check=false;
+                } else {
+                    check = false;
                 }
             }
             if (!(pilotHeight.getText().isEmpty())) {
                 if (Mask.isDouble(pilotHeight.getText())) {
                     pilotheightcont = Double.parseDouble(pilotHeight.getText());
-                }
-                else{
-                    check=false;
+                } else {
+                    check = false;
                 }
             }
 
@@ -644,15 +641,15 @@
             PilotModel pilotcont = new PilotModel(lastnamecont, firstnamecont, commentcont, pilotdatofbirthcont, pilotweightcont, pilotweightcont);
 
 
-                if (pilotcontroller.checkPilot(pilotcont) && check) {
-                    pilotsList.add(pilotcont);
-                    carPilot.getItems().add(firstnamecont + " " + lastnamecont);
-                    Alerts.success("SUCCÈS", "Pilote ajouté");
-                    clearNewPilotFields();
+            if (pilotcontroller.checkPilot(pilotcont) && check) {
+                pilotsList.add(pilotcont);
+                carPilot.getItems().add(firstnamecont + " " + lastnamecont);
+                Alerts.success("SUCCÈS", "Pilote ajouté");
+                clearNewPilotFields();
 
-                } else {
-                    Alerts.error("ERREUR", "Veuillez vérifier les champs");
-                }
+            } else {
+                Alerts.error("ERREUR", "Veuillez vérifier les champs");
+            }
 
 
         }

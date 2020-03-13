@@ -2,6 +2,7 @@ package com.kronos.parserXML.MainImpl;
 
 import com.kronos.api.Observer;
 import com.kronos.api.Subject;
+import com.kronos.parserXML.api.ImportManager;
 import com.kronos.parserXML.api.SaveManager;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -58,6 +59,15 @@ public class SaveManagerImpl implements SaveManager, Subject {
      */
     private static String XML_STANDARD_TAG = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
 
+    /**
+     *
+     */
+    private ImportManagerImpl importManager;
+
+
+    public ImportManagerImpl getImportManager(){
+        return this.importManager;
+    }
 
     /**
      * private constructor
@@ -71,6 +81,7 @@ public class SaveManagerImpl implements SaveManager, Subject {
         for (String character : date_to_format_string) {
             nameFile += character;
         }
+        importManager = new ImportManagerImpl();
 
     }
 
@@ -217,18 +228,21 @@ public class SaveManagerImpl implements SaveManager, Subject {
 
     }
 
-
     /**
-     * @param instance Class
+     *
+     * @param typeClass
      * @return
      */
-    public List<Object> getModels(final Class instance) {
+    public List<Object> getModels(final Class typeClass) {
 
         List<Object> objects = new ArrayList<>();
 
-        for (Object model : getListOfBeans()) {
-            if (model.getClass().equals(instance)) {
+        for (Object model : listOfBeans) {
+            // model.getClass().equals(instance)
+            if (typeClass.isInstance(model)) {
                 objects.add(model);
+                System.out.println(" il retrouve ehe eh ");
+                System.out.println(model.toString());
             }
         }
 

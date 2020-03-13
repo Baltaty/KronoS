@@ -1,13 +1,14 @@
 package com.kronos.parserXML.api;
 
 
+import java.io.File;
 
 public interface ImportManager {
 
     /**
-     * Load file xml to Objects
-     * @param path
+     *
+     * @param fileXml
      * @return
      */
-    public Object loadFileXml(String path);
+    public Object loadFileXml(File fileXml);
 }
