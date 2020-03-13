@@ -37,7 +37,7 @@ public abstract class CarModel implements Car {
 
 
     @XmlElement
-    private ArrayList<TopModel> topList;
+    private ArrayList<TopModel> topList = new ArrayList<>();
 
 
     @XmlElement
@@ -235,5 +235,13 @@ public abstract class CarModel implements Car {
             e.printStackTrace();
         }
         return remainingLaps;
+    }
+
+    public PilotModel getPilotModel() {
+        return pilotModel;
+    }
+
+    public void setPilotModel(PilotModel pilotModel) {
+        this.pilotModel = pilotModel;
     }
 }

@@ -1,5 +1,6 @@
 package com.kronos.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 
 /**
@@ -7,6 +8,8 @@ import java.util.ArrayList;
  * @version 1.0
  * Represents a rival car and its properties. Rival cars are cars of contesting teams.
  */
+
+@XmlRootElement
 public class RivalCarModel extends CarModel {
 
     /**

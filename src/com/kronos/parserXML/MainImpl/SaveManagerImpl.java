@@ -2,7 +2,6 @@ package com.kronos.parserXML.MainImpl;
 
 import com.kronos.api.Observer;
 import com.kronos.api.Subject;
-import com.kronos.parserXML.api.ImportManager;
 import com.kronos.parserXML.api.SaveManager;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -65,7 +64,10 @@ public class SaveManagerImpl implements SaveManager, Subject {
     private ImportManagerImpl importManager;
 
 
-    public ImportManagerImpl getImportManager(){
+    private static final String CONTENT_TAG = "<data>", CONTENT_END_TAG = "</data>";
+
+
+    public ImportManagerImpl getImportManager() {
         return this.importManager;
     }
 
@@ -166,11 +168,13 @@ public class SaveManagerImpl implements SaveManager, Subject {
         if (fileXML == null)
             return false;
 
-        for (Object beans : listOfBeans) {
-            stringBuilder.append(parser.parseModel(beans));
-        }
-
         try {
+            stringBuilder.append("\n"+CONTENT_TAG+"\n");
+            for (Object beans : listOfBeans) {
+                stringBuilder.append(parser.parseModel(beans));
+            }
+            stringBuilder.append("\n"+CONTENT_END_TAG+"\n");
+
             if (fileXML.exists()) {
                 fileXML.delete();
             }
@@ -180,7 +184,6 @@ public class SaveManagerImpl implements SaveManager, Subject {
             bufferedWriter.flush();
             bufferedWriter.close();
 
-            System.out.println(stringBuilder.toString());
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -229,7 +232,6 @@ public class SaveManagerImpl implements SaveManager, Subject {
     }
 
     /**
-     *
      * @param typeClass
      * @return
      */
@@ -238,7 +240,6 @@ public class SaveManagerImpl implements SaveManager, Subject {
         List<Object> objects = new ArrayList<>();
 
         for (Object model : listOfBeans) {
-            // model.getClass().equals(instance)
             if (typeClass.isInstance(model)) {
                 objects.add(model);
             }

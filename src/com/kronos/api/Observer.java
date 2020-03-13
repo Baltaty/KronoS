@@ -1,5 +1,7 @@
 package com.kronos.api;
 
+
+
 public interface Observer {
 
     /**

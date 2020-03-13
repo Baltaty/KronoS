@@ -12,6 +12,7 @@
 
     import com.jfoenix.controls.*;
     import com.kronos.App;
+    import com.kronos.api.TimeRace;
     import com.kronos.global.enums.RaceType;
     import com.kronos.global.plugin.ViewManager;
     import com.kronos.global.util.Alerts;
@@ -261,7 +262,7 @@
             if (isUpload)
                 handleToControlPanel();
             else
-                Alerts.error("ERREUR DE CHARGEMENT" , "Le Fichier n'as pu être chargé");
+                Alerts.error("ERREUR DE CHARGEMENT", "Le Fichier n'as pu être chargé");
 
         }
 
@@ -367,6 +368,7 @@
          */
 
         private void handleToControlPanel() {
+            loadDashBoardController("raceresume");
             //Stage stage = (Stage) startBtn.getScene().getWindow();
             stylesheets = App.getDecorator().getScene().getStylesheets();
             stylesheets.addAll(
@@ -383,6 +385,17 @@
             App.getDecorator().setMaximized(true);
             App.getDecorator().setResizable(true);
             App.getDecorator().setContent(ViewManager.getInstance().get("main"));
+        }
+
+        private void loadDashBoardController(String name) {
+            try {
+                ViewManager.getInstance().put(
+                        name,
+                        FXMLLoader.load(getClass().getResource("/com/kronos/view/" + name + ".fxml"))
+                );
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         /**
@@ -475,7 +488,6 @@
                     if (checkNewCarFields(mainCarModel)) {
                         carsList.add(mainCarModel);
                         App.getDataManager().persist(mainCarModel);
-                        carController.update();
                         mainCarCreated = true;
                         carPilot.getItems().remove(carPilot.getSelectionModel().getSelectedIndex());
                         Alerts.success("SUCCÈS", "Nouvelle voiture créée");
@@ -486,7 +498,6 @@
                     if (checkNewCarFields(rivalCarModel)) {
                         carsList.add(rivalCarModel);
                         App.getDataManager().persist(rivalCarModel);
-                        carController.update();
                         carPilot.getItems().remove(carPilot.getSelectionModel().getSelectedIndex());
                         Alerts.success("SUCCÈS", "Nouvelle voiture créée");
                         clearNewCarFields();
@@ -645,6 +656,7 @@
                 pilotsList.add(pilotcont);
                 carPilot.getItems().add(firstnamecont + " " + lastnamecont);
                 Alerts.success("SUCCÈS", "Pilote ajouté");
+                App.getDataManager().persist(pilotcont);
                 clearNewPilotFields();
 
             } else {
@@ -701,7 +713,6 @@
             if (typeOfRace == RaceType.TIME_RACE) {
                 if (!this.raceDuration.getText().isEmpty()) {
                     if (Mask.isNumeric(this.raceDuration.getText())) {
-                        System.out.println("in timeRace");
                         race_duration = Integer.parseInt(this.raceDuration.getText());
 
                     }
@@ -724,19 +735,24 @@
             RaceModel race = raceController.createRace(typeOfRace, raceName.getText(),
                     Date.from(startingTimeDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
                     racewayNameText.getText(), race_duration, race_numberOf_tour);
+
+            if (typeOfRace.equals(RaceType.TIME_RACE)) {
+                for (CarModel carModel : carsList) {
+                    carModel.setTimeRace((TimeRaceModel) race);
+                }
+            } else {
+                for (CarModel carModel : carsList) {
+                    carModel.setLapRace((LapRaceModel) race);
+                }
+            }
+
+            App.getDataManager().persist(race);
             carController.setRaceModel(race);
-            System.out.println("======================");
-            System.out.println(typeOfRace.toString());
-            System.out.println("======================");
 
             if (race != null) {
-
                 // Save test save manager
                 SaveManagerImpl saveManager = App.getDataManager();
-                saveManager.persist(pilotsList);
-                saveManager.persist(carsList);
-                saveManager.persist(race);
-                System.out.println(saveManager.saveFile());
+                saveManager.saveFile();
 
             }
             handleToControlPanel();

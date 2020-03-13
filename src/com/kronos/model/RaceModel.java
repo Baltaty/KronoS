@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author TeamKronoS
@@ -28,6 +30,7 @@ public abstract class RaceModel implements Race {
 
     private String racewayName;
     private ArrayList<CarModel> carsList;
+    private Map<Integer, ArrayList<TopModel>> topsMap = new HashMap<>();
 
 
     /**
@@ -110,7 +113,11 @@ public abstract class RaceModel implements Race {
         this.carsList = carsList;
     }
 
+    public Map<Integer, ArrayList<TopModel>> getTopsMap() {
+        return topsMap;
+    }
 
-
-
+    public void setTopsMap(Map<Integer, ArrayList<TopModel>> topsMap) {
+        this.topsMap = topsMap;
+    }
 }

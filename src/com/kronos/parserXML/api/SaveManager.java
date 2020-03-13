@@ -1,5 +1,7 @@
 package com.kronos.parserXML.api;
 
+import com.kronos.model.GenericParser;
+
 /**
  * @author TeamKronoS
  * @version 1.0
