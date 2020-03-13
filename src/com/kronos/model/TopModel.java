@@ -15,6 +15,7 @@ import java.util.Date;
 public class TopModel implements Top {
 
     private Long id;
+    private int carNumber;
     private Date time;
     private String topType;
     private String comment;
@@ -29,13 +30,15 @@ public class TopModel implements Top {
 
     /**
      * Constructor.
+     * @param carNumber car number associated with this top
      * @param time top real time (date + hour)
      * @param topType top type
      * @param raceTime time in minutes since the beginning of the race
      * @param comment comment
      */
-    public TopModel (Date time, String topType, double raceTime, double lapTime, String comment){
-        this.id=System.currentTimeMillis();
+    public TopModel (int carNumber, Date time, String topType, double raceTime, double lapTime, String comment){
+        this.id = System.currentTimeMillis();
+        this.carNumber = carNumber;
         this.time = time;
         this.topType = topType;
         this.raceTime = raceTime;
@@ -45,18 +48,23 @@ public class TopModel implements Top {
 
     /**
      * Constructor.
+     * @param carNumber car number associated with this top
      * @param time top real time (date + hour)
      * @param topType top type
      * @param lap lap when the top was triggered
      * @param comment comment
      */
-    public TopModel (Date time, String topType, int lap, double lapTime, String comment) {
+    public TopModel (int carNumber, Date time, String topType, int lap, double lapTime, String comment) {
+        this.id = System.currentTimeMillis();
+        this.carNumber = carNumber;
         this.time = time;
         this.topType = topType;
         this.lap = lap;
         this.lapTime = lapTime;
         this.comment = comment;
     }
+
+
 
     /**
      * Gets the top id.
@@ -69,6 +77,22 @@ public class TopModel implements Top {
      * @param id top id
      */
     public void setId(Long id) { this.id = id;  }
+
+    /**
+     * Gets the top car number.
+     * @return carNumber
+     */
+    public int getCarNumber() {
+        return carNumber;
+    }
+
+    /**
+     * Sets the top car number
+     * @param carNumber car number associated with this top
+     */
+    public void setCarNumber(int carNumber) {
+        this.carNumber = carNumber;
+    }
 
     /**
      * Gets the top time.
