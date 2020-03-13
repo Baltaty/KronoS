@@ -173,6 +173,7 @@
                     <children>
                         <TableView fx:id="table_info" prefHeight="388.0" prefWidth="1053.0">
                             <columns>
+                        <TableColumn fx:id="colCarNumber" prefWidth="75.0" text="Voiture" />
                                 <TableColumn fx:id="col_typetop" prefWidth="121.0" text="Type de top" />
                         <TableColumn fx:id="col_laptime" prefWidth="153.0" text="Temps du tour" />
                         <TableColumn fx:id="col_racetime" prefWidth="132.0" text="Temps écoulé" />
