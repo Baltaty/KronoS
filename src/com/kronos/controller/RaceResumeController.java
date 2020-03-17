@@ -113,6 +113,7 @@ public class RaceResumeController implements Initializable, Observer {
 
         initTable();
         //loadData();
+        maincarinformation();
     }
 
     /**
@@ -232,7 +233,7 @@ public class RaceResumeController implements Initializable, Observer {
      */
     private void handleMeanTimeBar() {
 
-        maincarinformation();
+       // maincarinformation();
         pulseTransition = new PulseTransition(meanTimeBar);
         listOfMeanTime.add(0.2);
         meantime = getMeanTime(listOfMeanTime);
