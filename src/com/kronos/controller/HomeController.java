@@ -766,17 +766,13 @@
                         carModel.setLapRace((LapRaceModel) race);
                     }
                 }
-
-                App.getDataManager().persist(race);
-                carController.setRaceModel(race);
-
-
                 if (race != null) {
                     // Save test save manager
+                    App.getDataManager().persist(race);
+                    carController.setRaceModel(race);
                     SaveManagerImpl saveManager = App.getDataManager();
                     saveManager.saveFile();
                     handleToControlPanel();
-
                 }
             }else {
 
