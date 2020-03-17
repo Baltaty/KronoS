@@ -46,10 +46,7 @@
     import java.text.SimpleDateFormat;
     import java.time.LocalDate;
     import java.time.ZoneId;
-    import java.util.ArrayList;
-    import java.util.Date;
-    import java.util.Properties;
-    import java.util.ResourceBundle;
+    import java.util.*;
     import java.util.logging.Level;
     import java.util.logging.Logger;
 
@@ -485,22 +482,26 @@
             if ((carPilot.getSelectionModel().getSelectedItem() != null || carType.getSelectionModel().getSelectedItem() != null) && Mask.isNumeric(carNumber.getText())) {
                 if (!mainCarCreated && carType.getSelectionModel().getSelectedItem().equals("Voiture principale")) {
                     MainCarModel mainCarModel = new MainCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
-                    if (checkNewCarFields(mainCarModel)) {
+                    if (checkNewCarFields(mainCarModel) && carIsExist(mainCarModel.getNumber())) {
                         carsList.add(mainCarModel);
                         App.getDataManager().persist(mainCarModel);
                         mainCarCreated = true;
                         carPilot.getItems().remove(carPilot.getSelectionModel().getSelectedIndex());
                         Alerts.success("SUCCÈS", "Nouvelle voiture créée");
                         clearNewCarFields();
+                    } else {
+                        Alerts.error("ERREUR", "Veuillez vérifier les champs");
                     }
                 } else if (mainCarCreated && carType.getSelectionModel().getSelectedItem().equals("Voiture concurrente")) {
                     RivalCarModel rivalCarModel = new RivalCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
-                    if (checkNewCarFields(rivalCarModel)) {
+                    if (checkNewCarFields(rivalCarModel) && carIsExist(rivalCarModel.getNumber())) {
                         carsList.add(rivalCarModel);
                         App.getDataManager().persist(rivalCarModel);
                         carPilot.getItems().remove(carPilot.getSelectionModel().getSelectedIndex());
                         Alerts.success("SUCCÈS", "Nouvelle voiture créée");
                         clearNewCarFields();
+                    } else {
+                        Alerts.error("ERREUR", "Veuillez vérifier les champs");
                     }
                 } else if (mainCarCreated) {
                     Alerts.error("ERREUR", "Une voiture principale existe déjà");
@@ -560,6 +561,24 @@
                 Alerts.error("ERREUR", "Il n'est possible d'observer que 4 voitures maximum à la fois");
             }
             return isValid;
+        }
+
+        /**
+         * checks if the number of the number of the car does not exist already
+         *
+         * @param carNumber the number of the car that we would like to create {@link CarModel number }
+         * @return true if the number of the currently car does not exist
+         */
+        private boolean carIsExist(int carNumber) {
+            List<CarModel> carModels = (List<CarModel>) (List<?>) App.getDataManager().getModels(CarModel.class);
+            System.out.println("etering in the method");
+            for (CarModel model : carModels) {
+                if (model.getNumber() == carNumber) {
+                    return false;
+
+                }
+            }
+            return true;
         }
 
         /*/**
@@ -707,56 +726,62 @@
          */
         @FXML
         public void createRace(ActionEvent actionEvent) {
-
+            boolean timelaps=false;
             RaceController raceController = new RaceController();
             int race_duration = -1, race_numberOf_tour = -1;
-            if (typeOfRace == RaceType.TIME_RACE) {
+            if (typeOfRace == RaceType.TIME_RACE ){
                 if (!this.raceDuration.getText().isEmpty()) {
                     if (Mask.isNumeric(this.raceDuration.getText())) {
-                        race_duration = Integer.parseInt(this.raceDuration.getText());
+                        if (Integer.parseInt(this.raceDuration.getText())>0) {
+                            race_duration = Integer.parseInt(this.raceDuration.getText());
+                            timelaps=true;
 
+                        }
+                    }
+                }
+
+            } else {
+
+                if (!this.raceNumberOfLaps.getText().isEmpty() ) {
+                    if (Mask.isNumeric(this.raceNumberOfLaps.getText())) {
+                        if (Integer.parseInt(this.raceNumberOfLaps.getText())>0) {
+                            race_numberOf_tour = Integer.parseInt(this.raceNumberOfLaps.getText());
+                            timelaps=true;
+                        }
+                    }
+
+                }
+            }
+            if(timelaps) {
+                RaceModel race = raceController.createRace(typeOfRace, raceName.getText(),
+                        Date.from(startingTimeDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                        racewayNameText.getText(), race_duration, race_numberOf_tour);
+
+                if (typeOfRace.equals(RaceType.TIME_RACE)) {
+                    for (CarModel carModel : carsList) {
+                        carModel.setTimeRace((TimeRaceModel) race);
                     }
                 } else {
-                    // Bloquer le bouton Commencer,
+                    for (CarModel carModel : carsList) {
+                        carModel.setLapRace((LapRaceModel) race);
+                    }
                 }
 
-            } else {
-
-                if (!this.raceNumberOfLaps.getText().isEmpty()) {
-                    if (Mask.isNumeric(this.raceNumberOfLaps.getText()))
-                        race_numberOf_tour = Integer.parseInt(this.raceNumberOfLaps.getText());
+                App.getDataManager().persist(race);
+                carController.setRaceModel(race);
 
 
-                } else {
-                    // Bloquer le bouton Commencer,
+                if (race != null) {
+                    // Save test save manager
+                    SaveManagerImpl saveManager = App.getDataManager();
+                    saveManager.saveFile();
+                    handleToControlPanel();
+
                 }
+            }else {
 
+                Alerts.error("ERREUR", "Veuillez vérifier les champs");
             }
-            RaceModel race = raceController.createRace(typeOfRace, raceName.getText(),
-                    Date.from(startingTimeDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                    racewayNameText.getText(), race_duration, race_numberOf_tour);
-
-            if (typeOfRace.equals(RaceType.TIME_RACE)) {
-                for (CarModel carModel : carsList) {
-                    carModel.setTimeRace((TimeRaceModel) race);
-                }
-            } else {
-                for (CarModel carModel : carsList) {
-                    carModel.setLapRace((LapRaceModel) race);
-                }
-            }
-
-            App.getDataManager().persist(race);
-            carController.setRaceModel(race);
-
-            if (race != null) {
-                // Save test save manager
-                SaveManagerImpl saveManager = App.getDataManager();
-                saveManager.saveFile();
-                handleToControlPanel();
-
-            }
-
 
 
         }
