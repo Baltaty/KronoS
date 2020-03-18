@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -46,7 +47,7 @@ public class SaveManagerImpl implements SaveManager, Subject {
     /**
      *
      */
-    private static String PATH = ".." + File.separator;
+    private static String PATH = System.getProperty("user.dir") + File.separator + "data" + File.separator;
 
     /**
      * name of File
@@ -78,11 +79,13 @@ public class SaveManagerImpl implements SaveManager, Subject {
         listOfBeans = new ArrayList<Object>();
 
         parser = new ModelParser();
-        String[] date_to_format_string = new Date().toString().split(":");
-        for (String character : date_to_format_string) {
-            nameFile += character;
-        }
+        nameFile = "course_numero-" + new Date().getTime();
         importManager = new ImportManagerImpl();
+
+        System.out.println("==== 0log0 ===== ");
+        System.out.println(System.getProperty("user.dir"));
+        System.out.println(PATH + nameFile);
+        System.out.println("=======================");
 
     }
 
@@ -170,11 +173,11 @@ public class SaveManagerImpl implements SaveManager, Subject {
         try {
             stringBuilder = new StringBuilder();
             stringBuilder.append(XML_STANDARD_TAG);
-            stringBuilder.append("\n"+CONTENT_TAG+"\n");
+            stringBuilder.append("\n" + CONTENT_TAG + "\n");
             for (Object beans : listOfBeans) {
                 stringBuilder.append(parser.parseModel(beans));
             }
-            stringBuilder.append("\n"+CONTENT_END_TAG+"\n");
+            stringBuilder.append("\n" + CONTENT_END_TAG + "\n");
 
             if (fileXML.exists()) {
                 fileXML.delete();
