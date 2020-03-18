@@ -133,6 +133,10 @@ public class RaceResumeController implements Initializable, Observer {
     @FXML
     private ComboBox<String> topType;
 
+    public RaceResumeController() {
+    }
+
+
 
     /**
      *
@@ -251,7 +255,7 @@ public class RaceResumeController implements Initializable, Observer {
      */
     private void handleMeanTimeBar() {
 
-        maincarinformation();
+       // maincarinformation();
         pulseTransition = new PulseTransition(meanTimeBar);
         listOfMeanTime.add(0.2);
         meantime = getMeanTime(listOfMeanTime);
@@ -469,6 +473,7 @@ public class RaceResumeController implements Initializable, Observer {
 
         initTable();
         //loadData();
+        maincarinformation();
 
         time = LocalTime.parse("00:00:00");
         time2 = LocalTime.parse("00:00");
