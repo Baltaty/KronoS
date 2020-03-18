@@ -469,6 +469,7 @@ public class RaceResumeController implements Initializable, Observer {
                 topModel = topModels.get(topModels.size() - 1);
             }
         }
+        System.out.println("==== ===== up =====");
         System.out.println(topModel);
         return topModel;
     }
