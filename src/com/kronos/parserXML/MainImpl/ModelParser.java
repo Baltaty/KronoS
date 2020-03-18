@@ -60,37 +60,5 @@ public class ModelParser {
      */
     private static String PATH = ".." + File.separator + "test.xml";
 
-    public void loadXmlFile() {
-
-
-        try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(PilotModel.class);
-
-            /* Create Unmarshaller */
-            Unmarshaller unmarshaller =  jaxbContext.createUnmarshaller();
-
-            InputStream path = new FileInputStream(PATH);
-
-            PilotModel pilotModel = (PilotModel) unmarshaller.unmarshal(path);
-
-            System.out.println(pilotModel.toString());
-
-
-
-        } catch (Exception ex) {
-                ex.printStackTrace();
-        }
-
-    }
-
-
-
-    public static void main(String [] args){
-
-        ModelParser parser = new ModelParser();
-        parser.loadXmlFile();
-        System.out.println("===================");
-    }
-
 
 }
