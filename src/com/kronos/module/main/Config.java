@@ -90,16 +90,16 @@ public class Config implements Initializable {
         ObservableList<String> stylesheets = App.decorator.getStage().getScene().getStylesheets();
 
         stylesheets.addAll(
-                getClass().getResource(path + "fonts.css").toExternalForm(),
-                getClass().getResource(path + "material-color.css").toExternalForm(),
-                getClass().getResource(path + "skeleton.css").toExternalForm(),
-                getClass().getResource(path + "" + theme).toExternalForm(),
-                getClass().getResource(path + "bootstrap.css").toExternalForm(),
-                getClass().getResource(path + "simple-green.css").toExternalForm(),
-                getClass().getResource(path + "shape.css").toExternalForm(),
-                getClass().getResource(path + "typographic.css").toExternalForm(),
-                getClass().getResource(path + "helpers.css").toExternalForm(),
-                getClass().getResource(path + "master.css").toExternalForm()
+//                getClass().getResource(path + "fonts.css").toExternalForm(),
+//                getClass().getResource(path + "material-color.css").toExternalForm(),
+//                getClass().getResource(path + "skeleton.css").toExternalForm(),
+                getClass().getResource(path + "" + theme).toExternalForm()//,
+//                getClass().getResource(path + "bootstrap.css").toExternalForm(),
+//                getClass().getResource(path + "simple-green.css").toExternalForm(),
+//                getClass().getResource(path + "shape.css").toExternalForm(),
+//                getClass().getResource(path + "typographic.css").toExternalForm(),
+//                getClass().getResource(path + "helpers.css").toExternalForm(),
+//                getClass().getResource(path + "master.css").toExternalForm()
         );
 
         App.getUserDetail().getStylesheets().setAll(stylesheets);

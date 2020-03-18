@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXToggleButton;
 import com.kronos.App;
 import com.kronos.api.LapRace;
 import com.kronos.api.Observer;
+import com.jfoenix.controls.JFXButton;
+
 import com.kronos.api.Race;
 import com.kronos.api.TimeRace;
 import com.kronos.global.animation.PulseTransition;
@@ -12,6 +14,9 @@ import com.kronos.model.*;
 import com.kronos.module.main.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,10 +27,19 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.DateStringConverter;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.util.Duration;
 
+import java.net.URL;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -39,9 +53,38 @@ public class RaceResumeController implements Initializable, Observer {
 
     @FXML
     ProgressBar meanTimeBar;
-
     @FXML
     Button TopBtn;
+    @FXML
+    private Label departureHour;
+
+    @FXML
+    private Label currentHour;
+
+    @FXML
+    private Label spentTime;
+
+    @FXML
+    private Label remainingTime;
+
+    @FXML
+    private JFXButton startRace;
+
+    @FXML
+    private JFXButton pauseRace;
+
+    @FXML
+    private JFXButton stopRace;
+
+    Timeline spentTimeline;
+    Timeline remainingTimeline;
+    LocalTime time = LocalTime.parse("00:00:00");
+    LocalTime localRemainningTime = LocalTime.parse("00:00:05");
+    LocalTime time2 = LocalTime.parse("00:00");
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+    LocalTime currentTime;
+
+
     @FXML
     Label lastNamePilotMainCar;
     @FXML
@@ -90,29 +133,6 @@ public class RaceResumeController implements Initializable, Observer {
     @FXML
     private ComboBox<String> topType;
 
-    public RaceResumeController() {
-    }
-
-    /**
-     *
-     * @param url
-     * @param rb
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        App.getDataManager().attach(this);
-        if(!getRace().isEmpty()) {
-            raceModel = getRace().get(0);
-        }
-        topType.setItems(FXCollections.observableArrayList("I", "O", "R"));
-        topType.setValue("O");
-        carModels.addAll(getFollowedCars());
-        car.setItems(FXCollections.observableArrayList(getFollowedCarsNumbers(getFollowedCars())));
-        car.getSelectionModel().selectFirst();
-
-        initTable();
-        //loadData();
-    }
 
     /**
      *
@@ -377,6 +397,97 @@ public class RaceResumeController implements Initializable, Observer {
         return meantimeaux;
     }
 
+    private void incrementTime() {
+        time = time.plusSeconds(1);
+        spentTime.setText(time.format(dtf));
+    }
+    private void decrementTime() {
+        localRemainningTime = localRemainningTime.minusSeconds(1);
+        if(localRemainningTime.equals(LocalTime.parse("00:00:00"))){
+            stopRace.setDisable(true);
+            startRace.setDisable(false);
+            remainingTimeline.stop();
+            spentTimeline.stop();
+        }
+        remainingTime.setText(localRemainningTime.format(dtf));
+    }
+    private void getCurrentTime() {
+        currentTime = LocalTime.now();
+        currentHour.setText(currentTime.format(dtf));
+    }
+
+    @FXML
+    private void startTimer(ActionEvent event) {
+        if(!localRemainningTime.equals(LocalTime.parse("00:00:00"))) {
+            spentTimeline.play();
+            remainingTimeline.play();
+            departureHour.setText(currentTime.format(dtf));
+            startRace.setDisable(true);
+        }
+    }
+
+    @FXML
+    private void pauseTimer(ActionEvent event) {
+        if (spentTimeline.getStatus().equals(Animation.Status.PAUSED)) {
+            spentTimeline.play();
+            pauseRace.setText("Pause");
+        } else if (spentTimeline.getStatus().equals(Animation.Status.RUNNING)) {
+            spentTimeline.pause();
+            pauseRace.setText("Continue");
+        }
+    }
+
+    @FXML
+    private void endTimer(ActionEvent event) {
+        if (startRace.isDisable()) {
+            spentTimeline.stop();
+            remainingTimeline.stop();
+            startRace.setDisable(false);
+            time = LocalTime.parse("00:00:00");
+            spentTime.setText(time.format(dtf));
+            remainingTime.setText(time.format(dtf));
+
+        }
+    }
+
+    /**
+     * @param url
+     * @param rb
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+
+        App.getDataManager().attach(this);
+        if(!getRace().isEmpty()) {
+            raceModel = getRace().get(0);
+        }
+        topType.setItems(FXCollections.observableArrayList("I", "O", "R"));
+        topType.setValue("O");
+        carModels.addAll(getFollowedCars());
+        car.setItems(FXCollections.observableArrayList(getFollowedCarsNumbers(getFollowedCars())));
+        car.getSelectionModel().selectFirst();
+
+        initTable();
+        //loadData();
+
+        time = LocalTime.parse("00:00:00");
+        time2 = LocalTime.parse("00:00");
+
+        departureHour.setText(time2.format(dtf));
+        spentTime.setText(time.format(dtf));
+        remainingTime.setText(localRemainningTime.format(dtf));
+
+        spentTimeline = new Timeline(new KeyFrame(Duration.millis(1000), ae -> incrementTime()));
+        spentTimeline.setCycleCount(Animation.INDEFINITE);
+
+        Timeline clock = new Timeline(new KeyFrame(Duration.millis(1000), e -> getCurrentTime()));
+        clock.setCycleCount(Animation.INDEFINITE);
+        clock.play();
+
+        remainingTimeline = new Timeline(new KeyFrame(Duration.millis(1000), e -> decrementTime()));
+        remainingTimeline.setCycleCount(Animation.INDEFINITE);
+
+    }
     /**
      * Display main car information and the currently pilot
      * pilot information
