@@ -2,18 +2,14 @@ package com.kronos.controller;
 
 import com.jfoenix.controls.JFXToggleButton;
 import com.kronos.App;
-import com.kronos.api.LapRace;
 import com.kronos.api.Observer;
 import com.jfoenix.controls.JFXButton;
 
-import com.kronos.api.Race;
 import com.kronos.api.TimeRace;
 import com.kronos.global.animation.PulseTransition;
 import com.kronos.global.util.Alerts;
 import com.kronos.model.*;
-import com.kronos.module.main.Main;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -27,7 +23,6 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.DateStringConverter;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -36,13 +31,11 @@ import javafx.util.Duration;
 import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Date;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class RaceResumeController implements Initializable, Observer {
 
@@ -121,6 +114,9 @@ public class RaceResumeController implements Initializable, Observer {
     private TableColumn<TopModel, Double> col_laptime;
 
     @FXML
+    private TableColumn<TopModel, Integer> colLapNumber;
+
+    @FXML
     private JFXToggleButton toogleedit;
 
 
@@ -133,6 +129,10 @@ public class RaceResumeController implements Initializable, Observer {
     private ComboBox<String> car;
     @FXML
     private ComboBox<String> topType;
+
+    public RaceResumeController() {
+    }
+
 
 
     /**
@@ -151,7 +151,7 @@ public class RaceResumeController implements Initializable, Observer {
         String type = topType.getSelectionModel().getSelectedItem();
         int carNumber = Integer.parseInt(car.getSelectionModel().getSelectedItem());
         Date topTime = null;
-        Double raceTime = null;
+        double raceTime = 0.0;
         double lapTime = 0.0;
         int lap = 0;
         String comment = "";
@@ -252,7 +252,7 @@ public class RaceResumeController implements Initializable, Observer {
      */
     private void handleMeanTimeBar() {
 
-        maincarinformation();
+       // maincarinformation();
         pulseTransition = new PulseTransition(meanTimeBar);
         listOfMeanTime.add(0.2);
         meantime = getMeanTime(listOfMeanTime);
@@ -309,9 +309,11 @@ public class RaceResumeController implements Initializable, Observer {
      */
     private void initCols() {
 
+        colCarNumber.setCellValueFactory(new PropertyValueFactory<>("carNumber"));
         col_typetop.setCellValueFactory(new PropertyValueFactory<>("topType"));
         col_laptime.setCellValueFactory(new PropertyValueFactory<>("lapTime"));
         col_racetime.setCellValueFactory(new PropertyValueFactory<>("raceTime"));
+        colLapNumber.setCellValueFactory(new PropertyValueFactory<>("lapNumber"));
         col_time.setCellValueFactory(new PropertyValueFactory<>("time"));
         col_comment.setCellValueFactory(new PropertyValueFactory<>("comment"));
 
@@ -330,7 +332,13 @@ public class RaceResumeController implements Initializable, Observer {
 
         col_typetop.setCellFactory(TextFieldTableCell.forTableColumn());
         col_typetop.setOnEditCommit(e -> {
+            int row = e.getTableView().getSelectionModel().selectedIndexProperty().get();
+            int carNumber = e.getTableView().getItems().get(row).getCarNumber();
+            System.out.println(carNumber);
+            String lastTopType = e.getTableView().getItems().get(row).getTopType();
+            System.out.println(lastTopType);
             e.getTableView().getItems().get(e.getTablePosition().getRow()).setTopType(e.getNewValue());
+            System.out.println(e.getNewValue());
         });
 
         col_racetime.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
@@ -341,6 +349,11 @@ public class RaceResumeController implements Initializable, Observer {
         col_time.setCellFactory(TextFieldTableCell.forTableColumn(new DateStringConverter()));
         col_time.setOnEditCommit(e -> {
             e.getTableView().getItems().get(e.getTablePosition().getRow()).setTime(e.getNewValue());
+        });
+
+        colLapNumber.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        colLapNumber.setOnEditCommit(e -> {
+            e.getTableView().getItems().get(e.getTablePosition().getRow()).setLap(e.getNewValue());
         });
 
         col_comment.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -457,10 +470,17 @@ public class RaceResumeController implements Initializable, Observer {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         App.getDataManager().attach(this);
+        col_racetime.setVisible(false);
+        colLapNumber.setVisible(false);
         if(!getRace().isEmpty()) {
             raceModel = getRace().get(0);
+        }
+        if(raceModel instanceof TimeRace) {
+            col_racetime.setVisible(true);
+        }
+        else {
+            colLapNumber.setVisible(true);
         }
         topType.setItems(FXCollections.observableArrayList("I", "O", "R"));
         topType.setValue("O");
@@ -470,6 +490,7 @@ public class RaceResumeController implements Initializable, Observer {
 
         initTable();
         //loadData();
+        maincarinformation();
 
         time = LocalTime.parse("00:00:00");
         time2 = LocalTime.parse("00:00");
