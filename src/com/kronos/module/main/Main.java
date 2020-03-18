@@ -3,22 +3,21 @@ package com.kronos.module.main;
 import  com.gn.GNAvatarView;
 import com.kronos.App;
 import  com.kronos.global.plugin.ViewManager;
-import  com.kronos.global.factory.AlertCell;
 import com.jfoenix.controls.JFXBadge;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import eu.hansolo.tilesfx.Tile;
+import eu.hansolo.tilesfx.TileBuilder;
+import eu.hansolo.tilesfx.skins.LeaderBoardItem;
+import eu.hansolo.tilesfx.tools.FlowGridPane;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
@@ -26,16 +25,17 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Circle;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
+import javafx.scene.text.TextAlignment;
 import org.controlsfx.control.PopOver;
-
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalTime;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
  /**
@@ -70,7 +70,29 @@ public class Main implements Initializable {
     @FXML private JFXBadge bg_info;
     @FXML private RadioButton available;
      public static ObservableList<String> stylesheets;
+     private FlowGridPane pane;
+     private FlowGridPane pane1;
+     private FlowGridPane pane3;
+     private FlowGridPane pane4;
+     private FlowGridPane finalpane;
+     private Tile clockTile;
+     private Tile timerControlTile;
+     private Tile leaderBoardTile;
+     private Tile timeTileHeureDepart;
+     private Tile timeTileSpend;
+     private Tile timeTileRemaining;
+     private Tile textTile;
+     private Tile customTile;
+     private Tile customTileProgressBar;
+     private Tile customTileTop;
 
+     private LeaderBoardItem leaderBoardItem1;
+     private LeaderBoardItem leaderBoardItem2;
+     private LeaderBoardItem leaderBoardItem3;
+     private LeaderBoardItem leaderBoardItem4;
+     private static final    double TILE_WIDTH  = 300;
+     private static final    double TILE_HEIGHT = 200;
+     private GridPane grid;
 
      private FilteredList<Button> filteredList = null;
 
@@ -123,6 +145,187 @@ public class Main implements Initializable {
                     System.out.println("You have pressed the F1 key ");
             }
         });
+
+        /////////// TEST DE FABRICE A NE PAS TOUCHER PLEASE ///////////
+
+        // LeaderBoard Items
+        leaderBoardItem1 = new LeaderBoardItem("Elise CHAPON", 47);
+        leaderBoardItem2 = new LeaderBoardItem("Emile GEORGET", 43);
+        leaderBoardItem3 = new LeaderBoardItem("Fabrice TRA", 12);
+        leaderBoardItem4 = new LeaderBoardItem("Olivier KOKO", 8);
+        timeTileHeureDepart = TileBuilder.create()
+                .skinType(Tile.SkinType.TIME)
+                .prefSize(TILE_WIDTH, TILE_HEIGHT)
+                //.title("Time Tile")
+                //.text("Whatever text")
+                .duration(LocalTime.of(0, 0,50))
+                .description("Heure de depart")
+                .textVisible(true)
+                .roundedCorners(false)
+                .build();
+
+        timeTileSpend = TileBuilder.create()
+                .skinType(Tile.SkinType.TIME)
+                .prefSize(TILE_WIDTH, TILE_HEIGHT)
+//                .title("Time Tile")
+//                .text("Temps ecoulé")
+                .duration(LocalTime.of(0, 0,50))
+                .description("Temps ecoulé")
+                .textVisible(true)
+                .roundedCorners(false)
+                .build();
+        timeTileRemaining = TileBuilder.create()
+                .skinType(Tile.SkinType.TIME)
+                .prefSize(TILE_WIDTH, TILE_HEIGHT)
+//                .title("Time Tile")
+//                .text("Whatever text")
+                .duration(LocalTime.of(0, 0,50))
+                .description("Temps restant")
+                .textVisible(true)
+                .roundedCorners(false)
+                .build();
+        clockTile = TileBuilder.create()
+                .skinType(Tile.SkinType.CLOCK)
+                .prefSize(TILE_WIDTH, TILE_HEIGHT)
+                .title("Clock Tile")
+                .text("Heure actuelle")
+                .dateVisible(true)
+                .locale(Locale.FRANCE)
+                .running(true)
+                .roundedCorners(false)
+                .build();
+
+        timerControlTile = TileBuilder.create()
+                .skinType(Tile.SkinType.TIMER_CONTROL)
+                .prefSize(TILE_WIDTH, TILE_HEIGHT)
+                //.title("TimerControl Tile")
+                //.text("Horloge")
+                .secondsVisible(true)
+                .dateVisible(true)
+                //.timeSections(timeSection)
+                .running(true)
+                .roundedCorners(false)
+                .build();
+
+        textTile = TileBuilder.create()
+                .skinType(Tile.SkinType.TEXT)
+                .prefSize(2*TILE_WIDTH, 2*TILE_HEIGHT)
+                //.title("Text Tile")
+               // .text("Whatever text")
+                .description("PANNEAU")
+                .descriptionAlignment(Pos.CENTER)
+                .textVisible(true)
+                .roundedCorners(false)
+                .build();
+
+        customTile = TileBuilder.create()
+                .skinType(Tile.SkinType.CUSTOM)
+                .prefSize(2*TILE_WIDTH, 2*TILE_HEIGHT)
+                .title("INFOS SUR LA VOITURE PRINCIPALE")
+                .titleAlignment(TextAlignment.CENTER)
+                //.text("Whatever text")
+                .graphic(new Button("Click Me"))
+                .graphic(new Button("Click Me again"))
+                .roundedCorners(false)
+                .build();
+        //// L2
+
+        customTileProgressBar = TileBuilder.create()
+                .skinType(Tile.SkinType.CUSTOM)
+                .prefSize(2*TILE_WIDTH, 2*TILE_HEIGHT-100)
+                .title("TEMPS MOYEN AU TOUR")
+                .titleAlignment(TextAlignment.CENTER)
+               // .text("Whatever text")
+                .graphic(new Button("Click Me"))
+                .roundedCorners(false)
+                .build();
+
+
+        customTileTop = TileBuilder.create()
+                .skinType(Tile.SkinType.CUSTOM)
+                .prefSize(2*TILE_WIDTH, 2*TILE_HEIGHT-100)
+                //.title("Custom Tile")
+                //.text("Whatever text")
+                .graphic(new Button("Click Me"))
+                .roundedCorners(false)
+                .build();
+
+        leaderBoardTile = TileBuilder.create()
+                .skinType(Tile.SkinType.LEADER_BOARD)
+                .prefSize(2*TILE_WIDTH, 2*TILE_HEIGHT-100)
+                .title("CLASSEMENT DE LA COURSE ")
+              //  .text("Whatever text")
+                .leaderBoardItems(leaderBoardItem1, leaderBoardItem2, leaderBoardItem3, leaderBoardItem4)
+                .roundedCorners(false)
+                .build();
+
+        TableView tableView = new TableView();
+
+        /// PREMIERE LIGNE PANE
+
+
+        pane = new FlowGridPane(2,2,timeTileHeureDepart,timerControlTile,timeTileSpend,timeTileRemaining);
+//        pane.setHgap(5);
+//        pane.setVgap(5);
+        pane.setAlignment(Pos.TOP_LEFT);
+        pane.setCenterShape(true);
+        pane.setPadding(new Insets(1));
+        //pane.setPrefSize(800, 600);
+        pane.setBackground(new Background(new BackgroundFill(Color.web("#101214"), CornerRadii.EMPTY, Insets.EMPTY)));
+
+        pane1 = new FlowGridPane(3,1,pane,textTile,customTile);
+        pane1.setBackground(new Background(new BackgroundFill(Color.web("#101214"), CornerRadii.EMPTY, Insets.EMPTY)));
+//        pane1.setHgap(5);
+//        pane1.setVgap(5);
+        // pane1.setAlignment(Pos.CENTER);
+        pane1.setCenterShape(true);
+        pane1.setPadding(new Insets(1));
+
+        ///
+
+        /// DEUXIEME LIGNE PANE
+
+        pane3 = new FlowGridPane(3,1,customTileProgressBar,customTileTop,leaderBoardTile);
+//        pane3.setHgap(5);
+//        pane3.setVgap(5);
+        pane3.setAlignment(Pos.TOP_LEFT);
+        pane3.setCenterShape(true);
+        pane3.setPadding(new Insets(1));
+        pane3.setBackground(new Background(new BackgroundFill(Color.web("#101214"), CornerRadii.EMPTY, Insets.EMPTY)));
+
+        ///
+
+        ///TROISIEME LIGNE PANE
+
+        pane4 = new FlowGridPane(1,1,tableView);
+//        pane4.setHgap(5);
+//        pane4.setVgap(5);
+        pane4.setAlignment(Pos.TOP_LEFT);
+        pane4.setCenterShape(true);
+        pane4.setPadding(new Insets(1));
+        //pane.setPrefSize(800, 600);
+        pane4.setBackground(new Background(new BackgroundFill(Color.web("#101214"), CornerRadii.EMPTY, Insets.EMPTY)));
+
+        ///
+
+
+        finalpane = new FlowGridPane(1,3,pane1,pane3,pane4);
+        finalpane.setBackground(new Background(new BackgroundFill(Color.web("#57C6F2"), CornerRadii.EMPTY, Insets.EMPTY)));
+//        finalpane.setHgap(5);
+//        finalpane.setVgap(5);
+        finalpane.setAlignment(Pos.CENTER);
+       // finalpane.setCenterShape(true);
+        //finalpane.setPadding(new Insets(5));
+
+        grid = new GridPane();
+        grid.add(finalpane,0,0);
+        grid.setMinSize(body.getWidth(),body.getHeight());
+        //body.setBackground(new Background(new BackgroundFill(Color.web("red"), CornerRadii.EMPTY, Insets.EMPTY)));
+//        body.fitToHeightProperty().set(true);
+
+
+        /////////// FIN DE LA ZONE DE TEST ///////////
+
     }
 
     @FXML
@@ -524,6 +727,7 @@ public class Main implements Initializable {
      @FXML
      private void dashboard(){
          title.setText("Dashboard");
+         //body.setContent(grid);
          body.setContent(ViewManager.getInstance().get("raceresume"));
      }
 
