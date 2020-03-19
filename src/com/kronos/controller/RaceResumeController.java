@@ -32,10 +32,7 @@ import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class RaceResumeController implements Initializable, Observer {
 
@@ -334,11 +331,15 @@ public class RaceResumeController implements Initializable, Observer {
         col_typetop.setOnEditCommit(e -> {
             int row = e.getTableView().getSelectionModel().selectedIndexProperty().get();
             int carNumber = e.getTableView().getItems().get(row).getCarNumber();
-            System.out.println(carNumber);
-            String lastTopType = e.getTableView().getItems().get(row).getTopType();
-            System.out.println(lastTopType);
-            e.getTableView().getItems().get(e.getTablePosition().getRow()).setTopType(e.getNewValue());
-            System.out.println(e.getNewValue());
+            long lastTopId = e.getTableView().getItems().get(row).getId();
+            if((e.getNewValue().equals("I") || e.getNewValue().equals("O") || e.getNewValue().equals("R")) && checkTopLogicOnEdit(carNumber, lastTopId, e.getNewValue())) {
+                e.getTableView().getItems().get(e.getTablePosition().getRow()).setTopType(e.getNewValue());
+            }
+            else {
+                e.getTableView().getItems().get(e.getTablePosition().getRow()).setTopType(e.getOldValue());
+                e.getTableView().getItems().set(row, e.getTableView().getItems().get(row));
+                Alerts.error("ERREUR", "Type de top invalide");
+            }
         });
 
         col_racetime.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
@@ -361,6 +362,37 @@ public class RaceResumeController implements Initializable, Observer {
             e.getTableView().getItems().get(e.getTablePosition().getRow()).setComment(e.getNewValue());
         });
 
+    }
+
+    /**
+     *
+     * @param carNumber
+     * @param lastTopId
+     * @param newTopValue
+     * @return
+     */
+    private boolean checkTopLogicOnEdit(int carNumber, long lastTopId, String newTopValue) {
+        boolean found = false;
+        boolean respectsLogic = false;
+        int index = 0;
+        ArrayList<TopModel> tops = raceModel.getTopsMap().get(carNumber);
+        Iterator<TopModel> it = tops.iterator();
+        while (it.hasNext() && !found) {
+            TopModel top = it.next();
+            if(top.getId() == lastTopId) {
+                found = true;
+                if(index > 0) {
+                    respectsLogic = checkTopLogic(newTopValue, tops.get(index - 1).getTopType());
+                    if(respectsLogic && index < tops.size() - 1) {
+                        respectsLogic = checkTopLogic(tops.get(index + 1).getTopType(), newTopValue);
+                    }
+                }
+            }
+            else {
+                index++;
+            }
+        }
+        return respectsLogic;
     }
 
     /**
