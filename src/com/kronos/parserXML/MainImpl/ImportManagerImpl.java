@@ -216,17 +216,12 @@ public class ImportManagerImpl implements ImportManager {
             }
 
             List<? extends Object> models = this.loadFileXml(this.fileXML);
-            if( models.isEmpty() || models == null){
+            if (models.isEmpty() || models == null) {
                 return false;
             }
             App.getDataManager().clear();
             App.getDataManager().persist(models);
-           // System.out.println(App.getDataManager().getListOfBeans().size());
-//            List<MainCarModel> mainCarModelList = (List<MainCarModel>)(List<?>) App.getDataManager().getModels(MainCarModel.class);
-//            for ( MainCarModel testmodel: mainCarModelList) {
-//                System.out.println(testmodel.getTeam());
-//                System.out.println(testmodel.getId());
-//            }
+            App.getDataManager().setPATH(this.fileXML.getPath());
 
         } catch (Exception ex) {
             ex.printStackTrace();

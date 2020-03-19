@@ -3,6 +3,7 @@ package com.kronos.parserXML.MainImpl;
 import com.kronos.api.Observer;
 import com.kronos.api.Subject;
 import com.kronos.parserXML.api.SaveManager;
+import com.sun.xml.internal.ws.message.ProblemActionHeader;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -47,12 +48,9 @@ public class SaveManagerImpl implements SaveManager, Subject {
     /**
      *
      */
+
     private static String PATH = System.getProperty("user.dir") + File.separator + "data" + File.separator;
 
-    /**
-     * name of File
-     */
-    String nameFile;
 
     /**
      * XML TAG to be added at the beginning of each XML file for file standardization
@@ -79,13 +77,9 @@ public class SaveManagerImpl implements SaveManager, Subject {
         listOfBeans = new ArrayList<Object>();
 
         parser = new ModelParser();
-        nameFile = "course_numero-" + new Date().getTime();
+        PATH += "course_numero-" + new Date().getTime() + ".xml";
         importManager = new ImportManagerImpl();
 
-        System.out.println("==== 0log0 ===== ");
-        System.out.println(System.getProperty("user.dir"));
-        System.out.println(PATH + nameFile);
-        System.out.println("=======================");
 
     }
 
@@ -149,20 +143,6 @@ public class SaveManagerImpl implements SaveManager, Subject {
 
 
     /**
-     * @return String
-     */
-    public String getNameFile() {
-        return nameFile;
-    }
-
-    /**
-     * @param nameFile
-     */
-    public void setNameFile(String nameFile) {
-        this.nameFile = nameFile;
-    }
-
-    /**
      * @param fileXML
      * @return boolean
      */
@@ -202,8 +182,7 @@ public class SaveManagerImpl implements SaveManager, Subject {
      */
     @Override
     public boolean saveFile() {
-        String filePath = PATH + getNameFile() + ".xml";
-        File fileXML = new File(filePath);
+        File fileXML = new File(PATH);
         return processSave(fileXML);
     }
 
@@ -213,14 +192,14 @@ public class SaveManagerImpl implements SaveManager, Subject {
      * @return boolean
      */
     public boolean saveFileUnder(Stage stage) {
-        String file = PATH + getNameFile() + ".xml";
+        String file = getPATH();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialFileName(file);
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Text Files", "*.xml")
         );
         File selectedFile = fileChooser.showSaveDialog(stage);
-
+        setPATH(selectedFile.getAbsolutePath());
         return processSave(selectedFile);
     }
 
@@ -261,5 +240,13 @@ public class SaveManagerImpl implements SaveManager, Subject {
     @Override
     public void detach(Observer observer) {
         observers.remove(observer);
+    }
+
+    public static String getPATH() {
+        return PATH;
+    }
+
+    public static void setPATH(String PATH) {
+        SaveManagerImpl.PATH = PATH;
     }
 }
