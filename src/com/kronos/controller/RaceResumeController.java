@@ -201,8 +201,13 @@ public class RaceResumeController implements Initializable, Observer {
         }
         topComment.clear();
 
-    }
+        /*  Save Top list of Object to persist  */
+        App.getDataManager().persist(topModel);
+        App.getDataManager().saveFile();
+//        System.out.println("==== top =====");
+        /*  */
 
+    }
 
 
     private void handleTopTimeRace(TopModel topModel, CarModel carModel, int carNumber) {
@@ -536,6 +541,7 @@ public class RaceResumeController implements Initializable, Observer {
         time = time.plusSeconds(1);
         spentTime.setText(time.format(dtf));
     }
+
     private void decrementTime() {
         localRemainningTime = localRemainningTime.minusSeconds(1);
         if(localRemainningTime.equals(LocalTime.parse("00:00:00"))){
@@ -546,6 +552,7 @@ public class RaceResumeController implements Initializable, Observer {
         }
         remainingTime.setText(localRemainningTime.format(dtf));
     }
+
     private void getCurrentTime() {
         currentTime = LocalTime.now();
         currentHour.setText(currentTime.format(dtf));
@@ -610,7 +617,13 @@ public class RaceResumeController implements Initializable, Observer {
         car.getSelectionModel().selectFirst();
 
         initTable();
-        //loadData();
+        /* Refresh table after import */
+        List<TopModel> topModelList = (List<TopModel>) (List<?>) App.getDataManager().getModels(TopModel.class);
+        if (!topModelList.isEmpty()) {
+            for (TopModel topModel : topModelList) {
+                loadData(topModel);
+            }
+        }
         maincarinformation();
 
         time = LocalTime.parse("00:00:00");
@@ -631,6 +644,7 @@ public class RaceResumeController implements Initializable, Observer {
         remainingTimeline.setCycleCount(Animation.INDEFINITE);
 
     }
+
     /**
      * Display main car information and the currently pilot
      * pilot information
@@ -669,9 +683,7 @@ public class RaceResumeController implements Initializable, Observer {
     public ArrayList<CarModel> getFollowedCars() {
         ArrayList<CarModel> followedCars = new ArrayList<>();
         List<CarModel> carModels = (List<CarModel>) (List<?>) App.getDataManager().getModels(CarModel.class);
-//        List<GenericParser> genericParsers = App.getDataManager().getModels(CarModel.class);
         for (CarModel carModel : carModels) {
-//            followedCars.add((CarModel) genericParser.getObjectToGenerify());
             followedCars.add(carModel);
         }
         return followedCars;
@@ -681,9 +693,6 @@ public class RaceResumeController implements Initializable, Observer {
         ArrayList<RaceModel> raceModels = new ArrayList<>();
         List<TimeRaceModel> timeRaceModels = (List<TimeRaceModel>) (List<?>) App.getDataManager().getModels(TimeRaceModel.class);
         List<LapRaceModel> lapRaceModels = (List<LapRaceModel>) (List<?>) App.getDataManager().getModels(LapRaceModel.class);
-
-//        List<GenericParser> timeRaceGenericParsers = App.getDataManager().getModels(TimeRaceModel.class);
-//        List<GenericParser> lapRaceGenericParsers = App.getDataManager().getModels(LapRaceModel.class);
         if (!timeRaceModels.isEmpty()) {
             for (TimeRaceModel model : timeRaceModels) {
                 raceModels.add(model);
@@ -697,7 +706,6 @@ public class RaceResumeController implements Initializable, Observer {
     }
 
     /**
-     *
      * @param followedCars
      * @return
      */
@@ -722,7 +730,6 @@ public class RaceResumeController implements Initializable, Observer {
                 topModel = topModels.get(topModels.size() - 1);
             }
         }
-        System.out.println(topModel);
         return topModel;
     }
 

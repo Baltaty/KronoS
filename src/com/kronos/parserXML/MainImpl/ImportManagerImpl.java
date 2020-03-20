@@ -118,6 +118,24 @@ public class ImportManagerImpl implements ImportManager {
                                 PrintModel printModel = (PrintModel) objectClass;
                                 models.add(printModel);
                                 break;
+                            case 5:
+                                RaceModel raceModel = (RaceModel) objectClass;
+                                models.add(raceModel);
+                                break;
+                            case 6:
+                                RivalCarModel rivalCarModel = (RivalCarModel) objectClass;
+                                models.add(rivalCarModel);
+                                break;
+
+                            case 7:
+                                TimeRaceModel timeRaceModel = (TimeRaceModel) objectClass;
+                                models.add(timeRaceModel);
+                                break;
+
+                            case 8:
+                                TopModel topModel = (TopModel) objectClass;
+                                models.add(topModel);
+                                break;
 
                             default:
                                 break;
@@ -216,17 +234,12 @@ public class ImportManagerImpl implements ImportManager {
             }
 
             List<? extends Object> models = this.loadFileXml(this.fileXML);
-            if( models.isEmpty() || models == null){
+            if (models.isEmpty() || models == null) {
                 return false;
             }
             App.getDataManager().clear();
             App.getDataManager().persist(models);
-           // System.out.println(App.getDataManager().getListOfBeans().size());
-//            List<MainCarModel> mainCarModelList = (List<MainCarModel>)(List<?>) App.getDataManager().getModels(MainCarModel.class);
-//            for ( MainCarModel testmodel: mainCarModelList) {
-//                System.out.println(testmodel.getTeam());
-//                System.out.println(testmodel.getId());
-//            }
+            App.getDataManager().setPATH(this.fileXML.getPath());
 
         } catch (Exception ex) {
             ex.printStackTrace();
