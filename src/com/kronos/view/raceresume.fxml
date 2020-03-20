@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -20,7 +21,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="1500.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.RaceResumeController">
+<StackPane prefHeight="1500.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.RaceResumeController">
 
 <!--    <stylesheets>-->
 <!--        <URL value="@../theme/css/material-color.css" />-->
@@ -102,7 +103,7 @@
                         </Pane>
                     </children>
                 </HBox>
-                <HBox prefHeight="385.0" prefWidth="1053.0" style="-fx-border-color: black; -fx-spacing: 10;">
+                <HBox prefHeight="505.0" prefWidth="1053.0" style="-fx-border-color: black; -fx-spacing: 10;">
                     <children>
                         <Pane id="btn" prefHeight="261.0" prefWidth="404.0">
                             <children>
@@ -110,11 +111,11 @@
                                 <ProgressBar fx:id="meanTimeBar" layoutX="75.0" layoutY="102.0" prefHeight="20.0" prefWidth="244.0" progress="0.0" />
                             </children>
                         </Pane>
-                        <Pane prefHeight="295.0" prefWidth="273.0">
+                        <Pane prefHeight="295.0" prefWidth="256.0">
                             <children>
-                                <VBox alignment="CENTER" prefHeight="179.0" prefWidth="256.0">
+                                <VBox alignment="CENTER" prefHeight="284.0" prefWidth="256.0">
                                     <children>
-                                        <Pane prefHeight="99.0" prefWidth="256.0">
+                                        <Pane prefHeight="93.0" prefWidth="256.0">
                                             <children>
                                                 <JFXButton fx:id="TopBtn" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="94.0" layoutY="11.0" onAction="#handleTopButtonClick" prefHeight="70.0" prefWidth="67.0" style="-fx-background-color: #57c6f2; -fx-background-radius: 200;">
                                                     <graphic>
@@ -129,7 +130,7 @@
                                         </Pane>
                                         <HBox alignment="CENTER" prefHeight="65.0" prefWidth="256.0">
                                             <children>
-                                                <Label alignment="CENTER" contentDisplay="CENTER" text="TYPE">
+                                                <Label alignment="CENTER" contentDisplay="CENTER" text="TYPE" textAlignment="CENTER">
                                                     <padding>
                                                         <Insets right="20.0" top="20.0" />
                                                     </padding>
@@ -137,23 +138,29 @@
                                                 <JFXComboBox fx:id="topType" prefHeight="42.0" prefWidth="124.0" />
                                             </children>
                                         </HBox>
-                                        <VBox>
-                                            <children>
-                                                <HBox alignment="CENTER" prefHeight="65.0" prefWidth="256.0">
-                                                    <children>
-                                                        <Label alignment="CENTER" contentDisplay="CENTER" text="VOITURE">
-                                                            <padding>
-                                                                <Insets top="20.0" />
-                                                            </padding>
-                                                            <HBox.margin>
-                                                                <Insets left="-10.0" right="5.0" />
-                                                            </HBox.margin>
-                                                        </Label>
-                                                        <JFXComboBox fx:id="car" prefHeight="42.0" prefWidth="124.0" />
-                                                    </children>
-                                                </HBox>
-                                            </children>
-                                        </VBox>
+                                          <HBox alignment="CENTER" prefHeight="65.0" prefWidth="256.0">
+                                              <children>
+                                                  <Label alignment="CENTER" contentDisplay="CENTER" text="VOITURE" textAlignment="CENTER">
+                                                      <padding>
+                                                          <Insets top="20.0" />
+                                                      </padding>
+                                                      <HBox.margin>
+                                                          <Insets left="-10.0" right="5.0" />
+                                                      </HBox.margin>
+                                                  </Label>
+                                                  <JFXComboBox fx:id="car" prefHeight="42.0" prefWidth="117.0" />
+                                              </children>
+                                          </HBox>
+                              <VBox alignment="CENTER" prefWidth="256.0">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" text="COMMENTAIRE">
+                                       <padding>
+                                          <Insets top="20.0" />
+                                       </padding>
+                                    </Label>
+                                    <JFXTextField fx:id="topComment" prefHeight="27.0" prefWidth="125.0" />
+                                 </children>
+                              </VBox>
                                     </children>
                                 </VBox>
                             </children>
@@ -168,15 +175,16 @@
                         <Insets />
                     </opaqueInsets>
                 </HBox>
-                <VBox prefHeight="439.0" prefWidth="1053.0">
+                <VBox prefHeight="421.0" prefWidth="1053.0">
                     <children>
                         <TableView fx:id="table_info" prefHeight="388.0" prefWidth="1053.0">
                             <columns>
                         <TableColumn fx:id="colCarNumber" prefWidth="75.0" text="Voiture" />
                                 <TableColumn fx:id="col_typetop" prefWidth="121.0" text="Type de top" />
+                        <TableColumn fx:id="col_time" prefWidth="134.0" text="Heure du top" />
                         <TableColumn fx:id="col_laptime" prefWidth="153.0" text="Temps du tour" />
                         <TableColumn fx:id="col_racetime" prefWidth="132.0" text="Temps écoulé" />
-                        <TableColumn fx:id="col_time" prefWidth="134.0" text="Heure du top" />
+                        <TableColumn fx:id="colLapNumber" prefWidth="75.0" text="Num. Tour" />
                                 <TableColumn fx:id="col_comment" prefWidth="507.0" text="Commentaires" />
                             </columns>
                         </TableView>

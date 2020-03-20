@@ -3,6 +3,7 @@ package com.kronos.model;
 import com.kronos.api.Top;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -16,7 +17,7 @@ public class TopModel implements Top {
 
     private Long id;
     private int carNumber;
-    private Date time;
+    private String time;
     private String topType;
     private String comment;
     private double lapTime;
@@ -36,7 +37,7 @@ public class TopModel implements Top {
      * @param raceTime time in minutes since the beginning of the race
      * @param comment comment
      */
-    public TopModel (int carNumber, Date time, String topType, double raceTime, double lapTime, String comment){
+    public TopModel (int carNumber, String time, String topType, double raceTime, double lapTime, String comment){
         this.id = System.currentTimeMillis();
         this.carNumber = carNumber;
         this.time = time;
@@ -54,7 +55,7 @@ public class TopModel implements Top {
      * @param lap lap when the top was triggered
      * @param comment comment
      */
-    public TopModel (int carNumber, Date time, String topType, int lap, double lapTime, String comment) {
+    public TopModel (int carNumber, String time, String topType, int lap, double lapTime, String comment) {
         this.id = System.currentTimeMillis();
         this.carNumber = carNumber;
         this.time = time;
@@ -98,7 +99,7 @@ public class TopModel implements Top {
      * Gets the top time.
      * @return the top time
      */
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
@@ -106,7 +107,7 @@ public class TopModel implements Top {
      * Sets the top time.
      * @param time top time
      */
-    public void setTime(Date time) {
+    public void setTime(String time) {
         this.time = time;
     }
 

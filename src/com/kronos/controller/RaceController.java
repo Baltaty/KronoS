@@ -49,8 +49,7 @@ public class RaceController {
 
 
         if (raceModel instanceof TimeRaceModel) {
-            if (!(Mask.isNumeric((String.valueOf(((TimeRaceModel) raceModel).getDuration()))))
-                    || ((TimeRaceModel) raceModel).getDuration() == 0) {
+            if (!(Mask.isNumeric((String.valueOf(((TimeRaceModel) raceModel).getDuration()))))){
                 verify = false;
                 //Alerts sur l'element en question
             }
