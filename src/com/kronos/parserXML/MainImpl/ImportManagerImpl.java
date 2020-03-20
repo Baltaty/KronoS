@@ -118,6 +118,24 @@ public class ImportManagerImpl implements ImportManager {
                                 PrintModel printModel = (PrintModel) objectClass;
                                 models.add(printModel);
                                 break;
+                            case 5:
+                                RaceModel raceModel = (RaceModel) objectClass;
+                                models.add(raceModel);
+                                break;
+                            case 6:
+                                RivalCarModel rivalCarModel = (RivalCarModel) objectClass;
+                                models.add(rivalCarModel);
+                                break;
+
+                            case 7:
+                                TimeRaceModel timeRaceModel = (TimeRaceModel) objectClass;
+                                models.add(timeRaceModel);
+                                break;
+
+                            case 8:
+                                TopModel topModel = (TopModel) objectClass;
+                                models.add(topModel);
+                                break;
 
                             default:
                                 break;
