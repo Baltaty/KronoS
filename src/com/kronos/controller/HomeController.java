@@ -735,7 +735,6 @@
                         if (Integer.parseInt(this.raceDuration.getText())>0) {
                             race_duration = Integer.parseInt(this.raceDuration.getText());
                             timelaps=true;
-
                         }
                     }
                 }
@@ -774,8 +773,7 @@
                     saveManager.saveFile();
                     handleToControlPanel();
                 }
-            }else {
-
+            } else {
                 Alerts.error("ERREUR", "Veuillez vérifier les champs");
             }
 
