@@ -2,18 +2,12 @@ package com.kronos.controller;
 
 import com.jfoenix.controls.JFXToggleButton;
 import com.kronos.App;
-import com.kronos.api.LapRace;
 import com.kronos.api.Observer;
 import com.jfoenix.controls.JFXButton;
 
-import com.kronos.api.Race;
-import com.kronos.api.TimeRace;
 import com.kronos.global.animation.PulseTransition;
-import com.kronos.global.util.Alerts;
 import com.kronos.model.*;
-import com.kronos.module.main.Main;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -27,7 +21,6 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.DateStringConverter;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -36,13 +29,11 @@ import javafx.util.Duration;
 import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Date;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class RaceResumeController implements Initializable, Observer {
 
@@ -52,9 +43,11 @@ public class RaceResumeController implements Initializable, Observer {
     private ArrayList<CarModel> carModels = new ArrayList<>();
 
     @FXML
-    ProgressBar meanTimeBar;
+    private Label chronoMeanTime;
     @FXML
-    Button TopBtn;
+    private ProgressBar meanTimeBar;
+    @FXML
+    private Button TopBtn;
     @FXML
     private Label departureHour;
 
@@ -78,54 +71,50 @@ public class RaceResumeController implements Initializable, Observer {
 
     Timeline spentTimeline;
     Timeline remainingTimeline;
-    LocalTime time = LocalTime.parse("00:00:00");
-    LocalTime localRemainningTime = LocalTime.parse("00:00:05");
-    LocalTime time2 = LocalTime.parse("00:00");
+    LocalTime time = LocalTime.parse("00:00:00");  // spend time
+    LocalTime localRemainningTime = LocalTime.parse("00:00:05");// temps restant
+    LocalTime time2 = LocalTime.parse("00:00");//initialisation l'heure de depart
+    LocalTime time3 = LocalTime.parse("00:00:05");
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-    LocalTime currentTime;
+    DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("HH:mm:ss:nnn");
+    LocalTime currentTime; // temps actuelle
+    LocalTime departureTime;
+    Timeline meanTimeLine;
 
 
     @FXML
-    Label lastNamePilotMainCar;
+    private Label lastNamePilotMainCar;
     @FXML
-    Label firstNamePilotMainCar;
+    private Label firstNamePilotMainCar;
     @FXML
-    Label dateOfBirthPilot;
+    private Label dateOfBirthPilot;
     @FXML
-    Label mainCarBrand;
+    private Label mainCarBrand;
     @FXML
-    Label mainCarModel;
+    private Label mainCarModel;
     @FXML
-    Label mainCarTeam;
-
-
+    private Label mainCarTeam;
     @FXML
     private TableView<TopModel> table_info;
-
     @FXML
     private TableColumn<TopModel, Integer> colCarNumber;
-
     @FXML
     private TableColumn<TopModel, String> col_typetop;
-
     @FXML
     private TableColumn<TopModel, String> col_comment;
-
     @FXML
     private TableColumn<TopModel, Date> col_time;
-
     @FXML
     private TableColumn<TopModel, Double> col_racetime;
-
     @FXML
     private TableColumn<TopModel, Double> col_laptime;
-
     @FXML
     private JFXToggleButton toogleedit;
 
 
     private static ArrayList<Double> listOfMeanTime = new ArrayList<>();
-    private static Double meantime = 0.00;
+    private static double meantime = 0.00;
+    private static boolean testReference = true;
     PulseTransition pulseTransition;
     MainCarModel mycar;
 
@@ -137,10 +126,53 @@ public class RaceResumeController implements Initializable, Observer {
     public RaceResumeController() {
     }
 
+    /**
+     * @param url
+     * @param rb
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+
+        App.getDataManager().attach(this);
+        if (!getRace().isEmpty()) {
+            raceModel = getRace().get(0);
+        }
+        topType.setItems(FXCollections.observableArrayList("I", "O", "R"));
+        topType.setValue("O");
+        carModels.addAll(getFollowedCars());
+        car.setItems(FXCollections.observableArrayList(getFollowedCarsNumbers(getFollowedCars())));
+        car.getSelectionModel().selectFirst();
+
+        initTable();
+        //loadData();
+        maincarinformation();
+
+        time = LocalTime.parse("00:00:00");
+        time2 = LocalTime.parse("00:00");
+        chronoMeanTime.setText(time3.format(dtf2));
+        departureHour.setText(time2.format(dtf));
+        spentTime.setText(time.format(dtf));
+        remainingTime.setText(localRemainningTime.format(dtf));
+
+        spentTimeline = new Timeline(new KeyFrame(Duration.millis(1000), ae -> incrementTime()));
+        spentTimeline.setCycleCount(Animation.INDEFINITE);
+
+        Timeline clock = new Timeline(new KeyFrame(Duration.millis(1000), e -> getCurrentTime()));
+        clock.setCycleCount(Animation.INDEFINITE);
+        clock.play();
+
+        remainingTimeline = new Timeline(new KeyFrame(Duration.millis(1000), e -> decrementTime()));
+        remainingTimeline.setCycleCount(Animation.INDEFINITE);
+
+
+        meanTimeLine = new Timeline(new KeyFrame(Duration.millis(1000), e -> decrementTime()));
+        meanTimeLine.setCycleCount(Animation.INDEFINITE);
+
+
+    }
 
 
     /**
-     *
      * @param event
      */
     @FXML
@@ -156,42 +188,51 @@ public class RaceResumeController implements Initializable, Observer {
         int carNumber = Integer.parseInt(car.getSelectionModel().getSelectedItem());
         Date topTime = null;
         Double raceTime = null;
-        double lapTime = 0.0;
+        double lapTime = 0.00;
+        double temps = (time).getHour();
+        if (listOfMeanTime.size() == 0) {
+            listOfMeanTime.add(getMeanTime(listOfMeanTime));
+            lapTime = getMeanTime(listOfMeanTime);
+            //faire son propre chrono pour le temps moyenn afin d'avoir le temps du top
+
+        } else {
+            LocalTime currentLocalTime = LocalTime.now();
+            lapTime = (currentLocalTime.getHour());
+            listOfMeanTime.add(lapTime);
+        }
+        getMeanTime(listOfMeanTime);
+
+        //double lapTime = getMeanTime(listOfMeanTime);
         int lap = 0;
         String comment = "";
         CarModel carModel = carController.findCar(carModels, carNumber);
         TopModel topModel = null;
         if (findPreviousTop(carNumber) == null || checkTopLogic(type, findPreviousTop(carNumber).getTopType())) {
             //Case where top respects logical top type order
-            if(raceModel instanceof TimeRaceModel) {
-                topModel = new TopModel(carNumber, new Date(), type, raceTime , lapTime, comment);
+            if (raceModel instanceof TimeRaceModel) {
+                topModel = new TopModel(carNumber, new Date(), type, raceTime, lapTime, comment);
                 handleTopTimeRace(topModel, carModel, carNumber);
-            }
-            else {
+            } else {
                 topModel = new TopModel(carNumber, new Date(), type, lap, lapTime, comment);
                 handleTopLapRace(topModel, carModel, carNumber);
             }
             loadData(topModel);
             carModel.getTopList().add(topModel);
             handleMeanTimeBar();
-        }
-        else {
+        } else {
             //Case where top does not respect logical top type order
-            if(raceModel instanceof TimeRaceModel) {
-                if(type == "I") {
-                    topModel = new TopModel(carNumber, new Date(), "O", raceTime , lapTime, "Top OUT système");
-                }
-                else if(type == "R" || type == "O") {
-                    topModel = new TopModel(carNumber, new Date(), "R", raceTime , lapTime, "Top R système");
+            if (raceModel instanceof TimeRaceModel) {
+                if (type == "I") {
+                    topModel = new TopModel(carNumber, new Date(), "O", raceTime, lapTime, "Top OUT système");
+                } else if (type == "R" || type == "O") {
+                    topModel = new TopModel(carNumber, new Date(), "R", raceTime, lapTime, "Top R système");
                 }
                 handleTopTimeRace(topModel, carModel, carNumber);
-            }
-            else {
-                if(type == "I") {
-                    topModel = new TopModel(carNumber, new Date(), "O", lap , lapTime, "Top OUT système");
-                }
-                else if(type == "R" || type == "O") {
-                    topModel = new TopModel(carNumber, new Date(), "R", lap , lapTime, "Top RACE système");
+            } else {
+                if (type == "I") {
+                    topModel = new TopModel(carNumber, new Date(), "O", lap, lapTime, "Top OUT système");
+                } else if (type == "R" || type == "O") {
+                    topModel = new TopModel(carNumber, new Date(), "R", lap, lapTime, "Top RACE système");
                 }
                 handleTopLapRace(topModel, carModel, carNumber);
             }
@@ -203,13 +244,11 @@ public class RaceResumeController implements Initializable, Observer {
     }
 
 
-
     private void handleTopTimeRace(TopModel topModel, CarModel carModel, int carNumber) {
         topModels.add(topModel);
-        if(carModel.getTimeRace().getTopsMap().containsKey(carNumber)) {
+        if (carModel.getTimeRace().getTopsMap().containsKey(carNumber)) {
             carModel.getTimeRace().getTopsMap().get(carNumber).add(topModel);
-        }
-        else {
+        } else {
             carModel.getTimeRace().getTopsMap().put(carNumber, new ArrayList<>());
             carModel.getTimeRace().getTopsMap().get(carNumber).add(topModel);
         }
@@ -217,10 +256,9 @@ public class RaceResumeController implements Initializable, Observer {
 
     private void handleTopLapRace(TopModel topModel, CarModel carModel, int carNumber) {
         topModels.add(topModel);
-        if(carModel.getLapRace().getTopsMap().containsKey(carNumber)) {
+        if (carModel.getLapRace().getTopsMap().containsKey(carNumber)) {
             carModel.getLapRace().getTopsMap().get(carNumber).add(topModel);
-        }
-        else {
+        } else {
             carModel.getLapRace().getTopsMap().put(carNumber, new ArrayList<>());
             carModel.getLapRace().getTopsMap().get(carNumber).add(topModel);
         }
@@ -244,8 +282,7 @@ public class RaceResumeController implements Initializable, Observer {
             respectsLogic = true;
         } else if (previousTopType.equals("O") && (lastTopType.equals("R") || lastTopType.equals("I"))) {
             respectsLogic = true;
-        }
-        else if (lastTopType == null) {
+        } else if (lastTopType == null) {
             respectsLogic = true;
         }
         return respectsLogic;
@@ -256,18 +293,18 @@ public class RaceResumeController implements Initializable, Observer {
      */
     private void handleMeanTimeBar() {
 
-       // maincarinformation();
-        pulseTransition = new PulseTransition(meanTimeBar);
-        listOfMeanTime.add(0.2);
+        if (testReference)
+            pulseTransition = new PulseTransition(meanTimeBar);
+        pulseTransition.stop();
         meantime = getMeanTime(listOfMeanTime);
-        int timeToUpload = (int) (meantime * 60);
-        stopanimation();
+        int timeToUpload = (int) meantime;
+
 
         Task<Void> task = new Task<Void>() {
 
             @Override
             protected Void call() throws Exception {
-
+                testReference = false;
                 meanTimeBar.setStyle("-fx-accent: blue;");
                 updateProgress(1, timeToUpload);
                 for (int i = 0; i < timeToUpload; i++) {
@@ -284,9 +321,11 @@ public class RaceResumeController implements Initializable, Observer {
 
         meanTimeBar.progressProperty().unbind();
         meanTimeBar.progressProperty().bind(task.progressProperty());
+
         Thread thread = new Thread(task);
         thread.setDaemon(true);
         thread.start();
+
     }
 
     /**
@@ -358,10 +397,9 @@ public class RaceResumeController implements Initializable, Observer {
      *
      */
     private void loadData(TopModel topModel) {
-         if(raceModel instanceof TimeRaceModel) {
-             table_info.getItems().add(0, topModel);
-        }
-        else {
+        if (raceModel instanceof TimeRaceModel) {
+            table_info.getItems().add(0, topModel);
+        } else {
             table_info.getItems().add(0, topModel);
         }
 
@@ -388,13 +426,18 @@ public class RaceResumeController implements Initializable, Observer {
 
     public double getMeanTime(ArrayList<Double> mylistoftime) {
         double meantimeaux = 0.00;
-        if (mylistoftime.size() == 1) {
+        if (mylistoftime.size() == 0) {
+            LocalTime tempsmoyen1 = LocalTime.now();
+            double mytime = (tempsmoyen1.getHour() * 60) + tempsmoyen1.getMinute() + (tempsmoyen1.getSecond() / 60.0);
+            double departtime = (departureTime.getHour() * 60) + departureTime.getMinute() + (departureTime.getSecond() / 60.0);
+            meantimeaux = mytime - departtime;
+        } else if (mylistoftime.size() == 1) {
             meantimeaux = mylistoftime.get(0);
         } else if (mylistoftime.size() == 2) {
-            meantimeaux = ((mylistoftime.get(0) + mylistoftime.get(1)) / 2);
+            meantimeaux = ((mylistoftime.get(0) + mylistoftime.get(1)) / 2.0);
         } else {
             int start = mylistoftime.size() - 2;
-            meantimeaux = ((mylistoftime.get(start - 1) + mylistoftime.get(start) + mylistoftime.get(start + 1)) / 3);
+            meantimeaux = ((mylistoftime.get(start - 1) + mylistoftime.get(start) + mylistoftime.get(start + 1)) / 3.0);
 
 
         }
@@ -406,9 +449,10 @@ public class RaceResumeController implements Initializable, Observer {
         time = time.plusSeconds(1);
         spentTime.setText(time.format(dtf));
     }
+
     private void decrementTime() {
         localRemainningTime = localRemainningTime.minusSeconds(1);
-        if(localRemainningTime.equals(LocalTime.parse("00:00:00"))){
+        if (localRemainningTime.equals(LocalTime.parse("00:00:00"))) {
             stopRace.setDisable(true);
             startRace.setDisable(false);
             remainingTimeline.stop();
@@ -416,6 +460,7 @@ public class RaceResumeController implements Initializable, Observer {
         }
         remainingTime.setText(localRemainningTime.format(dtf));
     }
+
     private void getCurrentTime() {
         currentTime = LocalTime.now();
         currentHour.setText(currentTime.format(dtf));
@@ -423,9 +468,10 @@ public class RaceResumeController implements Initializable, Observer {
 
     @FXML
     private void startTimer(ActionEvent event) {
-        if(!localRemainningTime.equals(LocalTime.parse("00:00:00"))) {
+        if (!localRemainningTime.equals(LocalTime.parse("00:00:00"))) {
             spentTimeline.play();
             remainingTimeline.play();
+            departureTime = LocalTime.now();
             departureHour.setText(currentTime.format(dtf));
             startRace.setDisable(true);
         }
@@ -455,45 +501,12 @@ public class RaceResumeController implements Initializable, Observer {
         }
     }
 
-    /**
-     * @param url
-     * @param rb
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    @FXML
+    private void startMeanTimer(ActionEvent event) {
 
-        App.getDataManager().attach(this);
-        if(!getRace().isEmpty()) {
-            raceModel = getRace().get(0);
-        }
-        topType.setItems(FXCollections.observableArrayList("I", "O", "R"));
-        topType.setValue("O");
-        carModels.addAll(getFollowedCars());
-        car.setItems(FXCollections.observableArrayList(getFollowedCarsNumbers(getFollowedCars())));
-        car.getSelectionModel().selectFirst();
-
-        initTable();
-        //loadData();
-        maincarinformation();
-
-        time = LocalTime.parse("00:00:00");
-        time2 = LocalTime.parse("00:00");
-
-        departureHour.setText(time2.format(dtf));
-        spentTime.setText(time.format(dtf));
-        remainingTime.setText(localRemainningTime.format(dtf));
-
-        spentTimeline = new Timeline(new KeyFrame(Duration.millis(1000), ae -> incrementTime()));
-        spentTimeline.setCycleCount(Animation.INDEFINITE);
-
-        Timeline clock = new Timeline(new KeyFrame(Duration.millis(1000), e -> getCurrentTime()));
-        clock.setCycleCount(Animation.INDEFINITE);
-        clock.play();
-
-        remainingTimeline = new Timeline(new KeyFrame(Duration.millis(1000), e -> decrementTime()));
-        remainingTimeline.setCycleCount(Animation.INDEFINITE);
 
     }
+
     /**
      * Display main car information and the currently pilot
      * pilot information
@@ -560,7 +573,6 @@ public class RaceResumeController implements Initializable, Observer {
     }
 
     /**
-     *
      * @param followedCars
      * @return
      */
@@ -578,10 +590,10 @@ public class RaceResumeController implements Initializable, Observer {
      */
     public TopModel findPreviousTop(int carNumber) {
         TopModel topModel = null;
-        if(raceModel.getTopsMap() != null && raceModel.getTopsMap().containsKey(carNumber)) {
+        if (raceModel.getTopsMap() != null && raceModel.getTopsMap().containsKey(carNumber)) {
             ArrayList<TopModel> topModels;
             topModels = raceModel.getTopsMap().get(carNumber);
-            if(!topModels.isEmpty()) {
+            if (!topModels.isEmpty()) {
                 topModel = topModels.get(topModels.size() - 1);
             }
         }
