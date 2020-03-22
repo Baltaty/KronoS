@@ -49,9 +49,9 @@ public class RaceResumeController implements Initializable, Observer {
     private int secondes = 0;
     private int nonosecondes = 0;
     private boolean isstart;
-    private boolean istartRace =false,timerIsInitialize = true;
-    private int decimalpartTosecond=0, intergerpart=0;
-    private double decimalpart=0.0;
+    private boolean istartRace = false, timerIsInitialize = true;
+    private int decimalpartTosecond = 0, intergerpart = 0;
+    private double decimalpart = 0.0;
 
 
     @FXML
@@ -93,7 +93,7 @@ public class RaceResumeController implements Initializable, Observer {
     LocalTime time = LocalTime.parse("00:00:00");
     LocalTime localRemainningTime = LocalTime.parse("00:00:05");
     LocalTime time2 = LocalTime.parse("00:00");
-    LocalTime timebar=LocalTime.parse("00:00:00");
+    LocalTime timebar = LocalTime.parse("00:00:00");
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
     LocalTime currentTime;
     LocalTime departureTime;
@@ -163,10 +163,10 @@ public class RaceResumeController implements Initializable, Observer {
      */
     @FXML
     public void handleTopButtonClick(ActionEvent event) {
-        if(istartRace) {
+        if (istartRace) {
             handleNewTop();
-        }else {
-            Alerts.info("INFORMATION","veuillez demarrer la course ");
+        } else {
+            Alerts.info("INFORMATION", "veuillez demarrer la course ");
         }
     }
 
@@ -199,11 +199,11 @@ public class RaceResumeController implements Initializable, Observer {
         } else if (listOfMeanTime.size() > 1) {
             thread.stop();
         }
-        decimalpart=getMeanTime(listOfMeanTime);
-        intergerpart=(int)getMeanTime(listOfMeanTime);
+        decimalpart = getMeanTime(listOfMeanTime);
+        intergerpart = (int) getMeanTime(listOfMeanTime);
         decimalpart = decimalpart - intergerpart;
-        decimalpartTosecond= (int) (decimalpart*60);
-       timebar=LocalTime.of(0,intergerpart,decimalpartTosecond);
+        decimalpartTosecond = (int) (decimalpart * 60);
+        timebar = LocalTime.of(0, intergerpart, decimalpartTosecond);
         labelMeanTime.setText(timebar.format(dtf));
         if (findPreviousTop(carNumber) == null || checkTopLogic(type, findPreviousTop(carNumber).getTopType())) {
             //Case where top respects logical top type order
@@ -316,7 +316,7 @@ public class RaceResumeController implements Initializable, Observer {
                 for (double i = 0; i < timeToUpload; i++) {
                     updateProgress(i + 1, timeToUpload);
                     Thread.sleep(1000);
-                    if(timeToUpload-(i+30)<1){
+                    if (timeToUpload - (i + 30) < 1) {
                         meanTimeBar.setStyle("-fx-accent: red;");
                     }
                 }
@@ -602,7 +602,7 @@ public class RaceResumeController implements Initializable, Observer {
             remainingTimeline.play();
             departureHour.setText(currentTime.format(dtf));
             startRace.setDisable(true);
-            istartRace =true;
+            istartRace = true;
         }
     }
 
@@ -807,6 +807,7 @@ public class RaceResumeController implements Initializable, Observer {
                     nonosecondes++;
                     if (nonosecondes == 95) {
                         secondes++;
+                        timebar=timebar.minusSeconds(1);
                         nonosecondes = 0;
                     }
                     if (secondes == 60) {
@@ -814,9 +815,11 @@ public class RaceResumeController implements Initializable, Observer {
                         secondes = 0;
                     }
                     Platform.runLater(() -> {
-                        labelnano.setText("" + nonosecondes);
+                        labelnano.setText( String.valueOf(nonosecondes));
                         labelsecondes.setText(String.valueOf(secondes));
+                        labelMeanTime.setText(timebar.format(dtf));
                         labelmunites.setText(String.valueOf(munites));
+
                     });
                 } catch (InterruptedException e) {
                     e.printStackTrace();
