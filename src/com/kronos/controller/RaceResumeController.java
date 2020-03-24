@@ -48,8 +48,8 @@ public class RaceResumeController implements Initializable, Observer {
     private int munites = 0;
     private int secondes = 0;
     private int nonosecondes = 0;
-    private boolean isstart;
-    private boolean istartRace = false, timerIsInitialize = true;
+    private boolean isStartTimer;
+    private boolean istartRace = false, timerIsInitialize = true, firstTop = true;
     private int decimalpartTosecond = 0, intergerpart = 0;
     private double decimalpart = 0.0;
 
@@ -197,7 +197,11 @@ public class RaceResumeController implements Initializable, Observer {
             lapTime = getMeanTime(listOfMeanTime);
             listOfMeanTime.add(getMeanTime(listOfMeanTime));
         } else if (listOfMeanTime.size() > 1) {
-            thread.stop();
+            if (firstTop) {
+                firstTop = false;
+            } else {
+                thread.stop();
+            }
         }
         decimalpart = getMeanTime(listOfMeanTime);
         intergerpart = (int) getMeanTime(listOfMeanTime);
@@ -659,6 +663,7 @@ public class RaceResumeController implements Initializable, Observer {
         if (!topModelList.isEmpty()) {
             for (TopModel topModel : topModelList) {
                 loadData(topModel);
+                listOfMeanTime.add(topModel.getLapTime());
             }
         }
         maincarinformation();
@@ -774,7 +779,7 @@ public class RaceResumeController implements Initializable, Observer {
      * stop the timer to get the time of the current top of the main car
      */
     public void stopTimerBar() {
-        isstart = false;
+        isStartTimer = false;
         threadChrono.stop();
     }
 
@@ -788,7 +793,7 @@ public class RaceResumeController implements Initializable, Observer {
         labelnano.setText("00");
         labelsecondes.setText("00");
         labelmunites.setText("00");
-        isstart = false;
+        isStartTimer = false;
 
 
     }
@@ -798,16 +803,16 @@ public class RaceResumeController implements Initializable, Observer {
      * format of the Time is MM :ss:nn
      */
     public void startTimerBar() {
-        isstart = true;
+        isStartTimer = true;
         threadChrono = new Thread(() -> {
-            while (isstart) {
+            while (isStartTimer) {
 
                 try {
                     Thread.sleep(10);
                     nonosecondes++;
                     if (nonosecondes == 95) {
                         secondes++;
-                        timebar=timebar.minusSeconds(1);
+                        timebar = timebar.minusSeconds(1);
                         nonosecondes = 0;
                     }
                     if (secondes == 60) {
@@ -815,7 +820,7 @@ public class RaceResumeController implements Initializable, Observer {
                         secondes = 0;
                     }
                     Platform.runLater(() -> {
-                        labelnano.setText( String.valueOf(nonosecondes));
+                        labelnano.setText(String.valueOf(nonosecondes));
                         labelsecondes.setText(String.valueOf(secondes));
                         labelMeanTime.setText(timebar.format(dtf));
                         labelmunites.setText(String.valueOf(munites));
