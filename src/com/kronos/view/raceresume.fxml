@@ -108,7 +108,13 @@
                         <Pane id="btn" prefHeight="261.0" prefWidth="404.0">
                             <children>
                                 <Label layoutX="112.0" layoutY="31.0" text="TEMPS MOYEN AU TOUR" />
-                                <ProgressBar fx:id="meanTimeBar" layoutX="75.0" layoutY="102.0" prefHeight="20.0" prefWidth="244.0" progress="0.0" />
+                                <ProgressBar fx:id="meanTimeBar" layoutX="63.0" layoutY="102.0" prefHeight="30.0" prefWidth="256.0" progress="0.0" />
+                        <Label fx:id="labelmunites" layoutX="81.0" layoutY="69.0" prefHeight="17.0" prefWidth="25.0" text="00" />
+                        <Label layoutX="106.0" layoutY="69.0" text=":" />
+                        <Label fx:id="labelsecondes" layoutX="112.0" layoutY="69.0" prefHeight="17.0" prefWidth="31.0" text="00" />
+                        <Label layoutX="136.0" layoutY="69.0" text=":" />
+                        <Label fx:id="labelnano" layoutX="143.0" layoutY="69.0" text="00" />
+                        <Label fx:id="labelMeanTime" layoutX="144.0" layoutY="109.0" prefHeight="17.0" prefWidth="70.0" text="   MM: ss" />
                             </children>
                         </Pane>
                         <Pane prefHeight="295.0" prefWidth="256.0">
@@ -158,7 +164,7 @@
                                           <Insets top="20.0" />
                                        </padding>
                                     </Label>
-                                    <JFXTextField prefHeight="27.0" prefWidth="125.0" />
+                                    <JFXTextField fx:id="topComment" prefHeight="27.0" prefWidth="125.0" />
                                  </children>
                               </VBox>
                                     </children>
