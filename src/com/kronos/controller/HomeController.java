@@ -450,7 +450,7 @@
 
 
             carType.setItems(FXCollections.observableArrayList("Voiture principale", "Voiture concurrente"));
-            raceTypeCombo.setItems(FXCollections.observableArrayList(RaceType.LAP_RACE.toString(), RaceType.TIME_RACE.toString()));
+            raceTypeCombo.setItems(FXCollections.observableArrayList("Course au nombre de tours", "Course au temps"));
 
             //top_touch_field
 
