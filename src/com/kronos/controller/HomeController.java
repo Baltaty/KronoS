@@ -450,7 +450,7 @@
 
 
             carType.setItems(FXCollections.observableArrayList("Voiture principale", "Voiture concurrente"));
-            raceTypeCombo.setItems(FXCollections.observableArrayList(RaceType.LAP_RACE.toString(), RaceType.TIME_RACE.toString()));
+            raceTypeCombo.setItems(FXCollections.observableArrayList("Course au nombre de tours", "Course au temps"));
 
             //top_touch_field
 
@@ -668,7 +668,7 @@
             }
 
 
-            PilotModel pilotcont = new PilotModel(lastnamecont, firstnamecont, commentcont, pilotdatofbirthcont, pilotweightcont, pilotweightcont);
+            PilotModel pilotcont = new PilotModel(firstnamecont,lastnamecont, commentcont, pilotdatofbirthcont, pilotweightcont, pilotweightcont);
 
 
             if (pilotcontroller.checkPilot(pilotcont) && check) {
