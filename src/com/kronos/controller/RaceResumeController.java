@@ -34,42 +34,25 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class RaceResumeController implements Initializable, Observer {
 
-    private RaceModel raceModel;
-    private CarController carController = new CarController();
-    private ArrayList<TopModel> topModels = new ArrayList<>();
-    private ArrayList<CarModel> carModels = new ArrayList<>();
-    private boolean isExtancier = true;
-    private Thread thread;
-    private Thread threadChrono;
-    private int munites = 0;
-    private int secondes = 0;
-    private int nonosecondes = 0;
-    private boolean isStartTimer;
-    private boolean istartRace = false, timerIsInitialize = true, firstTop = true;
-    private int decimalpartTosecond = 0, intergerpart = 0;
-    private double decimalpart = 0.0;
-
 
     @FXML
-    private Label labelnano;
-    @FXML
-    private Label labelsecondes;
-    @FXML
-    private Label labelmunites;
+    private Label chronoTopTime;
     @FXML
     private Label labelMeanTime;
 
     @FXML
-    ProgressBar meanTimeBar;
+    private ProgressBar meanTimeBar;
     @FXML
-    Button TopBtn;
+    private Button TopBtn;
     @FXML
     private Label departureHour;
-
+    @FXML
+    private Label tmierSign;
     @FXML
     private Label currentHour;
 
@@ -87,31 +70,18 @@ public class RaceResumeController implements Initializable, Observer {
 
     @FXML
     private JFXButton stopRace;
-
-    Timeline spentTimeline;
-    Timeline remainingTimeline;
-    LocalTime time = LocalTime.parse("00:00:00");
-    LocalTime localRemainningTime = LocalTime.parse("00:00:05");
-    LocalTime time2 = LocalTime.parse("00:00");
-    LocalTime timebar = LocalTime.parse("00:00:00");
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-    LocalTime currentTime;
-    LocalTime departureTime;
-
-
     @FXML
-    Label lastNamePilotMainCar;
+    private Label lastNamePilotMainCar;
     @FXML
-    Label firstNamePilotMainCar;
+    private Label firstNamePilotMainCar;
     @FXML
-    Label dateOfBirthPilot;
+    private Label dateOfBirthPilot;
     @FXML
-    Label mainCarBrand;
+    private Label mainCarBrand;
     @FXML
-    Label mainCarModel;
+    private Label mainCarModel;
     @FXML
-    Label mainCarTeam;
-
+    private Label mainCarTeam;
 
     @FXML
     private TableView<TopModel> table_info;
@@ -142,21 +112,99 @@ public class RaceResumeController implements Initializable, Observer {
 
     @FXML
     private JFXTextField topComment;
+    @FXML
+    private ComboBox<String> car;
+    @FXML
+    private ComboBox<String> topType;
 
 
     private static ArrayList<Double> listOfMeanTime = new ArrayList<>();
     private static Double meantime = 0.00;
     PulseTransition pulseTransition;
     MainCarModel mycar;
+    private RaceModel raceModel;
+    private CarController carController = new CarController();
+    private ArrayList<TopModel> topModels = new ArrayList<>();
+    private ArrayList<CarModel> carModels = new ArrayList<>();
+    private boolean isExtancier = true;
+    private Thread thread, threadChrono;
+    private int munites = 0, secondes = 0, millisecondes = 0, decimalpartTosecond = 0, intergerpart = 0;
+    private boolean isStartTimer, isSetTimerBar, istartRace = false, timerIsInitialize = true, firstTop = true;
+    private double decimalpart = 0.0, lapTimeForMeanTime = 0.0;
+    private Timeline spentTimeline;
+    private Timeline remainingTimeline;
+    private LocalTime time = LocalTime.parse("00:00:00");
+    private LocalTime localRemainningTime = LocalTime.parse("00:00:05");
+    private LocalTime time2 = LocalTime.parse("00:00");
+    private LocalTime timebar = LocalTime.parse("00:00:00");
+    private LocalTime chronoTime = LocalTime.parse("00:00:00");
+    private LocalTime timeTocompare = LocalTime.parse("00:00:00");
+    private LocalTime currentTime;
+    private LocalTime departureTime;
+    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+    private DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("mm:ss:nn");
 
-    @FXML
-    private ComboBox<String> car;
-    @FXML
-    private ComboBox<String> topType;
 
     public RaceResumeController() {
     }
 
+    /**
+     * @param url
+     * @param rb
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        App.getDataManager().attach(this);
+        col_racetime.setVisible(false);
+        colLapNumber.setVisible(false);
+        if (!getRace().isEmpty()) {
+            raceModel = getRace().get(0);
+        }
+        if (raceModel instanceof TimeRace) {
+            col_racetime.setVisible(true);
+        } else {
+            colLapNumber.setVisible(true);
+        }
+        topType.setItems(FXCollections.observableArrayList("I", "O", "R"));
+        topType.setValue("O");
+        carModels.addAll(getFollowedCars());
+        car.setItems(FXCollections.observableArrayList(getFollowedCarsNumbers(getFollowedCars())));
+        car.getSelectionModel().selectFirst();
+
+        initTable();
+
+        /* Refresh table after import */
+        List<TopModel> topModelList = (List<TopModel>) (List<?>) App.getDataManager().getModels(TopModel.class);
+        if (!topModelList.isEmpty()) {
+            for (TopModel topModel : topModelList) {
+                loadData(topModel);
+                int muniteteToLoad = Integer.parseInt(topModel.getLapTime().substring(0, 2));
+                int secondeToLoad = Integer.parseInt(topModel.getLapTime().substring(3, 5));
+                int milliToLoad = Integer.parseInt(topModel.getLapTime().substring(6, 8));
+                lapTimeForMeanTime = (muniteteToLoad + (secondeToLoad / 60.0) + (milliToLoad / 100) / 60.0);
+                listOfMeanTime.add(lapTimeForMeanTime);
+            }
+        }
+        maincarinformation();
+
+        time = LocalTime.parse("00:00:00");
+        time2 = LocalTime.parse("00:00");
+
+        departureHour.setText(time2.format(dtf));
+        spentTime.setText(time.format(dtf));
+        remainingTime.setText(localRemainningTime.format(dtf));
+
+        spentTimeline = new Timeline(new KeyFrame(Duration.millis(1000), ae -> incrementTime()));
+        spentTimeline.setCycleCount(Animation.INDEFINITE);
+
+        Timeline clock = new Timeline(new KeyFrame(Duration.millis(1000), e -> getCurrentTime()));
+        clock.setCycleCount(Animation.INDEFINITE);
+        clock.play();
+
+        remainingTimeline = new Timeline(new KeyFrame(Duration.millis(1000), e -> decrementTime()));
+        remainingTimeline.setCycleCount(Animation.INDEFINITE);
+
+    }
 
     /**
      * @param event
@@ -180,7 +228,7 @@ public class RaceResumeController implements Initializable, Observer {
         int carNumber = Integer.parseInt(car.getSelectionModel().getSelectedItem());
         String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
         double raceTime = 0.0;
-        double lapTime = 0.0;
+        String lapTime = "";
         int lap = 0;
         String comment = topComment.getText();
         CarModel carModel = carController.findCar(carModels, carNumber);
@@ -189,16 +237,23 @@ public class RaceResumeController implements Initializable, Observer {
             timerIsInitialize = false;
         } else {
             stopTimerBar();
-            lapTime = (munites + (secondes / 60.0) + (nonosecondes / 100) / 60.0);
-            listOfMeanTime.add(lapTime);
+            lapTime = chronoTime.format(dtf2);
+            lapTimeForMeanTime = (munites + (secondes / 60.0) + (millisecondes / 100) / 60.0);
+            listOfMeanTime.add(lapTimeForMeanTime);
             resetTimerBar();
         }
         if (listOfMeanTime.size() == 0) {
-            lapTime = getMeanTime(listOfMeanTime);
+            long munite = departureTime.until(currentTime, ChronoUnit.MINUTES);
+            long seconde = departureTime.until(currentTime, ChronoUnit.SECONDS);
+            lapTime = LocalTime.of(0, (int) munite, (int) (seconde - munite * 60), 0).format(dtf2);
             listOfMeanTime.add(getMeanTime(listOfMeanTime));
         } else if (listOfMeanTime.size() > 1) {
             if (firstTop) {
                 firstTop = false;
+                long munite = departureTime.until(currentTime, ChronoUnit.MINUTES);
+                long seconde = departureTime.until(currentTime, ChronoUnit.SECONDS);
+                lapTime = LocalTime.of(0, (int) munite, (int) (seconde - munite * 60), 0).format(dtf2);
+                listOfMeanTime.add(munite + ((seconde - munite * 60) / 60.0));
             } else {
                 thread.stop();
             }
@@ -634,58 +689,6 @@ public class RaceResumeController implements Initializable, Observer {
         }
     }
 
-    /**
-     * @param url
-     * @param rb
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        App.getDataManager().attach(this);
-        col_racetime.setVisible(false);
-        colLapNumber.setVisible(false);
-        if (!getRace().isEmpty()) {
-            raceModel = getRace().get(0);
-        }
-        if (raceModel instanceof TimeRace) {
-            col_racetime.setVisible(true);
-        } else {
-            colLapNumber.setVisible(true);
-        }
-        topType.setItems(FXCollections.observableArrayList("I", "O", "R"));
-        topType.setValue("O");
-        carModels.addAll(getFollowedCars());
-        car.setItems(FXCollections.observableArrayList(getFollowedCarsNumbers(getFollowedCars())));
-        car.getSelectionModel().selectFirst();
-
-        initTable();
-        /* Refresh table after import */
-        List<TopModel> topModelList = (List<TopModel>) (List<?>) App.getDataManager().getModels(TopModel.class);
-        if (!topModelList.isEmpty()) {
-            for (TopModel topModel : topModelList) {
-                loadData(topModel);
-                listOfMeanTime.add(topModel.getLapTime());
-            }
-        }
-        maincarinformation();
-
-        time = LocalTime.parse("00:00:00");
-        time2 = LocalTime.parse("00:00");
-
-        departureHour.setText(time2.format(dtf));
-        spentTime.setText(time.format(dtf));
-        remainingTime.setText(localRemainningTime.format(dtf));
-
-        spentTimeline = new Timeline(new KeyFrame(Duration.millis(1000), ae -> incrementTime()));
-        spentTimeline.setCycleCount(Animation.INDEFINITE);
-
-        Timeline clock = new Timeline(new KeyFrame(Duration.millis(1000), e -> getCurrentTime()));
-        clock.setCycleCount(Animation.INDEFINITE);
-        clock.play();
-
-        remainingTimeline = new Timeline(new KeyFrame(Duration.millis(1000), e -> decrementTime()));
-        remainingTimeline.setCycleCount(Animation.INDEFINITE);
-
-    }
 
     /**
      * Display main car information and the currently pilot
@@ -780,6 +783,7 @@ public class RaceResumeController implements Initializable, Observer {
      */
     public void stopTimerBar() {
         isStartTimer = false;
+        isSetTimerBar = true;
         threadChrono.stop();
     }
 
@@ -787,13 +791,14 @@ public class RaceResumeController implements Initializable, Observer {
      * reset  the timer for the next top of the main car
      */
     public void resetTimerBar() {
-        nonosecondes = 0;
+        millisecondes = 0;
         munites = 0;
         secondes = 0;
-        labelnano.setText("00");
-        labelsecondes.setText("00");
-        labelmunites.setText("00");
+        chronoTime = LocalTime.of(0, munites, secondes, millisecondes);
+        chronoTopTime.setText(chronoTime.format(dtf2));
         isStartTimer = false;
+        isSetTimerBar = true;
+        tmierSign.setVisible(false);
 
 
     }
@@ -804,26 +809,37 @@ public class RaceResumeController implements Initializable, Observer {
      */
     public void startTimerBar() {
         isStartTimer = true;
+        isSetTimerBar = true;
+
         threadChrono = new Thread(() -> {
             while (isStartTimer) {
 
                 try {
                     Thread.sleep(10);
-                    nonosecondes++;
-                    if (nonosecondes == 95) {
+                    millisecondes++;
+                    if (millisecondes == 95) {
                         secondes++;
-                        timebar = timebar.minusSeconds(1);
-                        nonosecondes = 0;
+
+                        if (!(timebar.equals(timeTocompare)) && isSetTimerBar) {
+                            timebar = timebar.minusSeconds(1);
+                        } else {
+                            isSetTimerBar = false;
+                            timebar = timebar.plusSeconds(1);
+                        }
+                        millisecondes = 0;
                     }
                     if (secondes == 60) {
                         munites++;
                         secondes = 0;
                     }
                     Platform.runLater(() -> {
-                        labelnano.setText(String.valueOf(nonosecondes));
-                        labelsecondes.setText(String.valueOf(secondes));
+                        chronoTime = LocalTime.of(0, munites, secondes, millisecondes);
+                        chronoTopTime.setText(chronoTime.format(dtf2));
                         labelMeanTime.setText(timebar.format(dtf));
-                        labelmunites.setText(String.valueOf(munites));
+                        if (!isSetTimerBar) {
+                            tmierSign.setVisible(true);
+                        }
+
 
                     });
                 } catch (InterruptedException e) {
