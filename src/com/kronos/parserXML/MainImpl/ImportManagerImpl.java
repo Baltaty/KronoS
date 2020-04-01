@@ -9,20 +9,20 @@ import javafx.stage.Stage;
 import org.jdom2.Content;
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
+import sun.misc.IOUtils;
+import sun.nio.ch.IOUtil;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.regex.Pattern;
 
 
 /**
@@ -163,13 +163,35 @@ public class ImportManagerImpl implements ImportManager {
     private List<String> getSelectedTagXml(String tag) {
 
 
+        /**
+         * content of xml convert in stringbuilder for extracting
+         */
         StringBuilder contentBuilder;
         StringBuffer sb = new StringBuffer();
         List<String> listOfObjectToDesialize = new ArrayList<>();
 
         try {
+
+            FileInputStream fis = new FileInputStream(fileXML);
+            InputStream inputofilestream= new BufferedInputStream(fis);
+            String extractableXML = null;
+            StringBuilder stringBuilder = null;
+            try (Scanner scanner = new Scanner(inputofilestream, StandardCharsets.UTF_8.name())) {
+
+                extractableXML = scanner.useDelimiter("\\A").next();
+                String pattern = "<\\?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"\\?>";
+                Pattern boldPattern = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
+                extractableXML = boldPattern.matcher(extractableXML).replaceAll("");
+                stringBuilder = new StringBuilder();
+                stringBuilder.insert(0,   "<data>");
+                stringBuilder.append(extractableXML);
+                stringBuilder.append("</data>");
+
+
+            }
+
             SAXBuilder builder = new SAXBuilder();
-            Document document = builder.build(fileXML);
+            Document document = builder.build(new StringReader(extractableXML));
             Element rootNode = document.getRootElement();
 
             List<Element> elements = rootNode.getChildren(tag);
