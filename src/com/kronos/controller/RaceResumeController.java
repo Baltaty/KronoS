@@ -1,20 +1,19 @@
 package com.kronos.controller;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import com.kronos.App;
 import com.kronos.api.Observer;
-import com.jfoenix.controls.JFXButton;
-
 import com.kronos.api.TimeRace;
 import com.kronos.global.animation.PulseTransition;
 import com.kronos.global.util.Alerts;
 import com.kronos.model.*;
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,22 +21,88 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.Duration;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.util.Duration;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class RaceResumeController implements Initializable, Observer {
 
+    private static ArrayList<Double> listOfMeanTime = new ArrayList<>();
+    private static Double meantime = 0.00;
+    @FXML
+    private ProgressBar meanTimeBar;
+    @FXML
+    private Button TopBtn;
+    @FXML
+    private Label lastNamePilotMainCar;
+    @FXML
+    private Label firstNamePilotMainCar;
+    @FXML
+    private Label dateOfBirthPilot;
+    @FXML
+    private Label mainCarBrand;
+    @FXML
+    private Label mainCarModel;
+    @FXML
+    private Label mainCarTeam;
+    @FXML
+    private Label labelnano;
+    @FXML
+    private Label labelsecondes;
+    @FXML
+    private Label chronoTopTime;
+    @FXML
+    private Label labelMeanTime;
+    @FXML
+    private Label departureHour;
+    @FXML
+    private Label tmierSign;
+    @FXML
+    private Label currentHour;
+    @FXML
+    private Label spentTime;
+    @FXML
+    private Label remainingTime;
+    @FXML
+    private JFXButton startRace;
+    @FXML
+    private JFXButton pauseRace;
+    @FXML
+    private JFXButton stopRace;
+    @FXML
+    private TableView<TopModel> table_info;
+    @FXML
+    private TableColumn<TopModel, Integer> colCarNumber;
+    @FXML
+    private TableColumn<TopModel, String> col_typetop;
+    @FXML
+    private TableColumn<TopModel, String> col_comment;
+    @FXML
+    private TableColumn<TopModel, String> col_time;
+    @FXML
+    private TableColumn<TopModel, Double> col_racetime;
+    @FXML
+    private TableColumn<TopModel, Double> col_laptime;
+    @FXML
+    private TableColumn<TopModel, Integer> colLapNumber;
+    @FXML
+    private JFXToggleButton toogleedit;
+    @FXML
+    private JFXTextField topComment;
+    @FXML
+    private ComboBox<String> car;
+    @FXML
+    private ComboBox<String> topType;
+    private PulseTransition pulseTransition;
+    private MainCarModel mycar;
     private RaceModel raceModel;
     private CarController carController = new CarController();
     private ArrayList<TopModel> topModels = new ArrayList<>();
@@ -45,118 +110,83 @@ public class RaceResumeController implements Initializable, Observer {
     private boolean isExtancier = true;
     private Thread thread;
     private Thread threadChrono;
-    private int munites = 0;
-    private int secondes = 0;
-    private int nonosecondes = 0;
-    private boolean isStartTimer;
-    private boolean istartRace = false, timerIsInitialize = true, firstTop = true;
-    private int decimalpartTosecond = 0, intergerpart = 0;
-    private double decimalpart = 0.0;
+    private Timeline spentTimeline;
+    private Timeline remainingTimeline;
+    private LocalTime time = LocalTime.parse("00:00:00");
+    private LocalTime localRemainningTime = LocalTime.parse("00:00:05");
+    private LocalTime time2 = LocalTime.parse("00:00");
+    private LocalTime timebar = LocalTime.parse("00:00:00");
+    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+    private LocalTime currentTime;
+    private LocalTime departureTime;
+    private DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("mm:ss:nn");
+    private LocalTime chronoTime = LocalTime.parse("00:00:00");
+    private LocalTime timeTocompare = LocalTime.parse("00:00:00");
+    private int munites = 0, secondes = 0, millisecondes = 0, decimalpartTosecond = 0, intergerpart = 0;
+    private boolean isStartTimer, isSetTimerBar, istartRace = false, timerIsInitialize = true, firstTop = true;
+    private double decimalpart = 0.0, lapTimeForMeanTime = 0.0;
 
-
-    @FXML
-    private Label labelnano;
-    @FXML
-    private Label labelsecondes;
-    @FXML
-    private Label labelmunites;
-    @FXML
-    private Label labelMeanTime;
-
-    @FXML
-    ProgressBar meanTimeBar;
-    @FXML
-    Button TopBtn;
-    @FXML
-    private Label departureHour;
-
-    @FXML
-    private Label currentHour;
-
-    @FXML
-    private Label spentTime;
-
-    @FXML
-    private Label remainingTime;
-
-    @FXML
-    private JFXButton startRace;
-
-    @FXML
-    private JFXButton pauseRace;
-
-    @FXML
-    private JFXButton stopRace;
-
-    Timeline spentTimeline;
-    Timeline remainingTimeline;
-    LocalTime time = LocalTime.parse("00:00:00");
-    LocalTime localRemainningTime = LocalTime.parse("00:00:05");
-    LocalTime time2 = LocalTime.parse("00:00");
-    LocalTime timebar = LocalTime.parse("00:00:00");
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-    LocalTime currentTime;
-    LocalTime departureTime;
-
-
-    @FXML
-    Label lastNamePilotMainCar;
-    @FXML
-    Label firstNamePilotMainCar;
-    @FXML
-    Label dateOfBirthPilot;
-    @FXML
-    Label mainCarBrand;
-    @FXML
-    Label mainCarModel;
-    @FXML
-    Label mainCarTeam;
-
-
-    @FXML
-    private TableView<TopModel> table_info;
-
-    @FXML
-    private TableColumn<TopModel, Integer> colCarNumber;
-
-    @FXML
-    private TableColumn<TopModel, String> col_typetop;
-
-    @FXML
-    private TableColumn<TopModel, String> col_comment;
-
-    @FXML
-    private TableColumn<TopModel, String> col_time;
-
-    @FXML
-    private TableColumn<TopModel, Double> col_racetime;
-
-    @FXML
-    private TableColumn<TopModel, Double> col_laptime;
-
-    @FXML
-    private TableColumn<TopModel, Integer> colLapNumber;
-
-    @FXML
-    private JFXToggleButton toogleedit;
-
-    @FXML
-    private JFXTextField topComment;
-
-
-    private static ArrayList<Double> listOfMeanTime = new ArrayList<>();
-    private static Double meantime = 0.00;
-    PulseTransition pulseTransition;
-    MainCarModel mycar;
-
-    @FXML
-    private ComboBox<String> car;
-    @FXML
-    private ComboBox<String> topType;
 
     public RaceResumeController() {
     }
 
+    /**
+     * @param url
+     * @param rb
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        App.getDataManager().attach(this);
+        col_racetime.setVisible(false);
+        colLapNumber.setVisible(false);
+        if (!getRace().isEmpty()) {
+            raceModel = getRace().get(0);
+        }
+        if (raceModel instanceof TimeRace) {
+            col_racetime.setVisible(true);
+        } else {
+            colLapNumber.setVisible(true);
+        }
+        topType.setItems(FXCollections.observableArrayList("I", "O", "R"));
+        topType.setValue("O");
+        carModels.addAll(getFollowedCars());
+        car.setItems(FXCollections.observableArrayList(getFollowedCarsNumbers(getFollowedCars())));
+        car.getSelectionModel().selectFirst();
+
+        initTable();
+
+        /* Refresh table after import */
+        List<TopModel> topModelList = (List<TopModel>) (List<?>) App.getDataManager().getModels(TopModel.class);
+        if (!topModelList.isEmpty()) {
+            for (TopModel topModel : topModelList) {
+                loadData(topModel);
+                int muniteteToLoad = Integer.parseInt(topModel.getLapTime().substring(0, 2));
+                int secondeToLoad = Integer.parseInt(topModel.getLapTime().substring(3, 5));
+                int milliToLoad = Integer.parseInt(topModel.getLapTime().substring(6, 8));
+                lapTimeForMeanTime = (muniteteToLoad + (secondeToLoad / 60.0) + (milliToLoad / 100) / 60.0);
+                listOfMeanTime.add(lapTimeForMeanTime);
+            }
+        }
+        maincarinformation();
+
+        time = LocalTime.parse("00:00:00");
+        time2 = LocalTime.parse("00:00");
+
+        departureHour.setText(time2.format(dtf));
+        spentTime.setText(time.format(dtf));
+        remainingTime.setText(localRemainningTime.format(dtf));
+
+        spentTimeline = new Timeline(new KeyFrame(Duration.millis(1000), ae -> incrementTime()));
+        spentTimeline.setCycleCount(Animation.INDEFINITE);
+
+        Timeline clock = new Timeline(new KeyFrame(Duration.millis(1000), e -> getCurrentTime()));
+        clock.setCycleCount(Animation.INDEFINITE);
+        clock.play();
+
+        remainingTimeline = new Timeline(new KeyFrame(Duration.millis(1000), e -> decrementTime()));
+        remainingTimeline.setCycleCount(Animation.INDEFINITE);
+
+    }
 
     /**
      * @param event
@@ -180,7 +210,7 @@ public class RaceResumeController implements Initializable, Observer {
         int carNumber = Integer.parseInt(car.getSelectionModel().getSelectedItem());
         String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
         double raceTime = 0.0;
-        double lapTime = 0.0;
+        String lapTime = "";
         int lap = 0;
         String comment = topComment.getText();
         CarModel carModel = carController.findCar(carModels, carNumber);
@@ -189,16 +219,23 @@ public class RaceResumeController implements Initializable, Observer {
             timerIsInitialize = false;
         } else {
             stopTimerBar();
-            lapTime = (munites + (secondes / 60.0) + (nonosecondes / 100) / 60.0);
-            listOfMeanTime.add(lapTime);
+            lapTime = chronoTime.format(dtf2);
+            lapTimeForMeanTime = (munites + (secondes / 60.0) + (millisecondes / 100) / 60.0);
+            listOfMeanTime.add(lapTimeForMeanTime);
             resetTimerBar();
         }
         if (listOfMeanTime.size() == 0) {
-            lapTime = getMeanTime(listOfMeanTime);
+            long munite = departureTime.until(currentTime, ChronoUnit.MINUTES);
+            long seconde = departureTime.until(currentTime, ChronoUnit.SECONDS);
+            lapTime = LocalTime.of(0, (int) munite, (int) (seconde - munite * 60), 0).format(dtf2);
             listOfMeanTime.add(getMeanTime(listOfMeanTime));
         } else if (listOfMeanTime.size() > 1) {
             if (firstTop) {
                 firstTop = false;
+                long munite = departureTime.until(currentTime, ChronoUnit.MINUTES);
+                long seconde = departureTime.until(currentTime, ChronoUnit.SECONDS);
+                lapTime = LocalTime.of(0, (int) munite, (int) (seconde - munite * 60), 0).format(dtf2);
+                listOfMeanTime.add(munite + ((seconde - munite * 60) / 60.0));
             } else {
                 thread.stop();
             }
@@ -225,16 +262,16 @@ public class RaceResumeController implements Initializable, Observer {
             //Case where top does not respect logical top type order
             if (raceModel instanceof TimeRaceModel) {
                 if (type == "I") {
-                    topModel = new TopModel(carNumber, dateTime, "O", raceTime, lapTime, comment + "-Top OUT système");
+                    topModel = new TopModel(carNumber, dateTime, "O", raceTime, lapTime, comment + "-Top O système");
                 } else if (type == "R" || type == "O") {
                     topModel = new TopModel(carNumber, dateTime, "R", raceTime, lapTime, comment + "-Top R système");
                 }
                 handleTopTimeRace(topModel, carModel, carNumber);
             } else {
                 if (type == "I") {
-                    topModel = new TopModel(carNumber, dateTime, "O", lap, lapTime, comment + "-Top OUT système");
+                    topModel = new TopModel(carNumber, dateTime, "O", lap, lapTime, comment + "-Top O système");
                 } else if (type == "R" || type == "O") {
-                    topModel = new TopModel(carNumber, dateTime, "R", lap, lapTime, comment + "-Top RACE système");
+                    topModel = new TopModel(carNumber, dateTime, "R", lap, lapTime, comment + "-Top R système");
                 }
                 handleTopLapRace(topModel, carModel, carNumber);
             }
@@ -378,45 +415,17 @@ public class RaceResumeController implements Initializable, Observer {
     private void editableCols() {
 
         colCarNumber.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-        colCarNumber.setOnEditCommit(e -> {
-            int row = e.getTableView().getSelectionModel().selectedIndexProperty().get();
-            long lastTopId = e.getTableView().getItems().get(row).getId();
-            boolean carExists = carExists(e.getNewValue());
-            if (carExists && editTopCar(e.getOldValue(), e.getNewValue(), lastTopId)) {
-                e.getTableView().getItems().get(e.getTablePosition().getRow()).setCarNumber(e.getNewValue());
-            } else {
-                e.getTableView().getItems().get(e.getTablePosition().getRow()).setCarNumber(e.getOldValue());
-                e.getTableView().getItems().set(row, e.getTableView().getItems().get(row));
-                if (!carExists) {
-                    Alerts.error("ERREUR", "Cette voiture n'existe pas");
-                } else {
-                    Alerts.error("ERREUR", "Impossible de modifier cette voiture : logique de tops non respectée");
-                }
-            }
-        });
+        colCarNumber.setOnEditCommit(this::editCarNumber);
 
         col_typetop.setCellFactory(TextFieldTableCell.forTableColumn());
-        col_typetop.setOnEditCommit(e -> {
-            int row = e.getTableView().getSelectionModel().selectedIndexProperty().get();
-            int carNumber = e.getTableView().getItems().get(row).getCarNumber();
-            long lastTopId = e.getTableView().getItems().get(row).getId();
-            if ((e.getNewValue().equals("I") || e.getNewValue().equals("O") || e.getNewValue().equals("R")) && checkTopLogicOnEdit(carNumber, lastTopId, e.getNewValue())) {
-                e.getTableView().getItems().get(e.getTablePosition().getRow()).setTopType(e.getNewValue());
-            } else {
-                e.getTableView().getItems().get(e.getTablePosition().getRow()).setTopType(e.getOldValue());
-                e.getTableView().getItems().set(row, e.getTableView().getItems().get(row));
-                Alerts.error("ERREUR", "Type de top invalide");
-            }
-        });
+        col_typetop.setOnEditCommit(this::editTopType);
+
+        col_time.setCellFactory(TextFieldTableCell.forTableColumn());
+        col_time.setOnEditCommit(this::editTopTime);
 
         col_racetime.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
         col_racetime.setOnEditCommit(e -> {
             e.getTableView().getItems().get(e.getTablePosition().getRow()).setRaceTime(e.getNewValue());
-        });
-
-        col_time.setCellFactory(TextFieldTableCell.forTableColumn());
-        col_time.setOnEditCommit(e -> {
-            e.getTableView().getItems().get(e.getTablePosition().getRow()).setTime(e.getNewValue());
         });
 
         colLapNumber.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
@@ -432,29 +441,164 @@ public class RaceResumeController implements Initializable, Observer {
     }
 
     /**
+     * @param e
+     */
+    private void editTopType(TableColumn.CellEditEvent<TopModel, String> e) {
+        int row = e.getTableView().getSelectionModel().selectedIndexProperty().get();
+        int carNumber = e.getTableView().getItems().get(row).getCarNumber();
+        long lastTopId = e.getTableView().getItems().get(row).getId();
+        String oldTopType = e.getOldValue();
+        String newTopType = e.getNewValue();
+        if ((newTopType.equals("I") || newTopType.equals("O") || newTopType.equals("R"))) {
+            e.getTableView().getItems().get(e.getTablePosition().getRow()).setTopType(newTopType);
+            if (!checkTopLogicOnEdit(carNumber, lastTopId)) {
+                System.out.println("check");
+                updateTopLogicForTopType(carNumber, findTopIndexWithId(carNumber, lastTopId), findTopIndexWithId(carNumber, lastTopId));
+            }
+            table_info.refresh();
+        } else {
+            table_info.refresh();
+            Alerts.error("ERREUR", "Type de top invalide");
+        }
+    }
+
+    private void editCarNumber(TableColumn.CellEditEvent<TopModel, Integer> e) {
+        int row = e.getTableView().getSelectionModel().selectedIndexProperty().get();
+        int oldCarNumber = e.getOldValue();
+        int newCarNumber = e.getNewValue();
+        long topId = e.getTableView().getItems().get(row).getId();
+        boolean carExists = carExists(newCarNumber);
+        if (carExists) {
+            TopModel top = findTop(oldCarNumber, topId);
+            int index = findTopNewPosition(newCarNumber, top);
+            e.getTableView().getItems().get(e.getTablePosition().getRow()).setCarNumber(newCarNumber);
+            raceModel.getTopsMap().get(newCarNumber).add(index, top);
+            updateTopLogicForOtherFields(newCarNumber, index);
+            removeTop(oldCarNumber, topId);
+            table_info.refresh();
+        } else {
+            Alerts.error("ERREUR", "Cette voiture n'existe pas");
+        }
+    }
+
+    /**
+     *
+     * @param e
+     */
+    private void editTopTime(TableColumn.CellEditEvent<TopModel, String> e) {
+        int row = e.getTableView().getSelectionModel().selectedIndexProperty().get();
+        int carNumber = e.getTableView().getItems().get(row).getCarNumber();
+        ArrayList<TopModel> topModels = raceModel.getTopsMap().get(carNumber);
+        long topId = e.getTableView().getItems().get(row).getId();
+        int index = findTopIndexWithId(carNumber, topId);
+        String oldTopTime = e.getOldValue();
+        String newTopTime = e.getNewValue();
+        TopModel top = topModels.get(index);
+        int newPos = findTopNewPosition(carNumber, top);
+        if(newPos != index) {
+            System.out.println(index);
+            removeTop(carNumber, index);
+            topModels.add(newPos, top);
+            updateTopLogicForOtherFields(carNumber, newPos);
+        }
+
+    }
+
+    private void updateTopLogicForTopType(int carNumber, int origin, int index) {
+        ArrayList<TopModel> topModels = raceModel.getTopsMap().get(carNumber);
+        TopModel currentTop = topModels.get(index);
+        if (index <= origin && index > 0) {
+            TopModel previousTop = topModels.get(index - 1);
+            if (checkTopLogic(currentTop.getTopType(), previousTop.getTopType())) {
+                updateTopLogicForTopType(carNumber, origin, index - 1);
+            } else {
+                if (currentTop.getTopType().equals("R") || currentTop.getTopType().equals("I")) {
+                    if (index != 1) {
+                        previousTop.setTopType("R");
+                        previousTop.setComment("-Top R système-" + previousTop.getComment());
+                    }
+                } else {
+                    if (index == 1) {
+                        currentTop.setTopType("R");
+                        currentTop.setComment("-Top R système-" + currentTop.getComment());
+                    } else {
+                        previousTop.setTopType("I");
+                        previousTop.setComment("-Top I système-" + previousTop.getComment());
+                    }
+
+                }
+                updateTopLogicForTopType(carNumber, origin, index - 1);
+            }
+        }
+        if (index >= origin && index < topModels.size() - 1) {
+            TopModel nextTop = topModels.get(index + 1);
+            if (checkTopLogic(nextTop.getTopType(), currentTop.getTopType())) {
+                updateTopLogicForTopType(carNumber, origin, index + 1);
+            } else {
+                if (currentTop.getTopType().equals("R") || currentTop.getTopType().equals("O")) {
+                    nextTop.setTopType("R");
+                    nextTop.setComment("-Top R système-" + nextTop.getComment());
+                } else {
+                    nextTop.setTopType("O");
+                    nextTop.setComment("-Top O système-" + nextTop.getComment());
+                }
+                updateTopLogicForTopType(carNumber, origin, index + 1);
+            }
+        }
+    }
+
+    /**
+     * @param carNumber
+     * @param index
+     */
+    private void updateTopLogicForOtherFields(int carNumber, int index) {
+        ArrayList<TopModel> topModels = raceModel.getTopsMap().get(carNumber);
+        TopModel currentTop = topModels.get(index);
+        if (index > 0 && index < topModels.size() - 1) {
+            TopModel previousTop = topModels.get(index - 1);
+            if (previousTop.getTopType().equals("I")) {
+                previousTop.setTopType("R");
+                previousTop.setComment("-Top R système-" + previousTop.getComment());
+                if (!currentTop.getTopType().equals("I")) {
+                    currentTop.setTopType("I");
+                    currentTop.setComment("-Top I système-" + currentTop.getComment());
+                }
+            }
+        } else if (index == 0) {
+            if (topModels.size() > 1) {
+                TopModel nextTop = topModels.get(index + 1);
+                nextTop.setTopType("R");
+                nextTop.setComment("-Top R système-" + nextTop.getComment());
+            }
+            if (!currentTop.getTopType().equals("O")) {
+                currentTop.setTopType("O");
+                currentTop.setComment("-Top O système-" + currentTop.getComment());
+            }
+        } else if (index == topModels.size() - 1) {
+            TopModel previousTop = topModels.get(index - 1);
+            if (previousTop.getTopType().equals("I")) {
+                if (!currentTop.getTopType().equals("O")) {
+                    currentTop.setTopType("O");
+                    currentTop.setComment("-Top O système-" + currentTop.getComment());
+                }
+            }
+        }
+    }
+
+    /**
      * @param carNumber
      * @param lastTopId
-     * @param newTopValue
      * @return
      */
-    private boolean checkTopLogicOnEdit(int carNumber, long lastTopId, String newTopValue) {
+    private boolean checkTopLogicOnEdit(int carNumber, long lastTopId) {
         boolean found = false;
         boolean respectsLogic = false;
-        int index = 0;
+        int index = findTopIndexWithId(carNumber, lastTopId);
         ArrayList<TopModel> tops = raceModel.getTopsMap().get(carNumber);
-        Iterator<TopModel> it = tops.iterator();
-        while (it.hasNext() && !found) {
-            TopModel top = it.next();
-            if (top.getId() == lastTopId) {
-                found = true;
-                if (index > 0) {
-                    respectsLogic = checkTopLogic(newTopValue, tops.get(index - 1).getTopType());
-                    if (respectsLogic && index < tops.size() - 1) {
-                        respectsLogic = checkTopLogic(tops.get(index + 1).getTopType(), newTopValue);
-                    }
-                }
-            } else {
-                index++;
+        if (index > 0) {
+            respectsLogic = checkTopLogic(tops.get(index).getTopType(), tops.get(index - 1).getTopType());
+            if (respectsLogic && index < tops.size()) {
+                respectsLogic = checkTopLogic(tops.get(index + 1).getTopType(), tops.get(index).getTopType());
             }
         }
         return respectsLogic;
@@ -462,57 +606,116 @@ public class RaceResumeController implements Initializable, Observer {
 
     /**
      * @param oldCarNumber
-     * @param newCarNumber
+     * @param topId
      * @return
      */
-    private boolean editTopCar(int oldCarNumber, int newCarNumber, long topId) {
+    private TopModel findTop(int oldCarNumber, long topId) {
         boolean found = false;
-        boolean respectsLogic = false;
-        int index = 0;
+        TopModel topModel = null;
         ArrayList<TopModel> oldCarTops = raceModel.getTopsMap().get(oldCarNumber);
         Iterator<TopModel> it = oldCarTops.iterator();
         while (it.hasNext() && !found) {
             TopModel top = it.next();
             if (top.getId() == topId) {
                 found = true;
-                TopModel tmp = top;
-                respectsLogic = giveTopToOtherCar(newCarNumber, tmp);
-                raceModel.getTopsMap().get(oldCarNumber).remove(index);
+                topModel = top;
             }
-            index++;
         }
-        return respectsLogic;
+        return topModel;
     }
 
-    private boolean giveTopToOtherCar(int newCarNumber, TopModel newTop) {
+    /**
+     * @param carNumber
+     * @param topId
+     */
+    private void removeTop(int carNumber, long topId) {
+        ArrayList<TopModel> topModels = raceModel.getTopsMap().get(carNumber);
+        int index = findTopIndexWithId(carNumber, topId);
+        TopModel currentTop = topModels.get(index);
+        updateTopLogicOnRemove(topModels, index);
+        topModels.remove(currentTop);
+    }
+
+    /**
+     * @param topModels
+     * @param index
+     */
+    private void updateTopLogicOnRemove(ArrayList<TopModel> topModels, int index) {
+
+        if (index > 0 && index < topModels.size() - 1) {
+            TopModel previousTop = topModels.get(index - 1);
+            TopModel nextTop = topModels.get(index + 1);
+            if (previousTop.getTopType().equals("R") && nextTop.getTopType().equals("I")) {
+                previousTop.setTopType("O");
+                previousTop.setComment("-Top O système-" + previousTop.getComment());
+            } else if (previousTop.getTopType().equals("I") && nextTop.getTopType().equals("R")) {
+                previousTop.setTopType("R");
+                previousTop.setComment("-Top R système-" + previousTop.getComment());
+            } else if (previousTop.getTopType().equals("I") && nextTop.getTopType().equals("I")) {
+                nextTop.setTopType("O");
+                nextTop.setComment("-Top O système-" + nextTop.getComment());
+            } else if (previousTop.getTopType().equals("O") && nextTop.getTopType().equals("O")) {
+                nextTop.setTopType("R");
+                nextTop.setComment("-Top R système-" + nextTop.getComment());
+            }
+        } else if (index == 0) {
+            if (topModels.size() > 1) {
+                TopModel nextTop = topModels.get(index + 1);
+                nextTop.setTopType("O");
+                nextTop.setComment("-Top O système-" + nextTop.getComment());
+                if (topModels.size() > 2) {
+                    TopModel topAfterNext = topModels.get(index + 2);
+                    if (topAfterNext.getTopType().equals("O")) {
+                        topAfterNext.setTopType("R");
+                        topAfterNext.setComment("-Top R système-" + topAfterNext.getComment());
+                    }
+                }
+            }
+        }
+    }
+
+
+    /**
+     * @param carNumber
+     * @param topId
+     * @return
+     */
+    private int findTopIndexWithId(int carNumber, long topId) {
         boolean found = false;
-        boolean respectsLogic = false;
         int index = 0;
-        System.out.println("ici");
-        ArrayList<TopModel> newCarTops = raceModel.getTopsMap().get(newCarNumber);
+        ArrayList<TopModel> newCarTops = raceModel.getTopsMap().get(carNumber);
         Iterator<TopModel> it = newCarTops.iterator();
         while (it.hasNext() && !found) {
             TopModel top = it.next();
-            System.out.println("là");
-            if (LocalDateTime.parse(newTop.getTime(), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")).isBefore(LocalDateTime.parse(top.getTime(), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"))) || LocalDateTime.parse(newTop.getTime(), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")).isEqual(LocalDateTime.parse(top.getTime(), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")))) {
+            if (top.getId() == topId) {
                 found = true;
-                System.out.println(index);
-                if (index > 0) {
-                    System.out.println("ooo");
-                    respectsLogic = checkTopLogic(newTop.getTopType(), newCarTops.get(index - 1).getTopType());
-                    if (respectsLogic && index < newCarTops.size()) {
-                        System.out.println("mdr");
-                        respectsLogic = checkTopLogic(newCarTops.get(index).getTopType(), newTop.getTopType());
-                    }
-                }
-                if (respectsLogic) {
-                    raceModel.getTopsMap().get(newCarNumber).add(index, newTop);
-                }
-
+            } else {
+                index++;
             }
-            index++;
         }
-        return respectsLogic;
+        return index;
+    }
+
+    /**
+     * @param carNumber
+     * @param newTop
+     * @return
+     */
+    private int findTopNewPosition(int carNumber, TopModel newTop) {
+        boolean found = false;
+        int index = 0;
+        ArrayList<TopModel> newCarTops = raceModel.getTopsMap().get(carNumber);
+        Iterator<TopModel> it = newCarTops.iterator();
+        while (it.hasNext() && !found) {
+            TopModel top = it.next();
+            System.out.println(newTop.getTime());
+            if (LocalDateTime.parse(newTop.getTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")).isBefore(LocalDateTime.parse(top.getTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"))) || LocalDateTime.parse(newTop.getTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")).isEqual(LocalDateTime.parse(top.getTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")))) {
+                found = true;
+            } else {
+                index++;
+            }
+        }
+        return index;
     }
 
     private boolean carExists(int carNumber) {
@@ -529,12 +732,7 @@ public class RaceResumeController implements Initializable, Observer {
      *
      */
     private void loadData(TopModel topModel) {
-        if (raceModel instanceof TimeRaceModel) {
-            table_info.getItems().add(0, topModel);
-        } else {
-            table_info.getItems().add(0, topModel);
-        }
-
+        table_info.getItems().add(0, topModel);
     }
 
 
@@ -634,58 +832,6 @@ public class RaceResumeController implements Initializable, Observer {
         }
     }
 
-    /**
-     * @param url
-     * @param rb
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        App.getDataManager().attach(this);
-        col_racetime.setVisible(false);
-        colLapNumber.setVisible(false);
-        if (!getRace().isEmpty()) {
-            raceModel = getRace().get(0);
-        }
-        if (raceModel instanceof TimeRace) {
-            col_racetime.setVisible(true);
-        } else {
-            colLapNumber.setVisible(true);
-        }
-        topType.setItems(FXCollections.observableArrayList("I", "O", "R"));
-        topType.setValue("O");
-        carModels.addAll(getFollowedCars());
-        car.setItems(FXCollections.observableArrayList(getFollowedCarsNumbers(getFollowedCars())));
-        car.getSelectionModel().selectFirst();
-
-        initTable();
-        /* Refresh table after import */
-        List<TopModel> topModelList = (List<TopModel>) (List<?>) App.getDataManager().getModels(TopModel.class);
-        if (!topModelList.isEmpty()) {
-            for (TopModel topModel : topModelList) {
-                loadData(topModel);
-                listOfMeanTime.add(topModel.getLapTime());
-            }
-        }
-        maincarinformation();
-
-        time = LocalTime.parse("00:00:00");
-        time2 = LocalTime.parse("00:00");
-
-        departureHour.setText(time2.format(dtf));
-        spentTime.setText(time.format(dtf));
-        remainingTime.setText(localRemainningTime.format(dtf));
-
-        spentTimeline = new Timeline(new KeyFrame(Duration.millis(1000), ae -> incrementTime()));
-        spentTimeline.setCycleCount(Animation.INDEFINITE);
-
-        Timeline clock = new Timeline(new KeyFrame(Duration.millis(1000), e -> getCurrentTime()));
-        clock.setCycleCount(Animation.INDEFINITE);
-        clock.play();
-
-        remainingTimeline = new Timeline(new KeyFrame(Duration.millis(1000), e -> decrementTime()));
-        remainingTimeline.setCycleCount(Animation.INDEFINITE);
-
-    }
 
     /**
      * Display main car information and the currently pilot
@@ -781,6 +927,7 @@ public class RaceResumeController implements Initializable, Observer {
      */
     public void stopTimerBar() {
         isStartTimer = false;
+        isSetTimerBar = true;
         threadChrono.stop();
     }
 
@@ -788,13 +935,14 @@ public class RaceResumeController implements Initializable, Observer {
      * reset  the timer for the next top of the main car
      */
     public void resetTimerBar() {
-        nonosecondes = 0;
+        millisecondes = 0;
         munites = 0;
         secondes = 0;
-        labelnano.setText("00");
-        labelsecondes.setText("00");
-        labelmunites.setText("00");
+        chronoTime = LocalTime.of(0, munites, secondes, millisecondes);
+        chronoTopTime.setText(chronoTime.format(dtf2));
         isStartTimer = false;
+        isSetTimerBar = true;
+        tmierSign.setVisible(false);
 
 
     }
@@ -805,26 +953,37 @@ public class RaceResumeController implements Initializable, Observer {
      */
     public void startTimerBar() {
         isStartTimer = true;
+        isSetTimerBar = true;
+
         threadChrono = new Thread(() -> {
             while (isStartTimer) {
 
                 try {
                     Thread.sleep(10);
-                    nonosecondes++;
-                    if (nonosecondes == 95) {
+                    millisecondes++;
+                    if (millisecondes == 95) {
                         secondes++;
-                        timebar = timebar.minusSeconds(1);
-                        nonosecondes = 0;
+
+                        if (!(timebar.equals(timeTocompare)) && isSetTimerBar) {
+                            timebar = timebar.minusSeconds(1);
+                        } else {
+                            isSetTimerBar = false;
+                            timebar = timebar.plusSeconds(1);
+                        }
+                        millisecondes = 0;
                     }
                     if (secondes == 60) {
                         munites++;
                         secondes = 0;
                     }
                     Platform.runLater(() -> {
-                        labelnano.setText(String.valueOf(nonosecondes));
-                        labelsecondes.setText(String.valueOf(secondes));
+                        chronoTime = LocalTime.of(0, munites, secondes, millisecondes);
+                        chronoTopTime.setText(chronoTime.format(dtf2));
                         labelMeanTime.setText(timebar.format(dtf));
-                        labelmunites.setText(String.valueOf(munites));
+                        if (!isSetTimerBar) {
+                            tmierSign.setVisible(true);
+                        }
+
 
                     });
                 } catch (InterruptedException e) {
