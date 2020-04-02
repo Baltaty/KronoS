@@ -3,14 +3,12 @@ package com.kronos.parserXML.MainImpl;
 import com.kronos.api.Observer;
 import com.kronos.api.Subject;
 import com.kronos.parserXML.api.SaveManager;
-import com.sun.xml.internal.ws.message.ProblemActionHeader;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -27,6 +25,11 @@ public class SaveManagerImpl implements SaveManager, Subject {
      * collection of models to be persisted in the XML file
      */
     private List<Object> listOfBeans;
+
+    /**
+     *
+     */
+    private Map<Object, Boolean> mapOfbeans;
 
 
     /**
@@ -75,6 +78,7 @@ public class SaveManagerImpl implements SaveManager, Subject {
      */
     private SaveManagerImpl() {
         listOfBeans = new ArrayList<Object>();
+        mapOfbeans = new HashMap<>();
 
         parser = new ModelParser();
         PATH += "course_numero-" + new Date().getTime() + ".xml";
@@ -104,12 +108,14 @@ public class SaveManagerImpl implements SaveManager, Subject {
     @Override
     public boolean persist(final Object modelToSave) {
         Objects.requireNonNull(modelToSave);
+        mapOfbeans.put(modelToSave, Boolean.FALSE);
         return listOfBeans.add(modelToSave);
     }
 
 
     public void persist(final Collection<? extends Object> collections) {
         Objects.requireNonNull(collections);
+        collections.forEach(items -> mapOfbeans.put(items, Boolean.FALSE));
         listOfBeans.addAll(collections);
     }
 
@@ -121,6 +127,7 @@ public class SaveManagerImpl implements SaveManager, Subject {
      */
     public boolean remove(final Object modelToUnlink) {
         Objects.requireNonNull(modelToUnlink);
+        mapOfbeans.remove(modelToUnlink);
         return listOfBeans.remove(modelToUnlink);
     }
 
@@ -129,6 +136,7 @@ public class SaveManagerImpl implements SaveManager, Subject {
      * disconnects all model objects connected to the manager that will no longer be taken into account when saving in XML.
      */
     public void clear() {
+        mapOfbeans.clear();
         listOfBeans.clear();
     }
 
@@ -138,7 +146,10 @@ public class SaveManagerImpl implements SaveManager, Subject {
      * @return List
      */
     public List<Object> getListOfBeans() {
-        return Collections.unmodifiableList(listOfBeans);
+
+        List <Object> listOfObject =  new ArrayList<>(mapOfbeans.keySet());
+        return Collections.unmodifiableList(listOfObject);
+//        return Collections.unmodifiableList(listOfBeans);
     }
 
 
@@ -153,15 +164,27 @@ public class SaveManagerImpl implements SaveManager, Subject {
         try {
             stringBuilder = new StringBuilder();
             stringBuilder.append(XML_STANDARD_TAG);
-            stringBuilder.append("\n" + CONTENT_TAG + "\n");
+            /* stringBuilder.append("\n" + CONTENT_TAG + "\n"); */
+            Iterator it = mapOfbeans.entrySet().iterator();
+            while(it.hasNext()){
+                Map.Entry couple = (Map.Entry) it.next();
+                System.out.println(couple.getKey().toString() + "  " + couple.getValue().toString());
+                if(couple.getValue().equals(Boolean.FALSE)){
+                    stringBuilder.append(parser.parseModel(couple.getKey()));
+                    couple.setValue(Boolean.TRUE);
+                }
+            }
+            /*
             for (Object beans : listOfBeans) {
                 stringBuilder.append(parser.parseModel(beans));
-            }
-            stringBuilder.append("\n" + CONTENT_END_TAG + "\n");
 
-            if (fileXML.exists()) {
+            } */
+            /* stringBuilder.append("\n" + CONTENT_END_TAG + "\n"); */
+
+           /* if (fileXML.exists()) {
                 fileXML.delete();
-            }
+            } */
+
             FileWriter fileWriter = new FileWriter(fileXML, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(stringBuilder.toString());
