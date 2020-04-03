@@ -21,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.Callback;
 import javafx.util.Duration;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
@@ -79,6 +80,8 @@ public class RaceResumeController implements Initializable, Observer {
     private JFXButton stopRace;
     @FXML
     private TableView<TopModel> table_info;
+    @FXML
+    private TableColumn<TopModel, Double> col_delete;
     @FXML
     private TableColumn<TopModel, Integer> colCarNumber;
     @FXML
@@ -139,6 +142,7 @@ public class RaceResumeController implements Initializable, Observer {
         App.getDataManager().attach(this);
         col_racetime.setVisible(false);
         colLapNumber.setVisible(false);
+        col_delete.setVisible(false);
         if (!getRace().isEmpty()) {
             raceModel = getRace().get(0);
         }
@@ -381,8 +385,10 @@ public class RaceResumeController implements Initializable, Observer {
     public void editable() {
         if (toogleedit.isSelected()) {
             table_info.setEditable(true);
+            col_delete.setVisible(true);
         } else {
             table_info.setEditable(false);
+            col_delete.setVisible(false);
         }
     }
 
@@ -405,6 +411,7 @@ public class RaceResumeController implements Initializable, Observer {
         colLapNumber.setCellValueFactory(new PropertyValueFactory<>("lapNumber"));
         col_time.setCellValueFactory(new PropertyValueFactory<>("time"));
         col_comment.setCellValueFactory(new PropertyValueFactory<>("comment"));
+        col_delete.setCellFactory(cellFactory);
 
         editableCols();
     }
@@ -634,6 +641,7 @@ public class RaceResumeController implements Initializable, Observer {
         TopModel currentTop = topModels.get(index);
         updateTopLogicOnRemove(topModels, index);
         topModels.remove(currentTop);
+        System.out.println("Le top " + topId + "  a été supprimé");
     }
 
     /**
@@ -735,6 +743,43 @@ public class RaceResumeController implements Initializable, Observer {
         table_info.getItems().add(0, topModel);
     }
 
+    /**
+     *
+     */
+    Callback<TableColumn<TopModel, Double>, TableCell<TopModel, Double>> cellFactory = new Callback<TableColumn<TopModel, Double>, TableCell<TopModel, Double>>() {
+        @Override
+        public TableCell<TopModel, Double> call(final TableColumn<TopModel, Double> param) {
+            final TableCell<TopModel, Double> cell = new TableCell<TopModel, Double>() {
+
+                private final Button btn = new Button("Delete");
+                private final Button btn1 = new Button("Edit");
+
+                {
+                    btn.setOnAction((ActionEvent event) -> {
+                        TopModel top = getTableView().getItems().get(getIndex());
+                        System.out.println("J'ai appuyé sur le bouton dont l'ID est:  " + top.getId() +
+                                "  et le numVoiture est:  " + top.getCarNumber());
+                        removeTop(top.getCarNumber(), top.getId());
+                        table_info.getItems().remove(top);
+                        table_info.refresh();
+                    });
+                }
+
+                @Override
+                public void updateItem(Double item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        setGraphic(btn);
+                    }
+                }
+            };
+            return cell;
+        }
+    };
+
+
 
     /**
      * Pulse animation
@@ -742,9 +787,7 @@ public class RaceResumeController implements Initializable, Observer {
      */
 
     public void stopanimation() {
-
         pulseTransition.stop();
-
     }
 
     /**
