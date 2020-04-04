@@ -41,22 +41,22 @@
                     <children>
                         <Pane prefHeight="375.0" prefWidth="372.0" style="-fx-border-color: black;">
                             <children>
-                                <Circle fill="WHITE" layoutX="60.0" layoutY="63.0" radius="35.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" />
-                                <Label layoutX="146.0" layoutY="53.0" text="INFOS COURSE" />
-                                <Label layoutX="25.0" layoutY="127.0" prefHeight="17.0" prefWidth="112.0" text="Heure de depart" />
-                                <Label fx:id="departureHour" layoutX="46.0" layoutY="144.0" text="00 : 00 : 00" />
-                                <Label layoutX="216.0" layoutY="127.0" prefHeight="17.0" prefWidth="112.0" text="Heure actuelle" />
-                                <Label fx:id="currentHour" layoutX="230.0" layoutY="144.0" text="00 : 00 : 00" />
-                                <Label layoutX="35.0" layoutY="210.0" prefHeight="17.0" prefWidth="112.0" text="Temps ecoulé" />
-                                <Label fx:id="spentTime" layoutX="46.0" layoutY="227.0" text="00 : 00 : 00" />
-                                <Label layoutX="209.0" layoutY="208.0" prefHeight="17.0" prefWidth="112.0" text="Temps restant" />
-                                <Label fx:id="remainingTime" layoutX="224.0" layoutY="225.0" text="00 : 00 : 00" />
-                                <JFXButton fx:id="startRace" alignment="CENTER" contentDisplay="CENTER" layoutX="51.0" layoutY="264.0" onAction="#startTimer" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #57c6f2;" styleClass="btn-base" text="Start" />
-                                <JFXButton fx:id="pauseRace" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="149.0" layoutY="264.0" onAction="#pauseTimer" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #57c6f2;" styleClass="btn-base" text="Pause" />
-                                <JFXButton fx:id="stopRace" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="248.0" layoutY="264.0" onAction="#endTimer" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #57c6f2;" text="Stop" />
+                                <Circle fill="WHITE" layoutX="60.0" layoutY="46.0" radius="35.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" />
+                                <Label layoutX="146.0" layoutY="36.0" text="INFOS COURSE" />
+                                <Label layoutX="25.0" layoutY="110.0" prefHeight="17.0" prefWidth="112.0" text="Heure de depart" />
+                                <Label fx:id="departureHour" layoutX="46.0" layoutY="127.0" text="00 : 00 : 00" />
+                                <Label layoutX="216.0" layoutY="110.0" prefHeight="17.0" prefWidth="112.0" text="Heure actuelle" />
+                                <Label fx:id="currentHour" layoutX="230.0" layoutY="127.0" text="00 : 00 : 00" />
+                                <Label layoutX="35.0" layoutY="156.0" prefHeight="17.0" prefWidth="112.0" text="Temps ecoulé" />
+                                <Label fx:id="spentTime" layoutX="46.0" layoutY="173.0" text="00 : 00 : 00" />
+                                <Label layoutX="209.0" layoutY="154.0" prefHeight="17.0" prefWidth="112.0" text="Temps restant" />
+                                <Label fx:id="remainingTime" layoutX="224.0" layoutY="171.0" text="00 : 00 : 00" />
+                                <JFXButton fx:id="startRace" alignment="CENTER" contentDisplay="CENTER" layoutX="35.0" layoutY="210.0" onAction="#startTimer" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #57c6f2;" styleClass="btn-base" text="Start" />
+                                <JFXButton fx:id="pauseRace" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="133.0" layoutY="210.0" onAction="#pauseTimer" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #57c6f2;" styleClass="btn-base" text="Pause" />
+                                <JFXButton fx:id="stopRace" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="232.0" layoutY="210.0" onAction="#endTimer" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #57c6f2;" text="Stop" />
                             </children>
                         </Pane>
-                        <Pane layoutX="10.0" layoutY="10.0" prefHeight="350.0" prefWidth="329.0" style="-fx-border-color: black;">
+                        <Pane layoutX="10.0" layoutY="10.0" prefHeight="489.0" prefWidth="322.0" style="-fx-border-color: black;">
                             <children>
                                 <Label layoutX="127.0" layoutY="47.0" text="PANNEAU" />
                             </children>
@@ -103,7 +103,7 @@
                         </Pane>
                     </children>
                 </HBox>
-                <HBox prefHeight="505.0" prefWidth="1053.0" style="-fx-border-color: black; -fx-spacing: 10;">
+                <HBox prefHeight="500.0" prefWidth="1053.0" style="-fx-border-color: black; -fx-spacing: 10;">
                     <children>
                         <Pane id="btn" prefHeight="261.0" prefWidth="404.0">
                             <children>

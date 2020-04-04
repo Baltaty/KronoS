@@ -2,26 +2,24 @@ package com.kronos.parserXML.MainImpl;
 
 import com.kronos.App;
 import com.kronos.model.*;
-import com.kronos.module.main.Config;
 import com.kronos.parserXML.api.ImportManager;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.jdom2.Content;
 import org.jdom2.Document;
 import org.jdom2.Element;
-import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
-import sun.misc.IOUtils;
-import sun.nio.ch.IOUtil;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 import java.util.regex.Pattern;
 
 
@@ -186,6 +184,7 @@ public class ImportManagerImpl implements ImportManager {
                 stringBuilder.insert(0,   "<data>");
                 stringBuilder.append(extractableXML);
                 stringBuilder.append("</data>");
+                extractableXML = stringBuilder.toString();
 
 
             }
@@ -260,7 +259,8 @@ public class ImportManagerImpl implements ImportManager {
                 return false;
             }
             App.getDataManager().clear();
-            App.getDataManager().persist(models);
+
+            App.getDataManager().persist(models, Boolean.TRUE);
             App.getDataManager().setPATH(this.fileXML.getPath());
 
         } catch (Exception ex) {
