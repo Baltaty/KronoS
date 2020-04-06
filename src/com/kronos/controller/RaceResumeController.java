@@ -284,7 +284,6 @@ public class RaceResumeController implements Initializable, Observer {
         /*  Save Top list of Object to persist  */
         App.getDataManager().persist(topModel);
         App.getDataManager().saveFile();
-//        System.out.println("==== top =====");
         /*  */
         startTimerBar();
 

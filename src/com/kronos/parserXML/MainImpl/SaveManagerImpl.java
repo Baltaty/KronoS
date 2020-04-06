@@ -126,8 +126,8 @@ public class SaveManagerImpl implements SaveManager, Subject {
     public void persist(final Collection<? extends Object> collections, Boolean modePersit) {
         Objects.requireNonNull(collections);
         collections.forEach(items -> mapOfbeans.put(items, modePersit));
-        System.out.println("==== debug object list ======");
-        collections.forEach( items -> System.out.println(items.toString()));
+//        System.out.println("==== SaveManagerImpl persist(Collection) : debug object list ======");
+//        collections.forEach( items -> System.out.println(items.toString()));
     }
 
 
@@ -167,7 +167,7 @@ public class SaveManagerImpl implements SaveManager, Subject {
      * @param fileXML
      * @return boolean
      */
-    private boolean processSave(File fileXML) {
+    private boolean processSave(File fileXML, Boolean allOjectPersist) {
         if (fileXML == null)
             return false;
 
@@ -183,7 +183,9 @@ public class SaveManagerImpl implements SaveManager, Subject {
             Iterator it = mapOfbeans.entrySet().iterator();
             while (it.hasNext()) {
                 Map.Entry couple = (Map.Entry) it.next();
-                if (couple.getValue().equals(Boolean.FALSE)) {
+                if(allOjectPersist){
+                    stringBuilder.append(parser.parseModel(couple.getKey()));;
+                } else if (couple.getValue().equals(Boolean.FALSE)) {
                     stringBuilder.append(parser.parseModel(couple.getKey()));
                     couple.setValue(Boolean.TRUE);
                 }
@@ -212,7 +214,7 @@ public class SaveManagerImpl implements SaveManager, Subject {
     @Override
     public boolean saveFile() {
         File fileXML = new File(PATH);
-        return processSave(fileXML);
+        return processSave(fileXML, Boolean.FALSE);
     }
 
 
@@ -229,7 +231,7 @@ public class SaveManagerImpl implements SaveManager, Subject {
         );
         File selectedFile = fileChooser.showSaveDialog(stage);
         setPATH(selectedFile.getAbsolutePath());
-        return processSave(selectedFile);
+        return processSave(selectedFile, Boolean.TRUE);
     }
 
 
@@ -276,4 +278,11 @@ public class SaveManagerImpl implements SaveManager, Subject {
     public static void setPATH(String PATH) {
         SaveManagerImpl.PATH = PATH;
     }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////                                 /////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 }

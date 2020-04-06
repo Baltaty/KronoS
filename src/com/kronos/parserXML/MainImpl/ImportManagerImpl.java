@@ -17,9 +17,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Pattern;
 
 
@@ -146,11 +144,48 @@ public class ImportManagerImpl implements ImportManager {
 
             }
 
+            chekingObjects(models);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return models;
+    }
+
+    private void chekingObjects(List<? extends Object> datas) {
+
+        Map<Integer, ArrayList<TopModel>> topsMap = new HashMap<>();
+
+        for (Object object : datas) {
+            if (TopModel.class.isInstance(object)) {
+                TopModel model = (TopModel) object;
+                Integer numberOfcar = new Integer(model.getCarNumber());
+
+                if (topsMap.containsKey(numberOfcar)) {
+                    List<TopModel> topModelList = topsMap.get(numberOfcar);
+                    topModelList.add(model);
+                }
+                else{
+                    ArrayList<TopModel> topModelList = new ArrayList<>();
+                    topModelList.add(model);
+                    topsMap.put(numberOfcar, topModelList);
+                }
+
+            }
+        }
+
+
+        for(Object object : datas){
+            if(RaceModel.class.isAssignableFrom(object.getClass())){
+                RaceModel raceModel = (RaceModel) object;
+                raceModel.getTopsMap().clear();
+                raceModel.getTopsMap().putAll(topsMap);
+//                System.out.println(" ===== ImportManager checkObject : je suis issue de Racemodel : " + object.toString()  );
+//                System.out.println(raceModel.getTopsMap().toString());
+                break;
+            }
+        }
+
     }
 
 
@@ -171,7 +206,7 @@ public class ImportManagerImpl implements ImportManager {
         try {
 
             FileInputStream fis = new FileInputStream(fileXML);
-            InputStream inputofilestream= new BufferedInputStream(fis);
+            InputStream inputofilestream = new BufferedInputStream(fis);
             String extractableXML = null;
             StringBuilder stringBuilder = null;
             try (Scanner scanner = new Scanner(inputofilestream, StandardCharsets.UTF_8.name())) {
@@ -181,7 +216,7 @@ public class ImportManagerImpl implements ImportManager {
                 Pattern boldPattern = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
                 extractableXML = boldPattern.matcher(extractableXML).replaceAll("");
                 stringBuilder = new StringBuilder();
-                stringBuilder.insert(0,   "<data>");
+                stringBuilder.insert(0, "<data>");
                 stringBuilder.append(extractableXML);
                 stringBuilder.append("</data>");
                 extractableXML = stringBuilder.toString();
