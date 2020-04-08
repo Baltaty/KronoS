@@ -26,9 +26,13 @@ import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -90,7 +94,7 @@ public class RaceResumeController implements Initializable, Observer {
     @FXML
     private TableColumn<TopModel, Double> col_racetime;
     @FXML
-    private TableColumn<TopModel, Double> col_laptime;
+    private TableColumn<TopModel, String> col_laptime;
     @FXML
     private TableColumn<TopModel, Integer> colLapNumber;
     @FXML
@@ -204,7 +208,6 @@ public class RaceResumeController implements Initializable, Observer {
      *
      */
     private void handleNewTop() {
-
 
         String type = topType.getSelectionModel().getSelectedItem();
         int carNumber = Integer.parseInt(car.getSelectionModel().getSelectedItem());
@@ -397,15 +400,16 @@ public class RaceResumeController implements Initializable, Observer {
      *
      */
     private void initCols() {
-
         colCarNumber.setCellValueFactory(new PropertyValueFactory<>("carNumber"));
         col_typetop.setCellValueFactory(new PropertyValueFactory<>("topType"));
-        col_laptime.setCellValueFactory(new PropertyValueFactory<>("lapTime"));
         col_racetime.setCellValueFactory(new PropertyValueFactory<>("raceTime"));
+        col_laptime.setCellValueFactory(new PropertyValueFactory<>("lapTime"));
         colLapNumber.setCellValueFactory(new PropertyValueFactory<>("lapNumber"));
         col_time.setCellValueFactory(new PropertyValueFactory<>("time"));
         col_comment.setCellValueFactory(new PropertyValueFactory<>("comment"));
-
+        col_time.setSortType(TableColumn.SortType.DESCENDING);
+        colLapNumber.setSortType(TableColumn.SortType.DESCENDING);
+        table_info.getSortOrder().addAll(col_time, colLapNumber);
         editableCols();
     }
 
@@ -422,6 +426,9 @@ public class RaceResumeController implements Initializable, Observer {
 
         col_time.setCellFactory(TextFieldTableCell.forTableColumn());
         col_time.setOnEditCommit(this::editTopTime);
+
+        col_laptime.setCellFactory(TextFieldTableCell.forTableColumn());
+        col_laptime.setOnEditCommit(this::editLapTime);
 
         col_racetime.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
         col_racetime.setOnEditCommit(e -> {
@@ -440,6 +447,56 @@ public class RaceResumeController implements Initializable, Observer {
 
     }
 
+    private void editLapTime(TableColumn.CellEditEvent<TopModel,String> e) {
+        int row = e.getTableView().getSelectionModel().selectedIndexProperty().get();
+        int carNumber = e.getTableView().getItems().get(row).getCarNumber();
+        ArrayList<TopModel> topModels = raceModel.getTopsMap().get(carNumber);
+        long topId = e.getTableView().getItems().get(row).getId();
+        int index = findTopIndexWithId(carNumber, topId);
+        String topTime = e.getTableView().getItems().get(row).getTime();
+        String oldLapTime = e.getOldValue();
+        String newLapTime = e.getNewValue();
+        TopModel top = topModels.get(index);
+        top.setLapTime(newLapTime);
+        top.setTime(recalculateTime(topTime, oldLapTime, newLapTime));
+        int newPos = findTopNewPosition(carNumber, top);
+        if(newPos != index) {
+            topModels.remove(index);
+            topModels.add(newPos, top);
+            updateTopLogic(carNumber, newPos, newPos);
+        }
+        table_info.refresh();
+        table_info.sort();
+    }
+
+    private String recalculateTime(String topTime, String oldTime, String newTime) {
+        String ret="";
+        if(!topTime.isEmpty()) {
+            try {
+                SimpleDateFormat dtfTopTime = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                Date topDate = dtfTopTime.parse(topTime);
+                long topDateInMillies = topDate.getTime();
+                SimpleDateFormat dtfOldTime = new SimpleDateFormat("mm:ss:SS");
+                Date oldLapTime = dtfOldTime.parse(oldTime);
+                SimpleDateFormat dtfNewTime = new SimpleDateFormat("mm:ss:SS");
+                Date newLapTime = dtfNewTime.parse(newTime);
+                long diffInMillies = newLapTime.getTime() - oldLapTime.getTime();
+                long newTopTimeMillis = topDateInMillies + diffInMillies;
+                DateFormat simple = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                Date result = new Date(newTopTimeMillis);
+                ret = simple.format(result);
+            }
+            catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+
+        }
+        System.out.println(ret);
+        return ret;
+    }
+
     /**
      * @param e
      */
@@ -452,8 +509,7 @@ public class RaceResumeController implements Initializable, Observer {
         if ((newTopType.equals("I") || newTopType.equals("O") || newTopType.equals("R"))) {
             e.getTableView().getItems().get(e.getTablePosition().getRow()).setTopType(newTopType);
             if (!checkTopLogicOnEdit(carNumber, lastTopId)) {
-                System.out.println("check");
-                updateTopLogicForTopType(carNumber, findTopIndexWithId(carNumber, lastTopId), findTopIndexWithId(carNumber, lastTopId));
+                updateTopLogic(carNumber, findTopIndexWithId(carNumber, lastTopId), findTopIndexWithId(carNumber, lastTopId));
             }
             table_info.refresh();
         } else {
@@ -494,23 +550,25 @@ public class RaceResumeController implements Initializable, Observer {
         String oldTopTime = e.getOldValue();
         String newTopTime = e.getNewValue();
         TopModel top = topModels.get(index);
+        top.setTime(newTopTime);
         int newPos = findTopNewPosition(carNumber, top);
         if(newPos != index) {
-            System.out.println(index);
-            removeTop(carNumber, index);
+            topModels.remove(index);
             topModels.add(newPos, top);
-            updateTopLogicForOtherFields(carNumber, newPos);
+            updateTopLogic(carNumber, newPos, newPos);
         }
+        table_info.refresh();
+        table_info.sort();
 
     }
 
-    private void updateTopLogicForTopType(int carNumber, int origin, int index) {
+    private void updateTopLogic(int carNumber, int origin, int index) {
         ArrayList<TopModel> topModels = raceModel.getTopsMap().get(carNumber);
         TopModel currentTop = topModels.get(index);
         if (index <= origin && index > 0) {
             TopModel previousTop = topModels.get(index - 1);
             if (checkTopLogic(currentTop.getTopType(), previousTop.getTopType())) {
-                updateTopLogicForTopType(carNumber, origin, index - 1);
+                updateTopLogic(carNumber, origin, index - 1);
             } else {
                 if (currentTop.getTopType().equals("R") || currentTop.getTopType().equals("I")) {
                     if (index != 1) {
@@ -527,13 +585,17 @@ public class RaceResumeController implements Initializable, Observer {
                     }
 
                 }
-                updateTopLogicForTopType(carNumber, origin, index - 1);
+                updateTopLogic(carNumber, origin, index - 1);
             }
+        }
+        if(index == 0 && !currentTop.getTopType().equals("O")) {
+            currentTop.setTopType("O");
+            currentTop.setComment("-Top O système-" + currentTop.getComment());
         }
         if (index >= origin && index < topModels.size() - 1) {
             TopModel nextTop = topModels.get(index + 1);
             if (checkTopLogic(nextTop.getTopType(), currentTop.getTopType())) {
-                updateTopLogicForTopType(carNumber, origin, index + 1);
+                updateTopLogic(carNumber, origin, index + 1);
             } else {
                 if (currentTop.getTopType().equals("R") || currentTop.getTopType().equals("O")) {
                     nextTop.setTopType("R");
@@ -542,7 +604,7 @@ public class RaceResumeController implements Initializable, Observer {
                     nextTop.setTopType("O");
                     nextTop.setComment("-Top O système-" + nextTop.getComment());
                 }
-                updateTopLogicForTopType(carNumber, origin, index + 1);
+                updateTopLogic(carNumber, origin, index + 1);
             }
         }
     }
@@ -708,7 +770,6 @@ public class RaceResumeController implements Initializable, Observer {
         Iterator<TopModel> it = newCarTops.iterator();
         while (it.hasNext() && !found) {
             TopModel top = it.next();
-            System.out.println(newTop.getTime());
             if (LocalDateTime.parse(newTop.getTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")).isBefore(LocalDateTime.parse(top.getTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"))) || LocalDateTime.parse(newTop.getTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")).isEqual(LocalDateTime.parse(top.getTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")))) {
                 found = true;
             } else {
@@ -721,7 +782,6 @@ public class RaceResumeController implements Initializable, Observer {
     private boolean carExists(int carNumber) {
         boolean exists = false;
         Set<Integer> keys = raceModel.getTopsMap().keySet();
-        System.out.println(keys);
         if (keys.contains(carNumber)) {
             exists = true;
         }
