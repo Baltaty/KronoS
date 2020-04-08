@@ -6,8 +6,10 @@ import com.kronos.App;
 import com.kronos.api.Observer;
 import com.jfoenix.controls.JFXButton;
 
+import com.kronos.api.Race;
 import com.kronos.api.TimeRace;
 import com.kronos.global.animation.PulseTransition;
+import com.kronos.global.enums.RaceState;
 import com.kronos.global.util.Alerts;
 import com.kronos.model.*;
 import javafx.application.Platform;
@@ -44,6 +46,10 @@ public class RaceResumeController implements Initializable, Observer {
     private Label chronoTopTime;
     @FXML
     private Label labelMeanTime;
+    @FXML
+    private Label tempsTourEcoulé;
+    @FXML
+    private Label tempsTourRestant;
 
     @FXML
     private ProgressBar meanTimeBar;
@@ -122,19 +128,20 @@ public class RaceResumeController implements Initializable, Observer {
     private static Double meantime = 0.00;
     PulseTransition pulseTransition;
     MainCarModel mycar;
+    private LapRaceModel lapRaceModel;
     private RaceModel raceModel;
     private CarController carController = new CarController();
     private ArrayList<TopModel> topModels = new ArrayList<>();
     private ArrayList<CarModel> carModels = new ArrayList<>();
     private boolean isExtancier = true;
     private Thread thread, threadChrono;
-    private int munites = 0, secondes = 0, millisecondes = 0, decimalpartTosecond = 0, intergerpart = 0;
+    private int munites = 0, secondes = 0, millisecondes = 0, decimalpartTosecond = 0, intergerpart = 0, numberOfLapsDone = 0, remainingLaps;
     private boolean isStartTimer, isSetTimerBar, istartRace = false, timerIsInitialize = true, firstTop = true;
     private double decimalpart = 0.0, lapTimeForMeanTime = 0.0;
     private Timeline spentTimeline;
     private Timeline remainingTimeline;
-    private LocalTime time = LocalTime.parse("00:00:00");
-    private LocalTime localRemainningTime = LocalTime.parse("00:00:05");
+    private LocalTime localRemainningTime = LocalTime.parse("00:00:00");
+    private LocalTime localSpentTime = LocalTime.parse("00:00:00");
     private LocalTime time2 = LocalTime.parse("00:00");
     private LocalTime timebar = LocalTime.parse("00:00:00");
     private LocalTime chronoTime = LocalTime.parse("00:00:00");
@@ -154,16 +161,55 @@ public class RaceResumeController implements Initializable, Observer {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         App.getDataManager().attach(this);
         col_racetime.setVisible(false);
         colLapNumber.setVisible(false);
+        localSpentTime = LocalTime.parse("00:00:00");
+        time2 = LocalTime.parse("00:00");
         if (!getRace().isEmpty()) {
             raceModel = getRace().get(0);
         }
+
+
         if (raceModel instanceof TimeRace) {
             col_racetime.setVisible(true);
+            if (raceModel.getRaceState().equals(RaceState.CREATION)) {
+                long duration = ((TimeRace) raceModel).getDuration();
+                int heureDuration = (int) (duration / 60);
+                localRemainningTime = LocalTime.of(heureDuration, (int) (duration - (60 * heureDuration)), 0);
+                spentTime.setText(localSpentTime.format(dtf));
+                remainingTime.setText(localRemainningTime.format(dtf));
+            } else {
+                localRemainningTime = LocalTime.parse(raceModel.getTimeLapsRemaining());
+                localSpentTime = LocalTime.parse(raceModel.getTimeLapsSpent());
+                spentTime.setText(localSpentTime.format(dtf));
+                remainingTime.setText(localRemainningTime.format(dtf));
+
+            }
+
+            spentTimeline = new Timeline(new KeyFrame(Duration.millis(1000), ae -> incrementTime()));
+            spentTimeline.setCycleCount(Animation.INDEFINITE);
+            remainingTimeline = new Timeline(new KeyFrame(Duration.millis(1000), e -> decrementTime()));
+            remainingTimeline.setCycleCount(Animation.INDEFINITE);
         } else {
             colLapNumber.setVisible(true);
+            tempsTourRestant.setText("Tours Restants");
+            tempsTourEcoulé.setText("Tour Ecoulés");
+
+
+            if (raceModel.getRaceState().equals(RaceState.CREATION)) {
+                remainingLaps = ((LapRaceModel) raceModel).getNumberOfLaps();
+                numberOfLapsDone =Integer.parseInt(raceModel.getTimeLapsSpent());
+                raceModel.setTimeLapsRemaining(String.valueOf(remainingLaps));
+                raceModel.setTimeLapsSpent(String.valueOf(numberOfLapsDone));
+
+            } else {
+                remainingLaps =Integer.parseInt(raceModel.getTimeLapsRemaining());
+                numberOfLapsDone = Integer.parseInt(raceModel.getTimeLapsSpent());
+            }
+            remainingTime.setText(String.valueOf(remainingLaps));
+            spentTime.setText(String.valueOf(numberOfLapsDone));
         }
         topType.setItems(FXCollections.observableArrayList("I", "O", "R"));
         topType.setValue("O");
@@ -187,22 +233,12 @@ public class RaceResumeController implements Initializable, Observer {
         }
         maincarinformation();
 
-        time = LocalTime.parse("00:00:00");
-        time2 = LocalTime.parse("00:00");
 
         departureHour.setText(time2.format(dtf));
-        spentTime.setText(time.format(dtf));
-        remainingTime.setText(localRemainningTime.format(dtf));
-
-        spentTimeline = new Timeline(new KeyFrame(Duration.millis(1000), ae -> incrementTime()));
-        spentTimeline.setCycleCount(Animation.INDEFINITE);
-
         Timeline clock = new Timeline(new KeyFrame(Duration.millis(1000), e -> getCurrentTime()));
         clock.setCycleCount(Animation.INDEFINITE);
         clock.play();
 
-        remainingTimeline = new Timeline(new KeyFrame(Duration.millis(1000), e -> decrementTime()));
-        remainingTimeline.setCycleCount(Animation.INDEFINITE);
 
     }
 
@@ -211,7 +247,7 @@ public class RaceResumeController implements Initializable, Observer {
      */
     @FXML
     public void handleTopButtonClick(ActionEvent event) {
-        if (istartRace) {
+        if (startRace.isDisable()) {
             handleNewTop();
         } else {
             Alerts.info("INFORMATION", "veuillez demarrer la course ");
@@ -275,6 +311,8 @@ public class RaceResumeController implements Initializable, Observer {
             }
             loadData(topModel);
             carModel.getTopList().add(topModel);
+           if (topModel.getTopType().equals("R"))
+                checkEndOfRace();
             handleMeanTimeBar();
         } else {
             //Case where top does not respect logical top type order
@@ -295,6 +333,8 @@ public class RaceResumeController implements Initializable, Observer {
             }
             loadData(topModel);
             carModel.getTopList().add(topModel);
+          if (topModel.getTopType().equals("R"))
+                checkEndOfRace();
             handleMeanTimeBar();
         }
         topComment.clear();
@@ -633,8 +673,8 @@ public class RaceResumeController implements Initializable, Observer {
     }
 
     private void incrementTime() {
-        time = time.plusSeconds(1);
-        spentTime.setText(time.format(dtf));
+        localSpentTime = localSpentTime.plusSeconds(1);
+        spentTime.setText(localSpentTime.format(dtf));
     }
 
     private void decrementTime() {
@@ -648,6 +688,7 @@ public class RaceResumeController implements Initializable, Observer {
         remainingTime.setText(localRemainningTime.format(dtf));
     }
 
+
     private void getCurrentTime() {
         currentTime = LocalTime.now();
         currentHour.setText(currentTime.format(dtf));
@@ -655,40 +696,131 @@ public class RaceResumeController implements Initializable, Observer {
 
     @FXML
     private void startTimer(ActionEvent event) {
-        if (!localRemainningTime.equals(LocalTime.parse("00:00:00"))) {
-            departureTime = LocalTime.now();
-            spentTimeline.play();
-            remainingTimeline.play();
-            departureHour.setText(currentTime.format(dtf));
-            startRace.setDisable(true);
+        if (raceModel.getRaceState() != RaceState.DONE) {
             istartRace = true;
+            setRaceInformations(RaceState.EN_COURS);
+            startRace.setDisable(true);
+            if (raceModel instanceof TimeRace) {
+                if (!localRemainningTime.equals(LocalTime.parse("00:00:00"))) {
+                    departureTime = LocalTime.now();
+                    spentTimeline.play();
+                    remainingTimeline.play();
+                    departureHour.setText(currentTime.format(dtf));
+                }
+            } else {
+                departureTime = LocalTime.now();
+                departureHour.setText(departureTime.format(dtf));
+                startRace.setDisable(true);
+            }
+        } else {
+            Alerts.info("INFORMATION", "Cette course est terminée");
         }
     }
 
     @FXML
     private void pauseTimer(ActionEvent event) {
-        if (spentTimeline.getStatus().equals(Animation.Status.PAUSED)) {
-            spentTimeline.play();
-            pauseRace.setText("Pause");
-        } else if (spentTimeline.getStatus().equals(Animation.Status.RUNNING)) {
-            spentTimeline.pause();
-            pauseRace.setText("Continue");
+        if (istartRace) {
+            if (raceModel instanceof TimeRace) {
+                if (spentTimeline.getStatus().equals(Animation.Status.PAUSED)) {
+                    spentTimeline.play();
+                    remainingTimeline.play();
+                    setRaceInformations(RaceState.EN_COURS);
+                    pauseRace.setText("Pause");
+                } else if (spentTimeline.getStatus().equals(Animation.Status.RUNNING)) {
+                    spentTimeline.pause();
+                    remainingTimeline.pause();
+                    setRaceInformations(RaceState.BREAK);
+                    pauseRace.setText("Continue");
+                }
+            } else {
+                if (raceModel.getRaceState().equals(RaceState.EN_COURS)) {
+                    setRaceInformations(RaceState.BREAK);
+                    pauseRace.setText("Continue");
+                } else if (raceModel.getRaceState().equals(RaceState.BREAK)) {
+                    setRaceInformations(RaceState.EN_COURS);
+                    pauseRace.setText("Pause");
+                }
+            }
+        } else {
+            Alerts.info("INFORMATION", "aucune course n'a été demarrer");
         }
     }
 
     @FXML
     private void endTimer(ActionEvent event) {
+        Alerts.warning("Avertissement", "vouliez vous mettre fin a cette course");
         if (startRace.isDisable()) {
-            spentTimeline.stop();
-            remainingTimeline.stop();
-            startRace.setDisable(false);
-            time = LocalTime.parse("00:00:00");
-            spentTime.setText(time.format(dtf));
-            remainingTime.setText(time.format(dtf));
+            setRaceInformations(RaceState.DONE);
+            if (raceModel instanceof TimeRace) {
+                endOfTimeRace();
+            } else {
+                spentTime.setText("0");
+                remainingTime.setText("0");
+            }
 
+        } else {
+            Alerts.info("INFORMATION", "aucune course n'a été demarrer");
         }
     }
 
+    /**
+     * setting of the informa
+     * tion when it's the end of the Race
+     */
+
+    public void endOfTimeRace() {
+        spentTimeline.stop();
+        remainingTimeline.stop();
+        startRace.setDisable(false);
+        localSpentTime = LocalTime.parse("00:00:00");
+        spentTime.setText(localSpentTime.format(dtf));
+        remainingTime.setText(localSpentTime.format(dtf));
+
+
+    }
+
+    /**
+     * setting of information about the race
+     *
+     * @param raceState
+     */
+
+    public void setRaceInformations(RaceState raceState) {
+        raceModel.setRaceState(raceState);
+        raceModel.setTimeLapsRemaining(remainingTime.getText());
+        raceModel.setTimeLapsSpent(spentTime.getText());
+        App.getDataManager().persist(raceModel);
+        App.getDataManager().saveFile();
+
+    }
+
+    /**
+     * check if we should end the race
+     * setting of the informations about the race
+     */
+    public void checkEndOfRace() {
+
+        if (raceModel instanceof TimeRace) {
+            if (localRemainningTime.equals(LocalTime.parse("00:00:00"))) {
+                setRaceInformations(RaceState.DONE);
+                endOfTimeRace();
+            }
+            setRaceInformations(RaceState.EN_COURS);
+        } else {
+
+            if (remainingLaps==0) {
+                Alerts.info("Information", "la course est terminée");
+                setRaceInformations(RaceState.DONE);
+
+            } else {
+                remainingLaps--;
+                numberOfLapsDone++;
+                remainingTime.setText(String.valueOf(remainingLaps));
+                spentTime.setText(String.valueOf(numberOfLapsDone));
+                setRaceInformations(RaceState.EN_COURS);
+            }
+        }
+    }
 
     /**
      * Display main car information and the currently pilot
@@ -849,6 +981,7 @@ public class RaceResumeController implements Initializable, Observer {
         });
         threadChrono.start();
     }
+
 
     /**
      *
