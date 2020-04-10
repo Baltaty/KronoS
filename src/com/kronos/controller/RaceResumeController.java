@@ -107,7 +107,7 @@ public class RaceResumeController implements Initializable, Observer {
     private TableColumn<TopModel, Double> col_racetime;
 
     @FXML
-    private TableColumn<TopModel, Double> col_laptime;
+    private TableColumn<TopModel, String> col_laptime;
 
     @FXML
     private TableColumn<TopModel, Integer> colLapNumber;
@@ -246,10 +246,10 @@ public class RaceResumeController implements Initializable, Observer {
      */
     @FXML
     public void handleTopButtonClick(ActionEvent event) {
-        if (startRace.isDisable()) {
+        if (startRace.isDisable() && raceModel.getRaceState().equals(RaceState.IN_PROGRESS)) {
             handleNewTop();
         } else {
-            Alerts.info("INFORMATION", "veuillez demarrer la course ");
+            Alerts.info("INFORMATION", "veuillez demarrer/continuer la course ");
         }
     }
 
