@@ -21,7 +21,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="1500.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.RaceResumeController">
+<StackPane prefHeight="1500.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.RaceResumeController">
 
 <!--    <stylesheets>-->
 <!--        <URL value="@../theme/css/material-color.css" />-->
@@ -193,7 +193,8 @@
                     <children>
                         <TableView fx:id="table_info" prefHeight="388.0" prefWidth="1053.0">
                             <columns>
-                        <TableColumn fx:id="colCarNumber" prefWidth="75.0" text="Voiture" />
+                        <TableColumn fx:id="col_delete" prefWidth="58.0" />
+                        <TableColumn fx:id="colCarNumber" prefWidth="92.0" text="Voiture" />
                                 <TableColumn fx:id="col_typetop" prefWidth="121.0" text="Type de top" />
                         <TableColumn fx:id="col_time" prefWidth="134.0" text="Heure du top" />
                         <TableColumn fx:id="col_laptime" prefWidth="153.0" text="Temps du tour" />
