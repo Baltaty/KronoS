@@ -519,7 +519,7 @@ public class RaceResumeController implements Initializable, Observer {
         String newLapTime = e.getNewValue();
         TopModel top = topModels.get(index);
         top.setLapTime(newLapTime);
-        top.setTime(recalculateTime(topTime, oldLapTime, newLapTime));
+        top.setTime(recalculateTime(topTime, oldLapTime, newLapTime, "dd-MM-yyyy HH:mm:ss", "mm:ss:SS"));
         int newPos = findTopNewPosition(carNumber, top);
         if(newPos != index) {
             topModels.remove(index);
@@ -530,20 +530,20 @@ public class RaceResumeController implements Initializable, Observer {
         table_info.sort();
     }
 
-    private String recalculateTime(String topTime, String oldTime, String newTime) {
+    private String recalculateTime(String timeToUpdate, String oldTime, String newTime, String pattern1, String pattern2) {
         String ret="";
-        if(!topTime.isEmpty()) {
+        if(!timeToUpdate.isEmpty()) {
             try {
-                SimpleDateFormat dtfTopTime = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-                Date topDate = dtfTopTime.parse(topTime);
+                SimpleDateFormat dtfTopTime = new SimpleDateFormat(pattern1);
+                Date topDate = dtfTopTime.parse(timeToUpdate);
                 long topDateInMillies = topDate.getTime();
-                SimpleDateFormat dtfOldTime = new SimpleDateFormat("mm:ss:SS");
+                SimpleDateFormat dtfOldTime = new SimpleDateFormat(pattern2);
                 Date oldLapTime = dtfOldTime.parse(oldTime);
-                SimpleDateFormat dtfNewTime = new SimpleDateFormat("mm:ss:SS");
+                SimpleDateFormat dtfNewTime = new SimpleDateFormat(pattern2);
                 Date newLapTime = dtfNewTime.parse(newTime);
                 long diffInMillies = newLapTime.getTime() - oldLapTime.getTime();
                 long newTopTimeMillis = topDateInMillies + diffInMillies;
-                DateFormat simple = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                DateFormat simple = new SimpleDateFormat(pattern1);
                 Date result = new Date(newTopTimeMillis);
                 ret = simple.format(result);
             }
@@ -611,7 +611,9 @@ public class RaceResumeController implements Initializable, Observer {
         String oldTopTime = e.getOldValue();
         String newTopTime = e.getNewValue();
         TopModel top = topModels.get(index);
+        String lapTime = top.getLapTime();
         top.setTime(newTopTime);
+        top.setLapTime(recalculateTime(lapTime, oldTopTime, newTopTime, "mm:ss:SS", "dd-MM-yyyy HH:mm:ss"));
         int newPos = findTopNewPosition(carNumber, top);
         if(newPos != index) {
             topModels.remove(index);
