@@ -174,8 +174,6 @@ public class RaceResumeController implements Initializable, Observer {
         if (raceModel instanceof TimeRace) {
             col_racetime.setVisible(true);
             if (raceModel.getRaceState().equals(RaceState.CREATION)) {
-                System.out.println("heure duree de la course" + ((TimeRace) raceModel).getDuration());
-
                 long duration = ((TimeRace) raceModel).getDuration();
                 int heureDuration = (int) (duration / 60);
                 localRemainningTime = LocalTime.of(heureDuration, (int) (duration - (60 * heureDuration)), 0);
@@ -523,7 +521,7 @@ public class RaceResumeController implements Initializable, Observer {
         String newLapTime = e.getNewValue();
         TopModel top = topModels.get(index);
         top.setLapTime(newLapTime);
-        top.setTime(recalculateTime(topTime, oldLapTime, newLapTime));
+        top.setTime(recalculateTime(topTime, oldLapTime, newLapTime, "dd-MM-yyyy HH:mm:ss", "mm:ss:SS"));
         int newPos = findTopNewPosition(carNumber, top);
         if (newPos != index) {
             topModels.remove(index);
@@ -534,26 +532,28 @@ public class RaceResumeController implements Initializable, Observer {
         table_info.sort();
     }
 
-    private String recalculateTime(String topTime, String oldTime, String newTime) {
-        String ret = "";
-        if (!topTime.isEmpty()) {
+    private String recalculateTime(String timeToUpdate, String oldTime, String newTime, String pattern1, String pattern2) {
+        String ret="";
+        if(!timeToUpdate.isEmpty()) {
             try {
-                SimpleDateFormat dtfTopTime = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-                Date topDate = dtfTopTime.parse(topTime);
+                SimpleDateFormat dtfTopTime = new SimpleDateFormat(pattern1);
+                Date topDate = dtfTopTime.parse(timeToUpdate);
                 long topDateInMillies = topDate.getTime();
-                SimpleDateFormat dtfOldTime = new SimpleDateFormat("mm:ss:SS");
+                SimpleDateFormat dtfOldTime = new SimpleDateFormat(pattern2);
                 Date oldLapTime = dtfOldTime.parse(oldTime);
-                SimpleDateFormat dtfNewTime = new SimpleDateFormat("mm:ss:SS");
+                SimpleDateFormat dtfNewTime = new SimpleDateFormat(pattern2);
                 Date newLapTime = dtfNewTime.parse(newTime);
                 long diffInMillies = newLapTime.getTime() - oldLapTime.getTime();
                 long newTopTimeMillis = topDateInMillies + diffInMillies;
-                DateFormat simple = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                DateFormat simple = new SimpleDateFormat(pattern1);
                 Date result = new Date(newTopTimeMillis);
                 ret = simple.format(result);
-            } catch (ParseException e) {
+            }
+            catch (ParseException e) {
                 e.printStackTrace();
             }
-        } else {
+        }
+        else {
 
         }
         System.out.println(ret);
@@ -612,9 +612,11 @@ public class RaceResumeController implements Initializable, Observer {
         String oldTopTime = e.getOldValue();
         String newTopTime = e.getNewValue();
         TopModel top = topModels.get(index);
+        String lapTime = top.getLapTime();
         top.setTime(newTopTime);
+        top.setLapTime(recalculateTime(lapTime, oldTopTime, newTopTime, "mm:ss:SS", "dd-MM-yyyy HH:mm:ss"));
         int newPos = findTopNewPosition(carNumber, top);
-        if (newPos != index) {
+        if(newPos != index) {
             topModels.remove(index);
             topModels.add(newPos, top);
             updateTopLogic(carNumber, newPos, newPos);
@@ -650,7 +652,7 @@ public class RaceResumeController implements Initializable, Observer {
                 updateTopLogic(carNumber, origin, index - 1);
             }
         }
-        if (index == 0 && !currentTop.getTopType().equals("O")) {
+        if(index == 0 && !currentTop.getTopType().equals("O")) {
             currentTop.setTopType("O");
             currentTop.setComment("-Top O système-" + currentTop.getComment());
         }
@@ -919,8 +921,6 @@ public class RaceResumeController implements Initializable, Observer {
             double mytime = (tempsmoyen1.getHour() * 60) + tempsmoyen1.getMinute() + (tempsmoyen1.getSecond() / 60.0);
             double departtime = (departureTime.getHour() * 60) + departureTime.getMinute() + (departureTime.getSecond() / 60.0);
             meantimeaux = mytime - departtime;
-            System.out.println("temps moyen " + meantimeaux);
-
         } else if (mylistoftime.size() == 1) {
             meantimeaux = mylistoftime.get(0);
         } else if (mylistoftime.size() == 2) {
@@ -1158,8 +1158,6 @@ public class RaceResumeController implements Initializable, Observer {
         List<LapRaceModel> lapRaceModels = (List<LapRaceModel>) (List<?>) App.getDataManager().getModels(LapRaceModel.class);
         if (!timeRaceModels.isEmpty()) {
             for (TimeRaceModel model : timeRaceModels) {
-                System.out.println("heure de time a la recuperation" + model.getDuration());
-
                 raceModels.add(model);
             }
         } else {
