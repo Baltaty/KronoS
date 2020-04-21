@@ -21,7 +21,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="1500.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.RaceResumeController">
+<StackPane prefHeight="1500.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.RaceResumeController">
 
 <!--    <stylesheets>-->
 <!--        <URL value="@../theme/css/material-color.css" />-->
@@ -118,9 +118,9 @@
                               <Font size="30.0" />
                            </font>
                         </Label>
-                        <Label fx:id="tmierSign" layoutX="120.0" layoutY="82.0" prefHeight="21.0" prefWidth="70.0" text="-" visible="false">
+                        <Label fx:id="tmierSign" layoutX="120.0" layoutY="89.0" prefHeight="21.0" prefWidth="70.0" text="-" visible="false">
                            <font>
-                              <Font size="50.0" />
+                              <Font size="40.0" />
                            </font>
                         </Label>
                             </children>
