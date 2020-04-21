@@ -162,7 +162,6 @@
          */
         @FXML
         private void handleNewRaceClicked(ActionEvent event) {
-            System.out.println("amorçage du processus de démarrage d'une course");
             dialogNewRace.setVisible(true);
             JFXDialog alert1 = new JFXDialog(homeStack, dialogNewRace, JFXDialog.DialogTransition.TOP);
             alert1.show();
@@ -571,7 +570,6 @@
          */
         private boolean carIsExist(int carNumber) {
             List<CarModel> carModels = (List<CarModel>) (List<?>) App.getDataManager().getModels(CarModel.class);
-            System.out.println("etering in the method");
             for (CarModel model : carModels) {
                 if (model.getNumber() == carNumber) {
                     return false;
@@ -668,7 +666,7 @@
             }
 
 
-            PilotModel pilotcont = new PilotModel(firstnamecont,lastnamecont, commentcont, pilotdatofbirthcont, pilotweightcont, pilotweightcont);
+            PilotModel pilotcont = new PilotModel(firstnamecont, lastnamecont, commentcont, pilotdatofbirthcont, pilotweightcont, pilotweightcont);
 
 
             if (pilotcontroller.checkPilot(pilotcont) && check) {
@@ -726,32 +724,32 @@
          */
         @FXML
         public void createRace(ActionEvent actionEvent) {
-            boolean timelaps=false;
+            boolean timelaps = false;
             RaceController raceController = new RaceController();
             int race_duration = -1, race_numberOf_tour = -1;
-            if (typeOfRace == RaceType.TIME_RACE ){
+            if (typeOfRace == RaceType.TIME_RACE) {
                 if (!this.raceDuration.getText().isEmpty()) {
                     if (Mask.isNumeric(this.raceDuration.getText())) {
-                        if (Integer.parseInt(this.raceDuration.getText())>0) {
-                            race_duration = Integer.parseInt(this.raceDuration.getText());
-                            timelaps=true;
+                        if (Integer.parseInt(this.raceDuration.getText()) > 0) {
+                            race_duration = Integer.parseInt(raceDuration.getText());
+                            timelaps = true;
                         }
                     }
                 }
 
             } else {
 
-                if (!this.raceNumberOfLaps.getText().isEmpty() ) {
+                if (!this.raceNumberOfLaps.getText().isEmpty()) {
                     if (Mask.isNumeric(this.raceNumberOfLaps.getText())) {
-                        if (Integer.parseInt(this.raceNumberOfLaps.getText())>0) {
+                        if (Integer.parseInt(this.raceNumberOfLaps.getText()) > 0) {
                             race_numberOf_tour = Integer.parseInt(this.raceNumberOfLaps.getText());
-                            timelaps=true;
+                            timelaps = true;
                         }
                     }
 
                 }
             }
-            if(timelaps) {
+            if (timelaps) {
                 RaceModel race = raceController.createRace(typeOfRace, raceName.getText(),
                         Date.from(startingTimeDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
                         racewayNameText.getText(), race_duration, race_numberOf_tour);
@@ -767,6 +765,7 @@
                 }
                 if (race != null) {
                     // Save test save manager
+
                     App.getDataManager().persist(race);
                     carController.setRaceModel(race);
                     SaveManagerImpl saveManager = App.getDataManager();
