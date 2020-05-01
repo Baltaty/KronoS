@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import com.kronos.App;
+import com.kronos.api.LapRace;
 import com.kronos.api.Observer;
 import com.kronos.api.TimeRace;
 import com.kronos.global.animation.PulseTransition;
@@ -329,6 +330,7 @@ public class RaceResumeController implements Initializable, Observer {
                 handleTopLapRace(topModel, carModel, carNumber);
             }
             loadData(topModel);
+            System.out.println(topModel.getLap());
             carModel.getTopList().add(topModel);
             if ((carModel instanceof MainCarModel) && (topModel.getTopType().equals("R"))) {
                 checkEndOfRace();
@@ -463,7 +465,7 @@ public class RaceResumeController implements Initializable, Observer {
         col_typetop.setCellValueFactory(new PropertyValueFactory<>("topType"));
         col_racetime.setCellValueFactory(new PropertyValueFactory<>("raceTime"));
         col_laptime.setCellValueFactory(new PropertyValueFactory<>("lapTime"));
-        colLapNumber.setCellValueFactory(new PropertyValueFactory<>("lapNumber"));
+        colLapNumber.setCellValueFactory(new PropertyValueFactory<>("lap"));
         col_time.setCellValueFactory(new PropertyValueFactory<>("time"));
         col_comment.setCellValueFactory(new PropertyValueFactory<>("comment"));
         col_time.setSortType(TableColumn.SortType.DESCENDING);
@@ -611,6 +613,12 @@ public class RaceResumeController implements Initializable, Observer {
         String lapTime = top.getLapTime();
         top.setTime(newTopTime);
         top.setLapTime(recalculateTime(lapTime, oldTopTime, newTopTime, "mm:ss:SS", "dd-MM-yyyy HH:mm:ss"));
+        if(raceModel instanceof LapRaceModel) {
+            //top.setLap(recalculateLap());
+        }
+        else {
+
+        }
         int newPos = findTopNewPosition(carNumber, top);
         if (newPos != index) {
             topModels.remove(index);
