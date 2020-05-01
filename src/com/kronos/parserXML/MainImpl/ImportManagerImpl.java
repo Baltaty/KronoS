@@ -152,6 +152,10 @@ public class ImportManagerImpl implements ImportManager {
         return models;
     }
 
+    /**
+     * methode charging le content
+     * @param datas
+     */
     private void chekingObjects(List<? extends Object> datas) {
 
         Map<Integer, ArrayList<TopModel>> topsMap = new HashMap<>();
@@ -180,8 +184,8 @@ public class ImportManagerImpl implements ImportManager {
                 RaceModel raceModel = (RaceModel) object;
                 raceModel.getTopsMap().clear();
                 raceModel.getTopsMap().putAll(topsMap);
-//                System.out.println(" ===== ImportManager checkObject : je suis issue de Racemodel : " + object.toString()  );
-//                System.out.println(raceModel.getTopsMap().toString());
+                System.out.println(" ===== ImportManager checkObject : je suis issue de Racemodel : " + object.toString()  );
+                System.out.println(raceModel.getTopsMap().toString());
                 break;
             }
         }

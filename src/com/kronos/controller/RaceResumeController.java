@@ -141,6 +141,8 @@ public class RaceResumeController implements Initializable, Observer {
         colLapNumber.setVisible(false);
         if (!getRace().isEmpty()) {
             raceModel = getRace().get(0);
+            System.out.println(" in race model");
+            System.out.println(raceModel.getTopsMap());
         }
         if (raceModel instanceof TimeRace) {
             col_racetime.setVisible(true);
