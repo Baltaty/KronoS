@@ -4,14 +4,12 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import com.kronos.App;
-import com.kronos.api.LapRace;
 import com.kronos.api.Observer;
 import com.kronos.api.TimeRace;
 import com.kronos.global.animation.PulseTransition;
 import com.kronos.global.enums.RaceState;
 import com.kronos.global.util.Alerts;
 import com.kronos.model.*;
-import com.sun.xml.internal.ws.util.pipe.StandalonePipeAssembler;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -26,17 +24,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Callback;
 import javafx.util.Duration;
-import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 
 import java.net.URL;
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class RaceResumeController implements Initializable, Observer {
@@ -369,9 +367,11 @@ public class RaceResumeController implements Initializable, Observer {
         topModels.add(topModel);
         if (carModel.getLapRace().getTopsMap().containsKey(carNumber)) {
             carModel.getLapRace().getTopsMap().get(carNumber).add(topModel);
+            System.out.println("ici");
         } else {
             carModel.getLapRace().getTopsMap().put(carNumber, new ArrayList<>());
             carModel.getLapRace().getTopsMap().get(carNumber).add(topModel);
+            System.out.println("là");
         }
     }
 
@@ -471,8 +471,7 @@ public class RaceResumeController implements Initializable, Observer {
         col_time.setCellValueFactory(new PropertyValueFactory<>("time"));
         col_comment.setCellValueFactory(new PropertyValueFactory<>("comment"));
         col_time.setSortType(TableColumn.SortType.DESCENDING);
-        colLapNumber.setSortType(TableColumn.SortType.DESCENDING);
-        table_info.getSortOrder().addAll(col_time, colLapNumber);
+        table_info.getSortOrder().add(col_time);
         col_delete.setCellFactory(cellFactory);
 
         editableCols();
@@ -523,43 +522,137 @@ public class RaceResumeController implements Initializable, Observer {
         String newLapTime = e.getNewValue();
         TopModel top = topModels.get(index);
         top.setLapTime(newLapTime);
-        top.setTime(recalculateTime(topTime, oldLapTime, newLapTime, "dd-MM-yyyy HH:mm:ss", "mm:ss:SS"));
+        top.setTime(recalculateTopTime(topModels, index, oldLapTime, newLapTime));
+        //top.setTime(recalculateTime(topTime, oldLapTime, newLapTime, "dd-MM-yyyy HH:mm:ss", "mm:ss:SS"));
         int newPos = findTopNewPosition(carNumber, top);
         if (newPos != index) {
             topModels.remove(index);
             topModels.add(newPos, top);
             updateTopLogic(carNumber, newPos, newPos);
+            System.out.println("nouv :"+newPos);
+            System.out.println(topModels.get(newPos).getTopType());
+            System.out.println(topModels.get(newPos).getLapTime());
         }
         table_info.refresh();
         table_info.sort();
     }
 
     private String recalculateTime(String timeToUpdate, String oldTime, String newTime, String pattern1, String pattern2) {
-        String ret="";
+        String ret = timeToUpdate;
         if(!timeToUpdate.isEmpty()) {
             try {
-                SimpleDateFormat dtfTopTime = new SimpleDateFormat(pattern1);
-                Date topDate = dtfTopTime.parse(timeToUpdate);
-                long topDateInMillies = topDate.getTime();
+                SimpleDateFormat dtfTtu = new SimpleDateFormat(pattern1);
+                dtfTtu.setTimeZone(TimeZone.getTimeZone("GMT"));
+                Date ttu = dtfTtu.parse(timeToUpdate);
+                long ttuMillis = ttu.getTime();
                 SimpleDateFormat dtfOldTime = new SimpleDateFormat(pattern2);
-                Date oldLapTime = dtfOldTime.parse(oldTime);
+                dtfOldTime.setTimeZone(TimeZone.getTimeZone("GMT"));
+                Date oldT = dtfOldTime.parse(oldTime);
                 SimpleDateFormat dtfNewTime = new SimpleDateFormat(pattern2);
-                Date newLapTime = dtfNewTime.parse(newTime);
-                long diffInMillies = newLapTime.getTime() - oldLapTime.getTime();
-                long newTopTimeMillis = topDateInMillies + diffInMillies;
-                DateFormat simple = new SimpleDateFormat(pattern1);
-                Date result = new Date(newTopTimeMillis);
-                ret = simple.format(result);
+                dtfNewTime.setTimeZone(TimeZone.getTimeZone("GMT"));
+                Date newT = dtfNewTime.parse(newTime);
+                long diffInMillies = newT.getTime() - oldT.getTime();
+                System.out.println("diffMillies :" + diffInMillies);
+                if(Math.abs(diffInMillies) <= ttuMillis) {
+                    long newTMillis = ttuMillis + diffInMillies;
+                    DateFormat simple = new SimpleDateFormat(pattern1);
+                    simple.setTimeZone(TimeZone.getTimeZone("GMT"));
+                    Date result = new Date(newTMillis);
+                    ret = simple.format(result);
+                }
+
             }
             catch (ParseException e) {
                 e.printStackTrace();
             }
         }
-        else {
 
+        return ret;
+    }
+
+    private String recalculateTopTime(ArrayList<TopModel> topModels, int index, String oldLapTime, String newLapTime) {
+        String ret = "";
+        SimpleDateFormat df1 = new SimpleDateFormat("mm:ss:SS");
+        df1.setTimeZone(TimeZone.getTimeZone("GMT"));
+        try {
+            Date currentLapTime = df1.parse(newLapTime);
+            Date formerLapTime = df1.parse(oldLapTime);
+            SimpleDateFormat df2 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+            df2.setTimeZone(TimeZone.getTimeZone("GMT"));
+            Date topTime = df2.parse(topModels.get(index).getTime());
+            long newTopTimeInMillis = topTime.getTime() + (currentLapTime.getTime() - formerLapTime.getTime());
+            ret = df2.format(newTopTimeInMillis);
+        }
+        catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
+    private String recalculateRaceTime(ArrayList<TopModel> topModels, int index) {
+        String ret = "";
+        SimpleDateFormat df1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        df1.setTimeZone(TimeZone.getTimeZone("GMT"));
+        try {
+            Date currentTopTime = df1.parse(topModels.get(index).getTime());
+            Date raceStartTime = raceModel.getStartingTime();
+            System.out.println(df1.format(raceStartTime));
+            long newRaceTimeInMillis = currentTopTime.getTime() - raceStartTime.getTime();
+            SimpleDateFormat df2 = new SimpleDateFormat("mm:ss:SS");
+            df2.setTimeZone(TimeZone.getTimeZone("GMT"));
+            Date newRaceTime = new Date(newRaceTimeInMillis);
+            ret = df2.format(newRaceTime);
+        }
+        catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
+    private void recalculateLapTime(ArrayList<TopModel> topModels) {
+        String ret = "";
+        int index = 0;
+        SimpleDateFormat df1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        df1.setTimeZone(TimeZone.getTimeZone("GMT"));
+        SimpleDateFormat df2 = new SimpleDateFormat("mm:ss:SS");
+        df2.setTimeZone(TimeZone.getTimeZone("GMT"));
+        while(index < topModels.size()) {
+            try {
+                Date previousTopTime;
+                Date currentTopTime = df1.parse(topModels.get(index).getTime());
+                if(index > 0) {
+                    previousTopTime = df1.parse(topModels.get(index - 1).getTime());
+                    long newLapTimeMillis = currentTopTime.getTime() - previousTopTime.getTime();
+                    Date newLapTime = new Date(newLapTimeMillis);
+                    topModels.get(index).setLapTime(df2.format(newLapTime));
+                }
+                else {
+                    topModels.get(index).setLapTime("00:00:00");
+                    topModels.get(index).setComment("-First Top O time is always 00:00:00");
+                }
+
+            }
+            catch (ParseException e) {
+                e.printStackTrace();
+            }
+            index++;
         }
         System.out.println(ret);
-        return ret;
+    }
+
+    private void recalculateLaps(ArrayList<TopModel> topModels, int index) {
+        int i = index;
+        System.out.println("index:"+index);
+        if(index < topModels.size() - 1 && topModels.size() > 1) {
+            topModels.get(index).setLap(topModels.get(index + 1).getLap());
+            while(i < topModels.size() - 1 && topModels.get(i).getLap() == topModels.get(i + 1).getLap()) {
+                topModels.get(i + 1).setLap(topModels.get(i + 1).getLap() + 1);
+                i++;
+            }
+        }
+        else if(index == topModels.size() - 1 && topModels.size() > 1) {
+            topModels.get(index).setLap(topModels.get(index - 1).getLap() + 1);
+        }
     }
 
     /**
@@ -603,31 +696,56 @@ public class RaceResumeController implements Initializable, Observer {
     }
 
     /**
-     * @param e
+     * @param event
      */
-    private void editTopTime(TableColumn.CellEditEvent<TopModel, String> e) {
-        int row = e.getTableView().getSelectionModel().selectedIndexProperty().get();
-        int carNumber = e.getTableView().getItems().get(row).getCarNumber();
+    private void editTopTime(TableColumn.CellEditEvent<TopModel, String> event) {
+        int row = event.getTableView().getSelectionModel().selectedIndexProperty().get();
+        int carNumber = event.getTableView().getItems().get(row).getCarNumber();
         ArrayList<TopModel> topModels = raceModel.getTopsMap().get(carNumber);
-        long topId = e.getTableView().getItems().get(row).getId();
+        long topId = event.getTableView().getItems().get(row).getId();
         int index = findTopIndexWithId(carNumber, topId);
-        String oldTopTime = e.getOldValue();
-        String newTopTime = e.getNewValue();
+        String oldTopTime = event.getOldValue();
+        String newTopTime = event.getNewValue();
         TopModel top = topModels.get(index);
         String lapTime = top.getLapTime();
-        top.setTime(newTopTime);
-        top.setLapTime(recalculateTime(lapTime, oldTopTime, newTopTime, "mm:ss:SS", "dd-MM-yyyy HH:mm:ss"));
-        if(raceModel instanceof LapRaceModel) {
-            //top.setLap(recalculateLap());
-        }
-        else {
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        df.setTimeZone(TimeZone.getTimeZone("GMT"));
+        try {
+            long newTopTimeMillis = df.parse(newTopTime).getTime();
+            long raceStartTimeMillis = raceModel.getStartingTime().getTime();
+            System.out.println(df.format(raceStartTimeMillis));
+            if(newTopTimeMillis < raceStartTimeMillis) {
+                top.setTime(df.format(raceStartTimeMillis));
+                top.setComment("-Top time cannot be inferior to starting time");
+            }
+            else {
+                top.setTime(newTopTime);
+            }
 
+        }
+        catch (ParseException e) {
+            e.printStackTrace();
         }
         int newPos = findTopNewPosition(carNumber, top);
         if(newPos != index) {
             topModels.remove(index);
-            topModels.add(newPos, top);
+            if(newPos < topModels.size()) {
+                topModels.add(newPos, top);
+            }
+            else {
+                topModels.add(top);
+            }
             updateTopLogic(carNumber, newPos, newPos);
+        }
+
+        System.out.println(topModels.size());
+        top = topModels.get(index);
+        recalculateLapTime(topModels);
+        if(raceModel instanceof LapRaceModel) {
+            recalculateLaps(topModels, newPos);
+        }
+        else {
+            top.setRaceTime(recalculateRaceTime(topModels, newPos));
         }
         table_info.refresh();
         table_info.sort();
@@ -844,8 +962,11 @@ public class RaceResumeController implements Initializable, Observer {
         Iterator<TopModel> it = newCarTops.iterator();
         while (it.hasNext() && !found) {
             TopModel top = it.next();
-            if (LocalDateTime.parse(newTop.getTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")).isBefore(LocalDateTime.parse(top.getTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"))) || LocalDateTime.parse(newTop.getTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")).isEqual(LocalDateTime.parse(top.getTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")))) {
+            if (LocalDateTime.parse(newTop.getTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")).isBefore(LocalDateTime.parse(top.getTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")))) {
                 found = true;
+            }
+            else if ((LocalDateTime.parse(newTop.getTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")).isEqual(LocalDateTime.parse(top.getTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"))))) {
+                index = findTopIndexWithId(carNumber, newTop.getId());
             } else {
                 index++;
             }
