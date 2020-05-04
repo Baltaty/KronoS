@@ -77,8 +77,6 @@ public class ImportManagerImpl implements ImportManager {
 
             if (!fileXML.exists()) {
                 throw new FileNotFoundException("fichier non trouvé");
-            } else {
-                System.out.println(fileXML.getAbsolutePath());
             }
 
             for (int i = 0; i < allModels.length; ++i) {
@@ -184,8 +182,8 @@ public class ImportManagerImpl implements ImportManager {
                 RaceModel raceModel = (RaceModel) object;
                 raceModel.getTopsMap().clear();
                 raceModel.getTopsMap().putAll(topsMap);
-                System.out.println(" ===== ImportManager checkObject : je suis issue de Racemodel : " + object.toString()  );
-                System.out.println(raceModel.getTopsMap().toString());
+//                System.out.println(" ===== ImportManager checkObject : je suis issue de Racemodel : " + object.toString()  );
+//                System.out.println(raceModel.getTopsMap().toString());
                 break;
             }
         }
@@ -209,25 +207,7 @@ public class ImportManagerImpl implements ImportManager {
 
         try {
 
-            FileInputStream fis = new FileInputStream(fileXML);
-            InputStream inputofilestream = new BufferedInputStream(fis);
-            String extractableXML = null;
-            StringBuilder stringBuilder = null;
-            try (Scanner scanner = new Scanner(inputofilestream, StandardCharsets.UTF_8.name())) {
-
-                extractableXML = scanner.useDelimiter("\\A").next();
-                String pattern = "<\\?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"\\?>";
-                Pattern boldPattern = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
-                extractableXML = boldPattern.matcher(extractableXML).replaceAll("");
-                stringBuilder = new StringBuilder();
-                stringBuilder.insert(0, "<data>");
-                stringBuilder.append(extractableXML);
-                stringBuilder.append("</data>");
-                extractableXML = stringBuilder.toString();
-
-
-            }
-
+           String extractableXML = getXtratable();
             SAXBuilder builder = new SAXBuilder();
             Document document = builder.build(new StringReader(extractableXML));
             Element rootNode = document.getRootElement();
@@ -259,6 +239,34 @@ public class ImportManagerImpl implements ImportManager {
         }
         return listOfObjectToDesialize;
     }
+
+
+
+    protected String getXtratable (){
+        String extractableXML = null;
+        try {
+            FileInputStream fis = new FileInputStream(fileXML);
+            InputStream inputofilestream = new BufferedInputStream(fis);
+            StringBuilder stringBuilder = null;
+            try (Scanner scanner = new Scanner(inputofilestream, StandardCharsets.UTF_8.name())) {
+                extractableXML = scanner.useDelimiter("\\A").next();
+                String pattern = "<\\?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"\\?>";
+                Pattern boldPattern = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
+                extractableXML = boldPattern.matcher(extractableXML).replaceAll("");
+                stringBuilder = new StringBuilder();
+                stringBuilder.insert(0, "<data>");
+                stringBuilder.append(extractableXML);
+                stringBuilder.append("</data>");
+                extractableXML = stringBuilder.toString();
+            }
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return  extractableXML;
+    }
+
+
 
     /**
      * @param objectToreload
@@ -311,4 +319,22 @@ public class ImportManagerImpl implements ImportManager {
         return true;
     }
 
+    protected String getModelName(String name){
+
+        for (String model : allModels){
+            if(name.contains(model)){
+                return firstCharToLowerCase(model);
+            }
+        }
+        return null;
+    }
+
+
+    public static String getPATH() {
+        return PATH;
+    }
+
+    public static void setPATH(String PATH) {
+        ImportManagerImpl.PATH = PATH;
+    }
 }

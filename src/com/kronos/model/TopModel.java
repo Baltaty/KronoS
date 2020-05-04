@@ -19,7 +19,7 @@ public class TopModel implements Top {
     private String topType;
     private String comment;
     private String lapTime;
-    private double raceTime;    // Time Of Top
+    private String raceTime;    // Time Of Top
     private int lap;    // Nombre de tour
 
     /**
@@ -35,7 +35,7 @@ public class TopModel implements Top {
      * @param raceTime time in minutes since the beginning of the race
      * @param comment comment
      */
-    public TopModel (int carNumber, String time, String topType, double raceTime, String lapTime, String comment){
+    public TopModel (int carNumber, String time, String topType, String raceTime, String lapTime, String comment){
         this.id = System.currentTimeMillis();
         this.carNumber = carNumber;
         this.time = time;
@@ -145,7 +145,7 @@ public class TopModel implements Top {
      * Gets the race time, the time in minutes elapsed since the beginning of the race.
      * @return the race time
      */
-    public double getRaceTime() {
+    public String getRaceTime() {
         return raceTime;
     }
 
@@ -153,7 +153,7 @@ public class TopModel implements Top {
      * Sets the race time, the time in minutes elapsed since the beginning of the race.
      * @param raceTime race time
      */
-    public void setRaceTime(double raceTime) {
+    public void setRaceTime(String raceTime) {
         this.raceTime = raceTime;
     }
 

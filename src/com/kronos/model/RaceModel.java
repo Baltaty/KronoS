@@ -1,6 +1,7 @@
 package com.kronos.model;
 
 import com.kronos.api.Race;
+import com.kronos.global.enums.RaceState;
 import com.kronos.global.enums.RaceType;
 
 import java.util.ArrayList;
@@ -20,15 +21,12 @@ public abstract class RaceModel implements Race {
 
 
     private String raceName;
-
-
     private long id;
-
-
     private Date startingTime;
-
-
     private String racewayName;
+    private RaceState raceState;
+    private String timeLapsRemaining;
+    private String timeLapsSpent;
     private ArrayList<CarModel> carsList;
     private Map<Integer, ArrayList<TopModel>> topsMap = new HashMap<>();
 
@@ -41,7 +39,6 @@ public abstract class RaceModel implements Race {
     }
 
     /**
-     *
      * @param raceName
      * @param startingTime
      * @param racewayName
@@ -52,10 +49,16 @@ public abstract class RaceModel implements Race {
         this.startingTime = startingTime;
         this.racewayName = racewayName;
         this.carsList = new ArrayList<>();
+        this.raceState= RaceState.CREATION;
+        this.timeLapsRemaining="00";
+        this.timeLapsSpent="00";
     }
+
+
 
     /**
      * Gets the race id.
+     *
      * @return the race id
      */
     @XmlElement
@@ -87,6 +90,7 @@ public abstract class RaceModel implements Race {
 
     /**
      * Gets the raceway name.
+     *
      * @return the raceway name
      */
     public void setStartingTime(Date startingTime) {
@@ -119,5 +123,32 @@ public abstract class RaceModel implements Race {
 
     public void setTopsMap(Map<Integer, ArrayList<TopModel>> topsMap) {
         this.topsMap = topsMap;
+    }
+
+    @XmlElement
+    public RaceState getRaceState() {
+        return raceState;
+    }
+
+    public void setRaceState(RaceState raceState) {
+        this.raceState = raceState;
+    }
+
+    @XmlElement
+    public String getTimeLapsRemaining() {
+        return timeLapsRemaining;
+    }
+
+    public void setTimeLapsRemaining(String timeLapsRemaining) {
+        this.timeLapsRemaining = timeLapsRemaining;
+    }
+
+    @XmlElement
+    public String getTimeLapsSpent() {
+        return timeLapsSpent;
+    }
+
+    public void setTimeLapsSpent(String timeLapsSpent) {
+        this.timeLapsSpent = timeLapsSpent;
     }
 }
