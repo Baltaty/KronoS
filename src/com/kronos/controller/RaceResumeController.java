@@ -347,7 +347,7 @@ public class RaceResumeController implements Initializable, Observer {
          //*  Save Top list of Object to persist  *//
         App.getDataManager().persist(topModel);
         App.getDataManager().saveFile();
-//        System.out.println("==== top =====");
+        System.out.println("==== top =====");
 
 
     }
@@ -984,7 +984,7 @@ public class RaceResumeController implements Initializable, Observer {
                 departureHour.setText(departureTime.format(dtf));
                 startRace.setDisable(true);
             }
-//            handleNewTop();
+            handleNewTop();
         } else {
             Alerts.info("INFORMATION", "Cette course est terminée");
         }
@@ -1080,7 +1080,7 @@ public class RaceResumeController implements Initializable, Observer {
         raceModel.setTimeLapsRemaining(remainingTime.getText());
         raceModel.setTimeLapsSpent(spentTime.getText());
         App.getDataManager().persist(raceModel);
-//        App.getDataManager().saveFile();
+        App.getDataManager().saveFile();
 
     }
 

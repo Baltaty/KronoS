@@ -14,9 +14,6 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.*;
 
 /**
@@ -133,11 +130,14 @@ public class SaveManagerImpl implements SaveManager, Subject {
     private boolean updateObject(Object object){
         boolean isDone =  true;
         try {
-            if(isContaint(object)){
-                System.out.println(" is containt alors update");
-                String model =  this.importManager.getModelName(object.getClass().getName());
-                this.updateTag(model);
+            if (mapOfbeans.containsKey(object)) {
+
+                String model = this.importManager.getModelName(object.getClass().getName());
+                this.updateTagInXML(model);
+                mapOfbeans.put(object, false);
+
             }
+
         }catch (Exception e){
             isDone =false;
         }
@@ -146,36 +146,41 @@ public class SaveManagerImpl implements SaveManager, Subject {
     }
 
 
-    protected boolean updateTag(String tag){
-        boolean isUpdate = false;
-        try {
-            SAXBuilder saxBuilder = new SAXBuilder();
-            Document doc = saxBuilder.build(new StringReader(this.importManager.getXtratable()));
-            System.out.println(this.importManager.getXtratable());
-            isUpdate = doc.getRootElement().removeChild(tag);
+    protected void updateTagInXML(String tag) {
 
-            TransformerFactory tf = TransformerFactory.newInstance();
-            Transformer transformer = tf.newTransformer();
-            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-            StringWriter writer = new StringWriter();
-            transformer.transform(new JDOMSource(doc), new StreamResult(writer));
-            String output = writer.getBuffer().toString();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    SAXBuilder saxBuilder = new SAXBuilder();
+                    Document doc = saxBuilder.build(new StringReader(importManager.getXtratable()));
+//                    System.out.println(importManager.getXtratable());
+                    doc.getRootElement().removeChild(tag);
+
+                    TransformerFactory tf = TransformerFactory.newInstance();
+                    Transformer transformer = tf.newTransformer();
+                    transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+                    StringWriter writer = new StringWriter();
+                    transformer.transform(new JDOMSource(doc), new StreamResult(writer));
+                    String output = writer.getBuffer().toString();
 
 
-            System.out.println("************ after delete data *****************");
-            output = output.replaceAll("<data>", "");
-            output = output.replaceAll("</data>", "");
-            output = XML_STANDARD_TAG + "\n" + output;
-            System.out.println(output);
-            BufferedWriter bufferedWriterwriter = new BufferedWriter(new FileWriter(PATH));
-            writer.write(output);
-            writer.close();
+//                    System.out.println("************ after delete data *****************");
+                    output = output.replaceAll("<data>", "");
+                    output = output.replaceAll("</data>", "");
+                    output = XML_STANDARD_TAG + "\n" + output;
+//                    System.out.println(output);
+                    BufferedWriter bufferedWriterwriter = new BufferedWriter(new FileWriter(PATH));
+                    bufferedWriterwriter.write(output);
+                    bufferedWriterwriter.close();
 
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
 
-        return isUpdate;
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }).start();
+
     }
 
     /**
@@ -341,10 +346,5 @@ public class SaveManagerImpl implements SaveManager, Subject {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////                                 /////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    private boolean isContaint(Object object){
-        return mapOfbeans.containsKey(object);
-    }
-
 
 }
