@@ -491,9 +491,7 @@ public class RaceResumeController implements Initializable, Observer {
         col_laptime.setOnEditCommit(this::editLapTime);
 
         col_racetime.setCellFactory(TextFieldTableCell.forTableColumn());
-        col_racetime.setOnEditCommit(e -> {
-            e.getTableView().getItems().get(e.getTablePosition().getRow()).setRaceTime(e.getNewValue());
-        });
+        col_racetime.setOnEditCommit(this::editRaceTime);
 
         colLapNumber.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         colLapNumber.setOnEditCommit(this::editLap);
@@ -550,6 +548,63 @@ public class RaceResumeController implements Initializable, Observer {
         table_info.refresh();
         table_info.getSortOrder().remove(colLapNumber);
         table_info.getSortOrder().add(col_time);
+    }
+
+    private void editRaceTime(TableColumn.CellEditEvent<TopModel, String> event) {
+        int row = event.getTableView().getSelectionModel().selectedIndexProperty().get();
+        int carNumber = event.getTableView().getItems().get(row).getCarNumber();
+        ArrayList<TopModel> topModels = raceModel.getTopsMap().get(carNumber);
+        long topId = event.getTableView().getItems().get(row).getId();
+        int index = findTopIndexWithId(carNumber, topId);
+        TopModel top = topModels.get(index);
+        String oldRaceTime = event.getOldValue();
+        String newRaceTime = event.getNewValue();
+        SimpleDateFormat df1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        SimpleDateFormat df2 = new SimpleDateFormat("HH:mm:ss");
+        top.setRaceTime(newRaceTime);
+        try {
+            int newPos = 0;
+            Date oldTopTimeMillis = df1.parse(top.getTime());
+            Date oldRaceTimeMillis = df2.parse(oldRaceTime);
+            Date newRaceTimeMillis = df2.parse(newRaceTime);
+            long newTopTimeMillis = oldTopTimeMillis.getTime() + (newRaceTimeMillis.getTime() - oldRaceTimeMillis.getTime());
+            String newTopTime = df1.format(newTopTimeMillis);
+            String oldTopTime = top.getTime();
+            if(newTopTimeMillis < raceModel.getStartingTime().getTime()) {
+                top.setTime(df1.format(raceModel.getStartingTime()));
+                newPos = findTopNewPositionOnTimeChange(topModels, index, oldTopTime, df1.format(raceModel.getStartingTime()));
+            }
+            else if(newTopTimeMillis > System.currentTimeMillis()) {
+                top.setTime(df1.format(System.currentTimeMillis()));
+                newPos = findTopNewPositionOnTimeChange(topModels, index, oldTopTime, df1.format(System.currentTimeMillis()));
+            }
+            else {
+                top.setTime(newTopTime);
+                newPos = findTopNewPositionOnTimeChange(topModels, index, oldTopTime, newTopTime);
+
+                System.out.println(newPos);
+            }
+            if(newPos < topModels.size()) {
+                topModels.remove(index);
+                topModels.add(newPos, top);
+                updateTopLogic(carNumber, newPos);
+                recalculateLapTime(topModels);
+
+            }
+            else {
+                topModels.remove(index);
+                topModels.add(top);
+                updateTopLogic(carNumber, newPos);
+                recalculateLapTime(topModels);
+            }
+        }
+        catch (ParseException e) {
+            e.printStackTrace();
+        }
+        table_info.sort();
+        table_info.refresh();
+
+
     }
 
     private void editLapTime(TableColumn.CellEditEvent<TopModel, String> event) {
@@ -773,6 +828,7 @@ public class RaceResumeController implements Initializable, Observer {
             e.printStackTrace();
         }
         int newPos = findTopNewPositionOnTimeChange(topModels, index, oldTopTime, newTopTime);
+        System.out.println("topnewpos"+newPos);
         if(newPos < topModels.size()) {
             topModels.remove(index);
             topModels.add(newPos, top);
