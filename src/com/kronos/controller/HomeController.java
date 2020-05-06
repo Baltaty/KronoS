@@ -165,7 +165,6 @@
             dialogNewRace.setVisible(true);
             JFXDialog alert1 = new JFXDialog(homeStack, dialogNewRace, JFXDialog.DialogTransition.TOP);
             alert1.show();
-
         }
 
         /**
@@ -451,7 +450,19 @@
             carType.setItems(FXCollections.observableArrayList("Voiture principale", "Voiture concurrente"));
             raceTypeCombo.setItems(FXCollections.observableArrayList("Course au nombre de tours", "Course au temps"));
 
-            //top_touch_field
+
+            stylesheets = App.getDecorator().getScene().getStylesheets();
+            stylesheets.addAll(
+                    getClass().getResource("/com/kronos/theme/css/fonts.css").toExternalForm(),
+                    getClass().getResource("/com/kronos/theme/css/material-color.css").toExternalForm(),
+                    getClass().getResource("/com/kronos/theme/css/skeleton.css").toExternalForm(),
+                    getClass().getResource("/com/kronos/theme/css/light.css").toExternalForm(),
+                    getClass().getResource("/com/kronos/theme/css/bootstrap.css").toExternalForm(),
+                    getClass().getResource("/com/kronos/theme/css/shape.css").toExternalForm(),
+                    getClass().getResource("/com/kronos/theme/css/typographic.css").toExternalForm(),
+                    getClass().getResource("/com/kronos/theme/css/helpers.css").toExternalForm()
+                   // getClass().getResource("/com/kronos/theme/css/master.css").toExternalForm()
+            );
 
         }
 

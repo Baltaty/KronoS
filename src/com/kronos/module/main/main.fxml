@@ -62,91 +62,92 @@
                                  <SVGPath content="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" mouseTransparent="true" styleClass="icon" />
                               </graphic>
                            </Button>
-                           <TitledPane alignment="BASELINE_RIGHT" contentDisplay="RIGHT" expanded="false" graphicTextGap="20.0" nodeOrientation="RIGHT_TO_LEFT" styleClass="drawer-menu" text="JFoenix">
-                             <content>
-                                 <VBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="100.0">
-                                    <children>
-                                       <Button mnemonicParsing="false" onAction="#jfxTextField" prefHeight="50.0" prefWidth="547.0" styleClass="drawer-item" text="JFXTextField" />
-                                    </children>
-                                 </VBox>
-                             </content>
-                              <graphic>
-                                 <SVGPath content="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16zM11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16z" styleClass="icon" />
-                              </graphic>
-                           </TitledPane>
-                           <TitledPane fx:id="design" alignment="BASELINE_RIGHT" contentDisplay="RIGHT" expanded="false" graphicTextGap="20.0" layoutX="10.0" layoutY="60.0" nodeOrientation="RIGHT_TO_LEFT" styleClass="drawer-menu" text="Design">
-                              <content>
-                                 <VBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="100.0">
-                                    <children>
-                                       <Button cache="true" layoutX="20.0" layoutY="120.0" onMouseClicked="#animateButtons" prefWidth="250" styleClass="drawer-item" text="Animated Button" />
-                                       <Button alignment="BASELINE_LEFT" cache="true" layoutX="20.0" layoutY="70.0" onMouseClicked="#alerts" prefWidth="250" styleClass="drawer-item" text="Alerts" />
-                                       <Button alignment="BASELINE_LEFT" cache="true" layoutX="20.0" layoutY="20.0" onMouseClicked="#banners" prefWidth="250" styleClass="drawer-item" text="Banners" />
-                                       <Button onMouseClicked="#carousel" prefWidth="250" styleClass="drawer-item" text="Carousel" />
-                                       <Button cache="true" layoutX="20.0" layoutY="20.0" onMouseClicked="#cards" prefWidth="250" styleClass="drawer-item" text="Cards" />
-                                    </children>
-                                 </VBox>
-                              </content>
-                              <graphic>
-                                 <SVGPath content="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" styleClass="icon" />
-                              </graphic>
-                           </TitledPane>
+<!--                           <TitledPane alignment="BASELINE_RIGHT" contentDisplay="RIGHT" expanded="false" graphicTextGap="20.0" nodeOrientation="RIGHT_TO_LEFT" styleClass="drawer-menu" text="JFoenix">-->
+<!--                             <content>-->
+<!--                                 <VBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="100.0">-->
+<!--                                    <children>-->
+<!--                                       <Button mnemonicParsing="false" onAction="#jfxTextField" prefHeight="50.0" prefWidth="547.0" styleClass="drawer-item" text="JFXTextField" />-->
+<!--                                    </children>-->
+<!--                                 </VBox>-->
+<!--                             </content>-->
+<!--                              <graphic>-->
+<!--                                 <SVGPath content="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16zM11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16z" styleClass="icon" />-->
+<!--                              </graphic>-->
+<!--                           </TitledPane>-->
+<!--                           <TitledPane fx:id="design" alignment="BASELINE_RIGHT" contentDisplay="RIGHT" expanded="false" graphicTextGap="20.0" layoutX="10.0" layoutY="60.0" nodeOrientation="RIGHT_TO_LEFT" styleClass="drawer-menu" text="Design">-->
+<!--                              <content>-->
+<!--                                 <VBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="100.0">-->
+<!--                                    <children>-->
+<!--                                       <Button cache="true" layoutX="20.0" layoutY="120.0" onMouseClicked="#animateButtons" prefWidth="250" styleClass="drawer-item" text="Animated Button" />-->
+<!--                                       <Button alignment="BASELINE_LEFT" cache="true" layoutX="20.0" layoutY="70.0" onMouseClicked="#alerts" prefWidth="250" styleClass="drawer-item" text="Alerts" />-->
+<!--                                       <Button alignment="BASELINE_LEFT" cache="true" layoutX="20.0" layoutY="20.0" onMouseClicked="#banners" prefWidth="250" styleClass="drawer-item" text="Banners" />-->
+<!--                                       <Button onMouseClicked="#carousel" prefWidth="250" styleClass="drawer-item" text="Carousel" />-->
+<!--                                       <Button cache="true" layoutX="20.0" layoutY="20.0" onMouseClicked="#cards" prefWidth="250" styleClass="drawer-item" text="Cards" />-->
+<!--                                    </children>-->
+<!--                                 </VBox>-->
+<!--                              </content>-->
+<!--                              <graphic>-->
+<!--                                 <SVGPath content="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" styleClass="icon" />-->
+<!--                              </graphic>-->
+<!--                           </TitledPane>-->
 
-                           <TitledPane fx:id="controls" alignment="BASELINE_RIGHT" contentDisplay="RIGHT" expanded="false" graphicTextGap="20.0" layoutX="10.0" layoutY="80.0" nodeOrientation="RIGHT_TO_LEFT" styleClass="drawer-menu" text="Controls">
-                           <VBox>
-                              <Button nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#buttons" prefWidth="250" styleClass="drawer-item" text="Button" />
-                              <Button layoutX="20.0" layoutY="20.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#checkBox" prefWidth="250" styleClass="drawer-item" text="CheckBox" />
-                              <Button layoutX="20.0" layoutY="45.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#choiceBox" prefWidth="250" styleClass="drawer-item" text="ChoiceBox" />
-                              <Button layoutX="20.0" layoutY="70.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#colorPicker" prefWidth="250" styleClass="drawer-item" text="ColorPicker" />
-                              <Button layoutX="20.0" layoutY="45.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#comboBox" prefWidth="250" styleClass="drawer-item" text="ComboBox" />
-                              <Button layoutX="20.0" layoutY="120.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#datePicker" prefWidth="250" styleClass="drawer-item" text="DatePicker" />
-                              <Button layoutX="20.0" layoutY="170.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#hyperlink" prefWidth="250" styleClass="drawer-item" text="Hyperlink" />
-                              <Button layoutX="20.0" layoutY="195.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#imageView" prefWidth="250" styleClass="drawer-item" text="ImageView" />
-                              <Button layoutX="20.0" layoutY="220.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#label" prefWidth="250" styleClass="drawer-item" text="Label" />
-                              <Button layoutX="20.0" layoutY="245.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#listView" prefWidth="250" styleClass="drawer-item" text="ListView" />
-                              <Button layoutX="20.0" layoutY="270.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#mediaView" prefWidth="250" styleClass="drawer-item" text="MediaView" />
-                              <Button layoutX="20.0" layoutY="295.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#menuBar" prefWidth="250" styleClass="drawer-item" text="MenuBar" />
-                              <Button layoutX="20.0" layoutY="320.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#menuButton" prefWidth="250" styleClass="drawer-item" text="MenuButton" />
-                              <Button layoutX="20.0" layoutY="345.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#pagination" prefWidth="250" styleClass="drawer-item" text="Pagination" />
-                              <Button layoutX="20.0" layoutY="370.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#passwordField" prefWidth="250" styleClass="drawer-item" text="PasswordField" />
-                              <Button layoutX="20.0" layoutY="395.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#progressBar" prefWidth="250" styleClass="drawer-item" text="ProgressBar" />
-                              <Button layoutX="20.0" layoutY="420.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#progressIndicator" prefWidth="250" styleClass="drawer-item" text="ProgressIndicator" />
-                              <Button layoutX="20.0" layoutY="836.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#radio" prefWidth="250" styleClass="drawer-item" text="RadioButton" />
-                              <Button layoutX="20.0" layoutY="1076.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#scrollBar" prefWidth="250" styleClass="drawer-item" text="ScrollBar" />
-                              <Button layoutX="20" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#slider" prefWidth="250" styleClass="drawer-item" text="Slider" />
-                              <Button layoutX="20" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#spinner" prefWidth="250" styleClass="drawer-item" text="Spinner" />
-                              <Button layoutX="20.0" layoutY="420.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#splitMenuButton" prefWidth="250" styleClass="drawer-item" text="SplitMenuButton" />
-                              <Button layoutX="20.0" layoutY="1364.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#tableView" prefWidth="250" styleClass="drawer-item" text="TableView" />
-                              <Button layoutX="20.0" layoutY="1172.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#textArea" prefWidth="250" styleClass="drawer-item" text="TextArea" />
-                              <Button layoutX="20.0" layoutY="884.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#textField" prefWidth="250" styleClass="drawer-item" text="TextField" />
-                              <Button layoutX="20.0" layoutY="836.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#toggle" prefWidth="250" styleClass="drawer-item" text="ToggleButton" />
-                              <Button layoutX="20.0" layoutY="1124.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#treeTableView" prefWidth="250" styleClass="drawer-item" text="TreeTableView" />
-                              <Button layoutX="20.0" layoutY="1172.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#treeView" prefWidth="250" styleClass="drawer-item" text="TreeView" />
-                           </VBox>
+<!--                           <TitledPane fx:id="controls" alignment="BASELINE_RIGHT" contentDisplay="RIGHT" expanded="false" graphicTextGap="20.0" layoutX="10.0" layoutY="80.0" nodeOrientation="RIGHT_TO_LEFT" styleClass="drawer-menu" text="Controls">-->
+<!--                           <VBox>-->
+<!--                              <Button nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#buttons" prefWidth="250" styleClass="drawer-item" text="Button" />-->
+<!--                              <Button layoutX="20.0" layoutY="20.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#checkBox" prefWidth="250" styleClass="drawer-item" text="CheckBox" />-->
+<!--                              <Button layoutX="20.0" layoutY="45.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#choiceBox" prefWidth="250" styleClass="drawer-item" text="ChoiceBox" />-->
+<!--                              <Button layoutX="20.0" layoutY="70.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#colorPicker" prefWidth="250" styleClass="drawer-item" text="ColorPicker" />-->
+<!--                              <Button layoutX="20.0" layoutY="45.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#comboBox" prefWidth="250" styleClass="drawer-item" text="ComboBox" />-->
+<!--                              <Button layoutX="20.0" layoutY="120.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#datePicker" prefWidth="250" styleClass="drawer-item" text="DatePicker" />-->
+<!--                              <Button layoutX="20.0" layoutY="170.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#hyperlink" prefWidth="250" styleClass="drawer-item" text="Hyperlink" />-->
+<!--                              <Button layoutX="20.0" layoutY="195.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#imageView" prefWidth="250" styleClass="drawer-item" text="ImageView" />-->
+<!--                              <Button layoutX="20.0" layoutY="220.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#label" prefWidth="250" styleClass="drawer-item" text="Label" />-->
+<!--                              <Button layoutX="20.0" layoutY="245.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#listView" prefWidth="250" styleClass="drawer-item" text="ListView" />-->
+<!--                              <Button layoutX="20.0" layoutY="270.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#mediaView" prefWidth="250" styleClass="drawer-item" text="MediaView" />-->
+<!--                              <Button layoutX="20.0" layoutY="295.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#menuBar" prefWidth="250" styleClass="drawer-item" text="MenuBar" />-->
+<!--                              <Button layoutX="20.0" layoutY="320.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#menuButton" prefWidth="250" styleClass="drawer-item" text="MenuButton" />-->
+<!--                              <Button layoutX="20.0" layoutY="345.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#pagination" prefWidth="250" styleClass="drawer-item" text="Pagination" />-->
+<!--                              <Button layoutX="20.0" layoutY="370.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#passwordField" prefWidth="250" styleClass="drawer-item" text="PasswordField" />-->
+<!--                              <Button layoutX="20.0" layoutY="395.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#progressBar" prefWidth="250" styleClass="drawer-item" text="ProgressBar" />-->
+<!--                              <Button layoutX="20.0" layoutY="420.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#progressIndicator" prefWidth="250" styleClass="drawer-item" text="ProgressIndicator" />-->
+<!--                              <Button layoutX="20.0" layoutY="836.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#radio" prefWidth="250" styleClass="drawer-item" text="RadioButton" />-->
+<!--                              <Button layoutX="20.0" layoutY="1076.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#scrollBar" prefWidth="250" styleClass="drawer-item" text="ScrollBar" />-->
+<!--                              <Button layoutX="20" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#slider" prefWidth="250" styleClass="drawer-item" text="Slider" />-->
+<!--                              <Button layoutX="20" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#spinner" prefWidth="250" styleClass="drawer-item" text="Spinner" />-->
+<!--                              <Button layoutX="20.0" layoutY="420.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#splitMenuButton" prefWidth="250" styleClass="drawer-item" text="SplitMenuButton" />-->
+<!--                              <Button layoutX="20.0" layoutY="1364.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#tableView" prefWidth="250" styleClass="drawer-item" text="TableView" />-->
+<!--                              <Button layoutX="20.0" layoutY="1172.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#textArea" prefWidth="250" styleClass="drawer-item" text="TextArea" />-->
+<!--                              <Button layoutX="20.0" layoutY="884.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#textField" prefWidth="250" styleClass="drawer-item" text="TextField" />-->
+<!--                              <Button layoutX="20.0" layoutY="836.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#toggle" prefWidth="250" styleClass="drawer-item" text="ToggleButton" />-->
+<!--                              <Button layoutX="20.0" layoutY="1124.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#treeTableView" prefWidth="250" styleClass="drawer-item" text="TreeTableView" />-->
+<!--                              <Button layoutX="20.0" layoutY="1172.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#treeView" prefWidth="250" styleClass="drawer-item" text="TreeView" />-->
+<!--                           </VBox>-->
+<!--                              <graphic>-->
+<!--                                 <SVGPath content="M2 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10S2 17.52 2 12zm10 6c3.31 0 6-2.69 6-6s-2.69-6-6-6-6 2.69-6 6 2.69 6 6 6z" styleClass="icon" />-->
+<!--                              </graphic>-->
+<!--                              </TitledPane>-->
+<!--                           <TitledPane fx:id="charts" alignment="BASELINE_RIGHT" contentDisplay="RIGHT" expanded="false" graphicTextGap="20.0" layoutX="10.0" layoutY="130.0" nodeOrientation="RIGHT_TO_LEFT" styleClass="drawer-menu" text="Charts">-->
+<!--                              <content>-->
+<!--                                 <VBox prefHeight="200.0" prefWidth="100.0" styleClass="drawer-content">-->
+<!--                                    <Button nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#areaChart" prefWidth="250" styleClass="drawer-item" text="AreaChart" />-->
+<!--                                    <Button layoutX="20.0" layoutY="20.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#barChart" prefWidth="250" styleClass="drawer-item" text="BarChart" />-->
+<!--                                    <Button layoutX="20.0" layoutY="68.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#bubbleChart" prefWidth="250" styleClass="drawer-item" text="BubbleChart" />-->
+<!--                                    <Button layoutX="20.0" layoutY="116.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#lineChart" prefWidth="250" styleClass="drawer-item" text="LineChart" />-->
+<!--                                    <Button layoutX="20.0" layoutY="164.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#pieChart" prefWidth="250" styleClass="drawer-item" text="PieChart" />-->
+<!--                                    <Button layoutX="20.0" layoutY="212.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#scatterChart" prefWidth="250" styleClass="drawer-item" text="ScatterChart" />-->
+<!--                                    <Button layoutX="20.0" layoutY="260.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#stackedAreaChart" prefWidth="250" styleClass="drawer-item" text="StackedAreaChart" />-->
+<!--                                    <Button layoutX="20.0" layoutY="308.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#stackedBarChart" prefWidth="250" styleClass="drawer-item" text="StackBarChart" />-->
+<!--                                 </VBox>-->
+<!--                              </content>-->
+<!--                              <graphic>-->
+<!--                                 <SVGPath content="M11 2v20c-5.07-.5-9-4.79-9-10s3.93-9.5 9-10zm2.03 0v8.99H22c-.47-4.74-4.24-8.52-8.97-8.99zm0 11.01V22c4.74-.47 8.5-4.25 8.97-8.99h-8.97" styleClass="icon" />-->
+<!--                              </graphic></TitledPane>-->
+                           <Button fx:id="FeuilleTemps" alignment="BASELINE_LEFT" graphicTextGap="20.0" mnemonicParsing="false" onMouseClicked="#feuilletemps" prefHeight="50.0" prefWidth="271.0" styleClass="drawer-item" text="Feuille de temps">
                               <graphic>
-                                 <SVGPath content="M2 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10S2 17.52 2 12zm10 6c3.31 0 6-2.69 6-6s-2.69-6-6-6-6 2.69-6 6 2.69 6 6 6z" styleClass="icon" />
-                              </graphic>
-                              </TitledPane>
-                           <TitledPane fx:id="charts" alignment="BASELINE_RIGHT" contentDisplay="RIGHT" expanded="false" graphicTextGap="20.0" layoutX="10.0" layoutY="130.0" nodeOrientation="RIGHT_TO_LEFT" styleClass="drawer-menu" text="Charts">
-                              <content>
-                                 <VBox prefHeight="200.0" prefWidth="100.0" styleClass="drawer-content">
-                                    <Button nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#areaChart" prefWidth="250" styleClass="drawer-item" text="AreaChart" />
-                                    <Button layoutX="20.0" layoutY="20.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#barChart" prefWidth="250" styleClass="drawer-item" text="BarChart" />
-                                    <Button layoutX="20.0" layoutY="68.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#bubbleChart" prefWidth="250" styleClass="drawer-item" text="BubbleChart" />
-                                    <Button layoutX="20.0" layoutY="116.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#lineChart" prefWidth="250" styleClass="drawer-item" text="LineChart" />
-                                    <Button layoutX="20.0" layoutY="164.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#pieChart" prefWidth="250" styleClass="drawer-item" text="PieChart" />
-                                    <Button layoutX="20.0" layoutY="212.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#scatterChart" prefWidth="250" styleClass="drawer-item" text="ScatterChart" />
-                                    <Button layoutX="20.0" layoutY="260.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#stackedAreaChart" prefWidth="250" styleClass="drawer-item" text="StackedAreaChart" />
-                                    <Button layoutX="20.0" layoutY="308.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#stackedBarChart" prefWidth="250" styleClass="drawer-item" text="StackBarChart" />
-                                 </VBox>
-                              </content>
-                              <graphic>
-                                 <SVGPath content="M11 2v20c-5.07-.5-9-4.79-9-10s3.93-9.5 9-10zm2.03 0v8.99H22c-.47-4.74-4.24-8.52-8.97-8.99zm0 11.01V22c4.74-.47 8.5-4.25 8.97-8.99h-8.97" styleClass="icon" />
-                              </graphic></TitledPane>
-                           <Button fx:id="about" alignment="BASELINE_LEFT" graphicTextGap="20.0" prefHeight="50.0" prefWidth="596.0" styleClass="drawer-item" text="About">
-                              <graphic>
-                                 <SVGPath content="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" styleClass="icon" />
+                                 <SVGPath content="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" mouseTransparent="true" styleClass="icon" />
                               </graphic>
                            </Button>
+
                         </children>
                      </VBox>
                   </content>
