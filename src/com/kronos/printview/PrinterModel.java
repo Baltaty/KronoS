@@ -29,21 +29,20 @@ public class PrinterModel {
     private StringBuilder cssContent;
 
 
-    public PrinterModel(){
-        try( InputStream inputStream = new FileInputStream(css) ){
+    public PrinterModel() {
+        try (InputStream inputStream = new FileInputStream(css)) {
             //Creating a Scanner object
-            cssContent =  new StringBuilder();
+            cssContent = new StringBuilder();
             Scanner sc = new Scanner(inputStream);
             //Reading line by line from scanner to StringBuffer
             StringBuffer sb = new StringBuffer();
-            while(sc.hasNext()){
+            while (sc.hasNext()) {
                 cssContent.append(sc.nextLine());
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-
 
 
     private String htmlcontent;
@@ -106,6 +105,10 @@ public class PrinterModel {
                 "        <h2 class=\"name\">Kronos</h2>\n" +
                 "        <div>Feuille de temps</div>\n" +
                 "      </div>\n" +
+                "       <div id=\"invoice\">\n" +
+                "          <h2>Course numero 1-3-2-1jvfejnefjnefjnefjneirvie</h2>\n" +
+                "          <div class=\"date\">Date de la course : 01/06/2014</div>\n" +
+                "       </div>\n" +
                 "    </header>\n" +
                 "    <br/>\n" +
                 "    <main>\n" +
@@ -118,7 +121,6 @@ public class PrinterModel {
                 "          <div class=\"address\">Model : Verronr</div>\n" +
                 "          <div class=\"address\">Numero : 360 </div>\n" +
                 "        </div>\n" +
-
                 "      </div>\n" +
                 "      <br/>\n" +
                 "      <table border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n" +

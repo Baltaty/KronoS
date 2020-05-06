@@ -2,6 +2,7 @@
 
 
 
+
 <mainCarModel>
     <brand>soleil</brand>
     <completedLaps>0</completedLaps>
@@ -44,21 +45,11 @@
 
 
 
-<lapRaceModel>
-    <raceName>Circuit</raceName>
-    <raceState>IN_PROGRESS</raceState>
-    <racewayName></racewayName>
-    <startingTime>2020-05-13T00:00:00+02:00</startingTime>
-    <timeLapsRemaining>12</timeLapsRemaining>
-    <timeLapsSpent>0</timeLapsSpent>
-    <topsMap/>
-    <id>0</id>
-    <numberOfLaps>12</numberOfLaps>
-</lapRaceModel>
+
 
 <topModel>
     <carNumber>12</carNumber>
-    <comment></comment>
+    <comment/>
     <id>1588679761801</id>
     <lap>1</lap>
     <lapTime>00:00:00</lapTime>
@@ -68,10 +59,27 @@
 
 <topModel>
     <carNumber>12</carNumber>
-    <comment></comment>
+    <comment/>
     <id>1588679765268</id>
     <lap>1</lap>
     <lapTime>00:03:51</lapTime>
     <time>05-05-2020 13:56:05</time>
     <topType>O</topType>
 </topModel>
+
+<lapRaceModel>
+    <raceName>Circuit</raceName>
+    <raceState>IN_PROGRESS</raceState>
+    <racewayName/>
+    <startingTime>2020-05-13T00:00:00+02:00</startingTime>
+    <timeLapsRemaining>12</timeLapsRemaining>
+    <timeLapsSpent>0</timeLapsSpent>
+    <topsMap>
+        <entry>
+            <key>12</key>
+            <value/>
+        </entry>
+    </topsMap>
+    <id>0</id>
+    <numberOfLaps>12</numberOfLaps>
+</lapRaceModel>
