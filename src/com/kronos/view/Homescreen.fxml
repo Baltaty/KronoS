@@ -151,12 +151,12 @@
                                                 <Font size="15.0" />
                                              </font>
                                           </JFXButton>
-                                          <Label layoutX="41.0" layoutY="184.0" text="Nom">
+                                          <Label layoutX="41.0" layoutY="184.0" text="Nom *">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="42.0" layoutY="228.0" text="Prénom">
+                                          <Label layoutX="42.0" layoutY="228.0" text="Prénom *">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
@@ -208,7 +208,7 @@
                                           <JFXTextField fx:id="carTeam" layoutX="235.0" layoutY="213.0" />
                                           <JFXTextField fx:id="carModel" layoutX="235.0" layoutY="256.0" />
                                           <JFXTextField fx:id="carBrand" layoutX="235.0" layoutY="298.0" />
-                                          <Label layoutX="41.0" layoutY="184.0" text="Numéro">
+                                          <Label layoutX="41.0" layoutY="184.0" text="Numéro *">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
@@ -238,13 +238,13 @@
                                                 <Font size="15.0" />
                                              </font>
                                           </JFXButton>
-                                          <Label layoutX="43.0" layoutY="358.0" text="Pilote">
+                                          <Label layoutX="43.0" layoutY="358.0" text="Pilote *">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
                                           <JFXComboBox fx:id="carPilot" layoutX="235.0" layoutY="343.0" prefHeight="27.0" prefWidth="149.0" />
-                                          <Label layoutX="44.0" layoutY="395.0" text="Type de voiture">
+                                          <Label layoutX="44.0" layoutY="395.0" text="Type de voiture *">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
@@ -263,7 +263,7 @@
                                                 <Image url="@../media/img/play.png" />
                                              </image>
                                           </ImageView>
-                                          <Label layoutX="41.0" layoutY="255.0" prefHeight="25.0" prefWidth="171.0" text="Date de début">
+                                          <Label layoutX="41.0" layoutY="255.0" prefHeight="25.0" prefWidth="171.0" text="Date de début *">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
@@ -273,7 +273,7 @@
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="42.0" layoutY="339.0" text="Type de course">
+                                          <Label layoutX="42.0" layoutY="339.0" text="Type de course *">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
@@ -304,11 +304,23 @@
                                              </font>
                                           </Label>
                                           <JFXTextField fx:id="raceName" layoutX="241.0" layoutY="207.0" prefHeight="28.0" prefWidth="149.0" />
-                                          <Label layoutX="35.0" layoutY="214.0" prefHeight="30.0" prefWidth="174.0" text="Nom de la course">
+                                          <Label layoutX="35.0" layoutY="214.0" prefHeight="30.0" prefWidth="174.0" text="Nom de course *">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
+                                          <Label layoutX="44.0" layoutY="385.0" text="Temps au tour &#10;moyen *" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="Montserrat Bold" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <JFXTextField fx:id="racewayNameText1" layoutX="241.0" layoutY="389.0" />
+                                          <Label layoutX="45.0" layoutY="452.0" text="Nombre de tour &#10;avant relai *" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="Montserrat Bold" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <JFXTextField fx:id="racewayNameText11" layoutX="242.0" layoutY="449.0" />
                                        </children>
                                     </AnchorPane>
                                  </content>

@@ -32,10 +32,14 @@ import javafx.scene.shape.SVGPath;
 import javafx.scene.text.TextAlignment;
 import org.controlsfx.control.PopOver;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalTime;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
  /**
@@ -59,6 +63,7 @@ public class Main implements Initializable {
     @FXML private TitledPane charts;
     @FXML private Button home;
     @FXML private Button  about;
+    @FXML private Button  FeuilleTemps;
     @FXML private Button hamburger;
     @FXML private SVGPath searchIcon;
     @FXML private StackPane root;
@@ -135,16 +140,37 @@ public class Main implements Initializable {
         });
         body.setContent(ViewManager.getInstance().get("raceresume"));
         Scene scene = App.getDecorator().getScene();
-        scene.setOnKeyPressed(new EventHandler<javafx.scene.input.KeyEvent>() {
-            @Override
-            public void handle(javafx.scene.input.KeyEvent event) {
-                System.out.println(" je suis dans la fonction  ");
-                KeyCode keyCode = event.getCode();
-                Integer keyTop = KeyEvent.VK_F1;
-                if (keyCode == KeyCode.F1)
-                    System.out.println("You have pressed the F1 key ");
-            }
-        });
+//        scene.setOnKeyPressed(new EventHandler<javafx.scene.input.KeyEvent>() {
+//            @Override
+//            public void handle(javafx.scene.input.KeyEvent event) {
+//                System.out.println(" verif bouton top ");
+//                KeyCode keyCode = event.getCode();
+//
+//                File file = new File("top.properties");
+//                Properties properties = new Properties();
+//                try {
+//                    if (!file.exists()) {
+//
+//                        //file.createNewFile();
+//                    } else {
+//
+//                        FileInputStream fileInputStream = new FileInputStream(file);
+//                        properties.load(fileInputStream);
+//                        if (keyCode.toString().equals(properties.getProperty("key")))
+//                        {
+//                            System.out.println("vous avez fait un top ! ");
+//
+//                        }
+//                    }
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//
+//
+//        });
 
         /////////// TEST DE FABRICE A NE PAS TOUCHER PLEASE ///////////
 
@@ -526,7 +552,16 @@ public class Main implements Initializable {
             e.printStackTrace();
         }
     }
-
+     private void loadView(String name) {
+         try {
+             ViewManager.getInstance().put(
+                     name,
+                     FXMLLoader.load(getClass().getResource("/com/kronos/view/" + name + ".fxml"))
+             );
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+     }
     @FXML
     private void openConfig(){
         if(popConfig.isShowing()){
@@ -730,7 +765,12 @@ public class Main implements Initializable {
          //body.setContent(grid);
          body.setContent(ViewManager.getInstance().get("raceresume"));
      }
-
+     @FXML
+     private void feuilletemps(){
+         title.setText("FeuilleTemps");
+         loadView("feuilletemps");
+         body.setContent(ViewManager.getInstance().get("feuilletemps"));
+     }
     @FXML
     private void areaChart(){
         title.setText("AreaChart");

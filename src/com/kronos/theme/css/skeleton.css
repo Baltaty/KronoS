@@ -10,11 +10,10 @@
 *
 *************************************************************************************/
 
-.button, .toggle-button, .menu-bar,
+/*.button,*/ .toggle-button, .menu-bar,
 .icon .badge-pane,
 .menu-bar .container .menu,
-.date-picker-popup > * > .today:hover,
-.date-picker-popup > * > .today.selected, .menu-item:focused, .menu-item:focused .label,
+.menu-item:focused, .menu-item:focused .label,
 .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:hover,
 .slider .thumb, .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:focused,
 .tree-view .virtual-flow .clipped-container .sheet .tree-cell:focused:filled,
@@ -60,9 +59,9 @@
   -fx-background-color : derive(-box-fill, 50%);
 }
 
-.text-field , .list-view,
+  .list-view,
 .split-menu-button, .menu-button, .choice-box,
-.split-menu-button .arrow-button, .combo-box-base, .date-picker
+.split-menu-button .arrow-button, .combo-box-base
 {
   -fx-background-color : -box-base;
 }
@@ -73,15 +72,15 @@
     -fx-background-color : white;
 }
 
-.button:hover,
-.table-row-cell:filled:pressed
-{
-  -fx-background-color : derive(-base, -40%);
-}
+/*.button:hover,*/
+/*.table-row-cell:filled:pressed*/
+/*{*/
+/*  -fx-background-color : derive(-base, -40%);*/
+/*}*/
 
-.button:focused {
-  -fx-background-color : derive(-base, -40%), derive(-base, -40%), -base;
-}
+/*.button:focused {*/
+/*  -fx-background-color : derive(-base, -40%), derive(-base, -40%), -base;*/
+/*}*/
 
 .hyperlink {
   -fx-border-color : transparent;
@@ -94,10 +93,10 @@
 *
 *************************************************************************************/
 
-.button:focused
-{
-  -fx-border-width : 4px;
-}
+/*.button:focused*/
+/*{*/
+/*  -fx-border-width : 4px;*/
+/*}*/
 
 .tab-pane:top .tab-header-area .tab-header-background
 {
@@ -139,10 +138,10 @@
   -fx-text-fill : -text-color;
 }
 
-.button {
-  -fx-text-fill : -inner-text;
+/*.button {*/
+/*  -fx-text-fill : -inner-text;*/
 
-}
+/*}*/
 
 .tab-pane > .tab-header-area > .headers-region > .tab > .tab-container > .tab-label
 {
@@ -175,12 +174,12 @@
 *
 *************************************************************************************/
 
-.text
-/* .label */
-{
-  -fx-font-family : Roboto Regular;
-  /* -fx-font-family : 'Mechanization'; */
-}
+/*.text*/
+/*!* .label *!*/
+/*{*/
+/*  -fx-font-family : Roboto Regular;*/
+/*  !* -fx-font-family : 'Mechanization'; *!*/
+/*}*/
 
 /************************************************************************************
 *
@@ -218,11 +217,11 @@
 *
 *************************************************************************************/
 
-.button,
-.tab-pane:top .tab-header-area .headers-region .tab:top
-{
-  -fx-pref-height : 40px;
-}
+/*.button,*/
+/*.tab-pane:top .tab-header-area .headers-region .tab:top*/
+/*{*/
+/*  -fx-pref-height : 40px;*/
+/*}*/
 
 /************************************************************************************
 *
@@ -231,36 +230,28 @@
 *************************************************************************************/
 
 
-.tree-view:focused,
-.text-field:focused,
-.menu-button:focused, .choice-box:focused, .split-menu-button:focused,
-.check-box:indeterminate .box, .check-box:hover:determinate .box,
-.check-box:selected:determinate .box,
-.text-area:focused
-{
-  -fx-border-color : -base;
-}
 
 
 
-.text-field, .spinner, .spinner,
-.check-box:determinate .box,
-.split-menu-button, .menu-button, .choice-box,
-.split-menu-button .arrow-button, .combo-box-base, .date-picker,
-.check-box:determinate .box, .text-area
-{
-  -fx-border-color : -box-fill;
-}
 
-.tab-pane:top .tab-header-area .tab-header-background
-{
-    -fx-border-color : -separator-color;
-}
+/* .spinner, .spinner,*/
+/*.check-box:determinate .box,*/
+/*.split-menu-button, .menu-button, .choice-box,*/
+/*.split-menu-button .arrow-button, .combo-box-base,*/
+/*.check-box:determinate .box, .text-area*/
+/*{*/
+/*  -fx-border-color : -box-fill;*/
+/*}*/
 
-.tab-pane:top .tab-header-area .headers-region .tab:selected:top
-{
-  -fx-border-color : transparent transparent -base transparent ;
-}
+/*.tab-pane:top .tab-header-area .tab-header-background*/
+/*{*/
+/*    -fx-border-color : -separator-color;*/
+/*}*/
+
+/*.tab-pane:top .tab-header-area .headers-region .tab:selected:top*/
+/*{*/
+/*  -fx-border-color : transparent transparent -base transparent ;*/
+/*}*/
 
 /************************************************************************************
 *
@@ -336,7 +327,7 @@
 *
 *************************************************************************************/
 
-.text-field,
+
 .combo-box-base, .split-menu-button, .menu-button, .choice-box
 {
   -fx-background-radius : 0px;
@@ -434,14 +425,14 @@
     -fx-text-fill : -box-text-color;
 }
 
-.text-field , .list-view,
+  .list-view,
 .split-menu-button, .menu-button, .choice-box,
-.split-menu-button .arrow-button, .combo-box-base, .date-picker  {
+.split-menu-button .arrow-button, .combo-box-base  {
   -fx-background-color : -box-base;
 }
 
 
-.text-field,
+
 .combo-box-base, .split-menu-button, .menu-button, .choice-box
 {
   -fx-background-radius : 0px;
@@ -506,9 +497,6 @@
     -fx-background-color : -icon-color;
 }
 
-.combo-box:editable .text-field {
-  -fx-background-color : transparent;
-}
 
 
 .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell
@@ -566,65 +554,11 @@
 
 
 /* TODO: try to scope the menu-item style to the contextmenu */
-.menu-item {
-    -fx-background-color: transparent;
-    -fx-padding: 0.666666em 1.333332em 0.666666em 1.333332em;   /*8 16 8 16 */
-}
 
-.menu-item .label {
-    -fx-padding: 0em 1.333332em 0em 0em;
-    -fx-text-fill: -text-color;
-    -fx-font-family: Roboto;
-    /* -fx-font-size: 10pt; */
-}
-
-.menu-item:focused, .menu-item:focused .label {
-     -fx-text-fill : white;
-}
-
-.menu-item:pressed, .menu-item:pressed .label
-{
-    -fx-background-color: derive(-base, -20%);
-    -fx-text-fill: white;
-}
-
-.menu-item:pressed .label
-{
-    -fx-text-fill: white;
-}
-
-
-.radio-menu-item > .left-container > .radio {
-  -fx-padding : 4px;
-}
-
-.radio-menu-item:checked > .left-container > .radio {
-    -fx-background-color: -icon-color;
-    -fx-shape: "M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z";
-}
-.radio-menu-item:focused:checked > .left-container > .radio {
-    -fx-background-color: white;
-}
-
-.check-menu-item:checked > .left-container > .check {
-  -fx-padding : 4px;
-}
-
-.check-menu-item:checked > .left-container > .check {
-    -fx-background-color: -icon-color;
-    -fx-shape: "M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z";
-}
-
-.check-menu-item:focused:checked > .left-container > .check {
-    -fx-background-color: white;
-}
-
-.progress-indicator:indeterminate .spinner, .date-picker-popup > * > .spinner,
-.spinner .text-field, .spinner .text-field:readonly, .combo-box:editable .text-field,
+.progress-indicator:indeterminate .spinner,
+.spinner ,
 .progress-indicator:indeterminate .spinner, .menu-bar .container .menu:openvertically,
-.spinner .text-field, .spinner .text-field:readonly, .combo-box-popup:focused > .list-view,
-.date-picker .date-picker-display-node:readonly, .date-picker .arrow-button,
-.date-picker .text-field, .date-picker .button, .date-picker-popup > .month-year-pane
+.spinner, .spinner .combo-box-popup:focused > .list-view
 {
     -fx-border-color : transparent;
 }
@@ -729,169 +663,9 @@
   -fx-background-color : transparent;
 }
 
-.text-field {
-  -fx-text-fill : -box-text-color;
-}
-
-.date-picker:editable .arrow-button {
-  -fx-scale-x : 1.0;
-  -fx-scale-y : 1.0;
-  -fx-pref-width : 10px;
-}
-
-.date-picker .arrow-button{
-  -fx-pref-width : 10px;
-  -fx-cursor : hand;
-}
-
-.date-picker .text-field {
-  -fx-background-color : transparent;
-}
-
-.date-picker .arrow-button .arrow,
-.date-picker>*.arrow-button>*.arrow
-{
-  -fx-shape : "M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z";
-  /* -fx-shape : "M 550 400 L 350 400 L 400 350 L 350 300 L 550 300 L 600 350 L 550 400"; */
-   -fx-scale-x : 1.5;
-   -fx-scale-y : 1.5;
-   -fx-background-color : -icon-color;
-}
-
-.date-picker-popup {
-    -fx-background-color: white;
-    -fx-background-insets: 0;
-    -fx-border-color : -base;
-    -fx-padding : 10px;
-}
-
-.date-picker .button {
-  -fx-background-color : transparent;
-  -fx-pref-height: 35px;
-  -fx-pref-width: 35px;
-  -fx-text-fill : -base;
-}
-
-.date-picker-popup > .month-year-pane {
-    -fx-background-color: white;
-    -fx-background-insets: 0;
-    -fx-font-size : 12px;
-
-}
-
-.date-picker-popup > .month-year-pane > .secondary-label {
-    -fx-alignment: BASELINE_CENTER;
-    -fx-padding: 0.5em 0 0 0; /* 6 0 0 0 */
-}
-
-.date-picker-popup > .month-year-pane >* .label {
-    -fx-text-fill : -box-text-color;
-}
-
-.date-picker-popup > * > .spinner > .button {
-    -fx-padding: 0.25em 0.583333em 0.25em 0.583333em;
-
-}
-
-.date-picker-popup > * > .spinner > .button {
-    -fx-background-radius: 100px;
-    -fx-background-color : transparent;
-    -fx-background-insets: 1;
-    -fx-cursor : hand;
-}
-
-.date-picker-popup > * > .spinner {
-    -fx-background-color: white;
-    -fx-background-insets: 0;
-}
-
-.date-picker-popup > * > .spinner > .button:hover {
-    -fx-background-color: -light-gray;
-}
-
-.date-picker-popup > * > .spinner > .button:armed
-{
-    -fx-background-color: #606060;
-}
-
-.date-picker-popup > * > .spinner > .button > .left-arrow,
-.date-picker-popup > * > .spinner > .button > .right-arrow {
-    -fx-background-color: #606060;
-    -fx-background-insets: 0;
-    -fx-effect: null;
-}
-
-.date-picker-popup > * > .spinner > .button:pressed > .left-arrow,
-.date-picker-popup > * > .spinner > .button:pressed > .right-arrow,
-.pagination .pagination-control .control-box .right-arrow-button:pressed .left-arrow ,
-.pagination .pagination-control .control-box .left-arrow-button:pressed  .right-arrow
-{
-    -fx-background-color: white;
-    -fx-background-insets: 0;
-}
-
-.date-picker-popup > .calendar-grid {
-    -fx-background-color: white;
-    -fx-background-insets: 1 0 0 0;
-    -fx-padding: 0;
-}
-
-.date-picker-popup > * > .previous-month,
-.date-picker-popup > * > .next-month {
-    -fx-background-color: white;
-    -fx-opacity: 0.3;
-}
-
-.date-picker-popup > * > .day-name-cell, .date-picker-popup > * > .week-number-cell:hover,
-.date-picker-popup > * > .week-number-cell {
-    -fx-font-size: 0.75em;
-    -fx-font-family : Roboto Regular;
-    -fx-text-fill : black;
-    /* -fx-font-family: "Segoe UI Semibold", "Segoe UI", Helvetica, Arial, sans-serif; */
-}
-
-.date-picker-popup > * > .date-cell {
-
-}
-
-.date-picker-popup > * > .hijrah-day-cell {
-    -fx-alignment: TOP_LEFT;
-    -fx-cell-size: 3.75em;
-}
-
-.date-picker-popup > * > .day-cell {
-    -fx-border-width: 1px;
-    /* -fx-text-fill: -fx-text-background-color; */
-}
-
-.date-picker-popup > * > .today {
-    -fx-background-color: -fx-control-inner-background, -base, -fx-control-inner-background;
-    -fx-background-insets: 1, 2, 3;
-}
-
-.date-picker-popup > * > .today:hover,
-.date-picker-popup > * > .today.selected {
-
-    -fx-text-fill : white;
-}
-
-.date-picker-popup > * > .day-cell:focused,
-.date-picker-popup > * > .today:focused {
-    /* -fx-background-color: white, white, -base; */
-    /* -fx-background-insets: 1, 2, 3; */
-}
-.date-picker-popup > * > .day-cell:hover,
-.date-picker-popup > * > .selected
- {
-    -fx-background-color: white, white, -base;
-    /* -fx-text-fill : -light-gray; */
-}
 
 
-
-
-
-.split-menu-button .label {
+.split-menu-button  {
   -fx-background-color : transparent;
 }
 
@@ -1134,7 +908,7 @@
 
 }
 
-.custom-color-dialog .controls-pane .current-new-color-grid .label {
+.custom-color-dialog .controls-pane .current-new-color-grid  {
     -fx-padding: 0 0 0 0.4166667em;
 }
 
@@ -1144,7 +918,7 @@
     -fx-alignment: bottom_right;
 }
 
-.custom-color-dialog .controls-pane #buttons-hbox > .button {
+.custom-color-dialog .controls-pane #buttons-hbox >  {
     -fx-min-width : 65px;
     -fx-pref-width : 65px;
     -fx-max-width : 65px;
@@ -1218,7 +992,7 @@
   -fx-background-color : transparent;
 }
 
-.html-editor .button ,
+.html-editor  ,
 .html-editor .toggle-button {
     -fx-min-height : 0px;
     -fx-pref-height : 30px;
@@ -1228,7 +1002,7 @@
     -fx-padding: 0.333333em 0.416667em 0.333333em 0.416667em; /* 4 5 4 5 */
 }
 
-.html-editor .button:pressed ,
+.html-editor ,
 .html-editor .toggle-button:selected {
   -fx-effect : null;
     -fx-background-color : derive(-light-gray, -10%);
@@ -1493,13 +1267,13 @@
 }
 
 
-.list-view > .text-field-list-cell .text-field
+.list-view > -list-cell
 {
  -fx-border-color : transparent transparent -box-fill transparent;
  -fx-border-width : 0 0 1 0;
 }
 
-.list-view .text-field-list-cell:selected .text-field
+.list-view
 {
  -fx-border-color : transparent transparent -base transparent;
  -fx-background-insets : 0px 0px 2px 0px;
@@ -2105,7 +1879,7 @@
     -fx-alignment: center;
 }
 
-.icon .badge-pane .label{
+.icon .badge-pane {
     -fx-font-weight: BOLD;
     -fx-font-size: 10px;
     -fx-text-fill: WHITE;
