@@ -7,6 +7,7 @@
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TableColumn?>
@@ -107,7 +108,10 @@
                     <children>
                         <Pane id="btn" prefHeight="261.0" prefWidth="404.0">
                             <children>
-                                <Label layoutX="112.0" layoutY="31.0" text="TEMPS MOYEN AU TOUR" />
+                                <Label layoutX="112.0" layoutY="31.0" text="TEMPS MOYEN AU TOUR">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
                                 <ProgressBar fx:id="meanTimeBar" layoutX="41.0" layoutY="97.0" prefHeight="42.0" prefWidth="297.0" progress="0.0" />
                         <Label fx:id="labelMeanTime" layoutX="144.0" layoutY="109.0" prefHeight="17.0" prefWidth="70.0" text="   MM: ss">
                            <font>
@@ -121,6 +125,16 @@
                         <Label fx:id="tmierSign" layoutX="120.0" layoutY="89.0" prefHeight="21.0" prefWidth="70.0" text="-" visible="false">
                            <font>
                               <Font size="40.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="chronoRivalCar" layoutX="102.0" layoutY="200.0" text="00 : 00 : 00">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="87.0" layoutY="167.0" prefHeight="17.0" prefWidth="207.0" text="TIMER VOITURE CONCURRENTE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
                             </children>
@@ -182,6 +196,10 @@
                         <Pane prefHeight="261.0" prefWidth="404.0">
                             <children>
                                 <Label alignment="TOP_CENTER" layoutX="98.0" layoutY="31.0" text="CLASSEMENT DE LA COURSE" />
+                        <ListView fx:id="listPastRank" layoutX="3.0" layoutY="100.0" prefHeight="134.0" prefWidth="142.0" />
+                        <ListView fx:id="listNowRank" layoutX="235.0" layoutY="100.0" prefHeight="134.0" prefWidth="124.0" />
+                        <Label layoutX="27.0" layoutY="71.0" prefHeight="17.0" prefWidth="94.0" text="precedent" />
+                        <Label layoutX="245.0" layoutY="63.0" text="en_cours" />
                             </children>
                         </Pane>
                     </children>
