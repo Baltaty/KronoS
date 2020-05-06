@@ -125,6 +125,7 @@ public abstract class RaceModel implements Race {
         this.topsMap = topsMap;
     }
 
+    @XmlElement
     public RaceState getRaceState() {
         return raceState;
     }
@@ -133,6 +134,7 @@ public abstract class RaceModel implements Race {
         this.raceState = raceState;
     }
 
+    @XmlElement
     public String getTimeLapsRemaining() {
         return timeLapsRemaining;
     }
@@ -141,6 +143,7 @@ public abstract class RaceModel implements Race {
         this.timeLapsRemaining = timeLapsRemaining;
     }
 
+    @XmlElement
     public String getTimeLapsSpent() {
         return timeLapsSpent;
     }

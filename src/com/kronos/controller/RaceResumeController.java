@@ -1488,15 +1488,16 @@ public class RaceResumeController implements Initializable, Observer {
         for (MainCarModel model : maincarinformation) {
             mycar = model;
         }
-
-        lastNamePilotMainCar.setText(mycar.getPilotModel().getLastName());
-        firstNamePilotMainCar.setText(mycar.getPilotModel().getFirstName());
-        if (!(mycar.getPilotModel().getDateOfBirth() == null)) {
-            dateOfBirthPilot.setText(new SimpleDateFormat("dd-MM-yyyy").format(mycar.getPilotModel().getDateOfBirth()));
+        if(mycar !=null) {
+            lastNamePilotMainCar.setText(mycar.getPilotModel().getLastName());
+            firstNamePilotMainCar.setText(mycar.getPilotModel().getFirstName());
+            if (!(mycar.getPilotModel().getDateOfBirth() == null)) {
+                dateOfBirthPilot.setText(new SimpleDateFormat("dd-MM-yyyy").format(mycar.getPilotModel().getDateOfBirth()));
+            }
+            mainCarBrand.setText(mycar.getBrand());
+            mainCarModel.setText(mycar.getModel());
+            mainCarTeam.setText(mycar.getTeam());
         }
-        mainCarBrand.setText(mycar.getBrand());
-        mainCarModel.setText(mycar.getModel());
-        mainCarTeam.setText(mycar.getTeam());
 
     }
 

@@ -3,14 +3,17 @@ package com.kronos.parserXML.MainImpl;
 import com.kronos.api.Observer;
 import com.kronos.api.Subject;
 import com.kronos.parserXML.api.SaveManager;
-import com.sun.xml.internal.ws.message.ProblemActionHeader;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.jdom2.Document;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.transform.JDOMSource;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.nio.file.Paths;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -26,7 +29,11 @@ public class SaveManagerImpl implements SaveManager, Subject {
     /**
      * collection of models to be persisted in the XML file
      */
-    private List<Object> listOfBeans;
+
+    /**
+     *
+     */
+    private Map<Object, Boolean> mapOfbeans;
 
 
     /**
@@ -74,7 +81,7 @@ public class SaveManagerImpl implements SaveManager, Subject {
      * private constructor
      */
     private SaveManagerImpl() {
-        listOfBeans = new ArrayList<Object>();
+        mapOfbeans = new HashMap<>();
 
         parser = new ModelParser();
         PATH += "course_numero-" + new Date().getTime() + ".xml";
@@ -102,16 +109,92 @@ public class SaveManagerImpl implements SaveManager, Subject {
      * @return boolean
      */
     @Override
-    public boolean persist(final Object modelToSave) {
+    public void persist(final Object modelToSave) {
         Objects.requireNonNull(modelToSave);
-        return listOfBeans.add(modelToSave);
+        if (this.updateObject(modelToSave))
+        mapOfbeans.put(modelToSave, Boolean.FALSE);
     }
 
-
+    /**
+     *
+     * @param collections
+     */
     public void persist(final Collection<? extends Object> collections) {
         Objects.requireNonNull(collections);
-        listOfBeans.addAll(collections);
+        collections.forEach(items -> mapOfbeans.put(items, Boolean.FALSE));
+
     }
+
+
+
+    private boolean updateObject(Object object){
+        boolean isDone =  true;
+        try {
+            if (mapOfbeans.containsKey(object)) {
+
+                String model = this.importManager.getModelName(object.getClass().getName());
+                this.updateTagInXML(model);
+                mapOfbeans.put(object, false);
+
+            }
+
+        }catch (Exception e){
+            isDone =false;
+        }
+
+        return isDone;
+    }
+
+
+    protected void updateTagInXML(String tag) {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    SAXBuilder saxBuilder = new SAXBuilder();
+                    Document doc = saxBuilder.build(new StringReader(importManager.getXtratable()));
+//                    System.out.println(importManager.getXtratable());
+                    doc.getRootElement().removeChild(tag);
+
+                    TransformerFactory tf = TransformerFactory.newInstance();
+                    Transformer transformer = tf.newTransformer();
+                    transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+                    StringWriter writer = new StringWriter();
+                    transformer.transform(new JDOMSource(doc), new StreamResult(writer));
+                    String output = writer.getBuffer().toString();
+
+
+//                    System.out.println("************ after delete data *****************");
+                    output = output.replaceAll("<data>", "");
+                    output = output.replaceAll("</data>", "");
+                    output = XML_STANDARD_TAG + "\n" + output;
+//                    System.out.println(output);
+                    BufferedWriter bufferedWriterwriter = new BufferedWriter(new FileWriter(PATH));
+                    bufferedWriterwriter.write(output);
+                    bufferedWriterwriter.close();
+
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }).start();
+
+    }
+
+    /**
+     *
+     * @param collections
+     * @param modePersit
+     */
+    public void persist(final Collection<? extends Object> collections, Boolean modePersit) {
+        Objects.requireNonNull(collections);
+        collections.forEach(items -> mapOfbeans.put(items, modePersit));
+
+    }
+
+
 
     /**
      * Disconnects the object to the @param model which will no longer be taken into account when saving in XML.
@@ -121,7 +204,7 @@ public class SaveManagerImpl implements SaveManager, Subject {
      */
     public boolean remove(final Object modelToUnlink) {
         Objects.requireNonNull(modelToUnlink);
-        return listOfBeans.remove(modelToUnlink);
+        return mapOfbeans.remove(modelToUnlink);
     }
 
 
@@ -129,7 +212,7 @@ public class SaveManagerImpl implements SaveManager, Subject {
      * disconnects all model objects connected to the manager that will no longer be taken into account when saving in XML.
      */
     public void clear() {
-        listOfBeans.clear();
+        mapOfbeans.clear();
     }
 
     /**
@@ -138,7 +221,9 @@ public class SaveManagerImpl implements SaveManager, Subject {
      * @return List
      */
     public List<Object> getListOfBeans() {
-        return Collections.unmodifiableList(listOfBeans);
+
+        List<Object> listOfObject = new ArrayList<>(mapOfbeans.keySet());
+        return Collections.unmodifiableList(listOfObject);
     }
 
 
@@ -146,22 +231,32 @@ public class SaveManagerImpl implements SaveManager, Subject {
      * @param fileXML
      * @return boolean
      */
-    private boolean processSave(File fileXML) {
+    private boolean processSave(File fileXML, Boolean allOjectPersist) {
         if (fileXML == null)
             return false;
 
         try {
             stringBuilder = new StringBuilder();
-            stringBuilder.append(XML_STANDARD_TAG);
-            stringBuilder.append("\n" + CONTENT_TAG + "\n");
-            for (Object beans : listOfBeans) {
-                stringBuilder.append(parser.parseModel(beans));
-            }
-            stringBuilder.append("\n" + CONTENT_END_TAG + "\n");
 
-            if (fileXML.exists()) {
-                fileXML.delete();
+            /*  si le fichier  n'existe pas c'est à créer une premiere fois on ajoute le tag standarisation XML au fichier*/
+            if (!fileXML.exists()) {
+                stringBuilder.append(XML_STANDARD_TAG);
             }
+
+            /* stringBuilder.append("\n" + CONTENT_TAG + "\n"); */
+            Iterator it = mapOfbeans.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry couple = (Map.Entry) it.next();
+                if(allOjectPersist){
+                    stringBuilder.append(parser.parseModel(couple.getKey()));;
+                } else if (couple.getValue().equals(Boolean.FALSE)) {
+                    stringBuilder.append(parser.parseModel(couple.getKey()));
+                    couple.setValue(Boolean.TRUE);
+                }
+            }
+            /* stringBuilder.append("\n" + CONTENT_END_TAG + "\n"); */
+
+
             FileWriter fileWriter = new FileWriter(fileXML, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(stringBuilder.toString());
@@ -183,7 +278,7 @@ public class SaveManagerImpl implements SaveManager, Subject {
     @Override
     public boolean saveFile() {
         File fileXML = new File(PATH);
-        return processSave(fileXML);
+        return processSave(fileXML, Boolean.FALSE);
     }
 
 
@@ -200,7 +295,7 @@ public class SaveManagerImpl implements SaveManager, Subject {
         );
         File selectedFile = fileChooser.showSaveDialog(stage);
         setPATH(selectedFile.getAbsolutePath());
-        return processSave(selectedFile);
+        return processSave(selectedFile, Boolean.TRUE);
     }
 
 
@@ -221,13 +316,11 @@ public class SaveManagerImpl implements SaveManager, Subject {
     public List<Object> getModels(final Class typeClass) {
 
         List<Object> objects = new ArrayList<>();
-
-        for (Object model : listOfBeans) {
+        for (Object model : mapOfbeans.keySet()) {
             if (typeClass.isInstance(model)) {
                 objects.add(model);
             }
         }
-
         return objects;
     }
 
@@ -249,4 +342,9 @@ public class SaveManagerImpl implements SaveManager, Subject {
     public static void setPATH(String PATH) {
         SaveManagerImpl.PATH = PATH;
     }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////                                 /////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 }
