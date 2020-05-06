@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+
+
+<mainCarModel>
+    <brand>soleil</brand>
+    <completedLaps>0</completedLaps>
+    <id>1588677860913</id>
+    <lapRace>
+        <raceName>Circuit</raceName>
+        <raceState>CREATION</raceState>
+        <racewayName/>
+        <startingTime>2020-05-13T00:00:00+02:00</startingTime>
+        <timeLapsRemaining>00</timeLapsRemaining>
+        <timeLapsSpent>00</timeLapsSpent>
+        <topsMap/>
+        <id>1588677895496</id>
+        <numberOfLaps>12</numberOfLaps>
+    </lapRace>
+    <model>tm78</model>
+    <number>12</number>
+    <pilotModel>
+        <id>1588677835777</id>
+        <firstName>mcCalvin</firstName>
+        <lastName>Hello</lastName>
+        <comment/>
+        <dateOfBirth>2020-05-05T00:00:00+02:00</dateOfBirth>
+        <height>0.0</height>
+        <weight>0.0</weight>
+    </pilotModel>
+    <remainingLaps>12</remainingLaps>
+    <team>Gloi</team>
+</mainCarModel>
+
+<pilotModel>
+    <id>1588677835777</id>
+    <firstName>mcCalvin</firstName>
+    <lastName>Hello</lastName>
+    <comment/>
+    <dateOfBirth>2020-05-05T00:00:00+02:00</dateOfBirth>
+    <height>0.0</height>
+    <weight>0.0</weight>
+</pilotModel>
+
+
+
+<lapRaceModel>
+    <raceName>Circuit</raceName>
+    <raceState>IN_PROGRESS</raceState>
+    <racewayName></racewayName>
+    <startingTime>2020-05-13T00:00:00+02:00</startingTime>
+    <timeLapsRemaining>12</timeLapsRemaining>
+    <timeLapsSpent>0</timeLapsSpent>
+    <topsMap/>
+    <id>0</id>
+    <numberOfLaps>12</numberOfLaps>
+</lapRaceModel>
+
+<topModel>
+    <carNumber>12</carNumber>
+    <comment></comment>
+    <id>1588679761801</id>
+    <lap>1</lap>
+    <lapTime>00:00:00</lapTime>
+    <time>05-05-2020 13:56:01</time>
+    <topType>O</topType>
+</topModel>
+
+<topModel>
+    <carNumber>12</carNumber>
+    <comment></comment>
+    <id>1588679765268</id>
+    <lap>1</lap>
+    <lapTime>00:03:51</lapTime>
+    <time>05-05-2020 13:56:05</time>
+    <topType>O</topType>
+</topModel>
