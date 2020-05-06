@@ -85,7 +85,7 @@ public class SaveManagerImpl implements SaveManager, Subject {
 
         parser = new ModelParser();
         PATH += "course_numero-" + new Date().getTime() + ".xml";
-        importManager = new ImportManagerImpl();
+        importManager = new ImportManagerImpl(PATH);
 
 
     }

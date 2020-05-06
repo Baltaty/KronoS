@@ -101,9 +101,9 @@ public class PrinterModel {
                 "  <body>\n" +
                 "    <header class=\"clearfix\">\n" +
                 "      <hr/>\n" +
-                "      <div id=\"company\">\n" +
-                "        <h2 class=\"name\">Kronos</h2>\n" +
-                "        <div>Feuille de temps</div>\n" +
+                "      <div id=\"head\">\n" +
+                "        <h1> KRONOS FEUILLE DE TEMPS </h1>\n" +
+                "        <div class=\"name\">INFO PLIOTES</div>\n" +
                 "      </div>\n" +
                 "       <div id=\"invoice\">\n" +
                 "          <h2>Course numero 1-3-2-1jvfejnefjnefjnefjneirvie</h2>\n" +
@@ -114,12 +114,12 @@ public class PrinterModel {
                 "    <main>\n" +
                 "      <div id=\"details\" class=\"\">\n" +
                 "        <div id=\"client\">\n" +
-                "          <div class=\"to\">TYPE : INFO PILOTES </div>\n" +
-                "          <h2 class=\"name\">John Doe</h2>\n" +
-                "          <div class=\"address\">Equipe : salavador</div>\n" +
-                "          <div class=\"address\">Voiture : Bugatti</div>\n" +
-                "          <div class=\"address\">Model : Verronr</div>\n" +
-                "          <div class=\"address\">Numero : 360 </div>\n" +
+                "          <h2 class=\"name\">John Doe, </h2> \n" +
+                "          <div class=\"address\">Equipe : salavador  | <span> Voiture  N° 0225 : Bugatti </span></div>\n" +
+                "          <div class=\"address\">Model : Verrone </div>   \n" +
+                "          <div class=\"address\">Poids : 14 kg   </div>\n" +
+                "          <div class=\"address\">Taille : 124 cm </div>   \n" +
+                "          <div class=\"address\">Commentaire : 124 cm </div>  \n" +
                 "        </div>\n" +
                 "      </div>\n" +
                 "      <br/>\n" +

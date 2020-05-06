@@ -64,20 +64,37 @@ h2.name {
 }
 
 #invoice {
-    float: right;
-    text-align: right;
+    float: left;
+    text-align: left;
 }
 
 #invoice h2 {
     color: #0087C3;
-    font-size: 1.5em;
+    font-size: 1.4em;
     line-height: 0.8em;
     font-weight: normal;
     margin: 0  0 10px 0;
 }
 
+#head {
+    text-align: center;
+    border-style: solid;
+    border-width: 10px;
+    border-color: hsl(197, 38%, 55%);
+}
+
+#head h1 {
+    color: #0087C3;
+    font-size: 1.8em;
+    line-height: 0.8em;
+    font-weight: normal;
+    margin: 0 0 10px 0;
+}
+
+
+
 #invoice .date {
-    font-size: 1.1em;
+    font-size: 0.9em;
     color: #777777;
 }
 
@@ -86,6 +103,7 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
     margin-bottom: 20px;
+    margin-top: 30px;
 }
 
 table th,
@@ -113,6 +131,7 @@ table td h3{
 }
 
 table .no {
+    text-align: center;
     color: #FFFFFF;
     font-size: 1.6em;
     background: #57B223;
@@ -143,6 +162,14 @@ table td.total {
 table tbody tr:last-child td {
     border: none;
 }
+
+table thead tr,
+table tbody tr,
+table tfoot tr {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
 
 table tfoot td {
     padding: 10px 20px;
