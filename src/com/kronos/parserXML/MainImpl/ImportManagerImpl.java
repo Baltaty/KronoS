@@ -29,7 +29,6 @@ import java.util.regex.Pattern;
  */
 public class ImportManagerImpl implements ImportManager {
 
-    public static String PATH = "data" + File.separator + "fichier1.xml";
 
     private String[] allModels = {"ConfigModel", "LapRaceModel", "MainCarModel", "PilotModel", "PrintModel"
             , "RaceModel", "RivalCarModel", "TimeRaceModel", "TopModel"};
@@ -44,12 +43,19 @@ public class ImportManagerImpl implements ImportManager {
 
     }
 
+    public ImportManagerImpl(String PATH) {
+        this.fileXML = new File(PATH);
+    }
+
+
+
     /***
      *
      * @param str
      * @return
      */
     private String firstCharToLowerCase(String str) {
+
 
         if (str == null || str.length() == 0)
             return "";
@@ -330,11 +336,5 @@ public class ImportManagerImpl implements ImportManager {
     }
 
 
-    public static String getPATH() {
-        return PATH;
-    }
 
-    public static void setPATH(String PATH) {
-        ImportManagerImpl.PATH = PATH;
-    }
 }

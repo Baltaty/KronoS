@@ -21,7 +21,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="1500.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.RaceResumeController">
+<StackPane prefHeight="1500.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.RaceResumeController">
 
 <!--    <stylesheets>-->
 <!--        <URL value="@../theme/css/material-color.css" />-->
@@ -41,19 +41,19 @@
                     <children>
                         <Pane prefHeight="375.0" prefWidth="372.0" style="-fx-border-color: black;">
                             <children>
-                                <Circle fill="WHITE" layoutX="60.0" layoutY="63.0" radius="35.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" />
-                                <Label layoutX="146.0" layoutY="53.0" text="INFOS COURSE" />
-                                <Label layoutX="25.0" layoutY="127.0" prefHeight="17.0" prefWidth="112.0" text="Heure de depart" />
-                                <Label fx:id="departureHour" layoutX="46.0" layoutY="144.0" text="00 : 00 : 00" />
-                                <Label layoutX="216.0" layoutY="127.0" prefHeight="17.0" prefWidth="112.0" text="Heure actuelle" />
-                                <Label fx:id="currentHour" layoutX="230.0" layoutY="144.0" text="00 : 00 : 00" />
-                                <Label fx:id="tempsTourEcoulé" layoutX="35.0" layoutY="210.0" prefHeight="17.0" prefWidth="112.0" text="Temps ecoulé" />
-                                <Label fx:id="spentTime" layoutX="46.0" layoutY="227.0" text="00 : 00 : 00" />
-                                <Label fx:id="tempsTourRestant" layoutX="209.0" layoutY="208.0" prefHeight="17.0" prefWidth="112.0" text="Temps restant" />
-                                <Label fx:id="remainingTime" layoutX="224.0" layoutY="225.0" text="00 : 00 : 00" />
-                                <JFXButton fx:id="startRace" alignment="CENTER" contentDisplay="CENTER" layoutX="51.0" layoutY="264.0" onAction="#startTimer" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #57c6f2;" styleClass="btn-base" text="Start" />
-                                <JFXButton fx:id="pauseRace" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="149.0" layoutY="264.0" onAction="#pauseTimer" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #57c6f2;" styleClass="btn-base" text="Pause" />
-                                <JFXButton fx:id="stopRace" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="248.0" layoutY="264.0" onAction="#endTimer" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #57c6f2;" text="Stop" />
+                                <Circle fill="WHITE" layoutX="69.0" layoutY="50.0" radius="35.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" />
+                                <Label layoutX="155.0" layoutY="40.0" text="INFOS COURSE" />
+                                <Label layoutX="25.0" layoutY="100.0" prefHeight="17.0" prefWidth="112.0" text="Heure de depart" />
+                                <Label fx:id="departureHour" layoutX="46.0" layoutY="117.0" text="00 : 00 : 00" />
+                                <Label layoutX="216.0" layoutY="100.0" prefHeight="17.0" prefWidth="112.0" text="Heure actuelle" />
+                                <Label fx:id="currentHour" layoutX="230.0" layoutY="117.0" text="00 : 00 : 00" />
+                                <Label fx:id="tempsTourEcoulé" layoutX="35.0" layoutY="163.0" prefHeight="17.0" prefWidth="112.0" text="Temps ecoulé" />
+                                <Label fx:id="spentTime" layoutX="46.0" layoutY="180.0" text="00 : 00 : 00" />
+                                <Label fx:id="tempsTourRestant" layoutX="209.0" layoutY="161.0" prefHeight="17.0" prefWidth="112.0" text="Temps restant" />
+                                <Label fx:id="remainingTime" layoutX="224.0" layoutY="178.0" text="00 : 00 : 00" />
+                                <JFXButton fx:id="startRace" alignment="CENTER" contentDisplay="CENTER" layoutX="51.0" layoutY="217.0" onAction="#startTimer" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #57c6f2;" styleClass="btn-base" text="Start" />
+                                <JFXButton fx:id="pauseRace" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="149.0" layoutY="217.0" onAction="#pauseTimer" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #57c6f2;" styleClass="btn-base" text="Pause" />
+                                <JFXButton fx:id="stopRace" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="248.0" layoutY="217.0" onAction="#endTimer" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #57c6f2;" text="Stop" />
                             </children>
                         </Pane>
                         <Pane layoutX="10.0" layoutY="10.0" prefHeight="350.0" prefWidth="329.0" style="-fx-border-color: black;">
