@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * and O for Out (when the car is leaving the pit-stop).
  */
 @XmlRootElement
-public class TopModel implements Top {
+public class TopModel implements Top, Comparable<TopModel> {
 
     private Long id;
     private int carNumber;
@@ -190,4 +190,8 @@ public class TopModel implements Top {
     }
 
 
+    @Override
+    public int compareTo(TopModel o) {
+        return (Integer.compare(this.getLap(), o.getLap()));
+    }
 }
