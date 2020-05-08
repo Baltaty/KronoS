@@ -141,7 +141,7 @@ public class RaceResumeController implements Initializable, Observer {
     private boolean isExtancier = true, breakThread = true;
     private Thread thread, threadChrono, threadChronoRivalCar;
     private int munites = 0, secondes = 0, millisecondes = 0, decimalpartTosecond = 0, intergerpart = 0, numberOfLapsDone = 0, remainingLaps;
-    private int rivalTimerMunites = 0, rivalTimerHours = 0, rivalTimerSecondes = 0, rivalTimerMillisecondes = 0,numberMainCar=0;
+    private int rivalTimerMunites = 0, rivalTimerHours = 0, rivalTimerSecondes = 0, rivalTimerMillisecondes = 0, numberMainCar = 0;
     boolean isStartRivalTimer = true;
     private boolean isStartTimer, isSetTimerBar = true, istartRace = false, timerIsInitialize = true, firstTop = true, isInitialize = true;
     private double decimalpart = 0.0, lapTimeForMeanTime = 0.0, rivalCarLapTimeForMeanTime = 0.0;
@@ -181,9 +181,9 @@ public class RaceResumeController implements Initializable, Observer {
         col_delete.setVisible(false);
         if (!getRace().isEmpty()) {
             raceModel = getRace().get(0);
-            System.out.println( " la course choisie est :" +raceModel.getRaceName());
-            System.out.println( " la course a pour temps ecoule  :" +raceModel.getTimeLapsSpent());
-            System.out.println( " la course a pour temps restant :" +raceModel.getTimeLapsRemaining());
+            System.out.println(" la course choisie est :" + raceModel.getRaceName());
+            System.out.println(" la course a pour temps ecoule  :" + raceModel.getTimeLapsSpent());
+            System.out.println(" la course a pour temps restant :" + raceModel.getTimeLapsRemaining());
         }
 
 
@@ -213,7 +213,7 @@ public class RaceResumeController implements Initializable, Observer {
             colLapNumber.setVisible(true);
             tempsTourRestant.setText("Tours Restants");
             tempsTourEcoulé.setText("Tour Ecoulés");
-
+            System.out.println("test race "+raceModel);
 
             if (raceModel.getRaceState().equals(RaceState.CREATION)) {
                 remainingLaps = ((LapRaceModel) raceModel).getNumberOfLaps();
@@ -222,7 +222,7 @@ public class RaceResumeController implements Initializable, Observer {
                 raceModel.setTimeLapsSpent(String.valueOf(numberOfLapsDone));
 
             } else {
-                  System.out.println("reprise de la course ");
+                System.out.println("reprise de la course ");
                 startRace.setText("Restart");
                 remainingLaps = Integer.parseInt(raceModel.getTimeLapsRemaining());
                 numberOfLapsDone = Integer.parseInt(raceModel.getTimeLapsSpent());
@@ -273,7 +273,7 @@ public class RaceResumeController implements Initializable, Observer {
                     }
                 }
             } else {
-                numberMainCar=carmodel.getNumber();
+                numberMainCar = carmodel.getNumber();
                 if (!topModelList.isEmpty()) {
                     for (TopModel topModel : topModelList) {
                         loadData(topModel);
@@ -293,12 +293,10 @@ public class RaceResumeController implements Initializable, Observer {
                 }
             }
 
-           System.out.println( "la taille du tableau de "+carmodel.getNumber()+ " EST "+topsMaps.get(carmodel.getNumber()).size());
+            System.out.println("la taille du tableau de " + carmodel.getNumber() + " EST " + topsMaps.get(carmodel.getNumber()).size());
         }
 
         raceModel.setTopsMap(topsMaps);
-
-
         maincarinformation();
         departureHour.setText(time2.format(dtf));
         Timeline clock = new Timeline(new KeyFrame(Duration.millis(1000), e -> getCurrentTime()));
@@ -371,7 +369,7 @@ public class RaceResumeController implements Initializable, Observer {
         CarModel carModel = carController.findCar(carModels, carNumber);
         if (timerIsInitialize) {
             timerIsInitialize = false;
-            carNumber=numberMainCar;
+            carNumber = numberMainCar;
             carModel = carController.findCar(carModels, carNumber);
             lapTime = LocalTime.of(0, 0, 0, 0).format(dtf2);
             listOfMeanTime.add(getMeanTime(listOfMeanTime));
@@ -413,7 +411,6 @@ public class RaceResumeController implements Initializable, Observer {
                 topModel = new TopModel(carNumber, dateTime, type, raceTime, lapTime, comment);
                 handleTopTimeRace(topModel, carModel, carNumber);
             } else {
-                lap = numberOfLapsDone;
                 if (firstTop) {
                     lap = numberOfLapsDone;
                     firstTop = false;
@@ -422,45 +419,25 @@ public class RaceResumeController implements Initializable, Observer {
                         remainingLaps--;
                         numberOfLapsDone++;
                         lap = numberOfLapsDone;
-                    } else if(!(carModel instanceof MainCarModel)){
-                        System.out.println("cherche la taille du topsmap");
-                        int sizeOfArray=carModel.getTopList().size();
-                             sizeOfArray=sizeOfArray -1;
-                        System.out.println("la taille du topsmap est "+sizeOfArray);
-                            TopModel topModel1 = carModel.getTopList().get(sizeOfArray);
-                            if (type.equals("R") || type.equals("O")) {
-                                lap = topModel1.getLap() + 1;
-                            } else {
-                                lap = topModel1.getLap();
-                            }
-                    }else {
+                    } else {
                         lap = numberOfLapsDone;
                     }
+                    if (!(carModel instanceof MainCarModel)) {
+                      //  System.out.println("cherche la taille du topsmap");
+                        int sizeOfArray = carModel.getTopList().size();
+                        sizeOfArray = sizeOfArray - 1;
+                       // System.out.println("la taille du topsmap est " + sizeOfArray);
+                        TopModel topModel1 = carModel.getTopList().get(sizeOfArray);
+                        if (type.equals("R") || type.equals("O")) {
+                            lap = topModel1.getLap() + 1;
+                        } else {
+                            lap = topModel1.getLap();
+                        }
+                    }
                 }
-
-
                 topModel = new TopModel(carNumber, dateTime, type, lap, lapTime, comment);
                 handleTopLapRace(topModel, carModel, carNumber);
-                raceModel.getTopsMap().get(carNumber).add(topModel);
             }
-            loadData(topModel);
-            carModel.getTopList().add(topModel);
-            if ((carModel instanceof MainCarModel)) {
-                if ((topModel.getTopType().equals("R") || topModel.getTopType().equals("O"))) {
-                    checkEndOfRace();
-                    handleMeanTimeBar(1);
-                    listOfMeanTime.add(lapTimeForMeanTime);
-                } else {
-                    checkEndOfRace();
-                    handleMeanTimeBar(1);
-                }
-            } else {
-                if ((topModel.getTopType().equals("R") || topModel.getTopType().equals("O"))) {
-                    checkEndOfRace();
-                    rivalCarListOfMeantime.get(carModel.getNumber()).add(rivalCarLapTimeForMeanTime);
-                }
-            }
-
         } else {
             //Case where top does not respect logical top type order
             if (raceModel instanceof TimeRaceModel) {
@@ -481,17 +458,18 @@ public class RaceResumeController implements Initializable, Observer {
                         remainingLaps--;
                         numberOfLapsDone++;
                         lap = numberOfLapsDone;
-                    } else if(!(carModel instanceof MainCarModel)){
-                        int sizeOfArray=carModel.getTopList().size();
-                          sizeOfArray=sizeOfArray -1;
-                        TopModel topModel1 =carModel.getTopList().get(sizeOfArray);
+                    } else {
+                        lap = numberOfLapsDone;
+                    }
+                    if (!(carModel instanceof MainCarModel)) {
+                        int sizeOfArray = carModel.getTopList().size();
+                        sizeOfArray = sizeOfArray - 1;
+                        TopModel topModel1 = carModel.getTopList().get(sizeOfArray);
                         if (type.equals("R") || type.equals("O")) {
                             lap = topModel1.getLap() + 1;
                         } else {
                             lap = topModel1.getLap();
                         }
-                    }else {
-                        lap = numberOfLapsDone;
                     }
                 }
 
@@ -502,29 +480,34 @@ public class RaceResumeController implements Initializable, Observer {
                 }
                 handleTopLapRace(topModel, carModel, carNumber);
             }
-            loadData(topModel);
-            carModel.getTopList().add(topModel);
-            raceModel.getTopsMap().get(carNumber).add(topModel);
-            if ((carModel instanceof MainCarModel)) {
-                if ((topModel.getTopType().equals("R") || topModel.getTopType().equals("O"))) {
-                    checkEndOfRace();
-                    handleMeanTimeBar(1);
-                    listOfMeanTime.add(lapTimeForMeanTime);
-                } else {
-                    checkEndOfRace();
-                    handleMeanTimeBar(1);
-                }
-            } else {
-                if ((topModel.getTopType().equals("R") || topModel.getTopType().equals("O"))) {
-
-                    rivalCarListOfMeantime.get(carModel.getNumber()).add(rivalCarLapTimeForMeanTime);
-                }
-            }
         }
-        topComment.clear();
+
+        loadData(topModel);
+        carModel.getTopList().add(topModel);
+        raceModel.getTopsMap().get(carNumber).add(topModel);
         //Save Top list of Object to persist
         saveTopModel(topModel);
         //System.out.println("==== top =====");
+
+
+        //CHECK THE END OF THE RACE
+
+        if ((carModel instanceof MainCarModel)) {
+            if ((topModel.getTopType().equals("R") || topModel.getTopType().equals("O"))) {
+                checkEndOfRace();
+                handleMeanTimeBar(1);
+                listOfMeanTime.add(lapTimeForMeanTime);
+            } else {
+                checkEndOfRace();
+                handleMeanTimeBar(1);
+            }
+        } else {
+            if ((topModel.getTopType().equals("R") || topModel.getTopType().equals("O"))) {
+
+                rivalCarListOfMeantime.get(carModel.getNumber()).add(rivalCarLapTimeForMeanTime);
+            }
+        }
+        topComment.clear();
 
     }
 
@@ -1652,8 +1635,8 @@ public class RaceResumeController implements Initializable, Observer {
         App.getDataManager().saveFile();
         System.out.println("change elemnt de la course ");
 
-        System.out.println(" tout ecoule  "+numberOfLapsDone);
-        System.out.println("restant "+remainingLaps);
+        System.out.println(" tout ecoule  " + numberOfLapsDone);
+        System.out.println("restant " + remainingLaps);
 
     }
 
@@ -1672,10 +1655,13 @@ public class RaceResumeController implements Initializable, Observer {
             setRaceInformations(RaceState.IN_PROGRESS);
         } else {
 
-            if (remainingLaps == 0) {
-                Alerts.info("Information", "la course est terminée");
+            if (remainingLaps == 0 ) {
+                remainingTime.setText(String.valueOf(remainingLaps));
+                spentTime.setText(String.valueOf(numberOfLapsDone));
                 setRaceInformations(RaceState.DONE);
                 endAllThread();
+                Alerts.info("Information", "la course est terminée");
+
 
             } else {
                 /*remainingLaps--;
@@ -1922,7 +1908,7 @@ public class RaceResumeController implements Initializable, Observer {
             firstTop = false;
             breakThread = false;
             thread.interrupt();
-           // thread.join();
+            // thread.join();
         }
 
     }
