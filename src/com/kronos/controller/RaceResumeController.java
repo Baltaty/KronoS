@@ -27,7 +27,6 @@ import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
 
 import java.net.URL;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -561,9 +560,9 @@ public class RaceResumeController implements Initializable, Observer {
         String newRaceTime = event.getNewValue();
         SimpleDateFormat df1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         SimpleDateFormat df2 = new SimpleDateFormat("HH:mm:ss");
+        int newPos = 0;
         top.setRaceTime(newRaceTime);
         try {
-            int newPos = 0;
             Date oldTopTimeMillis = df1.parse(top.getTime());
             Date oldRaceTimeMillis = df2.parse(oldRaceTime);
             Date newRaceTimeMillis = df2.parse(newRaceTime);
@@ -571,16 +570,20 @@ public class RaceResumeController implements Initializable, Observer {
             String newTopTime = df1.format(newTopTimeMillis);
             String oldTopTime = top.getTime();
             if(newTopTimeMillis < raceModel.getStartingTime().getTime()) {
+                top.setRaceTime("00:00:00");
                 top.setTime(df1.format(raceModel.getStartingTime()));
-                newPos = findTopNewPositionOnTimeChange(topModels, index, oldTopTime, df1.format(raceModel.getStartingTime()));
+                newPos = findTopNewPositionOnRaceTimeChange(topModels, index, oldRaceTime, "00:00:00");
             }
             else if(newTopTimeMillis > System.currentTimeMillis()) {
+                long currentRaceTime = System.currentTimeMillis() - raceModel.getStartingTime().getTime();
+                top.setRaceTime(df2.format(currentRaceTime));
                 top.setTime(df1.format(System.currentTimeMillis()));
-                newPos = findTopNewPositionOnTimeChange(topModels, index, oldTopTime, df1.format(System.currentTimeMillis()));
+                newPos = findTopNewPositionOnRaceTimeChange(topModels, index, oldRaceTime, df2.format(currentRaceTime));
             }
             else {
+                top.setRaceTime(newRaceTime);
                 top.setTime(newTopTime);
-                newPos = findTopNewPositionOnTimeChange(topModels, index, oldTopTime, newTopTime);
+                newPos = findTopNewPositionOnRaceTimeChange(topModels, index, oldRaceTime, newRaceTime);
 
                 System.out.println(newPos);
             }
@@ -588,23 +591,27 @@ public class RaceResumeController implements Initializable, Observer {
                 topModels.remove(index);
                 topModels.add(newPos, top);
                 updateTopLogic(carNumber, newPos);
-                recalculateLapTime(topModels);
 
             }
             else {
                 topModels.remove(index);
                 topModels.add(top);
                 updateTopLogic(carNumber, newPos);
-                recalculateLapTime(topModels);
             }
         }
         catch (ParseException e) {
             e.printStackTrace();
         }
+        col_racetime.setSortType(TableColumn.SortType.DESCENDING);
+        table_info.getSortOrder().remove(col_time);
+        table_info.getSortOrder().add(col_racetime);
         table_info.sort();
         table_info.refresh();
-
-
+        table_info.getSortOrder().remove(col_racetime);
+        table_info.getSortOrder().add(col_time);
+        recalculateTopTime(topModels, newPos, oldRaceTime, newRaceTime, true);
+        recalculateLapTime(topModels);
+        table_info.refresh();
     }
 
     private void editLapTime(TableColumn.CellEditEvent<TopModel, String> event) {
@@ -616,28 +623,39 @@ public class RaceResumeController implements Initializable, Observer {
         TopModel top = topModels.get(index);
         String oldLapTime = event.getOldValue();
         String newLapTime = event.getNewValue();
+        String oldTopTime = top.getTime();
         SimpleDateFormat df1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         SimpleDateFormat df2 = new SimpleDateFormat("mm:ss:SS");
         try {
             int i = index;
             while(i < topModels.size() && i != 0) {
-                top = topModels.get(i);
-                recalculateTopTime(topModels, i, oldLapTime, newLapTime);
-                Date topTime = df1.parse(top.getTime());
-                Date previousTopTime = df1.parse(topModels.get(i - 1).getTime());
-                Date lapTime = df2.parse(top.getLapTime());
-                System.out.println(previousTopTime.getTime());
-                System.out.println(top.getTime());
-                if(topTime.getTime() > System.currentTimeMillis()) {
-                    System.out.println("here");
-                    top.setTime(df1.format(System.currentTimeMillis()));
-                    topTime = df1.parse(top.getTime());
-                    top.setLapTime(df2.format(topTime.getTime() - previousTopTime.getTime()));
-                }
-                else {
-                    top.setLapTime(newLapTime);
+                recalculateTopTime(topModels, i, oldLapTime, newLapTime, false);
+                if(raceModel instanceof TimeRaceModel) {
+                    recalculateRaceTime(topModels, i);
                 }
                 i++;
+                System.out.println(i);
+            }
+            top = topModels.get(index);
+            Calendar previousTopTimeCalendar = Calendar.getInstance();
+            if(index != 0) {
+                TopModel previousTop = topModels.get(index - 1);
+                Calendar newLapTimeCalendar = Calendar.getInstance();
+                previousTopTimeCalendar.setTime(df1.parse(previousTop.getTime()));
+                newLapTimeCalendar.setTime(df2.parse(newLapTime));
+                previousTopTimeCalendar.add(Calendar.HOUR_OF_DAY, newLapTimeCalendar.get(Calendar.HOUR_OF_DAY));
+                previousTopTimeCalendar.add(Calendar.MINUTE, newLapTimeCalendar.get(Calendar.MINUTE));
+                previousTopTimeCalendar.add(Calendar.SECOND, newLapTimeCalendar.get(Calendar.SECOND));
+                previousTopTimeCalendar.add(Calendar.MILLISECOND, newLapTimeCalendar.get(Calendar.MILLISECOND));
+            }
+            if(previousTopTimeCalendar.getTime().getTime() > System.currentTimeMillis()) {
+                recalculateLapTime(topModels);
+            }
+            else if(index == 0) {
+                top.setLapTime("00:00:00");
+            }
+            else {
+                top.setLapTime(newLapTime);
             }
         }
         catch (ParseException e) {
@@ -646,15 +664,57 @@ public class RaceResumeController implements Initializable, Observer {
         table_info.refresh();
     }
 
-    private void recalculateTopTime(ArrayList<TopModel> topModels, int index, String oldLapTime, String newLapTime) {
-        SimpleDateFormat df1 = new SimpleDateFormat("mm:ss:SS");
+    private void recalculateTopTime(ArrayList<TopModel> topModels, int index, String oldTime, String newTime, boolean useRaceTime) {
+        SimpleDateFormat df1 = null;
+        if(useRaceTime) {
+            df1 = new SimpleDateFormat("HH:mm:ss");
+        }
+        else {
+            df1 = new SimpleDateFormat("mm:ss:SS");
+        }
         try {
-            Date currentLapTime = df1.parse(newLapTime);
-            Date formerLapTime = df1.parse(oldLapTime);
+            Calendar baseCalendar = Calendar.getInstance();
+            Calendar newTimeCalendar = Calendar.getInstance();
+            Calendar oldTimeCalendar = Calendar.getInstance();
+            Date currentTime = df1.parse(newTime);
+            Date formerTime = df1.parse(oldTime);
             SimpleDateFormat df2 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
             Date topTime = df2.parse(topModels.get(index).getTime());
-            long newTopTimeInMillis = topTime.getTime() + (currentLapTime.getTime() - formerLapTime.getTime());
-            topModels.get(index).setTime(df2.format(newTopTimeInMillis));
+            long newTopTimeInMillis = 0;
+            if(useRaceTime) {
+                baseCalendar.setTime(raceModel.getStartingTime());
+                newTimeCalendar.setTime(currentTime);
+                baseCalendar.add(Calendar.HOUR_OF_DAY, newTimeCalendar.get(Calendar.HOUR_OF_DAY));
+                baseCalendar.add(Calendar.MINUTE, newTimeCalendar.get(Calendar.MINUTE));
+                baseCalendar.add(Calendar.SECOND, newTimeCalendar.get(Calendar.SECOND));
+            }
+            else {
+                baseCalendar.setTime(topTime);
+                newTimeCalendar.setTime(currentTime);
+                oldTimeCalendar.setTime(formerTime);
+                if(newTimeCalendar.getTime().after(oldTimeCalendar.getTime())) {
+                    newTimeCalendar.add(Calendar.MINUTE, -oldTimeCalendar.get(Calendar.MINUTE));
+                    newTimeCalendar.add(Calendar.SECOND, -oldTimeCalendar.get(Calendar.SECOND));
+                    newTimeCalendar.add(Calendar.MILLISECOND, -oldTimeCalendar.get(Calendar.MILLISECOND));
+                    baseCalendar.add(Calendar.MINUTE, newTimeCalendar.get(Calendar.MINUTE));
+                    baseCalendar.add(Calendar.SECOND, newTimeCalendar.get(Calendar.SECOND));
+                    baseCalendar.add(Calendar.MILLISECOND, newTimeCalendar.get(Calendar.MILLISECOND));
+                }
+                else if(newTimeCalendar.getTime().before(oldTimeCalendar.getTime())) {
+                    oldTimeCalendar.add(Calendar.MINUTE, -newTimeCalendar.get(Calendar.MINUTE));
+                    oldTimeCalendar.add(Calendar.SECOND, -newTimeCalendar.get(Calendar.SECOND));
+                    oldTimeCalendar.add(Calendar.MILLISECOND, -newTimeCalendar.get(Calendar.MILLISECOND));
+                    baseCalendar.add(Calendar.MINUTE, -oldTimeCalendar.get(Calendar.MINUTE));
+                    baseCalendar.add(Calendar.SECOND, -oldTimeCalendar.get(Calendar.SECOND));
+                    baseCalendar.add(Calendar.MILLISECOND, -oldTimeCalendar.get(Calendar.MILLISECOND));
+                }
+            }
+            if(baseCalendar.getTime().getTime() > System.currentTimeMillis()) {
+                topModels.get(index).setTime(df2.format(System.currentTimeMillis()));
+            }
+            else {
+                topModels.get(index).setTime(df2.format(baseCalendar.getTime()));
+            }
         }
         catch (ParseException e) {
             e.printStackTrace();
@@ -827,7 +887,7 @@ public class RaceResumeController implements Initializable, Observer {
         catch (ParseException e) {
             e.printStackTrace();
         }
-        int newPos = findTopNewPositionOnTimeChange(topModels, index, oldTopTime, newTopTime);
+        int newPos = findTopNewPositionOnTopTimeChange(topModels, index, oldTopTime, newTopTime);
         System.out.println("topnewpos"+newPos);
         if(newPos < topModels.size()) {
             topModels.remove(index);
@@ -1112,7 +1172,7 @@ public class RaceResumeController implements Initializable, Observer {
      * @param newTime
      * @return
      */
-    private int findTopNewPositionOnTimeChange(ArrayList<TopModel> topModels, int index, String oldTime, String newTime) {
+    private int findTopNewPositionOnTopTimeChange(ArrayList<TopModel> topModels, int index, String oldTime, String newTime) {
         int i = index;
         boolean found = false;
         if(LocalDateTime.parse(oldTime, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")).isBefore(LocalDateTime.parse(newTime, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")))) {
@@ -1121,7 +1181,7 @@ public class RaceResumeController implements Initializable, Observer {
             System.out.println("newtop:"+newTop.getTime());
             System.out.println("oldtop:"+topModels.get(index).getTime());
             while(i < topModels.size() && !found) {
-                if(LocalDateTime.parse(newTop.getTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")).isBefore(LocalDateTime.parse(topModels.get(i).getTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"))) || LocalDateTime.parse(newTop.getTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")).isEqual(LocalDateTime.parse(topModels.get(i).getTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")))) {
+                if(LocalDateTime.parse(newTop.getTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")).isBefore(LocalDateTime.parse(newTime, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"))) || LocalDateTime.parse(newTop.getTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")).isEqual(LocalDateTime.parse(topModels.get(i).getTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")))) {
                     found = true;
                 }
                 else {
@@ -1142,6 +1202,51 @@ public class RaceResumeController implements Initializable, Observer {
                 }
             }
             i++;
+        }
+        return i;
+    }
+
+    /**
+     * @param topModels
+     * @param index
+     * @param oldTime
+     * @param newTime
+     * @return
+     */
+    private int findTopNewPositionOnRaceTimeChange(ArrayList<TopModel> topModels, int index, String oldTime, String newTime) {
+        int i = index;
+        boolean found = false;
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+        try {
+            if(df.parse(oldTime).before(df.parse(newTime))) {
+                TopModel newTop = topModels.get(index);
+                i++;
+                while(i < topModels.size() && !found) {
+                    if(df.parse(newTop.getRaceTime()).before(df.parse(topModels.get(i).getRaceTime())) || df.parse(newTop.getRaceTime()).equals(df.parse(topModels.get(i).getRaceTime()))) {
+                        found = true;
+                    }
+                    else {
+                        i++;
+                    }
+                }
+                i--;
+            }
+            else if(df.parse(oldTime).after(df.parse(newTime))) {
+                TopModel newTop = topModels.get(index);
+                i--;
+                while(i >= 0 && !found) {
+                    if(df.parse(newTop.getRaceTime()).after(df.parse(topModels.get(i).getRaceTime())) || df.parse(newTop.getRaceTime()).equals(df.parse(topModels.get(i).getRaceTime()))) {
+                        found = true;
+                    }
+                    else {
+                        i--;
+                    }
+                }
+                i++;
+            }
+        }
+        catch (ParseException e) {
+            e.printStackTrace();
         }
         return i;
     }
