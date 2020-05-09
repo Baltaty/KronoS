@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import com.kronos.App;
+import com.kronos.api.LapRace;
 import com.kronos.api.Observer;
 import com.kronos.api.TimeRace;
 import com.kronos.global.animation.PulseTransition;
@@ -343,6 +344,7 @@ public class RaceResumeController implements Initializable, Observer {
     private void handleNewTop() {
 
         String type = topType.getSelectionModel().getSelectedItem();
+        System.out.println(type);
         int carNumber = Integer.parseInt(car.getSelectionModel().getSelectedItem());
         String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
         String raceTime = "";
@@ -433,9 +435,9 @@ public class RaceResumeController implements Initializable, Observer {
             //Case where top does not respect logical top type order
             if (raceModel instanceof TimeRaceModel) {
                 raceTime = localSpentTime.format(dtf);
-                if (type.equals("I")) {
+                if (findPreviousTop(carNumber).getTopType().equals("I") && (type.equals("I") || type.equals("R"))) {
                     topModel = new TopModel(carNumber, dateTime, "O", raceTime, lapTime, comment + "-Top O système");
-                } else if (type.equals("R") || type.equals("O")) {
+                } else if (!findPreviousTop(carNumber).getTopType().equals("I") && type.equals("O")) {
                     topModel = new TopModel(carNumber, dateTime, "R", raceTime, lapTime, comment + "-Top R système");
                 }
                 handleTopTimeRace(topModel, carModel, carNumber);
@@ -446,7 +448,6 @@ public class RaceResumeController implements Initializable, Observer {
                     firstTop = false;
                 } else {
                     if (b) {
-                        System.out.println("test je suis dans le +1 pas de respect");
                         remainingLaps--;
                         numberOfLapsDone++;
                         lap = numberOfLapsDone;
@@ -455,9 +456,9 @@ public class RaceResumeController implements Initializable, Observer {
                     }
                 }
 
-                if (type == "I") {
+                if (findPreviousTop(carNumber).getTopType().equals("I") && (type.equals("I") || type.equals("R"))) {
                     topModel = new TopModel(carNumber, dateTime, "O", lap, lapTime, comment + "-Top O système");
-                } else if (type == "R" || type == "O") {
+                } else if (!findPreviousTop(carNumber).getTopType().equals("I") && type.equals("O")) {
                     topModel = new TopModel(carNumber, dateTime, "R", lap, lapTime, comment + "-Top R système");
                 }
                 handleTopLapRace(topModel, carModel, carNumber);
@@ -527,11 +528,9 @@ public class RaceResumeController implements Initializable, Observer {
         topModels.add(topModel);
         if (carModel.getLapRace().getTopsMap().containsKey(carNumber)) {
             carModel.getLapRace().getTopsMap().get(carNumber).add(topModel);
-            System.out.println("ici");
         } else {
             carModel.getLapRace().getTopsMap().put(carNumber, new ArrayList<>());
             carModel.getLapRace().getTopsMap().get(carNumber).add(topModel);
-            System.out.println("là");
         }
     }
 
@@ -633,7 +632,6 @@ public class RaceResumeController implements Initializable, Observer {
         col_time.setCellValueFactory(new PropertyValueFactory<>("time"));
         col_comment.setCellValueFactory(new PropertyValueFactory<>("comment"));
         col_time.setSortType(TableColumn.SortType.DESCENDING);
-        table_info.getSortOrder().add(col_time);
         col_delete.setCellFactory(cellFactory);
 
         editableCols();
@@ -656,11 +654,11 @@ public class RaceResumeController implements Initializable, Observer {
         col_laptime.setCellFactory(TextFieldTableCell.forTableColumn());
         col_laptime.setOnEditCommit(this::editLapTime);
 
-        col_racetime.setCellFactory(TextFieldTableCell.forTableColumn());
-        col_racetime.setOnEditCommit(this::editRaceTime);
+        /*col_racetime.setCellFactory(TextFieldTableCell.forTableColumn());
+        col_racetime.setOnEditCommit(this::editRaceTime);*/
 
-        colLapNumber.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-        colLapNumber.setOnEditCommit(this::editLap);
+        /*colLapNumber.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        colLapNumber.setOnEditCommit(this::editLap);*/
 
         col_comment.setCellFactory(TextFieldTableCell.forTableColumn());
         col_comment.setOnEditCommit(e -> {
@@ -682,7 +680,6 @@ public class RaceResumeController implements Initializable, Observer {
         top.setLap(newLap);
         int newPos = findTopNewPositionOnLapChange(topModels, index, oldLap, newLap);
         if (newPos < topModels.size() - 1) {
-            System.out.println("size" + topModels.size());
             topModels.remove(index);
             topModels.add(newPos, top);
             top = topModels.get(newPos);
@@ -691,8 +688,7 @@ public class RaceResumeController implements Initializable, Observer {
             } else {
                 top.setTime(topModels.get(newPos + 1).getTime());
             }
-            System.out.println("pos" + newPos);
-            updateTopLogic(carNumber, newPos);
+            updateTopLogic(carNumber, newPos, false);
             recalculateLapTime(topModels);
         } else {
             topModels.add(top);
@@ -701,7 +697,7 @@ public class RaceResumeController implements Initializable, Observer {
             } else {
                 top.setTime(df.format(System.currentTimeMillis()));
             }
-            updateTopLogic(carNumber, newPos);
+            updateTopLogic(carNumber, newPos, false);
             recalculateLapTime(topModels);
         }
         colLapNumber.setSortType(TableColumn.SortType.DESCENDING);
@@ -749,18 +745,17 @@ public class RaceResumeController implements Initializable, Observer {
                 top.setTime(newTopTime);
                 newPos = findTopNewPositionOnRaceTimeChange(topModels, index, oldRaceTime, newRaceTime);
 
-                System.out.println(newPos);
             }
             if(newPos < topModels.size()) {
                 topModels.remove(index);
                 topModels.add(newPos, top);
-                updateTopLogic(carNumber, newPos);
+                updateTopLogic(carNumber, newPos, false);
 
             }
             else {
                 topModels.remove(index);
                 topModels.add(top);
-                updateTopLogic(carNumber, newPos);
+                updateTopLogic(carNumber, newPos, false);
             }
         }
         catch (ParseException e) {
@@ -798,7 +793,6 @@ public class RaceResumeController implements Initializable, Observer {
                     recalculateRaceTime(topModels, i);
                 }
                 i++;
-                System.out.println(i);
             }
             top = topModels.get(index);
             Calendar previousTopTimeCalendar = Calendar.getInstance();
@@ -891,9 +885,7 @@ public class RaceResumeController implements Initializable, Observer {
         try {
             Date currentTopTime = df1.parse(topModels.get(index).getTime());
             Date raceStartTime = raceModel.getStartingTime();
-            System.out.println(df1.format(raceStartTime));
             long newRaceTimeInMillis = currentTopTime.getTime() - raceStartTime.getTime();
-            System.out.println(newRaceTimeInMillis);
             String sec = Integer.toString((int) (newRaceTimeInMillis / 1000) % 60);
             String min = Integer.toString((int) ((newRaceTimeInMillis / (1000 * 60)) % 60));
             String hr = Integer.toString((int) ((newRaceTimeInMillis / (1000 * 60 * 60)) % 24));
@@ -954,14 +946,16 @@ public class RaceResumeController implements Initializable, Observer {
 
     private void recalculateLaps(ArrayList<TopModel> topModels) {
         int i = 0;
+        int numTour = 0;
         while (i < topModels.size()) {
-            topModels.get(i).setLap(i);
-            i++;
-            if (i < topModels.size() && topModels.get(i).getTopType().equals("I")) {
-                System.out.println("ici");
-                System.out.println(i - 1);
-                topModels.get(i - 1).setLap(i - 1);
+            if (i > 0 && topModels.get(i).getTopType().equals("I")) {
+                topModels.get(i).setLap(numTour - 1);
             }
+            else {
+                topModels.get(i).setLap(numTour);
+                numTour++;
+            }
+            i++;
         }
     }
 
@@ -977,7 +971,7 @@ public class RaceResumeController implements Initializable, Observer {
         if ((newTopType.equals("I") || newTopType.equals("O") || newTopType.equals("R"))) {
             e.getTableView().getItems().get(e.getTablePosition().getRow()).setTopType(newTopType);
             if (!checkTopLogicOnEdit(carNumber, lastTopId)) {
-                updateTopLogic(carNumber, findTopIndexWithId(carNumber, lastTopId));
+                updateTopLogic(carNumber, findTopIndexWithId(carNumber, lastTopId), false);
             }
             table_info.refresh();
         } else {
@@ -993,19 +987,17 @@ public class RaceResumeController implements Initializable, Observer {
         long topId = e.getTableView().getItems().get(row).getId();
         boolean carExists = carExists(newCarNumber);
         ArrayList<TopModel> topModels = raceModel.getTopsMap().get(newCarNumber);
-        ;
         if (carExists) {
             TopModel top = findTop(oldCarNumber, topId);
             removeTop(oldCarNumber, topId);
             top.setCarNumber(newCarNumber);
             int newPos = findTopNewPositionOnCarNumberChange(topModels, top.getTime());
             if (newPos < topModels.size()) {
-                System.out.println("Indice1:" + newPos);
                 topModels.add(newPos, top);
             } else {
-                System.out.println("Indice2:" + newPos);
                 topModels.add(top);
             }
+            //updateTopLogic(newCarNumber, newPos, false);
             updateTopLogicForOtherFields(newCarNumber, newPos);
             table_info.refresh();
         } else {
@@ -1022,7 +1014,6 @@ public class RaceResumeController implements Initializable, Observer {
         ArrayList<TopModel> topModels = raceModel.getTopsMap().get(carNumber);
         long topId = event.getTableView().getItems().get(row).getId();
         int index = findTopIndexWithId(carNumber, topId);
-        System.out.println("index" + index);
         String oldTopTime = event.getOldValue();
         String newTopTime = event.getNewValue();
         TopModel top = topModels.get(index);
@@ -1045,16 +1036,15 @@ public class RaceResumeController implements Initializable, Observer {
             e.printStackTrace();
         }
         int newPos = findTopNewPositionOnTopTimeChange(topModels, index, oldTopTime, newTopTime);
-        System.out.println("topnewpos"+newPos);
         if(newPos < topModels.size()) {
             topModels.remove(index);
             topModels.add(newPos, top);
-            updateTopLogic(carNumber, newPos);
+            updateTopLogic(carNumber, newPos, false);
 
         } else {
             topModels.remove(index);
             topModels.add(top);
-            updateTopLogic(carNumber, newPos);
+            updateTopLogic(carNumber, newPos, false);
         }
 
         top = topModels.get(newPos);
@@ -1062,15 +1052,16 @@ public class RaceResumeController implements Initializable, Observer {
         if (raceModel instanceof LapRaceModel) {
             recalculateLaps(topModels);
         } else {
-            System.out.println("newpos:" + newPos);
             recalculateRaceTime(topModels, newPos);
         }
         table_info.refresh();
+        table_info.getSortOrder().add(col_time);
         table_info.sort();
+        table_info.getSortOrder().remove(col_time);
 
     }
 
-    private void updateTopLogic(int carNumber, int origin) {
+    private void updateTopLogic(int carNumber, int origin, boolean onRemove) {
         ArrayList<TopModel> topModels = raceModel.getTopsMap().get(carNumber);
         int index = origin;
         if (origin > 1) {
@@ -1083,6 +1074,9 @@ public class RaceResumeController implements Initializable, Observer {
                 } else if (currentTop.getTopType().equals("O") && !previousTop.getTopType().equals("I")) {
                     previousTop.setTopType("I");
                     previousTop.setComment("-Top I système-" + previousTop.getComment());
+                    if(raceModel instanceof LapRace) {
+                        previousTop.setLap(currentTop.getLap() - 1);
+                    }
                 } else if (currentTop.getTopType().equals("R") && (!previousTop.getTopType().equals("O") && !previousTop.getTopType().equals("R"))) {
                     previousTop.setTopType("R");
                     previousTop.setComment("-Top R système-" + previousTop.getComment());
@@ -1092,7 +1086,9 @@ public class RaceResumeController implements Initializable, Observer {
         } else {
             if (origin == 0) {
                 topModels.get(0).setTopType("O");
-                topModels.get(0).setComment("-Top O système" + topModels.get(0).getComment());
+                if(!onRemove) {
+                    topModels.get(0).setComment("-Top O système" + topModels.get(0).getComment());
+                }
             } else {
                 if (!topModels.get(1).getTopType().equals("I") || !topModels.get(1).getTopType().equals("R")) {
                     topModels.get(1).setTopType("R");
@@ -1118,50 +1114,6 @@ public class RaceResumeController implements Initializable, Observer {
                 index++;
             }
         }
-
-
-        /*if (index <= origin && index > 0) {
-            TopModel previousTop = topModels.get(index - 1);
-            if (checkTopLogic(currentTop.getTopType(), previousTop.getTopType())) {
-                updateTopLogic(carNumber, origin, index - 1);
-            } else {
-                if (currentTop.getTopType().equals("R") || currentTop.getTopType().equals("I")) {
-                    if (index != 1) {
-                        previousTop.setTopType("R");
-                        previousTop.setComment("-Top R système-" + previousTop.getComment());
-                    }
-                } else {
-                    if (index == 1) {
-                        currentTop.setTopType("R");
-                        currentTop.setComment("-Top R système-" + currentTop.getComment());
-                    } else {
-                        previousTop.setTopType("I");
-                        previousTop.setComment("-Top I système-" + previousTop.getComment());
-                    }
-
-                }
-                updateTopLogic(carNumber, origin, index - 1);
-            }
-        }
-        if(index == 0 && !currentTop.getTopType().equals("O")) {
-            currentTop.setTopType("O");
-            currentTop.setComment("-Top O système-" + currentTop.getComment());
-        }
-        if (index >= origin && index < topModels.size() - 1) {
-            TopModel nextTop = topModels.get(index + 1);
-            if (checkTopLogic(nextTop.getTopType(), currentTop.getTopType())) {
-                updateTopLogic(carNumber, origin, index + 1);
-            } else {
-                if (currentTop.getTopType().equals("R") || currentTop.getTopType().equals("O")) {
-                    nextTop.setTopType("R");
-                    nextTop.setComment("-Top R système-" + nextTop.getComment());
-                } else {
-                    nextTop.setTopType("O");
-                    nextTop.setComment("-Top O système-" + nextTop.getComment());
-                }
-                updateTopLogic(carNumber, origin, index + 1);
-            }
-        }*/
     }
 
     /**
@@ -1249,8 +1201,14 @@ public class RaceResumeController implements Initializable, Observer {
         ArrayList<TopModel> topModels = raceModel.getTopsMap().get(carNumber);
         int index = findTopIndexWithId(carNumber, topId);
         TopModel currentTop = topModels.get(index);
-        updateTopLogicOnRemove(topModels, index);
         topModels.remove(currentTop);
+        updateTopLogic(carNumber, 0, true);
+        recalculateLapTime(topModels);
+        if(raceModel instanceof LapRace) {
+            recalculateLaps(topModels);
+        }
+        table_info.refresh();
+        //updateTopLogicOnRemove(topModels, index);
         System.out.println("Le top " + topId + "  a été supprimé");
     }
 
@@ -1327,8 +1285,6 @@ public class RaceResumeController implements Initializable, Observer {
         if (LocalDateTime.parse(oldTime, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")).isBefore(LocalDateTime.parse(newTime, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")))) {
             TopModel newTop = topModels.get(index);
             i++;
-            System.out.println("newtop:"+newTop.getTime());
-            System.out.println("oldtop:"+topModels.get(index).getTime());
             while(i < topModels.size() && !found) {
                 if(LocalDateTime.parse(newTop.getTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")).isBefore(LocalDateTime.parse(newTime, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"))) || LocalDateTime.parse(newTop.getTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")).isEqual(LocalDateTime.parse(topModels.get(i).getTime(), DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")))) {
                     found = true;
@@ -1407,26 +1363,31 @@ public class RaceResumeController implements Initializable, Observer {
     private int findTopNewPositionOnLapChange(ArrayList<TopModel> topModels, int index, int oldLap, int newLap) {
         int i = index;
         boolean found = false;
-        if (oldLap < newLap) {
-            i++;
-            while (i < topModels.size() && !found) {
-                if (newLap < topModels.get(i).getLap() || newLap == topModels.get(i).getLap()) {
-                    found = true;
-                } else {
-                    i++;
+        if(newLap == 0) {
+            i = 1;
+        }
+        else {
+            if (oldLap < newLap) {
+                i++;
+                while (i < topModels.size() && !found) {
+                    if (newLap < topModels.get(i).getLap() || newLap == topModels.get(i).getLap()) {
+                        found = true;
+                    } else {
+                        i++;
+                    }
                 }
-            }
-            i--;
-        } else if (oldLap > newLap) {
-            i--;
-            while (i >= 0 && !found) {
-                if (newLap > topModels.get(i).getLap() || newLap == topModels.get(i).getLap()) {
-                    found = true;
-                } else {
-                    i--;
+                i--;
+            } else if (oldLap > newLap) {
+                i--;
+                while (i >= 0 && !found) {
+                    if (newLap > topModels.get(i).getLap()) {
+                        found = true;
+                    } else {
+                        i--;
+                    }
                 }
+                i++;
             }
-            i++;
         }
         return i;
     }
@@ -1647,7 +1608,7 @@ public class RaceResumeController implements Initializable, Observer {
                 departureTime = LocalTime.now();
                 LocalDateTime localDateTime = LocalDateTime.now();
                 Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
-                System.out.println(date);
+                raceModel.setStartingTime(date);
                 departureHour.setText(departureTime.format(dtf));
                 startRace.setDisable(true);
             }
