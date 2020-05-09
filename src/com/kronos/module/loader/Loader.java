@@ -30,7 +30,7 @@ public class Loader extends Preloader {
     public void init(){
         try {
             App.dataManager =  SaveManagerImpl.getInstance();
-            System.out.println("initialization de datamanager");
+            System.out.println("Loader.java : init-methode - initialization de datamanager");
             view = FXMLLoader.load(getClass().getResource("/com/kronos/module/loader/loader.fxml"));
         } catch (IOException e) {
             e.printStackTrace();

@@ -14,8 +14,17 @@ import com.itextpdf.tool.xml.pipeline.css.CssResolverPipeline;
 import com.itextpdf.tool.xml.pipeline.end.PdfWriterPipeline;
 import com.itextpdf.tool.xml.pipeline.html.HtmlPipeline;
 import com.itextpdf.tool.xml.pipeline.html.HtmlPipelineContext;
+import com.kronos.App;
+import com.kronos.model.CarModel;
+import com.kronos.model.PilotModel;
+import com.kronos.model.RaceModel;
+import com.kronos.model.TopModel;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 public class PrinterModel {
@@ -27,14 +36,22 @@ public class PrinterModel {
 
 
     private StringBuilder cssContent;
+    private StringBuilder dynamicContent;
+    private StringBuilder infSup;
+    private StringBuilder courseContent;
+    private String htmlcontent;
+    private StringBuilder[] pilotInfo;
+    private StringBuilder finalContent;
 
 
     public PrinterModel() {
+        dynamicContent = new StringBuilder();
+        infSup = new StringBuilder();
+        courseContent = new StringBuilder();
+        finalContent = new StringBuilder();
         try (InputStream inputStream = new FileInputStream(css)) {
-            //Creating a Scanner object
             cssContent = new StringBuilder();
             Scanner sc = new Scanner(inputStream);
-            //Reading line by line from scanner to StringBuffer
             StringBuffer sb = new StringBuffer();
             while (sc.hasNext()) {
                 cssContent.append(sc.nextLine());
@@ -45,15 +62,109 @@ public class PrinterModel {
     }
 
 
-    private String htmlcontent;
-
-
-    public String getHtmlcontent() {
-        return htmlcontent;
-    }
-
-
     public void print() {
+
+        List<PilotModel> pilotModelList = (List<PilotModel>) (List<?>) App.getDataManager().getModels(PilotModel.class);
+        pilotInfo = new StringBuilder[pilotModelList.size()];
+        RaceModel raceModel = (RaceModel) App.getDataManager().getModels(RaceModel.class).get(0);
+
+        if (raceModel != null) {
+            System.out.println(" not null");
+            courseContent = new StringBuilder();
+            courseContent.append("<div class=\"name\">Course : " + raceModel.getRaceName() + "</div>\n");
+            courseContent.append("<div class=\"name\">Circuit : " + raceModel.getRacewayName() + "</div>\n");
+            courseContent.append("<div class=\"date\">Date course : " + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(raceModel.getStartingTime()) + "</div>\n");
+            courseContent.append("<div class=\"name\">Nombre de tour effectué : " + raceModel.getTimeLapsSpent() + "</div>\n");
+
+            String etat = "Terminée";
+            switch (raceModel.getRaceState()) {
+                case CREATION:
+                    etat = "Crée en attente de top";
+                case IN_PROGRESS:
+                    etat = "En cours d'execution";
+                    break;
+                case DONE:
+                case BREAK:
+                    etat = " Terminée";
+                    break;
+                default:
+                    break;
+            }
+            courseContent.append("<div class=\"name\">Etat course : " + etat + "</div>\n");
+
+
+        }
+
+        if (!pilotModelList.isEmpty()) {
+
+            pilotInfo =  new StringBuilder[pilotModelList.size()];
+            for (PilotModel pilot : pilotModelList) {
+                infSup = new StringBuilder();
+                infSup.append("<h2 class=\"name\">" + pilot.getLastName() + " " + pilot.getFirstName() + ", </h2> \n");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                String date = simpleDateFormat.format(pilot.getDateOfBirth());
+                infSup.append("<div class=\"address\">Date de Naissance : " + date + "</div>\n");
+                infSup.append("<div class=\"address\">Poids : " + pilot.getWeight() + " kg </div>\n");
+                infSup.append("<div class=\"address\">Taille : " + pilot.getHeight() + " cm </div>\n");
+                infSup.append("<div class=\"address\">Commentaire : " + pilot.getComment() + "</div>\n");
+
+                dynamicContent = new StringBuilder();
+                for (TopModel top : findTopByPilot(pilot)) {
+
+                    dynamicContent.append(" <tr> \n ");
+                    dynamicContent.append("<td class=\"total\"> " + top.getLap() + " </td>\n");
+                    dynamicContent.append("<td class=\"desc\"> " + top.getCarNumber() + " </td>\n");
+                    dynamicContent.append("<td class=\"unit\"> " + top.getTopType() + " </td>\n");
+                    dynamicContent.append("<td class=\"unit\"> " + top.getTime()+ " </td>\n");
+                    dynamicContent.append("<td class=\"qty\"> " + top.getLapTime() + " </td>\n");
+                    dynamicContent.append("<td class=\"desc\"> " + top.getComment() + " </td>\n");
+                    dynamicContent.append("</tr> \n ");
+                }
+
+                if(pilotModelList.indexOf(pilot) > 0 ) {
+                    courseContent.setLength(0);
+                }
+
+                StringBuilder str = new StringBuilder();
+                str.append(
+               "     <div id=\"details\" class=\"\">\n" +
+               "       <div id=\"client\">\n" +
+                 infSup.toString() +
+               "       </div>\n" +
+               "       <div id=\"invoice\">\n" +
+               courseContent.toString() +
+               "       </div>\n" +
+               "     </div>\n" +
+               "      <br/>\n" +
+               "      <table border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n" +
+               "        <thead>\n" +
+               "          <tr>\n" +
+               "            <th class=\"total \">Tour</th>\n" +
+               "            <th class=\"desc\">Voiture</th>\n" +
+               "            <th class=\"unit\">Type Top</th>\n" +
+               "            <th class=\"unit\">Heure</th>\n" +
+               "            <th class=\"qty\">Temps</th>\n" +
+               "            <th class=\"\">Commentaires</th>\n" +
+               "          </tr>\n" +
+               "        </thead>\n" +
+               "        <tbody>\n" +
+               dynamicContent.toString() +
+               "        </tbody>\n" +
+               "      </table>\n"
+                );
+                pilotInfo[pilotModelList.indexOf(pilot)] =  str;
+
+            }
+
+            finalContent.setLength(0);
+            for(StringBuilder st : pilotInfo){
+                finalContent.append(st.toString());
+            }
+
+            System.out.println("PrinterModel : print-methode");
+
+
+        }
 
 
         try {
@@ -90,6 +201,28 @@ public class PrinterModel {
     }
 
 
+    public List<TopModel> findTopByPilot(PilotModel pilot) {
+        List<TopModel> listToSend = new ArrayList<>();
+        List<TopModel> topModelList = (List<TopModel>) (List<?>) App.getDataManager().getModels(TopModel.class);
+        List<CarModel> carModelList = (List<CarModel>) (List<?>) App.getDataManager().getModels(CarModel.class);
+
+        for (CarModel car : carModelList) {
+            if (car.getPilotModel().getId() == pilot.getId()) {
+                System.out.println("PrinterModel : findByMethode-methode");
+                System.out.println("is equal " + true);
+                for (TopModel top : topModelList) {
+                    if (car.getNumber() == top.getCarNumber())
+                        listToSend.add(top);
+                }
+            }
+        }
+        Collections.sort(listToSend);
+        return listToSend;
+    }
+
+
+
+
     public String generateContent() {
         this.htmlcontent = "\n" +
                 "<!DOCTYPE html>\n" +
@@ -102,87 +235,14 @@ public class PrinterModel {
                 "    <header class=\"clearfix\">\n" +
                 "      <hr/>\n" +
                 "      <div id=\"head\">\n" +
-                "        <h1> KRONOS FEUILLE DE TEMPS </h1>\n" +
-                "        <div class=\"name\">INFO PLIOTES</div>\n" +
+                "        <h1> KRONOS FEUILLE DE TEMPS  </h1>\n" +
+                "        <div class=\"my-2\"><h1> INFO PLIOTES  </h1></div>\n" +
                 "      </div>\n" +
-                "       <div id=\"invoice\">\n" +
-                "          <h2>Course numero 1-3-2-1jvfejnefjnefjnefjneirvie</h2>\n" +
-                "          <div class=\"date\">Date de la course : 01/06/2014</div>\n" +
-                "       </div>\n" +
                 "    </header>\n" +
                 "    <br/>\n" +
                 "    <main>\n" +
-                "      <div id=\"details\" class=\"\">\n" +
-                "        <div id=\"client\">\n" +
-                "          <h2 class=\"name\">John Doe, </h2> \n" +
-                "          <div class=\"address\">Equipe : salavador  | <span> Voiture  N° 0225 : Bugatti </span></div>\n" +
-                "          <div class=\"address\">Model : Verrone </div>   \n" +
-                "          <div class=\"address\">Poids : 14 kg   </div>\n" +
-                "          <div class=\"address\">Taille : 124 cm </div>   \n" +
-                "          <div class=\"address\">Commentaire : 124 cm </div>  \n" +
-                "        </div>\n" +
-                "      </div>\n" +
-                "      <br/>\n" +
-                "      <table border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n" +
-                "        <thead>\n" +
-                "          <tr>\n" +
-                "            <th class=\"no\">#</th>\n" +
-                "            <th class=\"desc\">DESCRIPTION</th>\n" +
-                "            <th class=\"unit\">UNIT PRICE</th>\n" +
-                "            <th class=\"qty\">QUANTITY</th>\n" +
-                "            <th class=\"total\">TOTAL</th>\n" +
-                "          </tr>\n" +
-                "        </thead>\n" +
-                "        <tbody>\n" +
-                "          <tr>\n" +
-                "            <td class=\"no\">01</td>\n" +
-                "            <td class=\"desc\"><h3>Website Design</h3>Creating a recognizable design solution based on the company's existing visual identity</td>\n" +
-                "            <td class=\"unit\">$40.00</td>\n" +
-                "            <td class=\"qty\">30</td>\n" +
-                "            <td class=\"total\">$1,200.00</td>\n" +
-                "          </tr>\n" +
-                "          <tr>\n" +
-                "            <td class=\"no\">02</td>\n" +
-                "            <td class=\"desc\"><h3>Website Development</h3>Developing a Content Management System-based Website</td>\n" +
-                "            <td class=\"unit\">$40.00</td>\n" +
-                "            <td class=\"qty\">80</td>\n" +
-                "            <td class=\"total\">$3,200.00</td>\n" +
-                "          </tr>\n" +
-                "          <tr>\n" +
-                "            <td class=\"no\">03</td>\n" +
-                "            <td class=\"desc\"><h3>Search Engines Optimization</h3>Optimize the site for search engines (SEO)</td>\n" +
-                "            <td class=\"unit\">$40.00</td>\n" +
-                "            <td class=\"qty\">20</td>\n" +
-                "            <td class=\"total\">$800.00</td>\n" +
-                "          </tr>\n" +
-                "        </tbody>\n" +
-                "        <tfoot>\n" +
-                "          <tr>\n" +
-                "            <td colspan=\"2\"></td>\n" +
-                "            <td colspan=\"2\">SUBTOTAL</td>\n" +
-                "            <td>$5,200.00</td>\n" +
-                "          </tr>\n" +
-                "          <tr>\n" +
-                "            <td colspan=\"2\"></td>\n" +
-                "            <td colspan=\"2\">TAX 25%</td>\n" +
-                "            <td>$1,300.00</td>\n" +
-                "          </tr>\n" +
-                "          <tr>\n" +
-                "            <td colspan=\"2\"></td>\n" +
-                "            <td colspan=\"2\">GRAND TOTAL</td>\n" +
-                "            <td>$6,500.00</td>\n" +
-                "          </tr>\n" +
-                "        </tfoot>\n" +
-                "      </table>\n" +
-                "      <div id=\"thanks\">Thank you!</div>\n" +
-                "      <div id=\"notices\">\n" +
-                "        <div>NOTICE:</div>\n" +
-                "        <div class=\"notice\">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>\n" +
-                "      </div>\n" +
+                finalContent.toString() +
                 "    </main>\n" +
-                "    <footer>\n" +
-                "      Invoice was created on a computer and is valid without the signature and seal.\n" +
-                "    </footer>\n" +
                 "  </body>\n" +
                 "</html>";
 
@@ -190,8 +250,4 @@ public class PrinterModel {
     }
 
 
-    public static void main(String[] args) {
-        PrinterModel pt = new PrinterModel();
-        pt.print();
-    }
 }

@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXBadge;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
+import com.kronos.printview.PrinterModel;
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
 import eu.hansolo.tilesfx.skins.LeaderBoardItem;
@@ -770,6 +771,9 @@ public class Main implements Initializable {
          title.setText("FeuilleTemps");
          loadView("feuilletemps");
          body.setContent(ViewManager.getInstance().get("feuilletemps"));
+         System.out.println("App: load method --- PrinterModel");
+         PrinterModel pt = new PrinterModel();
+         pt.print();
      }
     @FXML
     private void areaChart(){
