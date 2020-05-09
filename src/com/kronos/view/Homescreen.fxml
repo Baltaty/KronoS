@@ -309,18 +309,18 @@
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="44.0" layoutY="385.0" text="Temps au tour &#10;moyen *" textAlignment="CENTER">
+                                          <Label fx:id="t_m_autour_label" layoutX="429.0" layoutY="405.0" text="Temps au tour &#10;moyen *" textAlignment="CENTER">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <JFXTextField fx:id="racewayNameText1" layoutX="241.0" layoutY="389.0" />
-                                          <Label layoutX="45.0" layoutY="452.0" text="Nombre de tour &#10;avant relai *" textAlignment="CENTER">
+                                          <JFXTextField fx:id="t_m_autour" layoutX="626.0" layoutY="409.0" />
+                                          <Label fx:id="tour_relai_label" layoutX="430.0" layoutY="472.0" text="Nombre de tour &#10;avant relai *" textAlignment="CENTER">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <JFXTextField fx:id="racewayNameText11" layoutX="242.0" layoutY="449.0" />
+                                          <JFXTextField fx:id="tour_relai" layoutX="627.0" layoutY="469.0" />
                                        </children>
                                     </AnchorPane>
                                  </content>

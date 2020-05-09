@@ -34,6 +34,7 @@
     import javafx.scene.image.ImageView;
     import javafx.scene.input.KeyCode;
     import javafx.scene.input.KeyEvent;
+    import javafx.scene.input.MouseEvent;
     import javafx.scene.layout.StackPane;
     import javafx.stage.Stage;
     import javafx.util.Duration;
@@ -149,6 +150,14 @@
         private Label raceNumberOfLapsLabel;
         @FXML
         private JFXComboBox<String> raceTypeCombo;
+        @FXML
+        private Label t_m_autour_label;
+        @FXML
+        private Label tour_relai_label;
+        @FXML
+        private JFXTextField t_m_autour;
+        @FXML
+        private JFXTextField tour_relai;
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////
         private RaceType typeOfRace;
@@ -408,7 +417,12 @@
 //             fade.setCycleCount(WobbleTransition.INDEFINITE);
 //             fade.play();
 //
-
+            Alerts.warning("test titre","le test est super", new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    System.out.println("mouse click detected! "+event.getSource());
+                }
+                });
             ////// SCALE BOUTON DEMARRER
             ScaleTransition scalestart = new ScaleTransition(Duration.seconds(1), startBtn);
             scalestart.setToX(1.2);
@@ -722,6 +736,10 @@
                 raceNumberOfLaps.setVisible(false);
                 raceDurationLabel.setVisible(true);
                 raceDuration.setVisible(true);
+                t_m_autour_label.setVisible(true);
+                t_m_autour.setVisible(true);
+                tour_relai_label.setVisible(true);
+                tour_relai.setVisible(true);
                 typeOfRace = com.kronos.global.enums.RaceType.TIME_RACE;
 
 

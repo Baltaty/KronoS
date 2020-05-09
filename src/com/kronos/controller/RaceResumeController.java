@@ -17,15 +17,22 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.util.Callback;
 import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -235,6 +242,41 @@ public class RaceResumeController implements Initializable, Observer {
         Timeline clock = new Timeline(new KeyFrame(Duration.millis(1000), e -> getCurrentTime()));
         clock.setCycleCount(Animation.INDEFINITE);
         clock.play();
+
+
+        Scene scene = App.getDecorator().getScene();
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(javafx.scene.input.KeyEvent event) {
+                System.out.println(" verif bouton top ");
+                KeyCode keyCode = event.getCode();
+
+                File file = new File("top.properties");
+                Properties properties = new Properties();
+                try {
+                    if (!file.exists()) {
+
+                        //file.createNewFile();
+                    } else {
+
+                        FileInputStream fileInputStream = new FileInputStream(file);
+                        properties.load(fileInputStream);
+                        if (keyCode.toString().equals(properties.getProperty("key")))
+                        {
+                            handleNewTop();
+                            System.out.println("vous avez fait un top ! ");
+
+                        }
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+
+        });
 
 
     }
@@ -1625,6 +1667,7 @@ public class RaceResumeController implements Initializable, Observer {
     public void update() {
 
     }
+
 
 
 }
