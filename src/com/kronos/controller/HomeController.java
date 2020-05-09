@@ -677,7 +677,7 @@
             }
 
 
-            PilotModel pilotcont = new PilotModel(firstnamecont, lastnamecont, commentcont, pilotdatofbirthcont, pilotweightcont, pilotweightcont);
+            PilotModel pilotcont = new PilotModel(firstnamecont, lastnamecont, commentcont, pilotdatofbirthcont, pilotheightcont, pilotweightcont);
 
 
             if (pilotcontroller.checkPilot(pilotcont) && check) {

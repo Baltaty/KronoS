@@ -15,11 +15,17 @@ import com.itextpdf.tool.xml.pipeline.end.PdfWriterPipeline;
 import com.itextpdf.tool.xml.pipeline.html.HtmlPipeline;
 import com.itextpdf.tool.xml.pipeline.html.HtmlPipelineContext;
 import com.kronos.App;
-import com.kronos.model.*;
+import com.kronos.model.CarModel;
+import com.kronos.model.PilotModel;
+import com.kronos.model.RaceModel;
+import com.kronos.model.TopModel;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
 
 public class PrinterModel {
 
@@ -34,12 +40,15 @@ public class PrinterModel {
     private StringBuilder infSup;
     private StringBuilder courseContent;
     private String htmlcontent;
+    private StringBuilder[] pilotInfo;
+    private StringBuilder finalContent;
 
 
     public PrinterModel() {
         dynamicContent = new StringBuilder();
         infSup = new StringBuilder();
         courseContent = new StringBuilder();
+        finalContent = new StringBuilder();
         try (InputStream inputStream = new FileInputStream(css)) {
             cssContent = new StringBuilder();
             Scanner sc = new Scanner(inputStream);
@@ -56,13 +65,14 @@ public class PrinterModel {
     public void print() {
 
         List<PilotModel> pilotModelList = (List<PilotModel>) (List<?>) App.getDataManager().getModels(PilotModel.class);
+        pilotInfo = new StringBuilder[pilotModelList.size()];
         RaceModel raceModel = (RaceModel) App.getDataManager().getModels(RaceModel.class).get(0);
 
         if (raceModel != null) {
             System.out.println(" not null");
             courseContent = new StringBuilder();
-            courseContent.append("<div class=\"name\">course : " + raceModel.getRaceName() + "</div>\n");
-            courseContent.append("<div class=\"name\"> racewayname : " + raceModel.getRacewayName() + "</div>\n");
+            courseContent.append("<div class=\"name\">Course : " + raceModel.getRaceName() + "</div>\n");
+            courseContent.append("<div class=\"name\">Circuit : " + raceModel.getRacewayName() + "</div>\n");
             courseContent.append("<div class=\"date\">Date course : " + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(raceModel.getStartingTime()) + "</div>\n");
             courseContent.append("<div class=\"name\">Nombre de tour effectué : " + raceModel.getTimeLapsSpent() + "</div>\n");
 
@@ -86,7 +96,10 @@ public class PrinterModel {
         }
 
         if (!pilotModelList.isEmpty()) {
+
+            pilotInfo =  new StringBuilder[pilotModelList.size()];
             for (PilotModel pilot : pilotModelList) {
+                infSup = new StringBuilder();
                 infSup.append("<h2 class=\"name\">" + pilot.getLastName() + " " + pilot.getFirstName() + ", </h2> \n");
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
                 String date = simpleDateFormat.format(pilot.getDateOfBirth());
@@ -96,9 +109,8 @@ public class PrinterModel {
                 infSup.append("<div class=\"address\">Commentaire : " + pilot.getComment() + "</div>\n");
 
                 dynamicContent = new StringBuilder();
-
                 for (TopModel top : findTopByPilot(pilot)) {
-                    System.out.println( top.getLap());
+
                     dynamicContent.append(" <tr> \n ");
                     dynamicContent.append("<td class=\"total\"> " + top.getLap() + " </td>\n");
                     dynamicContent.append("<td class=\"desc\"> " + top.getCarNumber() + " </td>\n");
@@ -109,10 +121,48 @@ public class PrinterModel {
                     dynamicContent.append("</tr> \n ");
                 }
 
+                if(pilotModelList.indexOf(pilot) > 0 ) {
+                    courseContent.setLength(0);
+                }
+
+                StringBuilder str = new StringBuilder();
+                str.append(
+               "     <div id=\"details\" class=\"\">\n" +
+               "       <div id=\"client\">\n" +
+                 infSup.toString() +
+               "       </div>\n" +
+               "       <div id=\"invoice\">\n" +
+               courseContent.toString() +
+               "       </div>\n" +
+               "     </div>\n" +
+               "      <br/>\n" +
+               "      <table border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n" +
+               "        <thead>\n" +
+               "          <tr>\n" +
+               "            <th class=\"total \">Tour</th>\n" +
+               "            <th class=\"desc\">Voiture</th>\n" +
+               "            <th class=\"unit\">Type Top</th>\n" +
+               "            <th class=\"unit\">Heure</th>\n" +
+               "            <th class=\"qty\">Temps</th>\n" +
+               "            <th class=\"\">Commentaires</th>\n" +
+               "          </tr>\n" +
+               "        </thead>\n" +
+               "        <tbody>\n" +
+               dynamicContent.toString() +
+               "        </tbody>\n" +
+               "      </table>\n"
+                );
+                pilotInfo[pilotModelList.indexOf(pilot)] =  str;
+
+            }
+
+            finalContent.setLength(0);
+            for(StringBuilder st : pilotInfo){
+                finalContent.append(st.toString());
             }
 
             System.out.println("PrinterModel : print-methode");
-            System.out.println(findTopByPilot(pilotModelList.get(0)));
+
 
         }
 
@@ -191,30 +241,7 @@ public class PrinterModel {
                 "    </header>\n" +
                 "    <br/>\n" +
                 "    <main>\n" +
-                "      <div id=\"details\" class=\"\">\n" +
-                "    <div id=\"client\">\n" +
-                infSup.toString() +
-                "        </div>\n" +
-                "       <div id=\"invoice\">\n" +
-                courseContent.toString() +
-                "       </div>\n" +
-                "      </div>\n" +
-                "      <br/>\n" +
-                "      <table border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n" +
-                "        <thead>\n" +
-                "          <tr>\n" +
-                "            <th class=\"total \">Tour</th>\n" +
-                "            <th class=\"desc\">Voiture</th>\n" +
-                "            <th class=\"unit\">Type Top</th>\n" +
-                "            <th class=\"unit\">Heure</th>\n" +
-                "            <th class=\"qty\">Temps</th>\n" +
-                "            <th class=\"\">Commentaires</th>\n" +
-                "          </tr>\n" +
-                "        </thead>\n" +
-                "        <tbody>\n" +
-                dynamicContent.toString() +
-                "        </tbody>\n" +
-                "      </table>\n" +
+                finalContent.toString() +
                 "    </main>\n" +
                 "  </body>\n" +
                 "</html>";
