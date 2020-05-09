@@ -11,6 +11,7 @@ import   com.gn.decorator.options.ButtonType;
 import  com.kronos.module.loader.Loader;
 import  com.kronos.module.main.Main;
 import com.kronos.parserXML.MainImpl.SaveManagerImpl;
+import com.kronos.printview.PrinterModel;
 import com.sun.javafx.application.LauncherImpl;
 import javafx.application.Application;
 import javafx.application.HostServices;
@@ -104,6 +105,8 @@ public class App extends Application {
     public  static SaveManagerImpl getDataManager() {
         return dataManager;
     }
+
+
 
 
     @Override

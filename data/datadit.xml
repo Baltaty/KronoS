@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mainCarModel>
+    <brand>buga</brand>
+    <completedLaps>0</completedLaps>
+    <id>1586043725222</id>
+    <lapRace>
+        <raceName>rien</raceName>
+        <racewayName>rien</racewayName>
+        <startingTime>2020-04-05T00:00:00+02:00</startingTime>
+        <topsMap>
+            <entry>
+                <key>14</key>
+                <value/>
+            </entry>
+        </topsMap>
+        <id>0</id>
+        <numberOfLaps>10</numberOfLaps>
+    </lapRace>
+    <model>f40</model>
+    <number>14</number>
+    <pilotModel>
+        <id>1586043690170</id>
+        <firstName>iabo</firstName>
+        <lastName>rien</lastName>
+        <comment></comment>
+        <dateOfBirth>2020-04-04T00:00:00+02:00</dateOfBirth>
+        <height>0.0</height>
+        <weight>0.0</weight>
+    </pilotModel>
+    <remainingLaps>10</remainingLaps>
+    <team>maxm</team>
+    <topList>
+        <carNumber>14</carNumber>
+        <comment></comment>
+        <id>1586173548669</id>
+        <lap>0</lap>
+        <lapTime>00:03:00</lapTime>
+        <raceTime>0.0</raceTime>
+        <time>06-04-2020 13:45:48</time>
+        <topType>O</topType>
+    </topList>
+    <topList>
+        <carNumber>14</carNumber>
+        <comment></comment>
+        <id>1586173577523</id>
+        <lap>0</lap>
+        <lapTime>00:32:00</lapTime>
+        <raceTime>0.0</raceTime>
+        <time>06-04-2020 13:46:17</time>
+        <topType>O</topType>
+    </topList>
+</mainCarModel>
+
+<topModel>
+    <carNumber>14</carNumber>
+    <comment></comment>
+    <id>1586173577523</id>
+    <lap>0</lap>
+    <lapTime>00:32:00</lapTime>
+    <raceTime>0.0</raceTime>
+    <time>06-04-2020 13:46:17</time>
+    <topType>O</topType>
+</topModel>
+
+<pilotModel>
+    <id>1586043690170</id>
+    <firstName>iabo</firstName>
+    <lastName>rien</lastName>
+    <comment></comment>
+    <dateOfBirth>2020-04-04T00:00:00+02:00</dateOfBirth>
+    <height>0.0</height>
+    <weight>0.0</weight>
+</pilotModel>
+
+<topModel>
+    <carNumber>14</carNumber>
+    <comment></comment>
+    <id>1586173548669</id>
+    <lap>0</lap>
+    <lapTime>00:03:00</lapTime>
+    <raceTime>0.0</raceTime>
+    <time>06-04-2020 13:45:48</time>
+    <topType>O</topType>
+</topModel>
+
+<lapRaceModel>
+    <raceName>rien</raceName>
+    <racewayName>rien</racewayName>
+    <startingTime>2020-04-05T00:00:00+02:00</startingTime>
+    <topsMap/>
+    <id>0</id>
+    <numberOfLaps>10</numberOfLaps>
+</lapRaceModel>
+

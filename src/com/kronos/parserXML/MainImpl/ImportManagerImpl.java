@@ -2,7 +2,6 @@ package com.kronos.parserXML.MainImpl;
 
 import com.kronos.App;
 import com.kronos.model.*;
-import com.kronos.module.main.Config;
 import com.kronos.parserXML.api.ImportManager;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -16,13 +15,10 @@ import org.jdom2.output.XMLOutputter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.regex.Pattern;
 
 
 /**
@@ -33,7 +29,6 @@ import java.util.Map;
  */
 public class ImportManagerImpl implements ImportManager {
 
-    public static String PATH = "data" + File.separator + "fichier1.xml";
 
     private String[] allModels = {"ConfigModel", "LapRaceModel", "MainCarModel", "PilotModel", "PrintModel"
             , "RaceModel", "RivalCarModel", "TimeRaceModel", "TopModel"};
@@ -48,12 +43,19 @@ public class ImportManagerImpl implements ImportManager {
 
     }
 
+    public ImportManagerImpl(String PATH) {
+        this.fileXML = new File(PATH);
+    }
+
+
+
     /***
      *
      * @param str
      * @return
      */
     private String firstCharToLowerCase(String str) {
+
 
         if (str == null || str.length() == 0)
             return "";
@@ -81,8 +83,6 @@ public class ImportManagerImpl implements ImportManager {
 
             if (!fileXML.exists()) {
                 throw new FileNotFoundException("fichier non trouvé");
-            } else {
-                System.out.println(fileXML.getAbsolutePath());
             }
 
             for (int i = 0; i < allModels.length; ++i) {
@@ -148,11 +148,54 @@ public class ImportManagerImpl implements ImportManager {
 
             }
 
+            chekingObjects(models);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return models;
+    }
+
+    /**
+     * methode charging le content
+     * @param datas
+     */
+    private void chekingObjects(List<? extends Object> datas) {
+
+        Map<Integer, ArrayList<TopModel>> topsMap = new HashMap<>();
+
+        for (Object object : datas) {
+            if (TopModel.class.isInstance(object)) {
+                TopModel model = (TopModel) object;
+                Integer numberOfcar = new Integer(model.getCarNumber());
+
+                if (topsMap.containsKey(numberOfcar)) {
+                    List<TopModel> topModelList = topsMap.get(numberOfcar);
+                    topModelList.add(model);
+                    Collections.sort(topModelList);
+                }
+                else{
+                    ArrayList<TopModel> topModelList = new ArrayList<>();
+                    topModelList.add(model);
+                    Collections.sort(topModelList);
+                    topsMap.put(numberOfcar, topModelList);
+                }
+
+            }
+        }
+
+
+        for(Object object : datas){
+            if(RaceModel.class.isAssignableFrom(object.getClass())){
+                RaceModel raceModel = (RaceModel) object;
+                raceModel.getTopsMap().clear();
+                raceModel.getTopsMap().putAll(topsMap);
+//                System.out.println(" ===== ImportManager checkObject : je suis issue de Racemodel : " + object.toString()  );
+//                System.out.println(raceModel.getTopsMap().toString());
+                break;
+            }
+        }
+
     }
 
 
@@ -163,13 +206,18 @@ public class ImportManagerImpl implements ImportManager {
     private List<String> getSelectedTagXml(String tag) {
 
 
+        /**
+         * content of xml convert in stringbuilder for extracting
+         */
         StringBuilder contentBuilder;
         StringBuffer sb = new StringBuffer();
         List<String> listOfObjectToDesialize = new ArrayList<>();
 
         try {
+
+           String extractableXML = getXtratable();
             SAXBuilder builder = new SAXBuilder();
-            Document document = builder.build(fileXML);
+            Document document = builder.build(new StringReader(extractableXML));
             Element rootNode = document.getRootElement();
 
             List<Element> elements = rootNode.getChildren(tag);
@@ -199,6 +247,34 @@ public class ImportManagerImpl implements ImportManager {
         }
         return listOfObjectToDesialize;
     }
+
+
+
+    protected String getXtratable (){
+        String extractableXML = null;
+        try {
+            FileInputStream fis = new FileInputStream(fileXML);
+            InputStream inputofilestream = new BufferedInputStream(fis);
+            StringBuilder stringBuilder = null;
+            try (Scanner scanner = new Scanner(inputofilestream, StandardCharsets.UTF_8.name())) {
+                extractableXML = scanner.useDelimiter("\\A").next();
+                String pattern = "<\\?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"\\?>";
+                Pattern boldPattern = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
+                extractableXML = boldPattern.matcher(extractableXML).replaceAll("");
+                stringBuilder = new StringBuilder();
+                stringBuilder.insert(0, "<data>");
+                stringBuilder.append(extractableXML);
+                stringBuilder.append("</data>");
+                extractableXML = stringBuilder.toString();
+            }
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return  extractableXML;
+    }
+
+
 
     /**
      * @param objectToreload
@@ -238,7 +314,8 @@ public class ImportManagerImpl implements ImportManager {
                 return false;
             }
             App.getDataManager().clear();
-            App.getDataManager().persist(models);
+
+            App.getDataManager().persist(models, Boolean.TRUE);
             App.getDataManager().setPATH(this.fileXML.getPath());
 
         } catch (Exception ex) {
@@ -249,5 +326,17 @@ public class ImportManagerImpl implements ImportManager {
 
         return true;
     }
+
+    protected String getModelName(String name){
+
+        for (String model : allModels){
+            if(name.contains(model)){
+                return firstCharToLowerCase(model);
+            }
+        }
+        return null;
+    }
+
+
 
 }

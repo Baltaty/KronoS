@@ -1,0 +1,165 @@
+
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+a {
+    color: #0087C3;
+    text-decoration: none;
+}
+
+body {
+    position: relative;
+    width: 21cm;
+    height: 29.7cm;
+    margin: 0 auto;
+    color: #555555;
+    background: #FFFFFF;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-family: SourceSansPro;
+}
+
+header {
+    padding: 10px 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #AAAAAA;
+}
+
+#logo {
+    float: left;
+    margin-top: 8px;
+}
+
+#logo img {
+    height: 70px;
+}
+
+#company {
+    float: left;
+    text-align: left;
+}
+
+
+#details {
+    margin-bottom: 50px;
+}
+
+#client {
+    padding-left: 0px;
+    border-left: 6px solid #0087C3;
+    float: left;
+}
+
+#client .to {
+    color: #777777;
+}
+
+h2.name {
+    font-size: 1.4em;
+    font-weight: normal;
+    margin: 0;
+}
+
+#invoice {
+    width: 230px;
+    float: right;
+    text-align: right;
+}
+
+
+
+#invoice .date {
+    font-size: 0.9em;
+    color: #777777;
+}
+
+.my-2 {
+    margin-top: 2em !important;
+    margin-bottom: 1em !important;
+}
+
+.px-2 {
+    padding-left: 1.5em !important;
+    padding-right: 1.5em !important;
+}
+
+.py-2 {
+    padding-left: 1.5em !important;
+    padding-right: 1.5em !important;
+}
+
+
+#head {
+    text-align: center;
+    border-style: solid;
+    border-width: 10px;
+    border-color: hsl(197, 38%, 55%);
+}
+
+#head h1 {
+    color: #0087C3;
+    font-size: 1.5em;
+    line-height: 0.7em;
+    font-weight: normal;
+    margin: 0 0 10px 0;
+}
+
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-bottom: 20px;
+    margin-top: 30px;
+}
+
+table th,
+table td {
+    padding: 20px;
+    background: #EEEEEE;
+    text-align: center;
+    border-bottom: 1px solid #FFFFFF;
+}
+
+table th {
+    white-space: nowrap;
+    font-weight: normal;
+}
+
+table td {
+    text-align: left;
+}
+
+table .desc {
+    text-align: left;
+}
+
+table .unit {
+    background: #DDDDDD;
+}
+
+table .qty {
+}
+
+table .total {
+    background: #609fb8;
+    color: #FFFFFF;
+}
+
+
+
+table tbody tr:last-child td {
+    border: none;
+}
+
+table thead tr,
+table tbody tr,
+table tfoot tr {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
