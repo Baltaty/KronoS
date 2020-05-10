@@ -10,6 +10,7 @@ import com.kronos.global.animation.PulseTransition;
 import com.kronos.global.enums.RaceState;
 import com.kronos.global.util.Alerts;
 import com.kronos.model.*;
+import com.kronos.module.main.Main;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -22,6 +23,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.text.Text;
 import javafx.util.Callback;
 import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
@@ -38,6 +40,57 @@ import java.util.*;
 
 public class RaceResumeController implements Initializable, Observer {
 
+    @FXML
+    public Label i18n_raceinfo;
+    @FXML
+    public Label i18n_departureHour;
+    @FXML
+    public Label i18n_actualHour;
+    @FXML
+    public Label i18n_elapsedTime;
+    @FXML
+    public Label i18n_remainingTime;
+    @FXML
+    public Label i18n_elapsedLaps;
+    @FXML
+    public Label i18n_remainingLaps;
+    @FXML
+    public Label i18n_panel;
+    @FXML
+    public Label i18n_details;
+    @FXML
+    public Tab i18n_currentPilot;
+    @FXML
+    public Label i18n_currentPilotLastName;
+    @FXML
+    public Label i18n_currentPilotFirstname;
+    @FXML
+    public Label i18n_currentPilotDateOfBirth;
+    @FXML
+    public Tab i18n_currentCar;
+    @FXML
+    public Label i18n_currentCarBrand;
+    @FXML
+    public Label i18n_currentCarModel;
+    @FXML
+    public Label i18n_currentCarTeam;
+    @FXML
+    public Label i18n_averageLapTime;
+    @FXML
+    public Label i18n_timerOpponentCar;
+    @FXML
+    public Label i18n_type;
+    @FXML
+    public Label i18n_car;
+    @FXML
+    public Label i18n_comment;
+    @FXML
+    public Label i18n_raceRanking;
+    @FXML
+    public Label i18n_previous;
+    @FXML
+    public Label i18n_inProgress;
+
 
     @FXML
     private Label chronoRivalCar;
@@ -45,10 +98,6 @@ public class RaceResumeController implements Initializable, Observer {
     private Label chronoTopTime;
     @FXML
     private Label labelMeanTime;
-    @FXML
-    private Label tempsTourEcoulé;
-    @FXML
-    private Label tempsTourRestant;
     @FXML
     private ProgressBar meanTimeBar;
     @FXML
@@ -58,7 +107,7 @@ public class RaceResumeController implements Initializable, Observer {
     @FXML
     private Label tmierSign;
     @FXML
-    private Label currentHour;
+    public Label currentHour;
 
     @FXML
     private Label spentTime;
@@ -66,13 +115,11 @@ public class RaceResumeController implements Initializable, Observer {
     @FXML
     private Label remainingTime;
     @FXML
-    private JFXButton startRace;
-
+    public JFXButton startRace;
     @FXML
-    private JFXButton pauseRace;
-
+    public JFXButton pauseRace;
     @FXML
-    private JFXButton stopRace;
+    public JFXButton stopRace;
     @FXML
     private Label lastNamePilotMainCar;
     @FXML
@@ -89,30 +136,30 @@ public class RaceResumeController implements Initializable, Observer {
     @FXML
     private TableView<TopModel> table_info;
     @FXML
-    private TableColumn<TopModel, Double> col_delete;
+    public TableColumn<TopModel, Double> col_delete;
     @FXML
-    private TableColumn<TopModel, Integer> colCarNumber;
+    public TableColumn<TopModel, Integer> colCarNumber;
 
     @FXML
-    private TableColumn<TopModel, String> col_typetop;
+    public TableColumn<TopModel, String> col_typetop;
 
     @FXML
-    private TableColumn<TopModel, String> col_comment;
+    public TableColumn<TopModel, String> col_comment;
 
     @FXML
-    private TableColumn<TopModel, String> col_time;
+    public TableColumn<TopModel, String> col_time;
 
     @FXML
-    private TableColumn<TopModel, String> col_racetime;
+    public TableColumn<TopModel, String> col_racetime;
 
     @FXML
-    private TableColumn<TopModel, String> col_laptime;
+    public TableColumn<TopModel, String> col_laptime;
 
     @FXML
-    private TableColumn<TopModel, Integer> colLapNumber;
+    public TableColumn<TopModel, Integer> colLapNumber;
 
     @FXML
-    private JFXToggleButton toogleedit;
+    public JFXToggleButton toogleedit;
 
     @FXML
     private JFXTextField topComment;
@@ -162,6 +209,7 @@ public class RaceResumeController implements Initializable, Observer {
     private DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("mm:ss:nn");
     private DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("HH:mm:ss:nn");
 
+    public static RaceResumeController ctrl;
 
     public RaceResumeController() {
     }
@@ -172,6 +220,7 @@ public class RaceResumeController implements Initializable, Observer {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        ctrl=this;
         App.getDataManager().attach(this);
         col_racetime.setVisible(false);
         colLapNumber.setVisible(false);
@@ -207,9 +256,10 @@ public class RaceResumeController implements Initializable, Observer {
             remainingTimeline.setCycleCount(Animation.INDEFINITE);
         } else {
             colLapNumber.setVisible(true);
-            tempsTourRestant.setText("Tours Restants");
-            tempsTourEcoulé.setText("Tour Ecoulés");
-
+            i18n_elapsedTime.setVisible(false);
+            i18n_remainingTime.setVisible(false);
+            i18n_elapsedLaps.setVisible(true);
+            i18n_remainingLaps.setVisible(true);
 
             if (raceModel.getRaceState().equals(RaceState.CREATION)) {
                 remainingLaps = ((LapRaceModel) raceModel).getNumberOfLaps();
@@ -1899,16 +1949,10 @@ public class RaceResumeController implements Initializable, Observer {
         chronoRivalCar.setText(chronoTimeRival.format(dtf1));
         startTimerBar();
         startTimerForRivalCar();
-
     }
 
-    /**
-     *
-     */
     @Override
     public void update() {
 
     }
-
-
 }

@@ -18,6 +18,7 @@
     import com.kronos.global.util.Alerts;
     import com.kronos.global.util.Mask;
     import com.kronos.model.*;
+    import com.kronos.module.main.Config;
     import com.kronos.parserXML.MainImpl.SaveManagerImpl;
     import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
     import javafx.animation.RotateTransition;
@@ -35,6 +36,7 @@
     import javafx.scene.input.KeyCode;
     import javafx.scene.input.KeyEvent;
     import javafx.scene.layout.StackPane;
+    import javafx.scene.text.Text;
     import javafx.stage.Stage;
     import javafx.util.Duration;
 
@@ -60,6 +62,7 @@
         private static PilotController pilotcontroller = new PilotController();
         private static CarController carController = new CarController();
         private static Boolean changeRequest;
+
         @FXML
         JFXDatePicker dateOfBirthPilot;
         private ArrayList<PilotModel> pilotsList = new ArrayList<>();
@@ -96,15 +99,15 @@
         @FXML
         private JFXTabPane newRaceTabPane;
         @FXML
-        private Tab tabPilot;
+        public Tab tabPilot;
         @FXML
-        private Tab tabCar;
+        public Tab tabCar;
         @FXML
-        private Tab tabCourse;
+        public Tab tabCourse;
         @FXML
-        private JFXButton btnNextCar;
+        public JFXButton btnNextCar;
         @FXML
-        private JFXButton btnNextLap;
+        public JFXButton btnNextLap;
         @FXML
         private ImageView bolt;
         @FXML
@@ -128,6 +131,66 @@
         @FXML
         private JFXTextField pilotHeight;
 
+        //////////////////////////////////// Attributes for internationalization  /////////////////////////////////////
+        @FXML
+        public JFXButton btnaddpilot;
+        @FXML
+        public JFXButton add_car_btn;
+        @FXML
+        public JFXButton btn_start_race;
+        @FXML
+        public Text i18n_createRace;
+        @FXML
+        public Text i18n_chargeOldRace;
+        @FXML
+        public Text i18n_parameters;
+        @FXML
+        public Text i18n_touchOfTop;
+        @FXML
+        public JFXButton i18n_changeTop;
+        @FXML
+        public Label i18n_lastNamePilot;
+        @FXML
+        public Label i18n_firstNamePilot;
+        @FXML
+        public Label i18n_dateOfBirthPilot;
+        @FXML
+        public Label i18n_weightPilot;
+        @FXML
+        public Label i18n_commentPilot;
+        @FXML
+        public Label i18n_titlePilot;
+        @FXML
+        public Label i18n_sizePilot;
+        @FXML
+        public Label i18n_titleCar;
+        @FXML
+        public Label i18n_numberCar;
+        @FXML
+        public Label i18n_teamCar;
+        @FXML
+        public Label i18n_modelCar;
+        @FXML
+        public Label i18n_brandCar;
+        @FXML
+        public Label i18n_pilotCar;
+        @FXML
+        public Label i18n_typeOfCar;
+        @FXML
+        public Label i18n_beginningRace;
+        @FXML
+        public Label i18n_nameOfTrack;
+        @FXML
+        public Label i18n_raceType;
+        @FXML
+        public Label i18n_titleRace;
+        @FXML
+        public Label i18n_nameOfRace;
+        @FXML
+        public Label i18n_lapTime;
+        @FXML
+        public Label i18n_lapsBeforeRelay;
+
 
         //////////////////////////////////////// Attributes of races data /////////////////////////////////////
 
@@ -146,14 +209,14 @@
         @FXML
         private JFXTextField raceNumberOfLaps;
         @FXML
-        private Label raceNumberOfLapsLabel;
+        public Label raceNumberOfLapsLabel;
         @FXML
         private JFXComboBox<String> raceTypeCombo;
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////
         private RaceType typeOfRace;
         public static ObservableList<String> stylesheets;
-
+        public static HomeController ctrl;
 
         /**
          * Handles the startup of the race creation process.
@@ -401,6 +464,7 @@
          */
         @Override
         public void initialize(URL url, ResourceBundle rb) {
+            ctrl=this;
 
 //             WobbleTransition fade=new WobbleTransition(appname1);
 //             fade.setDelay(Duration.seconds(3));

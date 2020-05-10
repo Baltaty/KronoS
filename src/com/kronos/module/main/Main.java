@@ -61,9 +61,9 @@ public class Main implements Initializable {
     @FXML private TitledPane design;
     @FXML private TitledPane controls;
     @FXML private TitledPane charts;
-    @FXML private Button home;
+    @FXML public Button home;
     @FXML private Button  about;
-    @FXML private Button  FeuilleTemps;
+    @FXML public Button  FeuilleTemps;
     @FXML private Button hamburger;
     @FXML private SVGPath searchIcon;
     @FXML private StackPane root;
