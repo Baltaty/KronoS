@@ -22,7 +22,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="1500.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.RaceResumeController">
+<StackPane prefHeight="1500.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.RaceResumeController">
 
 <!--    <stylesheets>-->
 <!--        <URL value="@../theme/css/material-color.css" />-->
@@ -43,55 +43,95 @@
                         <Pane prefHeight="375.0" prefWidth="372.0" style="-fx-border-color: black;">
                             <children>
                                 <Circle fill="WHITE" layoutX="69.0" layoutY="50.0" radius="35.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" />
-                                <Label layoutX="155.0" layoutY="40.0" text="INFOS COURSE" />
-                                <Label layoutX="25.0" layoutY="100.0" prefHeight="17.0" prefWidth="112.0" text="Heure de depart" />
+                                <Label fx:id="i18n_raceinfo" layoutX="155.0" layoutY="40.0" text="INFOS COURSE" />
+                                <Label fx:id="i18n_departureHour" alignment="CENTER" layoutX="25.0" layoutY="100.0" prefHeight="17.0" prefWidth="102.0" text="Heure de depart" />
                                 <Label fx:id="departureHour" layoutX="46.0" layoutY="117.0" text="00 : 00 : 00" />
-                                <Label layoutX="216.0" layoutY="100.0" prefHeight="17.0" prefWidth="112.0" text="Heure actuelle" />
+                                <Label fx:id="i18n_actualHour" alignment="CENTER" layoutX="216.0" layoutY="100.0" prefHeight="17.0" prefWidth="84.0" text="Heure actuelle" />
                                 <Label fx:id="currentHour" layoutX="230.0" layoutY="117.0" text="00 : 00 : 00" />
-                                <Label fx:id="tempsTourEcoulé" layoutX="35.0" layoutY="163.0" prefHeight="17.0" prefWidth="112.0" text="Temps ecoulé" />
+                                <Label fx:id="i18n_elapsedTime" alignment="CENTER" layoutX="35.0" layoutY="163.0" prefHeight="17.0" prefWidth="84.0" text="Temps écoulé" />
                                 <Label fx:id="spentTime" layoutX="46.0" layoutY="180.0" text="00 : 00 : 00" />
-                                <Label fx:id="tempsTourRestant" layoutX="209.0" layoutY="161.0" prefHeight="17.0" prefWidth="112.0" text="Temps restant" />
+                                <Label fx:id="i18n_remainingTime" alignment="CENTER" layoutX="209.0" layoutY="161.0" prefHeight="17.0" prefWidth="84.0" text="Temps restant" />
                                 <Label fx:id="remainingTime" layoutX="224.0" layoutY="178.0" text="00 : 00 : 00" />
                                 <JFXButton fx:id="startRace" alignment="CENTER" contentDisplay="CENTER" layoutX="51.0" layoutY="217.0" onAction="#startTimer" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #57c6f2;" styleClass="btn-base" text="Start" />
                                 <JFXButton fx:id="pauseRace" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="149.0" layoutY="217.0" onAction="#pauseTimer" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #57c6f2;" styleClass="btn-base" text="Pause" />
                                 <JFXButton fx:id="stopRace" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="248.0" layoutY="217.0" onAction="#endTimer" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #57c6f2;" text="Stop" />
+                        <Label fx:id="i18n_elapsedLaps" layoutX="35.0" layoutY="163.0" prefHeight="17.0" prefWidth="112.0" text="Tours effectués" visible="false" />
+                        <Label fx:id="i18n_remainingLaps" layoutX="209.0" layoutY="162.0" prefHeight="17.0" prefWidth="112.0" text="Tours restants" visible="false" />
                             </children>
                         </Pane>
                         <Pane layoutX="10.0" layoutY="10.0" prefHeight="350.0" prefWidth="329.0" style="-fx-border-color: black;">
                             <children>
-                                <Label layoutX="127.0" layoutY="47.0" text="PANNEAU" />
+                                <Label layoutX="71.0" layoutY="52.0" text="PANNEAU POUR LA VOITURE" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font></Label>
+                        <Label layoutX="98.0" layoutY="124.0" text="TOURS RESTANTS" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="carNumber" layoutX="146.0" layoutY="71.0" text="-">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="remainingLapsBeforeStop" layoutX="146.0" layoutY="143.0" text="-" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="137.0" layoutY="283.0" text="ETAT" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="state" layoutX="146.0" layoutY="302.0" text="-" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="131.0" layoutY="196.0" text="TEMPS" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="time" layoutX="145.0" layoutY="230.0" text="-" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                        </Label>
                             </children>
                         </Pane>
                         <Pane prefHeight="375.0" prefWidth="372.0" style="-fx-border-color: black;">
                             <children>
                                 <Circle fill="WHITE" layoutX="60.0" layoutY="63.0" radius="35.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" />
-                                <Label layoutX="102.0" layoutY="54.0" text="DETAILS DE LA VOITURE PRINCIPALE">
+                                <Label fx:id="i18n_details" layoutX="102.0" layoutY="54.0" text="DETAILS DE LA VOITURE PRINCIPALE">
                                     <font>
                                         <Font name="System Bold" size="13.0" />
                                     </font>
                                 </Label>
                                 <JFXTabPane layoutX="1.0" layoutY="102.0" prefHeight="223.0" prefWidth="359.0">
                                     <tabs>
-                                        <Tab text="Pilote">
+                                        <Tab fx:id="i18n_currentPilot" text="Pilote">
                                             <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="260.0" prefWidth="359.0">
                                        <children>
-                                          <Label layoutX="14.0" layoutY="30.0" text="NOM :" />
-                                          <Label layoutX="14.0" layoutY="65.0" text="Prenoms :" />
-                                          <Label fx:id="datOfBirthPilot" layoutX="14.0" layoutY="101.0" text="Date de Naissance :" />
-                                          <Label fx:id="lastNamePilotMainCar" layoutX="66.0" layoutY="30.0" />
-                                          <Label fx:id="firstNamePilotMainCar" layoutX="84.0" layoutY="65.0" />
+                                          <Label fx:id="i18n_currentPilotLastName" layoutX="14.0" layoutY="30.0" text="Nom :" />
+                                          <Label fx:id="i18n_currentPilotFirstname" layoutX="14.0" layoutY="65.0" text="Prénom :" />
+                                          <Label fx:id="i18n_currentPilotDateOfBirth" layoutX="14.0" layoutY="101.0" text="Date de Naissance :" />
+                                          <Label fx:id="lastNamePilotMainCar" layoutX="118.0" layoutY="30.0" prefHeight="17.0" prefWidth="94.0" />
+                                          <Label fx:id="firstNamePilotMainCar" layoutX="125.0" layoutY="65.0" prefHeight="17.0" prefWidth="81.0" />
                                           <Label fx:id="dateOfBirthPilot" layoutX="135.0" layoutY="101.0" />
                                        </children></AnchorPane>
                                             </content>
                                         </Tab>
-                                        <Tab text="Voiture">
+                                        <Tab fx:id="i18n_currentCar" text="Voiture">
                                             <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <Label layoutX="14.0" layoutY="39.0" text="Marque :" />
-                                          <Label layoutX="15.0" layoutY="76.0" text="Modele :" />
-                                          <Label layoutX="14.0" layoutY="112.0" text="Equipe :" />
+                                          <Label fx:id="i18n_currentCarBrand" layoutX="14.0" layoutY="39.0" text="Marque :" />
+                                          <Label fx:id="i18n_currentCarModel" layoutX="15.0" layoutY="76.0" text="Modele :" />
+                                          <Label fx:id="i18n_currentCarTeam" layoutX="14.0" layoutY="112.0" text="Equipe :" />
                                           <Label fx:id="mainCarBrand" layoutX="84.0" layoutY="39.0" />
                                           <Label fx:id="mainCarModel" layoutX="84.0" layoutY="76.0" />
                                           <Label fx:id="mainCarTeam" layoutX="84.0" layoutY="112.0" />
@@ -108,7 +148,7 @@
                     <children>
                         <Pane id="btn" prefHeight="261.0" prefWidth="404.0">
                             <children>
-                                <Label layoutX="112.0" layoutY="31.0" text="TEMPS MOYEN AU TOUR">
+                                <Label fx:id="i18n_averageLapTime" alignment="CENTER" layoutX="70.0" layoutY="31.0" prefHeight="17.0" prefWidth="217.0" text="TEMPS MOYEN AU TOUR" textAlignment="CENTER">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font></Label>
@@ -132,7 +172,7 @@
                               <Font size="30.0" />
                            </font>
                         </Label>
-                        <Label layoutX="87.0" layoutY="167.0" prefHeight="17.0" prefWidth="207.0" text="TIMER VOITURE CONCURRENTE">
+                        <Label fx:id="i18n_timerOpponentCar" alignment="CENTER" layoutX="58.0" layoutY="167.0" prefHeight="17.0" prefWidth="256.0" text="TIMER VOITURE CONCURRENTE" textAlignment="CENTER">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -158,7 +198,7 @@
                                         </Pane>
                                         <HBox alignment="CENTER" prefHeight="65.0" prefWidth="256.0">
                                             <children>
-                                                <Label alignment="CENTER" contentDisplay="CENTER" text="TYPE" textAlignment="CENTER">
+                                                <Label fx:id="i18n_type" alignment="CENTER" contentDisplay="CENTER" text="TYPE" textAlignment="CENTER">
                                                     <padding>
                                                         <Insets right="20.0" top="20.0" />
                                                     </padding>
@@ -168,7 +208,7 @@
                                         </HBox>
                                           <HBox alignment="CENTER" prefHeight="65.0" prefWidth="256.0">
                                               <children>
-                                                  <Label alignment="CENTER" contentDisplay="CENTER" text="VOITURE" textAlignment="CENTER">
+                                                  <Label fx:id="i18n_car" alignment="CENTER" contentDisplay="CENTER" text="VOITURE" textAlignment="CENTER">
                                                       <padding>
                                                           <Insets top="20.0" />
                                                       </padding>
@@ -181,7 +221,7 @@
                                           </HBox>
                               <VBox alignment="CENTER" prefWidth="256.0">
                                  <children>
-                                    <Label alignment="CENTER" contentDisplay="CENTER" text="COMMENTAIRE">
+                                    <Label fx:id="i18n_comment" alignment="CENTER" contentDisplay="CENTER" text="COMMENTAIRE">
                                        <padding>
                                           <Insets top="20.0" />
                                        </padding>
@@ -195,11 +235,11 @@
                         </Pane>
                         <Pane prefHeight="261.0" prefWidth="404.0">
                             <children>
-                                <Label alignment="TOP_CENTER" layoutX="98.0" layoutY="31.0" text="CLASSEMENT DE LA COURSE" />
+                                <Label fx:id="i18n_raceRanking" alignment="TOP_CENTER" layoutX="98.0" layoutY="31.0" text="CLASSEMENT DE LA COURSE" />
                         <ListView fx:id="listPastRank" layoutX="3.0" layoutY="100.0" prefHeight="134.0" prefWidth="142.0" />
                         <ListView fx:id="listNowRank" layoutX="235.0" layoutY="100.0" prefHeight="134.0" prefWidth="124.0" />
-                        <Label layoutX="27.0" layoutY="71.0" prefHeight="17.0" prefWidth="94.0" text="precedent" />
-                        <Label layoutX="245.0" layoutY="63.0" text="en_cours" />
+                        <Label fx:id="i18n_previous" layoutX="27.0" layoutY="71.0" prefHeight="17.0" prefWidth="94.0" text="précédent" />
+                        <Label fx:id="i18n_inProgress" layoutX="245.0" layoutY="63.0" text="en_cours" />
                             </children>
                         </Pane>
                     </children>

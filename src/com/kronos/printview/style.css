@@ -64,17 +64,33 @@ h2.name {
 }
 
 #invoice {
-    float: left;
-    text-align: left;
+    width: 230px;
+    float: right;
+    text-align: right;
 }
 
-#invoice h2 {
-    color: #0087C3;
-    font-size: 1.4em;
-    line-height: 0.8em;
-    font-weight: normal;
-    margin: 0  0 10px 0;
+
+
+#invoice .date {
+    font-size: 0.9em;
+    color: #777777;
 }
+
+.my-2 {
+    margin-top: 2em !important;
+    margin-bottom: 1em !important;
+}
+
+.px-2 {
+    padding-left: 1.5em !important;
+    padding-right: 1.5em !important;
+}
+
+.py-2 {
+    padding-left: 1.5em !important;
+    padding-right: 1.5em !important;
+}
+
 
 #head {
     text-align: center;
@@ -85,18 +101,13 @@ h2.name {
 
 #head h1 {
     color: #0087C3;
-    font-size: 1.8em;
-    line-height: 0.8em;
+    font-size: 1.5em;
+    line-height: 0.7em;
     font-weight: normal;
     margin: 0 0 10px 0;
 }
 
 
-
-#invoice .date {
-    font-size: 0.9em;
-    color: #777777;
-}
 
 table {
     width: 100%;
@@ -120,21 +131,7 @@ table th {
 }
 
 table td {
-    text-align: right;
-}
-
-table td h3{
-    color: #57B223;
-    font-size: 1.2em;
-    font-weight: normal;
-    margin: 0 0 0.2em 0;
-}
-
-table .no {
-    text-align: center;
-    color: #FFFFFF;
-    font-size: 1.6em;
-    background: #57B223;
+    text-align: left;
 }
 
 table .desc {
@@ -149,15 +146,11 @@ table .qty {
 }
 
 table .total {
-    background: #57B223;
+    background: #609fb8;
     color: #FFFFFF;
 }
 
-table td.unit,
-table td.qty,
-table td.total {
-    font-size: 1.2em;
-}
+
 
 table tbody tr:last-child td {
     border: none;
@@ -170,52 +163,3 @@ table tfoot tr {
     padding-bottom: 5px;
 }
 
-
-table tfoot td {
-    padding: 10px 20px;
-    background: #FFFFFF;
-    border-bottom: none;
-    font-size: 1.2em;
-    white-space: nowrap;
-    border-top: 1px solid #AAAAAA;
-}
-
-table tfoot tr:first-child td {
-    border-top: none;
-}
-
-table tfoot tr:last-child td {
-    color: #57B223;
-    font-size: 1.4em;
-    border-top: 1px solid #57B223;
-
-}
-
-table tfoot tr td:first-child {
-    border: none;
-}
-
-#thanks{
-    font-size: 2em;
-    margin-bottom: 50px;
-}
-
-#notices{
-    padding-left: 6px;
-    border-left: 6px solid #0087C3;
-}
-
-#notices .notice {
-    font-size: 1.2em;
-}
-
-footer {
-    color: #777777;
-    width: 100%;
-    height: 30px;
-    position: absolute;
-    bottom: 0;
-    border-top: 1px solid #AAAAAA;
-    padding: 8px 0;
-    text-align: center;
-}
