@@ -755,16 +755,31 @@
         public void createRace(ActionEvent actionEvent) {
             boolean timelaps = false;
             RaceController raceController = new RaceController();
-            int race_duration = -1, race_numberOf_tour = -1;
+            int race_duration = -1, race_numberOf_tour = -1, race_interval_relays = -1, race_mean_lap_time = 0;
             if (typeOfRace == RaceType.TIME_RACE) {
                 if (!this.raceDuration.getText().isEmpty()) {
                     if (Mask.isNumeric(this.raceDuration.getText())) {
                         if (Integer.parseInt(this.raceDuration.getText()) > 0) {
                             race_duration = Integer.parseInt(raceDuration.getText());
-                            timelaps = true;
+                            if (!this.tour_relai.getText().isEmpty()) {
+                                if (Mask.isNumeric(this.tour_relai.getText())) {
+                                    if (Integer.parseInt(this.tour_relai.getText()) > 0) {
+                                        race_interval_relays = Integer.parseInt(this.tour_relai.getText());
+                                        if (!this.t_m_autour.getText().isEmpty()) {
+                                            if (Mask.isNumeric(this.t_m_autour.getText())) {
+                                                if (Integer.parseInt(this.t_m_autour.getText()) > 0) {
+                                                    race_mean_lap_time = Integer.parseInt(this.tour_relai.getText());
+                                                    timelaps = true;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
+
 
             } else {
 
@@ -772,16 +787,29 @@
                     if (Mask.isNumeric(this.raceNumberOfLaps.getText())) {
                         if (Integer.parseInt(this.raceNumberOfLaps.getText()) > 0) {
                             race_numberOf_tour = Integer.parseInt(this.raceNumberOfLaps.getText());
-                            timelaps = true;
+                            if (!this.tour_relai.getText().isEmpty()) {
+                                if (Mask.isNumeric(this.tour_relai.getText())) {
+                                    if (Integer.parseInt(this.tour_relai.getText()) > 0 && Integer.parseInt(this.tour_relai.getText()) <= Integer.parseInt(this.raceNumberOfLaps.getText())) {
+                                        race_interval_relays = Integer.parseInt(this.tour_relai.getText());
+                                        if (!this.t_m_autour.getText().isEmpty()) {
+                                            if (Mask.isNumeric(this.t_m_autour.getText())) {
+                                                if (Integer.parseInt(this.t_m_autour.getText()) > 0) {
+                                                    race_mean_lap_time = Integer.parseInt(this.tour_relai.getText());
+                                                    timelaps = true;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
-
                 }
             }
             if (timelaps) {
                 RaceModel race = raceController.createRace(typeOfRace, raceName.getText(),
                         Date.from(startingTimeDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                        racewayNameText.getText(), race_duration, race_numberOf_tour);
+                        racewayNameText.getText(), race_duration, race_numberOf_tour, race_interval_relays, race_mean_lap_time);
 
                 if (typeOfRace.equals(RaceType.TIME_RACE)) {
                     for (CarModel carModel : carsList) {

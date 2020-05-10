@@ -33,12 +33,12 @@ public class RaceFactory {
      * @param numberOfLaps number of laps (in case of a lap race)
      * @return the new race with the correct parameters
      */
-    public RaceModel createRace(RaceType raceType, String raceName, Date startingTime, String racewayName, Date endTime, int numberOfLaps) {
+    public RaceModel createRace(RaceType raceType, String raceName, Date startingTime, String racewayName, Date endTime, int numberOfLaps, int relayInterval, int defaultMeanLapTime) {
         RaceModel raceModel = null;
         if (raceType.equals(RaceType.TIME_RACE)) {
-            raceModel = new TimeRaceModel(raceName, startingTime, racewayName, endTime);
+            raceModel = new TimeRaceModel(raceName, startingTime, racewayName, endTime, relayInterval, defaultMeanLapTime);
         } else if (raceType.equals(RaceType.LAP_RACE)) {
-            raceModel = new LapRaceModel(raceName, startingTime, racewayName, numberOfLaps);
+            raceModel = new LapRaceModel(raceName, startingTime, racewayName, numberOfLaps, relayInterval, defaultMeanLapTime);
         }
         return raceModel;
     }

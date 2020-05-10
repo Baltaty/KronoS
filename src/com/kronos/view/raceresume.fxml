@@ -59,7 +59,45 @@
                         </Pane>
                         <Pane layoutX="10.0" layoutY="10.0" prefHeight="350.0" prefWidth="329.0" style="-fx-border-color: black;">
                             <children>
-                                <Label layoutX="127.0" layoutY="47.0" text="PANNEAU" />
+                                <Label layoutX="71.0" layoutY="52.0" text="PANNEAU POUR LA VOITURE" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font></Label>
+                        <Label layoutX="98.0" layoutY="124.0" text="TOURS RESTANTS" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="carNumber" layoutX="146.0" layoutY="71.0" text="-">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="remainingLapsBeforeStop" layoutX="146.0" layoutY="143.0" text="-" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="137.0" layoutY="283.0" text="ETAT" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="state" layoutX="146.0" layoutY="302.0" text="-" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="131.0" layoutY="196.0" text="TEMPS" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="time" layoutX="145.0" layoutY="230.0" text="-" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                        </Label>
                             </children>
                         </Pane>
                         <Pane prefHeight="375.0" prefWidth="372.0" style="-fx-border-color: black;">
