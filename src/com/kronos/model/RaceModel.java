@@ -2,7 +2,6 @@ package com.kronos.model;
 
 import com.kronos.api.Race;
 import com.kronos.global.enums.RaceState;
-import com.kronos.global.enums.RaceType;
 
 import java.util.ArrayList;
 import javax.xml.bind.annotation.XmlElement;
@@ -27,6 +26,9 @@ public abstract class RaceModel implements Race {
     private RaceState raceState;
     private String timeLapsRemaining;
     private String timeLapsSpent;
+
+    private int relayInterval;
+    private int defaultMeanLapTime;
     private ArrayList<CarModel> carsList;
     private Map<Integer, ArrayList<TopModel>> topsMap = new HashMap<>();
 
@@ -43,7 +45,7 @@ public abstract class RaceModel implements Race {
      * @param startingTime
      * @param racewayName
      */
-    public RaceModel(String raceName, Date startingTime, String racewayName) {
+    public RaceModel(String raceName, Date startingTime, String racewayName, int relayInterval, int defaultMeanLapTime) {
         this.raceName = raceName;
         this.id = System.currentTimeMillis();
         this.startingTime = startingTime;
@@ -52,6 +54,9 @@ public abstract class RaceModel implements Race {
         this.raceState= RaceState.CREATION;
         this.timeLapsRemaining="00";
         this.timeLapsSpent="00";
+        this.relayInterval = relayInterval;
+        this.defaultMeanLapTime = defaultMeanLapTime;
+        System.out.println("relayInterval"+relayInterval);
     }
 
 
@@ -151,4 +156,15 @@ public abstract class RaceModel implements Race {
     public void setTimeLapsSpent(String timeLapsSpent) {
         this.timeLapsSpent = timeLapsSpent;
     }
+
+    @Override
+    public int getRelayInterval() {
+        return relayInterval;
+    }
+
+    @Override
+    public int getDefaultMeanLapTime() {
+        return defaultMeanLapTime;
+    }
+
 }

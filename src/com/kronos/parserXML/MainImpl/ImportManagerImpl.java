@@ -172,10 +172,12 @@ public class ImportManagerImpl implements ImportManager {
                 if (topsMap.containsKey(numberOfcar)) {
                     List<TopModel> topModelList = topsMap.get(numberOfcar);
                     topModelList.add(model);
+                    Collections.sort(topModelList);
                 }
                 else{
                     ArrayList<TopModel> topModelList = new ArrayList<>();
                     topModelList.add(model);
+                    Collections.sort(topModelList);
                     topsMap.put(numberOfcar, topModelList);
                 }
 

@@ -35,6 +35,7 @@
     import javafx.scene.image.ImageView;
     import javafx.scene.input.KeyCode;
     import javafx.scene.input.KeyEvent;
+    import javafx.scene.input.MouseEvent;
     import javafx.scene.layout.StackPane;
     import javafx.scene.text.Text;
     import javafx.stage.Stage;
@@ -212,6 +213,14 @@
         public Label raceNumberOfLapsLabel;
         @FXML
         private JFXComboBox<String> raceTypeCombo;
+        @FXML
+        private Label t_m_autour_label;
+        @FXML
+        private Label tour_relai_label;
+        @FXML
+        private JFXTextField t_m_autour;
+        @FXML
+        private JFXTextField tour_relai;
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////
         private RaceType typeOfRace;
@@ -472,7 +481,12 @@
 //             fade.setCycleCount(WobbleTransition.INDEFINITE);
 //             fade.play();
 //
-
+            Alerts.warning("test titre","le test est super", new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    System.out.println("mouse click detected! "+event.getSource());
+                }
+                });
             ////// SCALE BOUTON DEMARRER
             ScaleTransition scalestart = new ScaleTransition(Duration.seconds(1), startBtn);
             scalestart.setToX(1.2);
@@ -741,7 +755,7 @@
             }
 
 
-            PilotModel pilotcont = new PilotModel(firstnamecont, lastnamecont, commentcont, pilotdatofbirthcont, pilotweightcont, pilotweightcont);
+            PilotModel pilotcont = new PilotModel(firstnamecont, lastnamecont, commentcont, pilotdatofbirthcont, pilotheightcont, pilotweightcont);
 
 
             if (pilotcontroller.checkPilot(pilotcont) && check) {
@@ -786,6 +800,10 @@
                 raceNumberOfLaps.setVisible(false);
                 raceDurationLabel.setVisible(true);
                 raceDuration.setVisible(true);
+                t_m_autour_label.setVisible(true);
+                t_m_autour.setVisible(true);
+                tour_relai_label.setVisible(true);
+                tour_relai.setVisible(true);
                 typeOfRace = com.kronos.global.enums.RaceType.TIME_RACE;
 
 
@@ -801,16 +819,31 @@
         public void createRace(ActionEvent actionEvent) {
             boolean timelaps = false;
             RaceController raceController = new RaceController();
-            int race_duration = -1, race_numberOf_tour = -1;
+            int race_duration = -1, race_numberOf_tour = -1, race_interval_relays = -1, race_mean_lap_time = 0;
             if (typeOfRace == RaceType.TIME_RACE) {
                 if (!this.raceDuration.getText().isEmpty()) {
                     if (Mask.isNumeric(this.raceDuration.getText())) {
                         if (Integer.parseInt(this.raceDuration.getText()) > 0) {
                             race_duration = Integer.parseInt(raceDuration.getText());
-                            timelaps = true;
+                            if (!this.tour_relai.getText().isEmpty()) {
+                                if (Mask.isNumeric(this.tour_relai.getText())) {
+                                    if (Integer.parseInt(this.tour_relai.getText()) > 0) {
+                                        race_interval_relays = Integer.parseInt(this.tour_relai.getText());
+                                        if (!this.t_m_autour.getText().isEmpty()) {
+                                            if (Mask.isNumeric(this.t_m_autour.getText())) {
+                                                if (Integer.parseInt(this.t_m_autour.getText()) > 0) {
+                                                    race_mean_lap_time = Integer.parseInt(this.tour_relai.getText());
+                                                    timelaps = true;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
+
 
             } else {
 
@@ -818,16 +851,29 @@
                     if (Mask.isNumeric(this.raceNumberOfLaps.getText())) {
                         if (Integer.parseInt(this.raceNumberOfLaps.getText()) > 0) {
                             race_numberOf_tour = Integer.parseInt(this.raceNumberOfLaps.getText());
-                            timelaps = true;
+                            if (!this.tour_relai.getText().isEmpty()) {
+                                if (Mask.isNumeric(this.tour_relai.getText())) {
+                                    if (Integer.parseInt(this.tour_relai.getText()) > 0 && Integer.parseInt(this.tour_relai.getText()) <= Integer.parseInt(this.raceNumberOfLaps.getText())) {
+                                        race_interval_relays = Integer.parseInt(this.tour_relai.getText());
+                                        if (!this.t_m_autour.getText().isEmpty()) {
+                                            if (Mask.isNumeric(this.t_m_autour.getText())) {
+                                                if (Integer.parseInt(this.t_m_autour.getText()) > 0) {
+                                                    race_mean_lap_time = Integer.parseInt(this.tour_relai.getText());
+                                                    timelaps = true;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
-
                 }
             }
             if (timelaps) {
                 RaceModel race = raceController.createRace(typeOfRace, raceName.getText(),
                         Date.from(startingTimeDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                        racewayNameText.getText(), race_duration, race_numberOf_tour);
+                        racewayNameText.getText(), race_duration, race_numberOf_tour, race_interval_relays, race_mean_lap_time);
 
                 if (typeOfRace.equals(RaceType.TIME_RACE)) {
                     for (CarModel carModel : carsList) {

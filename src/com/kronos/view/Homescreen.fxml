@@ -19,7 +19,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="homeStack" prefHeight="713.0" prefWidth="1104.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.HomeController">
+<StackPane fx:id="homeStack" prefHeight="713.0" prefWidth="1104.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.HomeController">
    <children>
       <AnchorPane id="AnchorPane" prefHeight="704.0" prefWidth="868.0" scaleShape="false" style="-fx-background-color: WHITE;">
          <children>
@@ -309,18 +309,18 @@
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="i18n_lapTime" layoutX="44.0" layoutY="385.0" text="Temps au tour &#10;moyen *" textAlignment="CENTER">
+                                          <Label fx:id="t_m_autour_label" layoutX="429.0" layoutY="405.0" text="Temps au tour &#10;moyen *" textAlignment="CENTER">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <JFXTextField fx:id="racewayNameText1" layoutX="241.0" layoutY="389.0" />
-                                          <Label fx:id="i18n_lapsBeforeRelay" layoutX="45.0" layoutY="452.0" text="Nombre de tour &#10;avant relais *" textAlignment="CENTER">
+                                          <JFXTextField fx:id="t_m_autour" layoutX="626.0" layoutY="409.0" />
+                                          <Label fx:id="tour_relai_label" layoutX="430.0" layoutY="472.0" text="Nombre de tour &#10;avant relai *" textAlignment="CENTER">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <JFXTextField fx:id="racewayNameText11" layoutX="242.0" layoutY="449.0" />
+                                          <JFXTextField fx:id="tour_relai" layoutX="627.0" layoutY="469.0" />
                                        </children>
                                     </AnchorPane>
                                  </content>
