@@ -241,6 +241,7 @@ public class Config implements Initializable {
         RaceResumeController.ctrl.toogleedit.setText(bundle.getString("modifyTop"));
         RaceResumeController.ctrl.colCarNumber.setText(bundle.getString("colCarNumber"));
         RaceResumeController.ctrl.col_time.setText(bundle.getString("colTime"));
+
         RaceResumeController.ctrl.col_racetime.setText(bundle.getString("colRacetime"));
         RaceResumeController.ctrl.col_laptime.setText(bundle.getString("colLaptime"));
         RaceResumeController.ctrl.colLapNumber.setText(bundle.getString("colLapNumber"));
