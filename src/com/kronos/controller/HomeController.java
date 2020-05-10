@@ -481,12 +481,12 @@
 //             fade.setCycleCount(WobbleTransition.INDEFINITE);
 //             fade.play();
 //
-            Alerts.warning("test titre","le test est super", new EventHandler<MouseEvent>() {
+            /*Alerts.warning("test titre","le test est super", new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
                     System.out.println("mouse click detected! "+event.getSource());
                 }
-                });
+                });*/
             ////// SCALE BOUTON DEMARRER
             ScaleTransition scalestart = new ScaleTransition(Duration.seconds(1), startBtn);
             scalestart.setToX(1.2);
@@ -858,7 +858,7 @@
                                         if (!this.t_m_autour.getText().isEmpty()) {
                                             if (Mask.isNumeric(this.t_m_autour.getText())) {
                                                 if (Integer.parseInt(this.t_m_autour.getText()) > 0) {
-                                                    race_mean_lap_time = Integer.parseInt(this.tour_relai.getText());
+                                                    race_mean_lap_time = Integer.parseInt(this.t_m_autour.getText());
                                                     timelaps = true;
                                                 }
                                             }

@@ -166,7 +166,7 @@ public class RaceResumeController implements Initializable, Observer {
     @FXML
     public TableColumn<TopModel, String> col_comment;
     @FXML
-    private TableColumn<TopModel, String> col_time;
+    public TableColumn<TopModel, String> col_time;
     @FXML
     public TableColumn<TopModel, String> col_racetime;
     @FXML
@@ -205,8 +205,6 @@ public class RaceResumeController implements Initializable, Observer {
                 {
                     btn.setOnAction((ActionEvent event) -> {
                         TopModel top = getTableView().getItems().get(getIndex());
-                        System.out.println("J'ai appuyé sur le bouton dont l'ID est:  " + top.getId() +
-                                "  et le numVoiture est:  " + top.getCarNumber());
                         removeTop(top.getCarNumber(), top.getId());
                         table_info.getItems().remove(top);
                         table_info.refresh();
@@ -292,6 +290,7 @@ public class RaceResumeController implements Initializable, Observer {
                 spentTime.setText(localSpentTime.format(dtf));
                 remainingTime.setText(localRemainningTime.format(dtf));
                 computeNumberOfStops();
+                listOfMeanTime.add((double)raceModel.getDefaultMeanLapTime());
             } else {
                 startRace.setText("Restart");
                 localRemainningTime = LocalTime.parse(raceModel.getTimeLapsRemaining());
@@ -313,8 +312,6 @@ public class RaceResumeController implements Initializable, Observer {
             i18n_elapsedLaps.setVisible(true);
             i18n_remainingLaps.setVisible(true);
             System.out.println("test race " + raceModel);
-            tempsTourRestant.setText("Tours Restants");
-            tempsTourEcoulé.setText("Tour Ecoulés");
 
             if (raceModel.getRaceState().equals(RaceState.CREATION)) {
                 remainingLaps = ((LapRaceModel) raceModel).getNumberOfLaps();
@@ -322,6 +319,9 @@ public class RaceResumeController implements Initializable, Observer {
                 raceModel.setTimeLapsRemaining(String.valueOf(remainingLaps));
                 raceModel.setTimeLapsSpent(String.valueOf(numberOfLapsDone));
                 computeNumberOfStops();
+                listOfMeanTime.add((double)raceModel.getDefaultMeanLapTime());
+
+
 
             } else {
                 startRace.setText("Restart");
@@ -397,6 +397,7 @@ public class RaceResumeController implements Initializable, Observer {
 
         }
 
+
         raceModel.setTopsMap(topsMaps);
         maincarinformation();
         departureHour.setText(time2.format(dtf));
@@ -424,6 +425,7 @@ public class RaceResumeController implements Initializable, Observer {
                         properties.load(fileInputStream);
                         if (keyCode.toString().equals(properties.getProperty("key"))) {
                             handleNewTop();
+                            displayNewRank();
                             System.out.println("vous avez fait un top ! ");
 
                         }
@@ -944,7 +946,6 @@ public class RaceResumeController implements Initializable, Observer {
             } else {
                 top.setTime(topModels.get(newPos + 1).getTime());
             }
-            updateTopLogic(carNumber, newPos);
             updateTopLogic(carNumber, newPos, false);
             recalculateLapTime(topModels);
         } else {
