@@ -34,5 +34,8 @@ public interface Race {
      */
     String getRaceName();
 
+    int getRelayInterval();
+
+    int getDefaultMeanLapTime();
 
 }

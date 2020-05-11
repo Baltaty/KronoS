@@ -100,13 +100,13 @@ public class RaceController {
      * @param numbeOfLap  the number of laps (in case of a lap race)
      * @return the new {@link RaceModel race}
      */
-    public RaceModel createRace(RaceType typeOfRace, String raceName, Date debutRace, String racewayName, int timeOfRace, int numbeOfLap) {
+    public RaceModel createRace(RaceType typeOfRace, String raceName, Date debutRace, String racewayName, int timeOfRace, int numbeOfLap, int relayInterval, int defaultMeanLapTime) {
 
         RaceModel race;
         RaceFactory raceFactory = new RaceFactory();
 
         this.convertDate(debutRace, timeOfRace);
-        race = raceFactory.createRace(typeOfRace, raceName, debutRace, racewayName, this.convertDate(debutRace, timeOfRace), numbeOfLap);
+        race = raceFactory.createRace(typeOfRace, raceName, debutRace, racewayName, this.convertDate(debutRace, timeOfRace), numbeOfLap, relayInterval, defaultMeanLapTime);
 
 
         try {

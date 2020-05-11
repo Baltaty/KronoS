@@ -41,7 +41,7 @@
                   <Image url="@../media/img/play.png" />
                </image>
             </ImageView>
-            <Text layoutX="266.0" layoutY="603.0" strokeType="OUTSIDE" strokeWidth="0.0" text="      CREER UNE &#10;NOUVELLE COURSE">
+            <Text fx:id="i18n_createRace" layoutX="266.0" layoutY="603.0" strokeType="OUTSIDE" strokeWidth="0.0" text="      CREER UNE &#10;NOUVELLE COURSE">
                <font>
                   <Font name="Montserrat Bold" size="20.0" />
                </font>
@@ -68,7 +68,7 @@
                   <Image url="@../media/img/database.png" />
                </image>
             </ImageView>
-            <Text layoutX="579.0" layoutY="603.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CHARGER UNE &#10;ANCIENNE COURSE" textAlignment="CENTER">
+            <Text fx:id="i18n_chargeOldRace" layoutX="579.0" layoutY="603.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CHARGER UNE &#10;ANCIENNE COURSE" textAlignment="CENTER">
                <font>
                   <Font name="Montserrat Bold" size="20.0" />
                </font>
@@ -85,17 +85,17 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </ImageView>
-                        <Text fill="WHITE" layoutX="369.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PARAMETRES">
+                        <Text fx:id="i18n_parameters" fill="WHITE" layoutX="369.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PARAMETRES">
                            <font>
                               <Font name="Beon-Medium" size="30.0" />
                            </font>
                         </Text>
-                        <Text fill="WHITE" layoutX="104.0" layoutY="194.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOUCHE DU TOP">
+                        <Text fx:id="i18n_touchOfTop" fill="WHITE" layoutX="104.0" layoutY="194.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOUCHE DU TOP">
                            <font>
                               <Font name="Montserrat Black" size="15.0" />
                            </font>
                         </Text>
-                        <JFXButton fx:id="changeTopkeyButton" buttonType="RAISED" layoutX="685.0" layoutY="172.0" onAction="#handleChangeTopControl" prefHeight="34.0" prefWidth="156.0" style="-fx-background-color: white; -fx-background-radius: 200;" text="CHANGER">
+                        <JFXButton fx:id="i18n_changeTop" buttonType="RAISED" layoutX="685.0" layoutY="172.0" onAction="#handleChangeTopControl" prefHeight="34.0" prefWidth="156.0" style="-fx-background-color: white; -fx-background-radius: 200;" text="CHANGER">
                            <font>
                               <Font name="Montserrat Bold" size="12.0" />
                            </font></JFXButton>
@@ -151,27 +151,27 @@
                                                 <Font size="15.0" />
                                              </font>
                                           </JFXButton>
-                                          <Label layoutX="41.0" layoutY="184.0" text="Nom *">
+                                          <Label fx:id="i18n_lastNamePilot" layoutX="41.0" layoutY="184.0" text="Nom *">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="42.0" layoutY="228.0" text="Prénom *">
+                                          <Label fx:id="i18n_firstNamePilot" layoutX="42.0" layoutY="228.0" text="Prénom *">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="42.0" layoutY="272.0" text="Date de naissance">
+                                          <Label fx:id="i18n_dateOfBirthPilot" layoutX="42.0" layoutY="272.0" text="Date de naissance">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="42.0" layoutY="315.0" text="Poids (kg)">
+                                          <Label fx:id="i18n_weightPilot" layoutX="42.0" layoutY="315.0" text="Poids (kg)">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="42.0" layoutY="428.0" text="Commentaire">
+                                          <Label fx:id="i18n_commentPilot" layoutX="42.0" layoutY="428.0" text="Commentaire">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
@@ -181,12 +181,12 @@
                                                 <Font size="18.0" />
                                              </font>
                                           </JFXButton>
-                                          <Label layoutX="281.0" layoutY="33.0" text="ENTREZ LES DONNEES DES PILOTES" textFill="WHITE">
+                                          <Label fx:id="i18n_titlePilot" layoutX="281.0" layoutY="33.0" text="ENTREZ LES DONNEES DES PILOTES" textFill="WHITE">
                                              <font>
                                                 <Font name="Beon-Medium" size="25.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="42.0" layoutY="353.0" text="Taille (cm)">
+                                          <Label fx:id="i18n_sizePilot" layoutX="42.0" layoutY="353.0" text="Taille (cm)">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
@@ -199,7 +199,7 @@
                                  <content>
                                     <AnchorPane prefHeight="675.0" prefWidth="1010.0">
                                        <children>
-                                          <Label layoutX="240.0" layoutY="43.0" text="ENTREZ LES DONNEES DES VOITURES" textFill="WHITE">
+                                          <Label fx:id="i18n_titleCar" layoutX="240.0" layoutY="43.0" text="ENTREZ LES DONNEES DES VOITURES" textFill="WHITE">
                                              <font>
                                                 <Font size="25.0" />
                                              </font>
@@ -208,22 +208,22 @@
                                           <JFXTextField fx:id="carTeam" layoutX="235.0" layoutY="213.0" />
                                           <JFXTextField fx:id="carModel" layoutX="235.0" layoutY="256.0" />
                                           <JFXTextField fx:id="carBrand" layoutX="235.0" layoutY="298.0" />
-                                          <Label layoutX="41.0" layoutY="184.0" text="Numéro *">
+                                          <Label fx:id="i18n_numberCar" layoutX="41.0" layoutY="184.0" text="Numéro *">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="42.0" layoutY="228.0" text="Equipe">
+                                          <Label fx:id="i18n_teamCar" layoutX="42.0" layoutY="228.0" text="Equipe">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="42.0" layoutY="272.0" text="Modèle">
+                                          <Label fx:id="i18n_modelCar" layoutX="42.0" layoutY="272.0" text="Modèle">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="42.0" layoutY="315.0" text="Marque">
+                                          <Label fx:id="i18n_brandCar" layoutX="42.0" layoutY="315.0" text="Marque">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
@@ -238,13 +238,13 @@
                                                 <Font size="15.0" />
                                              </font>
                                           </JFXButton>
-                                          <Label layoutX="43.0" layoutY="358.0" text="Pilote *">
+                                          <Label fx:id="i18n_pilotCar" layoutX="43.0" layoutY="358.0" text="Pilote *">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
                                           <JFXComboBox fx:id="carPilot" layoutX="235.0" layoutY="343.0" prefHeight="27.0" prefWidth="149.0" />
-                                          <Label layoutX="44.0" layoutY="395.0" text="Type de voiture *">
+                                          <Label fx:id="i18n_typeOfCar" layoutX="44.0" layoutY="395.0" text="Type de voiture *">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
@@ -263,17 +263,17 @@
                                                 <Image url="@../media/img/play.png" />
                                              </image>
                                           </ImageView>
-                                          <Label layoutX="41.0" layoutY="255.0" prefHeight="25.0" prefWidth="171.0" text="Date de début *">
+                                          <Label fx:id="i18n_beginningRace" layoutX="41.0" layoutY="255.0" prefHeight="25.0" prefWidth="171.0" text="Date de début *">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="42.0" layoutY="299.0" text="Nom du circuit">
+                                          <Label fx:id="i18n_nameOfTrack" layoutX="42.0" layoutY="299.0" text="Nom du circuit">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="42.0" layoutY="339.0" text="Type de course *">
+                                          <Label fx:id="i18n_raceType" layoutX="42.0" layoutY="339.0" text="Type de course *">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
@@ -283,7 +283,7 @@
                                                 <Font name="Montserrat Regular" size="18.0" />
                                              </font>
                                           </JFXButton>
-                                          <Label layoutX="277.0" layoutY="49.0" text="ENTREZ LES DONNEES DE LA COURSE" textFill="WHITE">
+                                          <Label fx:id="i18n_titleRace" layoutX="277.0" layoutY="49.0" text="ENTREZ LES DONNEES DE LA COURSE" textFill="WHITE">
                                              <font>
                                                 <Font name="Beon-Medium" size="25.0" />
                                              </font>
@@ -304,7 +304,7 @@
                                              </font>
                                           </Label>
                                           <JFXTextField fx:id="raceName" layoutX="241.0" layoutY="207.0" prefHeight="28.0" prefWidth="149.0" />
-                                          <Label layoutX="35.0" layoutY="214.0" prefHeight="30.0" prefWidth="174.0" text="Nom de course *">
+                                          <Label fx:id="i18n_nameOfRace" layoutX="35.0" layoutY="214.0" prefHeight="30.0" prefWidth="174.0" text="Nom de course *">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
