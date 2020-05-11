@@ -29,6 +29,7 @@
     import javafx.fxml.FXML;
     import javafx.fxml.FXMLLoader;
     import javafx.fxml.Initializable;
+    import javafx.scene.Node;
     import javafx.scene.Scene;
     import javafx.scene.control.*;
     import javafx.scene.image.ImageView;
@@ -158,10 +159,13 @@
         private JFXTextField t_m_autour;
         @FXML
         private JFXTextField tour_relai;
+        @FXML
+        private JFXButton changeTopkeyButton;
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////
         private RaceType typeOfRace;
         public static ObservableList<String> stylesheets;
+
 
 
         /**
@@ -329,6 +333,7 @@
         @FXML
         private void handleChangeTopControl(ActionEvent event) {
             changeRequest = true;
+            //topKey.requestFocus();
             Alerts.info("CHANGEMENT TOP KEY", "Veuillez appuyer sur la nouvelle touche puis sour ok");
             //scene.setOnKeyPressed();
 //        dialog_select_key.setVisible(true);
@@ -417,10 +422,19 @@
 //             fade.setCycleCount(WobbleTransition.INDEFINITE);
 //             fade.play();
 //
+//            Scene scene = App.getDecorator().getScene();
+//            changeTopkeyButton.addEventFilter(KeyEvent.KEY_PRESSED, k -> {
+//                if ( k.getCode() == KeyCode.SPACE){
+//                    System.out.println("consume");
+//                    k.consume();
+//                }
+//            });
             Alerts.warning("test titre","le test est super", new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
+
                     System.out.println("mouse click detected! "+event.getSource());
+
                 }
                 });
             ////// SCALE BOUTON DEMARRER
@@ -729,6 +743,10 @@
                 raceNumberOfLaps.setVisible(true);
                 raceDurationLabel.setVisible(false);
                 raceDuration.setVisible(false);
+                t_m_autour_label.setVisible(true);
+                t_m_autour.setVisible(true);
+                tour_relai_label.setVisible(true);
+                tour_relai.setVisible(true);
                 typeOfRace = com.kronos.global.enums.RaceType.LAP_RACE;
 
             } else {
