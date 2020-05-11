@@ -428,15 +428,6 @@ public class DashboardController implements Initializable, Observer {
                         if (keyCode.toString().equals(properties.getProperty("key"))) {
                             handleNewTop();
                             displayNewRank();
-                        if (keyCode.toString().equals(properties.getProperty("key")))
-                        {
-                            if (startRace.isDisable() && raceModel.getRaceState().equals(RaceState.IN_PROGRESS)) {
-                                handleNewTop();
-                                displayNewRank();
-                            } else {
-                                Alerts.info("INFORMATION", "veuillez demarrer/continuer la course ");
-                            }
-                            System.out.println("vous avez fait un top ! ");
 
                         }
                     }
