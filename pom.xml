@@ -129,5 +129,35 @@
             <version>1.0</version>
             <systemPath>${basedir}/dist/lib/scenicView.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>jPDFViewerFX</groupId>
+            <artifactId>jPDFViewerFX</artifactId>
+            <scope>system</scope>
+            <version>1.0</version>
+            <systemPath>${basedir}/dist/lib/jPDFViewerFX.jar</systemPath>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/org.icepdf/icepdf-core -->
+        <dependency>
+            <groupId>org.icepdf</groupId>
+            <artifactId>icepdf-core</artifactId>
+            <scope>system</scope>
+            <version>4.3.3</version>
+            <systemPath>${basedir}/dist/lib/icepdf-core-4.3.3.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.icepdf</groupId>
+            <artifactId>icepdf-viewer</artifactId>
+            <scope>system</scope>
+            <version>4.3.3</version>
+            <systemPath>${basedir}/dist/lib/icepdf-viewer-4.3.3.jar</systemPath>
+        </dependency>
+
+
+
+
+
     </dependencies>
 </project>

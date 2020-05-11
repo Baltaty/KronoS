@@ -772,8 +772,8 @@ public class Main implements Initializable {
          loadView("feuilletemps");
          body.setContent(ViewManager.getInstance().get("feuilletemps"));
          System.out.println("App: load method --- PrinterModel");
-         PrinterModel pt = new PrinterModel();
-         pt.print();
+//         PrinterModel pt = new PrinterModel();
+//         pt.print();
      }
     @FXML
     private void areaChart(){
