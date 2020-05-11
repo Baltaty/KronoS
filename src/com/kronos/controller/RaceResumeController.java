@@ -445,19 +445,24 @@ public class RaceResumeController implements Initializable, Observer {
 
     private void computeNumberOfStops() {
         relayCycles[0] = raceModel.getRelayInterval();
-        if (raceModel instanceof LapRace) {
-            int euclidResult = remainingLaps / raceModel.getRelayInterval();
-            int remaining = remainingLaps % raceModel.getRelayInterval();
-            relayCycles[0] = raceModel.getRelayInterval();
-            relayCycles[1] = euclidResult;
-            relayCycles[2] = remaining;
+        try {
+            if (raceModel instanceof LapRace) {
+                int euclidResult = remainingLaps / raceModel.getRelayInterval();
+                int remaining = remainingLaps % raceModel.getRelayInterval();
+                relayCycles[0] = raceModel.getRelayInterval();
+                relayCycles[1] = euclidResult;
+                relayCycles[2] = remaining;
 
-        } else {
-            relayCycles[0] = raceModel.getRelayInterval();
-            relayCycles[1] = -1;
-            relayCycles[2] = 0;
+            } else {
+                relayCycles[0] = raceModel.getRelayInterval();
+                relayCycles[1] = -1;
+                relayCycles[2] = 0;
+            }
+            updatePannel();
+        }catch (Exception logArithm){
+            logArithm.printStackTrace();
         }
-        updatePannel();
+
     }
 
     private void decrementPanel(String lapTime) {
