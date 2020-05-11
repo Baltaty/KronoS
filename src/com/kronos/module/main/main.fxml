@@ -27,6 +27,20 @@
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import com.jfoenix.controls.JFXDialogLayout?>
+<?import javafx.scene.layout.Pane?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import javafx.scene.control.ListView?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.Text?>
 <StackPane fx:id="root" prefHeight="653.0" prefWidth="1106.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.module.main.Main">
    <children>
       <HBox fx:id="main" prefHeight="100.0" prefWidth="200.0">
@@ -195,19 +209,36 @@
                                           </StackPane>
                                        </control>
                                     </JFXBadge>-->
-<!--                                    <JFXBadge fx:id="notifications" onMouseClicked="#openNotification" position="TOP_RIGHT" prefHeight="44.0" prefWidth="35.0" text="41">
-                                       <styleClass>
-                                          <String fx:value="icon" />
-                                          <String fx:value="icon-warning" />
-                                       </styleClass>
+                                   <JFXBadge  onMouseClicked="#EditSomething"  prefHeight="44.0" prefWidth="35.0">
+<!--                      -->
                                        <control>
                                           <StackPane prefHeight="32.0" prefWidth="43.0" style="-fx-padding: 10;">
                                              <children>
-                                                <FontAwesomeIconView glyphName="BELL" size="20" styleClass="icon" StackPane.alignment="CENTER" />
+                                                <FontAwesomeIconView glyphName="EDIT" size="20" styleClass="icon" StackPane.alignment="CENTER"/>
                                              </children>
                                           </StackPane>
                                        </control>
-                                    </JFXBadge>-->
+                                    </JFXBadge>
+                                     <JFXBadge  onMouseClicked="#AddSomething" position="TOP_RIGHT" prefHeight="44.0" prefWidth="35.0">
+
+                                         <control>
+                                             <StackPane prefHeight="32.0" prefWidth="43.0" style="-fx-padding: 10;">
+                                                 <children>
+                                                     <FontAwesomeIconView glyphName="PLUS" size="20" styleClass="icon" StackPane.alignment="CENTER"/>
+                                                 </children>
+                                             </StackPane>
+                                         </control>
+                                     </JFXBadge>
+                                     <JFXBadge  onMouseClicked="#EditPara" position="TOP_RIGHT" prefHeight="44.0" prefWidth="35.0">
+
+                                         <control>
+                                             <StackPane prefHeight="32.0" prefWidth="43.0" style="-fx-padding: 10;">
+                                                 <children>
+                                                     <FontAwesomeIconView glyphName="COGS" size="20" styleClass="icon" StackPane.alignment="CENTER"/>
+                                                 </children>
+                                             </StackPane>
+                                         </control>
+                                     </JFXBadge>
 <!--                                    <JFXBadge fx:id="messages" layoutX="759.0" layoutY="12.0" onMouseClicked="#openMessages" position="TOP_RIGHT" prefHeight="44.0" prefWidth="35.0" styleClass="icon" text="12">
                                        <control>
                                           <StackPane prefHeight="32.0" prefWidth="43.0" style="-fx-padding: 10;">
@@ -261,8 +292,468 @@
             <String fx:value="border" />
          </styleClass>
       </HBox>
+       <JFXDialogLayout fx:id="dialogNew" layoutX="6.0" layoutY="88.0" prefHeight="716.0" prefWidth="1015.0" style="-fx-background-color: #57c6f2;" visible="false" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+           <children>
+                       <Pane prefHeight="752.0" prefWidth="1318.0">
+                           <children>
+                               <JFXTabPane fx:id="newRaceTabPane1" layoutX="5.0" layoutY="-26.0" prefHeight="657.0" prefWidth="1010.0">
+                                   <tabs>
+                                       <Tab fx:id="tabPilot1" text="PILOTE">
+                                           <content>
+                                               <AnchorPane prefHeight="675.0" prefWidth="1010.0">
+                                                   <children>
+                                                       <JFXTextField fx:id="lastNamePilot1" layoutX="234.0" layoutY="170.0" />
+                                                       <JFXTextField fx:id="firstName1" layoutX="234.0" layoutY="213.0" />
+                                                       <JFXTextField fx:id="pilotWeight1" layoutX="234.0" layoutY="298.0" />
+                                                       <JFXTextField fx:id="pilotHeight1" layoutX="234.0" layoutY="336.0" />
+                                                       <JFXTextArea fx:id="commentPilot1" layoutX="232.0" layoutY="415.0" prefHeight="73.0" prefWidth="286.0" />
+                                                       <JFXButton fx:id="btnaddpilot1" layoutX="172.0" layoutY="510.0" text="AJOUTER">
+                                                           <font>
+                                                               <Font size="15.0" />
+                                                           </font>
+                                                       </JFXButton>
+                                                       <Label layoutX="41.0" layoutY="184.0" text="Nom *">
+                                                           <font>
+                                                               <Font name="Montserrat Bold" size="18.0" />
+                                                           </font>
+                                                       </Label>
+                                                       <Label layoutX="42.0" layoutY="228.0" text="Prénom *">
+                                                           <font>
+                                                               <Font name="Montserrat Bold" size="18.0" />
+                                                           </font>
+                                                       </Label>
+                                                       <Label layoutX="42.0" layoutY="272.0" text="Date de naissance">
+                                                           <font>
+                                                               <Font name="Montserrat Bold" size="18.0" />
+                                                           </font>
+                                                       </Label>
+                                                       <Label layoutX="42.0" layoutY="315.0" text="Poids (kg)">
+                                                           <font>
+                                                               <Font name="Montserrat Bold" size="18.0" />
+                                                           </font>
+                                                       </Label>
+                                                       <Label layoutX="42.0" layoutY="428.0" text="Commentaire">
+                                                           <font>
+                                                               <Font name="Montserrat Bold" size="18.0" />
+                                                           </font>
+                                                       </Label>
+                                                       <JFXButton fx:id="btnNextCar1" layoutX="828.0" layoutY="563.0"  text="SUIVANT" textFill="WHITE">
+                                                           <font>
+                                                               <Font size="18.0" />
+                                                           </font>
+                                                       </JFXButton>
+                                                       <Label layoutX="281.0" layoutY="33.0" text="ENTREZ LES DONNEES DES PILOTES" textFill="WHITE">
+                                                           <font>
+                                                               <Font name="Beon-Medium" size="25.0" />
+                                                           </font>
+                                                       </Label>
+                                                       <Label layoutX="42.0" layoutY="353.0" text="Taille (cm)">
+                                                           <font>
+                                                               <Font name="Montserrat Bold" size="18.0" />
+                                                           </font>
+                                                       </Label>
+                                                       <JFXDatePicker fx:id="dateOfBirthPilot1" layoutX="234.0" layoutY="258.0" />
+                                                   </children>
+                                               </AnchorPane>
+                                           </content>
+                                       </Tab>
+                                       <Tab fx:id="tabCar1" disable="false" text="VOITURE">
+                                           <content>
+                                               <AnchorPane prefHeight="675.0" prefWidth="1010.0">
+                                                   <children>
+                                                       <Label layoutX="240.0" layoutY="43.0" text="ENTREZ LES DONNEES DES VOITURES" textFill="WHITE">
+                                                           <font>
+                                                               <Font size="25.0" />
+                                                           </font>
+                                                       </Label>
+                                                       <JFXTextField fx:id="carNumber1" layoutX="235.0" layoutY="170.0" />
+                                                       <JFXTextField fx:id="carTeam1" layoutX="235.0" layoutY="213.0" />
+                                                       <JFXTextField fx:id="carModel1" layoutX="235.0" layoutY="256.0" />
+                                                       <JFXTextField fx:id="carBrand1" layoutX="235.0" layoutY="298.0" />
+                                                       <Label layoutX="41.0" layoutY="184.0" text="Numéro *">
+                                                           <font>
+                                                               <Font name="Montserrat Bold" size="18.0" />
+                                                           </font>
+                                                       </Label>
+                                                       <Label layoutX="42.0" layoutY="228.0" text="Equipe">
+                                                           <font>
+                                                               <Font name="Montserrat Bold" size="18.0" />
+                                                           </font>
+                                                       </Label>
+                                                       <Label layoutX="42.0" layoutY="272.0" text="Modèle">
+                                                           <font>
+                                                               <Font name="Montserrat Bold" size="18.0" />
+                                                           </font>
+                                                       </Label>
+                                                       <Label layoutX="42.0" layoutY="315.0" text="Marque">
+                                                           <font>
+                                                               <Font name="Montserrat Bold" size="18.0" />
+                                                           </font>
+                                                       </Label>
+                                                       <JFXButton fx:id="btnNextLap1" layoutX="828.0" layoutY="563.0"  text="SUIVANT" textFill="WHITE">
+                                                           <font>
+                                                               <Font size="18.0" />
+                                                           </font>
+                                                       </JFXButton>
+                                                       <JFXButton fx:id="add_car_btn1" layoutX="172.0" layoutY="457.0"  text="AJOUTER">
+                                                           <font>
+                                                               <Font size="15.0" />
+                                                           </font>
+                                                       </JFXButton>
+                                                       <Label layoutX="43.0" layoutY="358.0" text="Pilote *">
+                                                           <font>
+                                                               <Font name="Montserrat Bold" size="18.0" />
+                                                           </font>
+                                                       </Label>
+                                                       <JFXComboBox fx:id="carPilot1" layoutX="235.0" layoutY="343.0" prefHeight="27.0" prefWidth="149.0" />
+                                                       <Label layoutX="44.0" layoutY="395.0" text="Type de voiture *">
+                                                           <font>
+                                                               <Font name="Montserrat Bold" size="18.0" />
+                                                           </font>
+                                                       </Label>
+                                                       <JFXComboBox fx:id="carType1" layoutX="236.0" layoutY="380.0" prefHeight="27.0" prefWidth="149.0" />
+                                                   </children>
+                                               </AnchorPane>
+                                           </content>
+                                       </Tab>
+                                   </tabs>
+                               </JFXTabPane>
+                           </children>
+                       </Pane>
+                   </children>
+       </JFXDialogLayout>
+       <JFXDialogLayout fx:id="dialogEdit" layoutX="6.0" layoutY="88.0" prefHeight="716.0" prefWidth="1015.0" style="-fx-background-color: #57c6f2;" visible="false" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+           <children>
+               <Pane prefHeight="752.0" prefWidth="1318.0">
+                   <children>
+                       <JFXTabPane  layoutX="5.0" layoutY="-26.0" prefHeight="657.0" prefWidth="1010.0">
+                           <tabs>
+                               <Tab text="PILOTE">
+                                   <content>
+                                       <AnchorPane prefHeight="675.0" prefWidth="1010.0">
+                                           <children>
+                                               <JFXTextField layoutX="234.0" layoutY="170.0" />
+                                               <JFXTextField layoutX="234.0" layoutY="213.0" />
+                                               <JFXTextField layoutX="234.0" layoutY="298.0" />
+                                               <JFXTextField layoutX="234.0" layoutY="336.0" />
+                                               <JFXTextArea layoutX="232.0" layoutY="415.0" prefHeight="73.0" prefWidth="286.0" />
+                                               <JFXButton layoutX="172.0" layoutY="510.0" text="MODIFIER">
+                                                   <font>
+                                                       <Font size="15.0" />
+                                                   </font>
+                                               </JFXButton>
+                                               <Label layoutX="41.0" layoutY="184.0" text="Nom *">
+                                                   <font>
+                                                       <Font name="Montserrat Bold" size="18.0" />
+                                                   </font>
+                                               </Label>
+                                               <Label layoutX="42.0" layoutY="228.0" text="Prénom *">
+                                                   <font>
+                                                       <Font name="Montserrat Bold" size="18.0" />
+                                                   </font>
+                                               </Label>
+                                               <Label layoutX="42.0" layoutY="272.0" text="Date de naissance">
+                                                   <font>
+                                                       <Font name="Montserrat Bold" size="18.0" />
+                                                   </font>
+                                               </Label>
+                                               <Label layoutX="42.0" layoutY="315.0" text="Poids (kg)">
+                                                   <font>
+                                                       <Font name="Montserrat Bold" size="18.0" />
+                                                   </font>
+                                               </Label>
+                                               <Label layoutX="42.0" layoutY="428.0" text="Commentaire">
+                                                   <font>
+                                                       <Font name="Montserrat Bold" size="18.0" />
+                                                   </font>
+                                               </Label>
+                                               <Label layoutX="281.0" layoutY="33.0" text="MODIFIEZ LES DONNEES DES PILOTES" textFill="WHITE">
+                                                   <font>
+                                                       <Font name="Beon-Medium" size="25.0" />
+                                                   </font>
+                                               </Label>
+                                               <Label layoutX="42.0" layoutY="353.0" text="Taille (cm)">
+                                                   <font>
+                                                       <Font name="Montserrat Bold" size="18.0" />
+                                                   </font>
+                                               </Label>
+                                               <JFXDatePicker layoutX="234.0" layoutY="258.0" />
+                                               <JFXListView layoutX="609.0" layoutY="129.0" prefHeight="372.0" prefWidth="316.0" />
+                                           </children>
+                                       </AnchorPane>
+                                   </content>
+                               </Tab>
+                               <Tab text="VOITURE">
+                                   <content>
+                                       <AnchorPane prefHeight="675.0" prefWidth="1010.0">
+                                           <children>
+                                               <Label layoutX="240.0" layoutY="43.0" text="MODIFIEZ LES DONNEES DES VOITURES" textFill="WHITE">
+                                                   <font>
+                                                       <Font size="25.0" />
+                                                   </font>
+                                               </Label>
+                                               <JFXTextField layoutX="235.0" layoutY="170.0" />
+                                               <JFXTextField layoutX="235.0" layoutY="213.0" />
+                                               <JFXTextField layoutX="235.0" layoutY="256.0" />
+                                               <JFXTextField layoutX="235.0" layoutY="298.0" />
+                                               <Label layoutX="41.0" layoutY="184.0" text="Numéro *">
+                                                   <font>
+                                                       <Font name="Montserrat Bold" size="18.0" />
+                                                   </font>
+                                               </Label>
+                                               <Label layoutX="42.0" layoutY="228.0" text="Equipe">
+                                                   <font>
+                                                       <Font name="Montserrat Bold" size="18.0" />
+                                                   </font>
+                                               </Label>
+                                               <Label layoutX="42.0" layoutY="272.0" text="Modèle">
+                                                   <font>
+                                                       <Font name="Montserrat Bold" size="18.0" />
+                                                   </font>
+                                               </Label>
+                                               <Label layoutX="42.0" layoutY="315.0" text="Marque">
+                                                   <font>
+                                                       <Font name="Montserrat Bold" size="18.0" />
+                                                   </font>
+                                               </Label>
+                                               <JFXButton layoutX="172.0" layoutY="457.0" text="MODIFIER">
+                                                   <font>
+                                                       <Font size="15.0" />
+                                                   </font>
+                                               </JFXButton>
+                                               <Label layoutX="43.0" layoutY="358.0" text="Pilote *">
+                                                   <font>
+                                                       <Font name="Montserrat Bold" size="18.0" />
+                                                   </font>
+                                               </Label>
+                                               <JFXComboBox layoutX="235.0" layoutY="343.0" prefHeight="27.0" prefWidth="149.0" />
+                                               <Label layoutX="44.0" layoutY="395.0" text="Type de voiture *">
+                                                   <font>
+                                                       <Font name="Montserrat Bold" size="18.0" />
+                                                   </font>
+                                               </Label>
+                                               <JFXComboBox layoutX="236.0" layoutY="380.0" prefHeight="27.0" prefWidth="149.0" />
+                                               <JFXListView layoutX="657.0" layoutY="139.0" prefHeight="372.0" prefWidth="316.0" />
+                                           </children>
+                                       </AnchorPane>
+                                   </content>
+                               </Tab>
+                           </tabs>
+                       </JFXTabPane>
+                   </children>
+               </Pane>
+           </children>
+       </JFXDialogLayout>
+       <JFXDialogLayout fx:id="dialogPara" style="-fx-background-color: #57c6f2;" xmlns="http://javafx.com/javafx/11.0.1" visible="false" xmlns:fx="http://javafx.com/fxml/1">
+           <children>
+               <Pane prefHeight="713.0" prefWidth="956.0">
+                   <children>
+                       <ImageView fx:id="bolt" disable="true" fitHeight="194.0" fitWidth="207.0" layoutX="7.0" layoutY="-82.0" opacity="0.6" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                               <Image url="@../../media/img/settings.png" />
+                           </image>
+                           <cursor>
+                               <Cursor fx:constant="HAND" />
+                           </cursor>
+                       </ImageView>
+                       <Text fill="WHITE" layoutX="369.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PARAMETRES">
+                           <font>
+                               <Font name="Beon-Medium" size="30.0" />
+                           </font>
+                       </Text>
+                       <Text fill="WHITE" layoutX="104.0" layoutY="194.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOUCHE DU TOP">
+                           <font>
+                               <Font name="Montserrat Black" size="15.0" />
+                           </font>
+                       </Text>
+                       <JFXButton fx:id="changeTopkeyButton" buttonType="RAISED" layoutX="685.0" layoutY="172.0" onAction="#handleChangeTopControl" prefHeight="34.0" prefWidth="156.0" style="-fx-background-color: white; -fx-background-radius: 200;" text="CHANGER">
+                           <font>
+                               <Font name="Montserrat Bold" size="12.0" />
+                           </font>
+                       </JFXButton>
+                       <JFXButton fx:id="endPara" layoutX="832.0" layoutY="15.0" prefHeight="49.0" prefWidth="48.0" style="-fx-background-color: white; -fx-background-radius: 50;" text="X">
+                           <font>
+                               <Font name="Montserrat Regular" size="15.0" />
+                           </font>
+                       </JFXButton>
+                       <Label fx:id="topKey" layoutX="434.0" layoutY="175.0" text="Label">
+                           <font>
+                               <Font name="Montserrat Bold" size="24.0" />
+                           </font>
+                       </Label>
+                       <JFXDialogLayout fx:id="dialogSelectKey" layoutX="250.0" layoutY="64.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="320.0" prefWidth="419.0" style="-fx-background-radius: 50;" visible="false">
+                           <children>
+                               <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="175.0" prefWidth="419.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+                                   <children>
+                                       <Text layoutX="13.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VEUILLEZ APPUYER LA NOUVELLE TOUCHE DE TOP" wrappingWidth="392.00001734495163">
+                                           <font>
+                                               <Font size="15.0" />
+                                           </font>
+                                       </Text>
+<!--                                       <ImageView fitHeight="101.0" fitWidth="102.0" layoutX="159.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">-->
+<!--                                           <image>-->
+<!--                                               <Image url="@../media/img/keyboard.png" />-->
+<!--                                           </image>-->
+<!--                                       </ImageView>-->
+                                   </children>
+                               </Pane>
+                           </children>
+                       </JFXDialogLayout>
+                   </children>
+               </Pane>
+           </children>
+       </JFXDialogLayout>
+
+
    </children>
-<!--    <stylesheets>-->
+
+<!--    <?xml version="1.0" encoding="UTF-8"?>-->
+
+<!--    <?import com.jfoenix.controls.JFXButton?>-->
+<!--    <?import com.jfoenix.controls.JFXComboBox?>-->
+<!--    <?import com.jfoenix.controls.JFXDatePicker?>-->
+<!--    <?import com.jfoenix.controls.JFXDialogLayout?>-->
+<!--    <?import com.jfoenix.controls.JFXTabPane?>-->
+<!--    <?import com.jfoenix.controls.JFXTextArea?>-->
+<!--    <?import com.jfoenix.controls.JFXTextField?>-->
+<!--    <?import javafx.scene.control.Label?>-->
+<!--    <?import javafx.scene.control.Tab?>-->
+<!--    <?import javafx.scene.layout.AnchorPane?>-->
+<!--    <?import javafx.scene.layout.Pane?>-->
+<!--    <?import javafx.scene.text.Font?>-->
+
+<!--    <JFXDialogLayout fx:id="dialogNewRace1" layoutX="6.0" layoutY="88.0" prefHeight="716.0" prefWidth="1015.0" style="-fx-background-color: #57c6f2;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">-->
+<!--        <children>-->
+<!--            <Pane prefHeight="752.0" prefWidth="1318.0">-->
+<!--                <children>-->
+<!--                    <JFXTabPane fx:id="newRaceTabPane1" layoutX="5.0" layoutY="-26.0" prefHeight="657.0" prefWidth="1010.0">-->
+<!--                        <tabs>-->
+<!--                            <Tab fx:id="tabPilot1" text="PILOTE">-->
+<!--                                <content>-->
+<!--                                    <AnchorPane prefHeight="675.0" prefWidth="1010.0">-->
+<!--                                        <children>-->
+<!--                                            <JFXTextField fx:id="lastNamePilot1" layoutX="234.0" layoutY="170.0" />-->
+<!--                                            <JFXTextField fx:id="firstName1" layoutX="234.0" layoutY="213.0" />-->
+<!--                                            <JFXTextField fx:id="pilotWeight1" layoutX="234.0" layoutY="298.0" />-->
+<!--                                            <JFXTextField fx:id="pilotHeight1" layoutX="234.0" layoutY="336.0" />-->
+<!--                                            <JFXTextArea fx:id="commentPilot1" layoutX="232.0" layoutY="415.0" prefHeight="73.0" prefWidth="286.0" />-->
+<!--                                            <JFXButton fx:id="btnaddpilot1" layoutX="172.0" layoutY="510.0" onAction="#" text="AJOUTER">-->
+<!--                                                <font>-->
+<!--                                                    <Font size="15.0" />-->
+<!--                                                </font>-->
+<!--                                            </JFXButton>-->
+<!--                                            <Label layoutX="41.0" layoutY="184.0" text="Nom *">-->
+<!--                                                <font>-->
+<!--                                                    <Font name="Montserrat Bold" size="18.0" />-->
+<!--                                                </font>-->
+<!--                                            </Label>-->
+<!--                                            <Label layoutX="42.0" layoutY="228.0" text="Prénom *">-->
+<!--                                                <font>-->
+<!--                                                    <Font name="Montserrat Bold" size="18.0" />-->
+<!--                                                </font>-->
+<!--                                            </Label>-->
+<!--                                            <Label layoutX="42.0" layoutY="272.0" text="Date de naissance">-->
+<!--                                                <font>-->
+<!--                                                    <Font name="Montserrat Bold" size="18.0" />-->
+<!--                                                </font>-->
+<!--                                            </Label>-->
+<!--                                            <Label layoutX="42.0" layoutY="315.0" text="Poids (kg)">-->
+<!--                                                <font>-->
+<!--                                                    <Font name="Montserrat Bold" size="18.0" />-->
+<!--                                                </font>-->
+<!--                                            </Label>-->
+<!--                                            <Label layoutX="42.0" layoutY="428.0" text="Commentaire">-->
+<!--                                                <font>-->
+<!--                                                    <Font name="Montserrat Bold" size="18.0" />-->
+<!--                                                </font>-->
+<!--                                            </Label>-->
+<!--                                            <JFXButton fx:id="btnNextCar1" layoutX="828.0" layoutY="563.0" onAction="#" text="SUIVANT" textFill="WHITE">-->
+<!--                                                <font>-->
+<!--                                                    <Font size="18.0" />-->
+<!--                                                </font>-->
+<!--                                            </JFXButton>-->
+<!--                                            <Label layoutX="281.0" layoutY="33.0" text="ENTREZ LES DONNEES DES PILOTES" textFill="WHITE">-->
+<!--                                                <font>-->
+<!--                                                    <Font name="Beon-Medium" size="25.0" />-->
+<!--                                                </font>-->
+<!--                                            </Label>-->
+<!--                                            <Label layoutX="42.0" layoutY="353.0" text="Taille (cm)">-->
+<!--                                                <font>-->
+<!--                                                    <Font name="Montserrat Bold" size="18.0" />-->
+<!--                                                </font>-->
+<!--                                            </Label>-->
+<!--                                            <JFXDatePicker fx:id="dateOfBirthPilot1" layoutX="234.0" layoutY="258.0" />-->
+<!--                                        </children>-->
+<!--                                    </AnchorPane>-->
+<!--                                </content>-->
+<!--                            </Tab>-->
+<!--                            <Tab fx:id="tabCar1" disable="true" text="VOITURE">-->
+<!--                                <content>-->
+<!--                                    <AnchorPane prefHeight="675.0" prefWidth="1010.0">-->
+<!--                                        <children>-->
+<!--                                            <Label layoutX="240.0" layoutY="43.0" text="ENTREZ LES DONNEES DES VOITURES" textFill="WHITE">-->
+<!--                                                <font>-->
+<!--                                                    <Font size="25.0" />-->
+<!--                                                </font>-->
+<!--                                            </Label>-->
+<!--                                            <JFXTextField fx:id="carNumber1" layoutX="235.0" layoutY="170.0" />-->
+<!--                                            <JFXTextField fx:id="carTeam1" layoutX="235.0" layoutY="213.0" />-->
+<!--                                            <JFXTextField fx:id="carModel1" layoutX="235.0" layoutY="256.0" />-->
+<!--                                            <JFXTextField fx:id="carBrand1" layoutX="235.0" layoutY="298.0" />-->
+<!--                                            <Label layoutX="41.0" layoutY="184.0" text="Numéro *">-->
+<!--                                                <font>-->
+<!--                                                    <Font name="Montserrat Bold" size="18.0" />-->
+<!--                                                </font>-->
+<!--                                            </Label>-->
+<!--                                            <Label layoutX="42.0" layoutY="228.0" text="Equipe">-->
+<!--                                                <font>-->
+<!--                                                    <Font name="Montserrat Bold" size="18.0" />-->
+<!--                                                </font>-->
+<!--                                            </Label>-->
+<!--                                            <Label layoutX="42.0" layoutY="272.0" text="Modèle">-->
+<!--                                                <font>-->
+<!--                                                    <Font name="Montserrat Bold" size="18.0" />-->
+<!--                                                </font>-->
+<!--                                            </Label>-->
+<!--                                            <Label layoutX="42.0" layoutY="315.0" text="Marque">-->
+<!--                                                <font>-->
+<!--                                                    <Font name="Montserrat Bold" size="18.0" />-->
+<!--                                                </font>-->
+<!--                                            </Label>-->
+<!--                                            <JFXButton fx:id="btnNextLap1" layoutX="828.0" layoutY="563.0" onAction="#" text="SUIVANT" textFill="WHITE">-->
+<!--                                                <font>-->
+<!--                                                    <Font size="18.0" />-->
+<!--                                                </font>-->
+<!--                                            </JFXButton>-->
+<!--                                            <JFXButton fx:id="add_car_btn1" layoutX="172.0" layoutY="457.0" onAction="#" onTouchReleased="#" text="AJOUTER">-->
+<!--                                                <font>-->
+<!--                                                    <Font size="15.0" />-->
+<!--                                                </font>-->
+<!--                                            </JFXButton>-->
+<!--                                            <Label layoutX="43.0" layoutY="358.0" text="Pilote *">-->
+<!--                                                <font>-->
+<!--                                                    <Font name="Montserrat Bold" size="18.0" />-->
+<!--                                                </font>-->
+<!--                                            </Label>-->
+<!--                                            <JFXComboBox fx:id="carPilot1" layoutX="235.0" layoutY="343.0" prefHeight="27.0" prefWidth="149.0" />-->
+<!--                                            <Label layoutX="44.0" layoutY="395.0" text="Type de voiture *">-->
+<!--                                                <font>-->
+<!--                                                    <Font name="Montserrat Bold" size="18.0" />-->
+<!--                                                </font>-->
+<!--                                            </Label>-->
+<!--                                            <JFXComboBox fx:id="carType1" layoutX="236.0" layoutY="380.0" prefHeight="27.0" prefWidth="149.0" />-->
+<!--                                        </children>-->
+<!--                                    </AnchorPane>-->
+<!--                                </content>-->
+<!--                            </Tab>-->
+<!--                        </tabs>-->
+<!--                    </JFXTabPane>-->
+<!--                </children>-->
+<!--            </Pane>-->
+<!--        </children>-->
+<!--    </JFXDialogLayout>-->
+
+    <!--    <stylesheets>-->
 <!--        <URL value="@../../theme/css/material-color.css" />-->
 <!--        <URL value="@../../theme/css/skeleton.css" />-->
 <!--        <URL value="@../../theme/css/light.css" />-->

@@ -1,13 +1,11 @@
 package com.kronos.module.main;
 
 import  com.gn.GNAvatarView;
+import com.jfoenix.controls.*;
 import com.kronos.App;
 import  com.kronos.global.plugin.ViewManager;
-import com.jfoenix.controls.JFXBadge;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialogLayout;
 import com.kronos.printview.PrinterModel;
+import com.sun.deploy.panel.RuleSetViewerDialog;
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
 import eu.hansolo.tilesfx.skins.LeaderBoardItem;
@@ -15,6 +13,7 @@ import eu.hansolo.tilesfx.tools.FlowGridPane;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -51,7 +50,30 @@ import com.kronos.global.util.Alerts;
  */
 public class Main implements Initializable {
 
-    @FXML private GNAvatarView avatar;
+     public JFXButton btnaddpilot1;
+     public JFXTextField pilotHeight1;
+     public JFXTextArea commentPilot1;
+     public JFXTextField pilotWeight1;
+     public JFXTextField firstName1;
+     public JFXTextField lastNamePilot1;
+     public Tab tabPilot1;
+     public JFXTabPane newRaceTabPane1;
+     public JFXButton btnNextCar1;
+     public JFXDatePicker dateOfBirthPilot1;
+     public Tab tabCar1;
+     public JFXTextField carNumber1;
+     public JFXTextField carTeam1;
+     public JFXTextField carModel1;
+     public JFXTextField carBrand1;
+     public JFXButton btnNextLap1;
+     public JFXButton add_car_btn1;
+     public JFXComboBox carPilot1;
+     public JFXComboBox carType1;
+     public JFXButton changeTopkeyButton;
+     public JFXButton endPara;
+     public Label topKey;
+     public JFXDialogLayout dialogSelectKey;
+     @FXML private GNAvatarView avatar;
     @FXML public  VBox sideBar;
     @FXML private HBox searchBox;
     @FXML private HBox boxStatus;
@@ -76,6 +98,9 @@ public class Main implements Initializable {
     @FXML private JFXBadge notifications;
     @FXML private JFXBadge bg_info;
     @FXML private RadioButton available;
+    @FXML private JFXDialogLayout dialogNew;
+    @FXML private JFXDialogLayout dialogEdit;
+    @FXML private JFXDialogLayout dialogPara   = new JFXDialogLayout();
      public static ObservableList<String> stylesheets;
      private FlowGridPane pane;
      private FlowGridPane pane1;
@@ -113,13 +138,15 @@ public class Main implements Initializable {
     private JFXDialog       dialog          = new JFXDialog();
     private JFXDialogLayout dialog_layout   = new JFXDialogLayout();
 
+
     private String path = "/com/kronos/theme/css/";
     boolean scrolling   = false;
 
     private Parent popContent;
     public static Main ctrl;
 
-    @Override
+
+     @Override
     public void initialize(URL location, ResourceBundle resources)  {
         ctrl = this;
         loadContentPopup();
@@ -141,8 +168,10 @@ public class Main implements Initializable {
             }
         });
         body.setContent(ViewManager.getInstance().get("Dashboard"));
+         body.fitToHeightProperty().set(true);
 
-        /////////// TEST DE FABRICE A NE PAS TOUCHER PLEASE ///////////
+
+         /////////// TEST DE FABRICE A NE PAS TOUCHER PLEASE ///////////
 
         // LeaderBoard Items
         leaderBoardItem1 = new LeaderBoardItem("Elise CHAPON", 47);
@@ -317,7 +346,7 @@ public class Main implements Initializable {
         grid.add(finalpane,0,0);
         grid.setMinSize(body.getWidth(),body.getHeight());
         //body.setBackground(new Background(new BackgroundFill(Color.web("red"), CornerRadii.EMPTY, Insets.EMPTY)));
-//        body.fitToHeightProperty().set(true);
+         //body.setContent(grid);
 
 
         /////////// FIN DE LA ZONE DE TEST ///////////
@@ -745,16 +774,30 @@ public class Main implements Initializable {
          pt.print();
      }
     @FXML
-    private void areaChart(){
-        title.setText("AreaChart");
-        body.setContent(ViewManager.getInstance().get("areachart"));
+    private void RaceData(){
+        title.setText("Course Data");
+        loadView("cards");
+        body.setContent(ViewManager.getInstance().get("cards"));
     }
 
     @FXML
-    private void barChart(){
-        title.setText("BarChart");
-        body.setContent(ViewManager.getInstance().get("barchart"));
-    }
+    private void AddSomething(){
+        dialogNew.setVisible(true);
+        JFXDialog alert1 = new JFXDialog(root, dialogNew, JFXDialog.DialogTransition.TOP);
+        alert1.show();
+     }
+     @FXML
+     private void EditSomething(){
+         dialogEdit.setVisible(true);
+         JFXDialog alert1 = new JFXDialog(root, dialogEdit, JFXDialog.DialogTransition.TOP);
+         alert1.show();
+     }
+     @FXML
+     private void EditPara(){
+         dialogPara.setVisible(true);
+         JFXDialog alert1 = new JFXDialog(root, dialogPara, JFXDialog.DialogTransition.TOP);
+         alert1.show();
+     }
 
     @FXML
     private void bubbleChart(){
@@ -815,4 +858,7 @@ public class Main implements Initializable {
         title.setText("Alerts");
         body.setContent(ViewManager.getInstance().get("alerts"));
     }
-}
+
+     public void handleChangeTopControl(ActionEvent event) {
+     }
+ }
