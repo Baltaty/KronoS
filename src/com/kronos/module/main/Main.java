@@ -42,6 +42,7 @@ import java.time.LocalTime;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import com.kronos.global.util.Alerts;
 
  /**
  * @author TeamKronos
@@ -62,9 +63,9 @@ public class Main implements Initializable {
     @FXML private TitledPane design;
     @FXML private TitledPane controls;
     @FXML private TitledPane charts;
-    @FXML private Button home;
+    @FXML public Button home;
     @FXML private Button  about;
-    @FXML private Button  FeuilleTemps;
+    @FXML public Button  FeuilleTemps;
     @FXML private Button hamburger;
     @FXML private SVGPath searchIcon;
     @FXML private StackPane root;
@@ -140,38 +141,6 @@ public class Main implements Initializable {
             }
         });
         body.setContent(ViewManager.getInstance().get("raceresume"));
-        Scene scene = App.getDecorator().getScene();
-//        scene.setOnKeyPressed(new EventHandler<javafx.scene.input.KeyEvent>() {
-//            @Override
-//            public void handle(javafx.scene.input.KeyEvent event) {
-//                System.out.println(" verif bouton top ");
-//                KeyCode keyCode = event.getCode();
-//
-//                File file = new File("top.properties");
-//                Properties properties = new Properties();
-//                try {
-//                    if (!file.exists()) {
-//
-//                        //file.createNewFile();
-//                    } else {
-//
-//                        FileInputStream fileInputStream = new FileInputStream(file);
-//                        properties.load(fileInputStream);
-//                        if (keyCode.toString().equals(properties.getProperty("key")))
-//                        {
-//                            System.out.println("vous avez fait un top ! ");
-//
-//                        }
-//                    }
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//
-//
-//        });
 
         /////////// TEST DE FABRICE A NE PAS TOUCHER PLEASE ///////////
 

@@ -18,6 +18,7 @@
     import com.kronos.global.util.Alerts;
     import com.kronos.global.util.Mask;
     import com.kronos.model.*;
+    import com.kronos.module.main.Config;
     import com.kronos.parserXML.MainImpl.SaveManagerImpl;
     import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
     import javafx.animation.RotateTransition;
@@ -34,7 +35,9 @@
     import javafx.scene.image.ImageView;
     import javafx.scene.input.KeyCode;
     import javafx.scene.input.KeyEvent;
+    import javafx.scene.input.MouseEvent;
     import javafx.scene.layout.StackPane;
+    import javafx.scene.text.Text;
     import javafx.stage.Stage;
     import javafx.util.Duration;
 
@@ -60,6 +63,7 @@
         private static PilotController pilotcontroller = new PilotController();
         private static CarController carController = new CarController();
         private static Boolean changeRequest;
+
         @FXML
         JFXDatePicker dateOfBirthPilot;
         private ArrayList<PilotModel> pilotsList = new ArrayList<>();
@@ -96,15 +100,15 @@
         @FXML
         private JFXTabPane newRaceTabPane;
         @FXML
-        private Tab tabPilot;
+        public Tab tabPilot;
         @FXML
-        private Tab tabCar;
+        public Tab tabCar;
         @FXML
-        private Tab tabCourse;
+        public Tab tabCourse;
         @FXML
-        private JFXButton btnNextCar;
+        public JFXButton btnNextCar;
         @FXML
-        private JFXButton btnNextLap;
+        public JFXButton btnNextLap;
         @FXML
         private ImageView bolt;
         @FXML
@@ -128,6 +132,66 @@
         @FXML
         private JFXTextField pilotHeight;
 
+        //////////////////////////////////// Attributes for internationalization  /////////////////////////////////////
+        @FXML
+        public JFXButton btnaddpilot;
+        @FXML
+        public JFXButton add_car_btn;
+        @FXML
+        public JFXButton btn_start_race;
+        @FXML
+        public Text i18n_createRace;
+        @FXML
+        public Text i18n_chargeOldRace;
+        @FXML
+        public Text i18n_parameters;
+        @FXML
+        public Text i18n_touchOfTop;
+        @FXML
+        public JFXButton i18n_changeTop;
+        @FXML
+        public Label i18n_lastNamePilot;
+        @FXML
+        public Label i18n_firstNamePilot;
+        @FXML
+        public Label i18n_dateOfBirthPilot;
+        @FXML
+        public Label i18n_weightPilot;
+        @FXML
+        public Label i18n_commentPilot;
+        @FXML
+        public Label i18n_titlePilot;
+        @FXML
+        public Label i18n_sizePilot;
+        @FXML
+        public Label i18n_titleCar;
+        @FXML
+        public Label i18n_numberCar;
+        @FXML
+        public Label i18n_teamCar;
+        @FXML
+        public Label i18n_modelCar;
+        @FXML
+        public Label i18n_brandCar;
+        @FXML
+        public Label i18n_pilotCar;
+        @FXML
+        public Label i18n_typeOfCar;
+        @FXML
+        public Label i18n_beginningRace;
+        @FXML
+        public Label i18n_nameOfTrack;
+        @FXML
+        public Label i18n_raceType;
+        @FXML
+        public Label i18n_titleRace;
+        @FXML
+        public Label i18n_nameOfRace;
+        @FXML
+        public Label i18n_lapTime;
+        @FXML
+        public Label i18n_lapsBeforeRelay;
+
 
         //////////////////////////////////////// Attributes of races data /////////////////////////////////////
 
@@ -146,14 +210,22 @@
         @FXML
         private JFXTextField raceNumberOfLaps;
         @FXML
-        private Label raceNumberOfLapsLabel;
+        public Label raceNumberOfLapsLabel;
         @FXML
         private JFXComboBox<String> raceTypeCombo;
+        @FXML
+        private Label t_m_autour_label;
+        @FXML
+        private Label tour_relai_label;
+        @FXML
+        private JFXTextField t_m_autour;
+        @FXML
+        private JFXTextField tour_relai;
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////
         private RaceType typeOfRace;
         public static ObservableList<String> stylesheets;
-
+        public static HomeController ctrl;
 
         /**
          * Handles the startup of the race creation process.
@@ -401,6 +473,7 @@
          */
         @Override
         public void initialize(URL url, ResourceBundle rb) {
+            ctrl=this;
 
 //             WobbleTransition fade=new WobbleTransition(appname1);
 //             fade.setDelay(Duration.seconds(3));
@@ -408,7 +481,12 @@
 //             fade.setCycleCount(WobbleTransition.INDEFINITE);
 //             fade.play();
 //
-
+            /*Alerts.warning("test titre","le test est super", new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    System.out.println("mouse click detected! "+event.getSource());
+                }
+                });*/
             ////// SCALE BOUTON DEMARRER
             ScaleTransition scalestart = new ScaleTransition(Duration.seconds(1), startBtn);
             scalestart.setToX(1.2);
@@ -489,7 +567,7 @@
          */
         @FXML
         public void handleClickNewCar(ActionEvent event) {
-            if ((carPilot.getSelectionModel().getSelectedItem() != null || carType.getSelectionModel().getSelectedItem() != null) && Mask.isNumeric(carNumber.getText())) {
+            if (carPilot.getSelectionModel().getSelectedItem() != null && carType.getSelectionModel().getSelectedItem() != null && Mask.isNumeric(carNumber.getText())) {
                 if (!mainCarCreated && carType.getSelectionModel().getSelectedItem().equals("Voiture principale")) {
                     MainCarModel mainCarModel = new MainCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
                     if (checkNewCarFields(mainCarModel) && carIsExist(mainCarModel.getNumber())) {
@@ -681,11 +759,16 @@
 
 
             if (pilotcontroller.checkPilot(pilotcont) && check) {
-                pilotsList.add(pilotcont);
-                carPilot.getItems().add(firstnamecont + " " + lastnamecont);
-                Alerts.success("SUCCÈS", "Pilote ajouté");
-                App.getDataManager().persist(pilotcont);
-                clearNewPilotFields();
+                if(pilotsList.size() < 4) {
+                    pilotsList.add(pilotcont);
+                    carPilot.getItems().add(firstnamecont + " " + lastnamecont);
+                    Alerts.success("SUCCÈS", "Pilote ajouté");
+                    App.getDataManager().persist(pilotcont);
+                    clearNewPilotFields();
+                }
+                else {
+                    Alerts.error("ERREUR", "Création 4 pilotes maximum");
+                }
 
             } else {
                 Alerts.error("ERREUR", "Veuillez vérifier les champs");
@@ -722,6 +805,10 @@
                 raceNumberOfLaps.setVisible(false);
                 raceDurationLabel.setVisible(true);
                 raceDuration.setVisible(true);
+                t_m_autour_label.setVisible(true);
+                t_m_autour.setVisible(true);
+                tour_relai_label.setVisible(true);
+                tour_relai.setVisible(true);
                 typeOfRace = com.kronos.global.enums.RaceType.TIME_RACE;
 
 
@@ -737,16 +824,31 @@
         public void createRace(ActionEvent actionEvent) {
             boolean timelaps = false;
             RaceController raceController = new RaceController();
-            int race_duration = -1, race_numberOf_tour = -1;
+            int race_duration = -1, race_numberOf_tour = -1, race_interval_relays = -1, race_mean_lap_time = 0;
             if (typeOfRace == RaceType.TIME_RACE) {
                 if (!this.raceDuration.getText().isEmpty()) {
                     if (Mask.isNumeric(this.raceDuration.getText())) {
                         if (Integer.parseInt(this.raceDuration.getText()) > 0) {
                             race_duration = Integer.parseInt(raceDuration.getText());
-                            timelaps = true;
+                            if (!this.tour_relai.getText().isEmpty()) {
+                                if (Mask.isNumeric(this.tour_relai.getText())) {
+                                    if (Integer.parseInt(this.tour_relai.getText()) > 0) {
+                                        race_interval_relays = Integer.parseInt(this.tour_relai.getText());
+                                        if (!this.t_m_autour.getText().isEmpty()) {
+                                            if (Mask.isNumeric(this.t_m_autour.getText())) {
+                                                if (Integer.parseInt(this.t_m_autour.getText()) > 0) {
+                                                    race_mean_lap_time = Integer.parseInt(this.tour_relai.getText());
+                                                    timelaps = true;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
+
 
             } else {
 
@@ -754,16 +856,29 @@
                     if (Mask.isNumeric(this.raceNumberOfLaps.getText())) {
                         if (Integer.parseInt(this.raceNumberOfLaps.getText()) > 0) {
                             race_numberOf_tour = Integer.parseInt(this.raceNumberOfLaps.getText());
-                            timelaps = true;
+                            if (!this.tour_relai.getText().isEmpty()) {
+                                if (Mask.isNumeric(this.tour_relai.getText())) {
+                                    if (Integer.parseInt(this.tour_relai.getText()) > 0 && Integer.parseInt(this.tour_relai.getText()) <= Integer.parseInt(this.raceNumberOfLaps.getText())) {
+                                        race_interval_relays = Integer.parseInt(this.tour_relai.getText());
+                                        if (!this.t_m_autour.getText().isEmpty()) {
+                                            if (Mask.isNumeric(this.t_m_autour.getText())) {
+                                                if (Integer.parseInt(this.t_m_autour.getText()) > 0) {
+                                                    race_mean_lap_time = Integer.parseInt(this.t_m_autour.getText());
+                                                    timelaps = true;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
-
                 }
             }
             if (timelaps) {
                 RaceModel race = raceController.createRace(typeOfRace, raceName.getText(),
                         Date.from(startingTimeDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                        racewayNameText.getText(), race_duration, race_numberOf_tour);
+                        racewayNameText.getText(), race_duration, race_numberOf_tour, race_interval_relays, race_mean_lap_time);
 
                 if (typeOfRace.equals(RaceType.TIME_RACE)) {
                     for (CarModel carModel : carsList) {

@@ -27,8 +27,8 @@ public class LapRaceModel extends RaceModel implements LapRace {
      * @param racewayName  raceway name
      * @param numberOfLaps number of laps
      */
-    public LapRaceModel(String raceName, Date startingTime, String racewayName, int numberOfLaps) {
-        super(raceName, startingTime, racewayName);
+    public LapRaceModel(String raceName, Date startingTime, String racewayName, int numberOfLaps, int relayInterval, int defaultMeanLapTime) {
+        super(raceName, startingTime, racewayName, relayInterval, defaultMeanLapTime);
         this.numberOfLaps = numberOfLaps;
     }
 
