@@ -567,7 +567,7 @@
          */
         @FXML
         public void handleClickNewCar(ActionEvent event) {
-            if ((carPilot.getSelectionModel().getSelectedItem() != null || carType.getSelectionModel().getSelectedItem() != null) && Mask.isNumeric(carNumber.getText())) {
+            if (carPilot.getSelectionModel().getSelectedItem() != null && carType.getSelectionModel().getSelectedItem() != null && Mask.isNumeric(carNumber.getText())) {
                 if (!mainCarCreated && carType.getSelectionModel().getSelectedItem().equals("Voiture principale")) {
                     MainCarModel mainCarModel = new MainCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
                     if (checkNewCarFields(mainCarModel) && carIsExist(mainCarModel.getNumber())) {
@@ -759,11 +759,16 @@
 
 
             if (pilotcontroller.checkPilot(pilotcont) && check) {
-                pilotsList.add(pilotcont);
-                carPilot.getItems().add(firstnamecont + " " + lastnamecont);
-                Alerts.success("SUCCÈS", "Pilote ajouté");
-                App.getDataManager().persist(pilotcont);
-                clearNewPilotFields();
+                if(pilotsList.size() < 4) {
+                    pilotsList.add(pilotcont);
+                    carPilot.getItems().add(firstnamecont + " " + lastnamecont);
+                    Alerts.success("SUCCÈS", "Pilote ajouté");
+                    App.getDataManager().persist(pilotcont);
+                    clearNewPilotFields();
+                }
+                else {
+                    Alerts.error("ERREUR", "Création 4 pilotes maximum");
+                }
 
             } else {
                 Alerts.error("ERREUR", "Veuillez vérifier les champs");
