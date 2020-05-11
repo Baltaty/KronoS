@@ -95,7 +95,7 @@
                               <Font name="Montserrat Black" size="15.0" />
                            </font>
                         </Text>
-                        <JFXButton buttonType="RAISED" layoutX="685.0" layoutY="172.0" onAction="#handleChangeTopControl" prefHeight="34.0" prefWidth="156.0" style="-fx-background-color: white; -fx-background-radius: 200;" text="CHANGER">
+                        <JFXButton fx:id="changeTopkeyButton" buttonType="RAISED" layoutX="685.0" layoutY="172.0" onAction="#handleChangeTopControl" prefHeight="34.0" prefWidth="156.0" style="-fx-background-color: white; -fx-background-radius: 200;" text="CHANGER">
                            <font>
                               <Font name="Montserrat Bold" size="12.0" />
                            </font></JFXButton>
@@ -309,18 +309,18 @@
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="t_m_autour_label" layoutX="429.0" layoutY="405.0" text="Temps au tour &#10;moyen *" textAlignment="CENTER">
+                                          <Label fx:id="t_m_autour_label" layoutX="429.0" layoutY="405.0" text="Temps au tour &#10;moyen *" textAlignment="CENTER" visible="false">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <JFXTextField fx:id="t_m_autour" layoutX="626.0" layoutY="409.0" />
-                                          <Label fx:id="tour_relai_label" layoutX="430.0" layoutY="472.0" text="Nombre de tour &#10;avant relai *" textAlignment="CENTER">
+                                          <JFXTextField fx:id="t_m_autour" layoutX="626.0" layoutY="409.0" visible="false" />
+                                          <Label fx:id="tour_relai_label" layoutX="430.0" layoutY="472.0" text="Nombre de tour &#10;avant relai *" textAlignment="CENTER" visible="false">
                                              <font>
                                                 <Font name="Montserrat Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <JFXTextField fx:id="tour_relai" layoutX="627.0" layoutY="469.0" />
+                                          <JFXTextField fx:id="tour_relai" layoutX="627.0" layoutY="469.0" visible="false" />
                                        </children>
                                     </AnchorPane>
                                  </content>

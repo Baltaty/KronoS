@@ -330,7 +330,14 @@ public class RaceResumeController implements Initializable, Observer {
                         properties.load(fileInputStream);
                         if (keyCode.toString().equals(properties.getProperty("key")))
                         {
-                            handleNewTop();
+                            System.out.println("yeah");
+
+                            if (startRace.isDisable() && raceModel.getRaceState().equals(RaceState.IN_PROGRESS)) {
+                                handleNewTop();
+                                displayNewRank();
+                            } else {
+                                Alerts.info("INFORMATION", "veuillez demarrer/continuer la course ");
+                            }
                             System.out.println("vous avez fait un top ! ");
 
                         }
