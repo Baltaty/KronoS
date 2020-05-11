@@ -62,7 +62,7 @@ public class App extends Application {
         load("login", "login");
         load("login", "account");
         load2("Homescreen");
-        //load2("raceresume");
+        //load2("Dashboard");
 
         // delay
         try {

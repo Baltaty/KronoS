@@ -19,14 +19,14 @@ import java.util.Date;
  * @version 1.0
  * Controller of the {@link com.kronos.model.RaceModel race} objects.
  */
-public class RaceController {
+public class RaceStartupController {
 
     private static final int INVALID_INDEX = -1;
 
     /**
      * Constructor.
      */
-    public RaceController() {
+    public RaceStartupController() {
     }
 
 

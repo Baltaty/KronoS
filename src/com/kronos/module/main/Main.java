@@ -140,7 +140,7 @@ public class Main implements Initializable {
 
             }
         });
-        body.setContent(ViewManager.getInstance().get("raceresume"));
+        body.setContent(ViewManager.getInstance().get("Dashboard"));
 
         /////////// TEST DE FABRICE A NE PAS TOUCHER PLEASE ///////////
 
@@ -733,13 +733,13 @@ public class Main implements Initializable {
      private void dashboard(){
          title.setText("Dashboard");
          //body.setContent(grid);
-         body.setContent(ViewManager.getInstance().get("raceresume"));
+         body.setContent(ViewManager.getInstance().get("Dashboard"));
      }
      @FXML
      private void feuilletemps(){
          title.setText("FeuilleTemps");
-         loadView("feuilletemps");
-         body.setContent(ViewManager.getInstance().get("feuilletemps"));
+         loadView("TimeSheet");
+         body.setContent(ViewManager.getInstance().get("TimeSheet"));
          System.out.println("App: load method --- PrinterModel");
          PrinterModel pt = new PrinterModel();
          pt.print();

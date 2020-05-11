@@ -12,13 +12,11 @@
 
     import com.jfoenix.controls.*;
     import com.kronos.App;
-    import com.kronos.api.TimeRace;
     import com.kronos.global.enums.RaceType;
     import com.kronos.global.plugin.ViewManager;
     import com.kronos.global.util.Alerts;
     import com.kronos.global.util.Mask;
     import com.kronos.model.*;
-    import com.kronos.module.main.Config;
     import com.kronos.parserXML.MainImpl.SaveManagerImpl;
     import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
     import javafx.animation.RotateTransition;
@@ -35,7 +33,6 @@
     import javafx.scene.image.ImageView;
     import javafx.scene.input.KeyCode;
     import javafx.scene.input.KeyEvent;
-    import javafx.scene.input.MouseEvent;
     import javafx.scene.layout.StackPane;
     import javafx.scene.text.Text;
     import javafx.stage.Stage;
@@ -435,7 +432,7 @@
          */
 
         private void handleToControlPanel() {
-            loadDashBoardController("raceresume");
+            loadDashBoardController("Dashboard");
             //Stage stage = (Stage) startBtn.getScene().getWindow();
             stylesheets = App.getDecorator().getScene().getStylesheets();
 //            stylesheets.addAll(
@@ -823,7 +820,7 @@
         @FXML
         public void createRace(ActionEvent actionEvent) {
             boolean timelaps = false;
-            RaceController raceController = new RaceController();
+            RaceStartupController raceStartupController = new RaceStartupController();
             int race_duration = -1, race_numberOf_tour = -1, race_interval_relays = -1, race_mean_lap_time = 0;
             if (typeOfRace == RaceType.TIME_RACE) {
                 if (!this.raceDuration.getText().isEmpty()) {
@@ -876,7 +873,7 @@
                 }
             }
             if (timelaps) {
-                RaceModel race = raceController.createRace(typeOfRace, raceName.getText(),
+                RaceModel race = raceStartupController.createRace(typeOfRace, raceName.getText(),
                         Date.from(startingTimeDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
                         racewayNameText.getText(), race_duration, race_numberOf_tour, race_interval_relays, race_mean_lap_time);
 
