@@ -12,6 +12,7 @@ import com.kronos.global.animation.PulseTransition;
 import com.kronos.global.enums.RaceState;
 import com.kronos.global.util.Alerts;
 import com.kronos.model.*;
+import com.kronos.module.main.Main;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -803,11 +804,11 @@ public class DashboardController implements Initializable, Observer {
         topModels.add(topModel);
         if (raceModel.getTopsMap().containsKey(carNumber)) {
             raceModel.getTopsMap().get(carNumber).add(topModel);
-            topModel.setTopPosition(raceModel.getTopsMap().get(carNumber).size() -1);
+            topModel.setTopPosition(raceModel.getTopsMap().get(carNumber).size() - 1);
         } else {
             raceModel.getTopsMap().put(carNumber, new ArrayList<>());
             raceModel.getTopsMap().get(carNumber).add(topModel);
-            topModel.setTopPosition(raceModel.getTopsMap().get(carNumber).size() -1);
+            topModel.setTopPosition(raceModel.getTopsMap().get(carNumber).size() - 1);
         }
     }
 

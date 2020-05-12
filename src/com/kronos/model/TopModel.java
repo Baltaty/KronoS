@@ -205,12 +205,4 @@ public class TopModel implements Top, Comparable<TopModel> {
     public void setTopPosition(int topPosition) {
         this.topPosition = topPosition;
     }
-
-    public int getTopPosition() {
-        return topPosition;
-    }
-
-    public void setTopPosition(int topPosition) {
-        this.topPosition = topPosition;
-    }
 }

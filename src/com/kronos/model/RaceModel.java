@@ -27,12 +27,9 @@ public abstract class RaceModel implements Race {
     private String timeLapsRemaining;
     private String timeLapsSpent;
 
-    @XmlElement
 
     @XmlElement
     private int relayInterval;
-    @XmlElement
-
     @XmlElement
     private int defaultMeanLapTime;
     private ArrayList<CarModel> carsList;
