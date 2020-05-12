@@ -325,6 +325,10 @@ public class SaveManagerImpl implements SaveManager, Subject {
     }
 
 
+
+
+
+
     @Override
     public void attach(Observer observer) {
         observers.add(observer);
@@ -346,5 +350,21 @@ public class SaveManagerImpl implements SaveManager, Subject {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////                                 /////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    public boolean delete(Object object){
+        boolean isDone = false;
+        try {
+            if (mapOfbeans.containsKey(object)){
+                String model = this.importManager.getModelName(object.getClass().getName());
+                this.updateTagInXML(model);
+                isDone = true;
+            }
+        }catch (Exception e){
+            isDone = false;
+            e.printStackTrace();
+        }
+        return isDone;
+    }
 
 }
