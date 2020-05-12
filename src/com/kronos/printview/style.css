@@ -64,7 +64,7 @@ h2.name {
 }
 
 #invoice {
-    width: 230px;
+    width: auto;
     float: right;
     text-align: right;
 }

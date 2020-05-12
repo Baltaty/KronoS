@@ -6,6 +6,8 @@ import com.kronos.parserXML.api.SaveManager;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.filter.ElementFilter;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.transform.JDOMSource;
 
@@ -133,7 +135,7 @@ public class SaveManagerImpl implements SaveManager, Subject {
             if (mapOfbeans.containsKey(object)) {
 
                 String model = this.importManager.getModelName(object.getClass().getName());
-                this.updateTagInXML(model);
+                this.updateTagInXML(model , null);
                 mapOfbeans.put(object, false);
 
             }
@@ -146,7 +148,10 @@ public class SaveManagerImpl implements SaveManager, Subject {
     }
 
 
-    protected void updateTagInXML(String tag) {
+    protected void edditFile() {
+    }
+
+    protected void updateTagInXML(String tag, String id_object) {
 
         new Thread(new Runnable() {
             @Override
@@ -154,8 +159,18 @@ public class SaveManagerImpl implements SaveManager, Subject {
                 try {
                     SAXBuilder saxBuilder = new SAXBuilder();
                     Document doc = saxBuilder.build(new StringReader(importManager.getXtratable()));
-//                    System.out.println(importManager.getXtratable());
-                    doc.getRootElement().removeChild(tag);
+                    if (id_object == null) {
+                        doc.getRootElement().removeChild(tag);
+                    } else {
+                        ElementFilter filter = new ElementFilter(tag);
+                        Iterator<Element> it  = doc.getRootElement().getDescendants(filter).iterator();
+                        while (it.hasNext()){
+                            Element element = it.next();
+                            if (element.getChild("id").getValue().equals(id_object)) {
+                                it.remove();
+                            }
+                        }
+                    }
 
                     TransformerFactory tf = TransformerFactory.newInstance();
                     Transformer transformer = tf.newTransformer();
@@ -168,7 +183,7 @@ public class SaveManagerImpl implements SaveManager, Subject {
 //                    System.out.println("************ after delete data *****************");
                     output = output.replaceAll("<data>", "");
                     output = output.replaceAll("</data>", "");
-                    output = XML_STANDARD_TAG + "\n" + output;
+                    output = XML_STANDARD_TAG + output;
 //                    System.out.println(output);
                     BufferedWriter bufferedWriterwriter = new BufferedWriter(new FileWriter(PATH));
                     bufferedWriterwriter.write(output);
@@ -325,6 +340,10 @@ public class SaveManagerImpl implements SaveManager, Subject {
     }
 
 
+
+
+
+
     @Override
     public void attach(Observer observer) {
         observers.add(observer);
@@ -346,5 +365,37 @@ public class SaveManagerImpl implements SaveManager, Subject {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////                                 /////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    public boolean delete(Object object, String id){
+        boolean isDone = false;
+        try {
+            if (mapOfbeans.containsKey(object)){
+                String model = this.importManager.getModelName(object.getClass().getName());
+                this.updateTagInXML(model , id);
+                isDone = true;
+            }
+        }catch (Exception e){
+            isDone = false;
+            e.printStackTrace();
+        }
+        return isDone;
+    }
+
+    public boolean delete(Object object ){
+        boolean isDone = false;
+        try {
+            if (mapOfbeans.containsKey(object)){
+                String model = this.importManager.getModelName(object.getClass().getName());
+                this.updateTagInXML(model , null);
+                isDone = true;
+            }
+        }catch (Exception e){
+            isDone = false;
+            e.printStackTrace();
+        }
+        return isDone;
+    }
+
 
 }
