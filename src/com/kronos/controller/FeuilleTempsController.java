@@ -1,5 +1,7 @@
 package com.kronos.controller;
 
+import com.kronos.App;
+import com.kronos.model.TopModel;
 import com.kronos.printview.PrinterModel;
 import com.qoppa.pdfViewerFX.PDFViewer;
 import javafx.beans.property.ObjectProperty;
@@ -18,6 +20,7 @@ import org.icepdf.ri.util.PropertiesManager;
 import javax.swing.*;
 import java.io.File;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class FeuilleTempsController implements Initializable {
@@ -40,9 +43,20 @@ public class FeuilleTempsController implements Initializable {
         printer =  new PrinterModel();
         try{
 
-             printer.print();
-            createViewer(borderPane);
-            openDocument(PATH);
+            List <TopModel> topModel = (List<TopModel>) (List<?>) App.getDataManager().getModels(TopModel.class);
+            TopModel model = null;
+            for (TopModel test: topModel) {
+                if(test.getId().toString().equals("1589287435231")){
+                  model =  test;
+                  break;
+                }
+            }
+            App.getDataManager().delete(model, model.getId().toString());
+
+
+//            printer.print();
+//            createViewer(borderPane);
+//            openDocument(PATH);
         }catch (Exception x){
                     x.printStackTrace();
         }

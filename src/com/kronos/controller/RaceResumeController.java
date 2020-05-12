@@ -452,6 +452,13 @@ public class RaceResumeController implements Initializable, Observer {
         relayCycles[0] = raceModel.getRelayInterval();
         try {
             if (raceModel instanceof LapRace) {
+
+                System.out.println("RaceRecumme compute : ");
+                System.out.println( " relay "  + raceModel.getRelayInterval());
+                System.out.println( " relay "  + raceModel.getDefaultMeanLapTime());
+                System.out.println( " name "  + raceModel.getRaceName());
+                System.out.println( " nameway "  + raceModel.getRacewayName());
+                System.out.println("========== =============");
                 int euclidResult = remainingLaps / raceModel.getRelayInterval();
                 int remaining = remainingLaps % raceModel.getRelayInterval();
                 relayCycles[0] = raceModel.getRelayInterval();
