@@ -9,6 +9,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -22,248 +23,328 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="1500.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.DashboardController">
 
-<!--    <stylesheets>-->
-<!--        <URL value="@../theme/css/material-color.css" />-->
-<!--        <URL value="@../theme/css/skeleton.css" />-->
-<!--        <URL value="@../theme/css/light.css" />-->
-<!--        <URL value="@../theme/css/bootstrap.css" />-->
-<!--        <URL value="@../theme/css/shape.css" />-->
-<!--        <URL value="@../theme/css/typographic.css" />-->
-<!--        <URL value="@../theme/css/helpers.css" />-->
-<!--        <URL value="@../theme/css/master.css" />-->
-<!--    </stylesheets>-->
+<ScrollPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.DashboardController">
+   <content>
+      <StackPane prefHeight="1500.0" prefWidth="1053.0">
 
-    <children>
-        <VBox prefHeight="200.0" prefWidth="100.0">
-            <children>
-                <HBox prefHeight="495.0" prefWidth="1053.0" style="-fx-border-color: black;">
-                    <children>
-                        <Pane prefHeight="375.0" prefWidth="372.0" style="-fx-border-color: black;">
-                            <children>
-                                <Circle fill="WHITE" layoutX="69.0" layoutY="50.0" radius="35.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" />
-                                <Label fx:id="i18n_raceinfo" layoutX="155.0" layoutY="40.0" text="INFOS COURSE" />
-                                <Label fx:id="i18n_departureHour" alignment="CENTER" layoutX="25.0" layoutY="100.0" prefHeight="17.0" prefWidth="102.0" text="Heure de depart" />
-                                <Label fx:id="departureHour" layoutX="46.0" layoutY="117.0" text="00 : 00 : 00" />
-                                <Label fx:id="i18n_actualHour" alignment="CENTER" layoutX="216.0" layoutY="100.0" prefHeight="17.0" prefWidth="84.0" text="Heure actuelle" />
-                                <Label fx:id="currentHour" layoutX="230.0" layoutY="117.0" text="00 : 00 : 00" />
-                                <Label fx:id="i18n_elapsedTime" alignment="CENTER" layoutX="35.0" layoutY="163.0" prefHeight="17.0" prefWidth="84.0" text="Temps écoulé" />
-                                <Label fx:id="spentTime" layoutX="46.0" layoutY="180.0" text="00 : 00 : 00" />
-                                <Label fx:id="i18n_remainingTime" alignment="CENTER" layoutX="209.0" layoutY="161.0" prefHeight="17.0" prefWidth="84.0" text="Temps restant" />
-                                <Label fx:id="remainingTime" layoutX="224.0" layoutY="178.0" text="00 : 00 : 00" />
-                                <JFXButton fx:id="startRace" alignment="CENTER" contentDisplay="CENTER" layoutX="51.0" layoutY="217.0" onAction="#startTimer" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #57c6f2;" styleClass="btn-base" text="Start" />
-                                <JFXButton fx:id="pauseRace" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="149.0" layoutY="217.0" onAction="#pauseTimer" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #57c6f2;" styleClass="btn-base" text="Pause" />
-                                <JFXButton fx:id="stopRace" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="248.0" layoutY="217.0" onAction="#endTimer" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #57c6f2;" text="Stop" />
-                        <Label fx:id="i18n_elapsedLaps" layoutX="35.0" layoutY="163.0" prefHeight="17.0" prefWidth="112.0" text="Tours effectués" visible="false" />
-                        <Label fx:id="i18n_remainingLaps" layoutX="209.0" layoutY="162.0" prefHeight="17.0" prefWidth="112.0" text="Tours restants" visible="false" />
-                            </children>
-                        </Pane>
-                        <Pane layoutX="10.0" layoutY="10.0" prefHeight="350.0" prefWidth="329.0" style="-fx-border-color: black;">
-                            <children>
-                                <Label layoutX="71.0" layoutY="52.0" text="PANNEAU POUR LA VOITURE" textAlignment="CENTER">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font></Label>
-                        <Label layoutX="98.0" layoutY="124.0" text="TOURS RESTANTS" textAlignment="CENTER">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="carNumber" layoutX="146.0" layoutY="71.0" text="-" textAlignment="CENTER">
-                           <font>
-                              <Font name="System Bold" size="36.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="remainingLapsBeforeStop" layoutX="146.0" layoutY="143.0" text="-" textAlignment="CENTER">
-                           <font>
-                              <Font name="System Bold" size="36.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="137.0" layoutY="283.0" text="ETAT" textAlignment="CENTER">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="state" layoutX="146.0" layoutY="302.0" text="-" textAlignment="CENTER">
-                           <font>
-                              <Font name="System Bold" size="36.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="131.0" layoutY="196.0" text="TEMPS" textAlignment="CENTER">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="time" layoutX="145.0" layoutY="230.0" text="-" textAlignment="CENTER">
-                           <font>
-                              <Font name="System Bold" size="36.0" />
-                           </font>
-                        </Label>
-                            </children>
-                        </Pane>
-                        <Pane prefHeight="375.0" prefWidth="372.0" style="-fx-border-color: black;">
-                            <children>
-                                <Circle fill="WHITE" layoutX="60.0" layoutY="63.0" radius="35.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" />
-                                <Label fx:id="i18n_details" layoutX="102.0" layoutY="54.0" text="DETAILS DE LA VOITURE PRINCIPALE">
-                                    <font>
-                                        <Font name="System Bold" size="13.0" />
-                                    </font>
-                                </Label>
-                                <JFXTabPane layoutX="1.0" layoutY="102.0" prefHeight="223.0" prefWidth="359.0">
-                                    <tabs>
-                                        <Tab fx:id="i18n_currentPilot" text="Pilote">
-                                            <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="260.0" prefWidth="359.0">
-                                       <children>
-                                          <Label fx:id="i18n_currentPilotLastName" layoutX="14.0" layoutY="30.0" text="Nom :" />
-                                          <Label fx:id="i18n_currentPilotFirstname" layoutX="14.0" layoutY="65.0" text="Prénom :" />
-                                          <Label fx:id="i18n_currentPilotDateOfBirth" layoutX="14.0" layoutY="101.0" text="Date de Naissance :" />
-                                          <Label fx:id="lastNamePilotMainCar" layoutX="118.0" layoutY="30.0" prefHeight="17.0" prefWidth="94.0" />
-                                          <Label fx:id="firstNamePilotMainCar" layoutX="125.0" layoutY="65.0" prefHeight="17.0" prefWidth="81.0" />
-                                          <Label fx:id="dateOfBirthPilot" layoutX="135.0" layoutY="101.0" />
-                                       </children></AnchorPane>
-                                            </content>
-                                        </Tab>
-                                        <Tab fx:id="i18n_currentCar" text="Voiture">
-                                            <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                       <children>
-                                          <Label fx:id="i18n_currentCarBrand" layoutX="14.0" layoutY="39.0" text="Marque :" />
-                                          <Label fx:id="i18n_currentCarModel" layoutX="15.0" layoutY="76.0" text="Modele :" />
-                                          <Label fx:id="i18n_currentCarTeam" layoutX="14.0" layoutY="112.0" text="Equipe :" />
-                                          <Label fx:id="mainCarBrand" layoutX="84.0" layoutY="39.0" />
-                                          <Label fx:id="mainCarModel" layoutX="84.0" layoutY="76.0" />
-                                          <Label fx:id="mainCarTeam" layoutX="84.0" layoutY="112.0" />
-                                       </children></AnchorPane>
-                                            </content>
-                                        </Tab>
-                                    </tabs>
-                                </JFXTabPane>
-                            </children>
-                        </Pane>
-                    </children>
-                </HBox>
-                <HBox prefHeight="505.0" prefWidth="1053.0" style="-fx-border-color: black; -fx-spacing: 10;">
-                    <children>
-                        <Pane id="btn" prefHeight="261.0" prefWidth="404.0">
-                            <children>
-                                <Label fx:id="i18n_averageLapTime" alignment="CENTER" layoutX="70.0" layoutY="31.0" prefHeight="17.0" prefWidth="217.0" text="TEMPS MOYEN AU TOUR" textAlignment="CENTER">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font></Label>
-                                <ProgressBar fx:id="meanTimeBar" layoutX="41.0" layoutY="97.0" prefHeight="42.0" prefWidth="297.0" progress="0.0" />
-                        <Label fx:id="labelMeanTime" layoutX="144.0" layoutY="109.0" prefHeight="17.0" prefWidth="70.0" text="   MM: ss">
-                           <font>
-                              <Font size="15.0" />
-                           </font></Label>
-                        <Label fx:id="chronoTopTime" layoutX="102.0" layoutY="48.0" prefHeight="37.0" prefWidth="166.0" text="00 : 00 : 00">
-                           <font>
-                              <Font size="30.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="tmierSign" layoutX="120.0" layoutY="89.0" prefHeight="21.0" prefWidth="70.0" text="-" visible="false">
-                           <font>
-                              <Font size="40.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="chronoRivalCar" layoutX="102.0" layoutY="200.0" text="00 : 00 : 00">
-                           <font>
-                              <Font size="30.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="i18n_timerOpponentCar" alignment="CENTER" layoutX="58.0" layoutY="167.0" prefHeight="17.0" prefWidth="256.0" text="TIMER VOITURE CONCURRENTE" textAlignment="CENTER">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                            </children>
-                        </Pane>
-                        <Pane prefHeight="295.0" prefWidth="256.0">
-                            <children>
-                                <VBox alignment="CENTER" prefHeight="284.0" prefWidth="256.0">
-                                    <children>
-                                        <Pane prefHeight="93.0" prefWidth="256.0">
-                                            <children>
-                                                <JFXButton fx:id="TopBtn" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="94.0" layoutY="11.0" onAction="#handleTopButtonClick" prefHeight="70.0" prefWidth="67.0" style="-fx-background-color: #57c6f2; -fx-background-radius: 200;">
-                                                    <graphic>
-                                                        <ImageView fitHeight="54.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
-                                                            <image>
-                                                                <Image url="@../media/img/chrono.png" />
-                                                            </image>
-                                                        </ImageView>
-                                                    </graphic>
-                                                </JFXButton>
-                                            </children>
-                                        </Pane>
-                                        <HBox alignment="CENTER" prefHeight="65.0" prefWidth="256.0">
-                                            <children>
-                                                <Label fx:id="i18n_type" alignment="CENTER" contentDisplay="CENTER" text="TYPE" textAlignment="CENTER">
-                                                    <padding>
-                                                        <Insets right="20.0" top="20.0" />
-                                                    </padding>
+      <!--    <stylesheets>-->
+      <!--        <URL value="@../theme/css/material-color.css" />-->
+      <!--        <URL value="@../theme/css/skeleton.css" />-->
+      <!--        <URL value="@../theme/css/light.css" />-->
+      <!--        <URL value="@../theme/css/bootstrap.css" />-->
+      <!--        <URL value="@../theme/css/shape.css" />-->
+      <!--        <URL value="@../theme/css/typographic.css" />-->
+      <!--        <URL value="@../theme/css/helpers.css" />-->
+      <!--        <URL value="@../theme/css/master.css" />-->
+      <!--    </stylesheets>-->
+
+          <children>
+              <VBox prefHeight="200.0" prefWidth="100.0">
+                  <children>
+                      <HBox prefHeight="495.0" prefWidth="1053.0" style="-fx-border-color: black;">
+                          <children>
+                              <Pane prefHeight="375.0" prefWidth="372.0" style="-fx-border-color: black;">
+                                  <children>
+                                      <Circle fill="WHITE" layoutX="69.0" layoutY="50.0" radius="35.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" />
+                                      <Label fx:id="i18n_raceinfo" layoutX="112.0" layoutY="40.0" text="INFOS COURSE">
+                                 <font>
+                                    <Font name="Montserrat Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                                      <Label fx:id="i18n_departureHour" alignment="CENTER" layoutX="25.0" layoutY="100.0" prefHeight="21.0" prefWidth="142.0" text="Heure de depart">
+                                 <font>
+                                    <Font name="Montserrat Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                                      <Label fx:id="departureHour" layoutX="61.0" layoutY="117.0" text="00 : 00 : 00" />
+                                      <Label fx:id="i18n_actualHour" alignment="CENTER" layoutX="216.0" layoutY="100.0" prefHeight="21.0" prefWidth="130.0" text="Heure actuelle">
+                                 <font>
+                                    <Font name="Montserrat Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                                      <Label fx:id="currentHour" layoutX="240.0" layoutY="117.0" text="00 : 00 : 00" />
+                                      <Label fx:id="i18n_elapsedTime" alignment="CENTER" layoutX="35.0" layoutY="163.0" prefHeight="21.0" prefWidth="124.0" text="Temps écoulé">
+                                 <font>
+                                    <Font name="Montserrat Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                                      <Label fx:id="spentTime" layoutX="56.0" layoutY="180.0" text="00 : 00 : 00" />
+                                      <Label fx:id="i18n_remainingTime" alignment="CENTER" layoutX="209.0" layoutY="161.0" prefHeight="21.0" prefWidth="130.0" text="Temps restant">
+                                 <font>
+                                    <Font name="Montserrat Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                                      <Label fx:id="remainingTime" layoutX="234.0" layoutY="178.0" text="00 : 00 : 00" />
+                                      <JFXButton fx:id="startRace" alignment="CENTER" contentDisplay="CENTER" layoutX="51.0" layoutY="217.0" onAction="#startTimer" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #57c6f2;" styleClass="btn-base" text="Start" />
+                                      <JFXButton fx:id="pauseRace" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="149.0" layoutY="217.0" onAction="#pauseTimer" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #57c6f2;" styleClass="btn-base" text="Pause" />
+                                      <JFXButton fx:id="stopRace" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="248.0" layoutY="217.0" onAction="#endTimer" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #57c6f2;" text="Stop" />
+                              <Label fx:id="i18n_elapsedLaps" layoutX="35.0" layoutY="163.0" prefHeight="17.0" prefWidth="112.0" text="Tours effectués" visible="false" />
+                              <Label fx:id="i18n_remainingLaps" layoutX="209.0" layoutY="162.0" prefHeight="17.0" prefWidth="112.0" text="Tours restants" visible="false" />
+                                  </children>
+                              </Pane>
+                              <Pane layoutX="10.0" layoutY="10.0" prefHeight="350.0" prefWidth="329.0" style="-fx-border-color: black;">
+                                  <children>
+                                      <Label layoutX="71.0" layoutY="52.0" text="PANNEAU POUR LA VOITURE" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Montserrat Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="98.0" layoutY="124.0" text="TOURS RESTANTS" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Montserrat Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="carNumber" layoutX="146.0" layoutY="71.0" text="-">
+                                 <font>
+                                    <Font name="System Bold" size="36.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="remainingLapsBeforeStop" layoutX="146.0" layoutY="143.0" text="-" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="36.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="137.0" layoutY="283.0" text="ETAT" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Montserrat Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="state" layoutX="146.0" layoutY="302.0" text="-" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="36.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="131.0" layoutY="196.0" text="TEMPS" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Montserrat Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="time" layoutX="145.0" layoutY="230.0" text="-" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="36.0" />
+                                 </font>
+                              </Label>
+                                  </children>
+                              </Pane>
+                              <Pane prefHeight="375.0" prefWidth="372.0" style="-fx-border-color: black;">
+                                  <children>
+                                      <Circle fill="WHITE" layoutX="60.0" layoutY="58.0" radius="35.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" />
+                                      <Label fx:id="i18n_details" layoutX="102.0" layoutY="39.0" text="DETAILS DE LA VOITURE &#10;PRINCIPALE" textAlignment="CENTER">
+                                          <font>
+                                              <Font name="Montserrat Bold" size="16.0" />
+                                          </font>
+                                      </Label>
+                                      <JFXTabPane layoutX="1.0" layoutY="102.0" prefHeight="223.0" prefWidth="359.0">
+                                          <tabs>
+                                              <Tab fx:id="i18n_currentPilot" text="Pilote">
+                                                  <content>
+                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="260.0" prefWidth="359.0">
+                                             <children>
+                                                <Label fx:id="i18n_currentPilotLastName" layoutX="14.0" layoutY="30.0" text="Nom :">
+                                                   <font>
+                                                      <Font name="Montserrat Bold" size="16.0" />
+                                                   </font>
                                                 </Label>
-                                                <JFXComboBox fx:id="topType" prefHeight="42.0" prefWidth="124.0" />
-                                            </children>
-                                        </HBox>
-                                          <HBox alignment="CENTER" prefHeight="65.0" prefWidth="256.0">
-                                              <children>
-                                                  <Label fx:id="i18n_car" alignment="CENTER" contentDisplay="CENTER" text="VOITURE" textAlignment="CENTER">
-                                                      <padding>
-                                                          <Insets top="20.0" />
-                                                      </padding>
-                                                      <HBox.margin>
-                                                          <Insets left="-10.0" right="5.0" />
-                                                      </HBox.margin>
-                                                  </Label>
-                                                  <JFXComboBox fx:id="car" prefHeight="42.0" prefWidth="117.0" />
-                                              </children>
-                                          </HBox>
-                              <VBox alignment="CENTER" prefWidth="256.0">
-                                 <children>
-                                    <Label fx:id="i18n_comment" alignment="CENTER" contentDisplay="CENTER" text="COMMENTAIRE">
-                                       <padding>
-                                          <Insets top="20.0" />
-                                       </padding>
-                                    </Label>
-                                    <JFXTextField fx:id="topComment" prefHeight="27.0" prefWidth="125.0" />
-                                 </children>
-                              </VBox>
-                                    </children>
-                                </VBox>
-                            </children>
-                        </Pane>
-                        <Pane prefHeight="261.0" prefWidth="404.0">
-                            <children>
-                                <Label fx:id="i18n_raceRanking" alignment="TOP_CENTER" layoutX="98.0" layoutY="31.0" text="CLASSEMENT DE LA COURSE" />
-                        <ListView fx:id="listPastRank" layoutX="3.0" layoutY="100.0" prefHeight="134.0" prefWidth="142.0" />
-                        <ListView fx:id="listNowRank" layoutX="235.0" layoutY="100.0" prefHeight="134.0" prefWidth="124.0" />
-                        <Label fx:id="i18n_previous" layoutX="42.0" layoutY="71.0" prefHeight="17.0" prefWidth="94.0" text="Précédent" textAlignment="CENTER" />
-                        <Label fx:id="i18n_inProgress" layoutX="275.0" layoutY="71.0" text="En cours" />
-                            </children>
-                        </Pane>
-                    </children>
-                    <opaqueInsets>
-                        <Insets />
-                    </opaqueInsets>
-                </HBox>
-                <VBox prefHeight="421.0" prefWidth="1053.0">
-                    <children>
-                        <TableView fx:id="table_info" prefHeight="388.0" prefWidth="1053.0">
-                            <columns>
-                        <TableColumn fx:id="col_delete" prefWidth="58.0" />
-                        <TableColumn fx:id="colCarNumber" prefWidth="92.0" text="Voiture" />
-                                <TableColumn fx:id="col_typetop" prefWidth="121.0" text="Type de top" />
-                        <TableColumn fx:id="col_time" prefWidth="134.0" text="Heure du top" />
-                        <TableColumn fx:id="col_laptime" prefWidth="153.0" text="Temps du tour" />
-                        <TableColumn fx:id="col_racetime" prefWidth="132.0" text="Temps écoulé" />
-                        <TableColumn fx:id="colLapNumber" prefWidth="75.0" text="Num. Tour" />
-                                <TableColumn fx:id="col_comment" prefWidth="507.0" text="Commentaires" />
-                            </columns>
-                        </TableView>
-                  <JFXToggleButton fx:id="toogleedit" onAction="#editable" text="Modifier un top" />
-                    </children></VBox>
-            </children>
-        </VBox>
-    </children>
-</StackPane>
+                                                <Label fx:id="i18n_currentPilotFirstname" layoutX="14.0" layoutY="65.0" text="Prénom :">
+                                                   <font>
+                                                      <Font name="Montserrat Bold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="i18n_currentPilotDateOfBirth" layoutX="14.0" layoutY="101.0" text="Date de Naissance :">
+                                                   <font>
+                                                      <Font name="Montserrat Bold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="lastNamePilotMainCar" layoutX="118.0" layoutY="30.0" prefHeight="17.0" prefWidth="94.0" />
+                                                <Label fx:id="firstNamePilotMainCar" layoutX="125.0" layoutY="65.0" prefHeight="17.0" prefWidth="81.0" />
+                                                <Label fx:id="dateOfBirthPilot" layoutX="135.0" layoutY="101.0" />
+                                             </children>
+                                          </AnchorPane>
+                                                  </content>
+                                              </Tab>
+                                              <Tab fx:id="i18n_currentCar" text="Voiture">
+                                                  <content>
+                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <Label fx:id="i18n_currentCarBrand" layoutX="14.0" layoutY="39.0" text="Marque :">
+                                                   <font>
+                                                      <Font name="Montserrat Bold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="i18n_currentCarModel" layoutX="15.0" layoutY="76.0" text="Modele :">
+                                                   <font>
+                                                      <Font name="Montserrat Bold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="i18n_currentCarTeam" layoutX="14.0" layoutY="112.0" text="Equipe :">
+                                                   <font>
+                                                      <Font name="Montserrat Bold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="mainCarBrand" layoutX="84.0" layoutY="39.0" />
+                                                <Label fx:id="mainCarModel" layoutX="84.0" layoutY="76.0" />
+                                                <Label fx:id="mainCarTeam" layoutX="84.0" layoutY="112.0" />
+                                             </children>
+                                          </AnchorPane>
+                                                  </content>
+                                              </Tab>
+                                          </tabs>
+                                      </JFXTabPane>
+                                  </children>
+                              </Pane>
+                          </children>
+                      </HBox>
+                      <HBox prefHeight="505.0" prefWidth="1053.0" style="-fx-border-color: black; -fx-spacing: 10;">
+                          <children>
+                              <Pane id="btn" prefHeight="261.0" prefWidth="404.0">
+                                  <children>
+                                      <Label fx:id="i18n_averageLapTime" alignment="CENTER" layoutX="70.0" layoutY="31.0" prefHeight="17.0" prefWidth="217.0" text="TEMPS MOYEN AU TOUR" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Montserrat Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                                      <ProgressBar fx:id="meanTimeBar" layoutX="41.0" layoutY="97.0" prefHeight="42.0" prefWidth="297.0" progress="0.0" />
+                              <Label fx:id="labelMeanTime" layoutX="144.0" layoutY="109.0" prefHeight="17.0" prefWidth="70.0" text="   MM: ss">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="chronoTopTime" layoutX="125.0" layoutY="52.0" prefHeight="37.0" prefWidth="166.0" text="00 : 00 : 00">
+                                 <font>
+                                    <Font name="Montserrat Bold" size="20.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="tmierSign" layoutX="120.0" layoutY="89.0" prefHeight="21.0" prefWidth="70.0" text="-" visible="false">
+                                 <font>
+                                    <Font size="40.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="chronoRivalCar" layoutX="131.0" layoutY="200.0" text="00 : 00 : 00">
+                                 <font>
+                                    <Font name="Montserrat Bold" size="20.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="i18n_timerOpponentCar" alignment="CENTER" layoutX="58.0" layoutY="167.0" prefHeight="21.0" prefWidth="272.0" text="TIMER VOITURE CONCURRENTE" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Montserrat Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                                  </children>
+                              </Pane>
+                              <Pane prefHeight="295.0" prefWidth="256.0">
+                                  <children>
+                                      <VBox alignment="CENTER" prefHeight="284.0" prefWidth="256.0">
+                                          <children>
+                                              <Pane prefHeight="93.0" prefWidth="256.0">
+                                                  <children>
+                                                      <JFXButton fx:id="TopBtn" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="94.0" layoutY="11.0" onAction="#handleTopButtonClick" prefHeight="70.0" prefWidth="67.0" style="-fx-background-color: #57c6f2; -fx-background-radius: 200;">
+                                                          <graphic>
+                                                              <ImageView fitHeight="54.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                                                                  <image>
+                                                                      <Image url="@../media/img/chrono.png" />
+                                                                  </image>
+                                                              </ImageView>
+                                                          </graphic>
+                                                      </JFXButton>
+                                                  </children>
+                                              </Pane>
+                                              <HBox alignment="CENTER" prefHeight="65.0" prefWidth="256.0">
+                                                  <children>
+                                                      <Label fx:id="i18n_type" alignment="CENTER" contentDisplay="CENTER" text="TYPE" textAlignment="CENTER">
+                                                          <padding>
+                                                              <Insets right="20.0" top="20.0" />
+                                                          </padding>
+                                             <font>
+                                                <Font name="Montserrat Bold" size="16.0" />
+                                             </font>
+                                                      </Label>
+                                                      <JFXComboBox fx:id="topType" prefHeight="42.0" prefWidth="124.0" />
+                                                  </children>
+                                              </HBox>
+                                                <HBox alignment="CENTER" prefHeight="65.0" prefWidth="256.0">
+                                                    <children>
+                                                        <Label fx:id="i18n_car" alignment="CENTER" contentDisplay="CENTER" text="VOITURE" textAlignment="CENTER">
+                                                            <padding>
+                                                                <Insets top="20.0" />
+                                                            </padding>
+                                                            <HBox.margin>
+                                                                <Insets left="-10.0" right="5.0" />
+                                                            </HBox.margin>
+                                             <font>
+                                                <Font name="Montserrat Bold" size="16.0" />
+                                             </font>
+                                                        </Label>
+                                                        <JFXComboBox fx:id="car" prefHeight="42.0" prefWidth="117.0" />
+                                                    </children>
+                                                </HBox>
+                                    <VBox alignment="CENTER" prefWidth="256.0">
+                                       <children>
+                                          <Label fx:id="i18n_comment" alignment="CENTER" contentDisplay="CENTER" text="COMMENTAIRE">
+                                             <padding>
+                                                <Insets top="20.0" />
+                                             </padding>
+                                             <font>
+                                                <Font name="Montserrat Bold" size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <JFXTextField fx:id="topComment" prefHeight="27.0" prefWidth="125.0" />
+                                       </children>
+                                    </VBox>
+                                          </children>
+                                      </VBox>
+                                  </children>
+                              </Pane>
+                              <Pane prefHeight="261.0" prefWidth="404.0">
+                                  <children>
+                                      <Label fx:id="i18n_raceRanking" alignment="TOP_CENTER" layoutX="98.0" layoutY="31.0" text="CLASSEMENT DE LA COURSE">
+                                 <font>
+                                    <Font name="Montserrat Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                              <ListView fx:id="listPastRank" layoutX="3.0" layoutY="100.0" prefHeight="134.0" prefWidth="142.0" />
+                              <ListView fx:id="listNowRank" layoutX="235.0" layoutY="100.0" prefHeight="134.0" prefWidth="124.0" />
+                              <Label fx:id="i18n_previous" layoutX="27.0" layoutY="71.0" prefHeight="17.0" prefWidth="94.0" text="précédent">
+                                 <font>
+                                    <Font name="Montserrat Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="i18n_inProgress" layoutX="245.0" layoutY="63.0" text="en cours">
+                                 <font>
+                                    <Font name="Montserrat Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                                  </children>
+                              </Pane>
+                          </children>
+                          <opaqueInsets>
+                              <Insets />
+                          </opaqueInsets>
+                      </HBox>
+                      <VBox prefHeight="421.0" prefWidth="1053.0">
+                          <children>
+                              <TableView fx:id="table_info" prefHeight="388.0" prefWidth="1053.0">
+                                  <columns>
+                              <TableColumn fx:id="col_delete" prefWidth="58.0" />
+                              <TableColumn fx:id="colCarNumber" prefWidth="92.0" text="Voiture" />
+                                      <TableColumn fx:id="col_typetop" prefWidth="121.0" text="Type de top" />
+                              <TableColumn fx:id="col_time" prefWidth="134.0" text="Heure du top" />
+                              <TableColumn fx:id="col_laptime" prefWidth="153.0" text="Temps du tour" />
+                              <TableColumn fx:id="col_racetime" prefWidth="132.0" text="Temps écoulé" />
+                              <TableColumn fx:id="colLapNumber" prefWidth="75.0" text="Num. Tour" />
+                                      <TableColumn fx:id="col_comment" prefWidth="507.0" text="Commentaires" />
+                                  </columns>
+                              </TableView>
+                        <JFXToggleButton fx:id="toogleedit" onAction="#editable" text="Modifier un top">
+                           <font>
+                              <Font name="Montserrat Bold" size="13.0" />
+                           </font>
+                        </JFXToggleButton>
+                          </children>
+                  </VBox>
+                  </children>
+              </VBox>
+          </children>
+      </StackPane>
+   </content>
+</ScrollPane>

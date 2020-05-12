@@ -12,7 +12,6 @@ import com.kronos.global.animation.PulseTransition;
 import com.kronos.global.enums.RaceState;
 import com.kronos.global.util.Alerts;
 import com.kronos.model.*;
-import com.kronos.module.main.Main;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -461,7 +460,6 @@ public class DashboardController implements Initializable, Observer {
      * The last column are the remaining laps.
      */
     private void computeNumberOfStops() {
-        System.out.println("relayInterval"+raceModel.getRelayInterval());
         relayCycles[0] = raceModel.getRelayInterval();
         try {
             if (raceModel instanceof LapRace) {

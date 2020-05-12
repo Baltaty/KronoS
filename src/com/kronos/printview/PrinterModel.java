@@ -110,16 +110,18 @@ public class PrinterModel {
                 infSup.append("<div class=\"address\">Commentaire : " + pilot.getComment() + "</div>\n");
 
                 dynamicContent = new StringBuilder();
+                int i = 0;
                 for (TopModel top : findTopByPilot(pilot)) {
 
                     dynamicContent.append(" <tr> \n ");
-                    dynamicContent.append("<td class=\"total\"> " + top.getLap() + " </td>\n");
+                    dynamicContent.append("<td class=\"total\"> " + i + " </td>\n");
                     dynamicContent.append("<td class=\"desc\"> " + top.getCarNumber() + " </td>\n");
                     dynamicContent.append("<td class=\"unit\"> " + top.getTopType() + " </td>\n");
                     dynamicContent.append("<td class=\"unit\"> " + top.getTime()+ " </td>\n");
                     dynamicContent.append("<td class=\"qty\"> " + top.getLapTime() + " </td>\n");
                     dynamicContent.append("<td class=\"desc\"> " + top.getComment() + " </td>\n");
                     dynamicContent.append("</tr> \n ");
+                    ++i;
                 }
 
                 if(pilotModelList.indexOf(pilot) > 0 ) {

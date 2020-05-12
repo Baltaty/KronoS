@@ -1,5 +1,7 @@
 package com.kronos.controller;
 
+import com.kronos.App;
+import com.kronos.model.TopModel;
 import com.kronos.printview.PrinterModel;
 import com.qoppa.pdfViewerFX.PDFViewer;
 import javafx.beans.property.ObjectProperty;
@@ -18,6 +20,7 @@ import org.icepdf.ri.util.PropertiesManager;
 import javax.swing.*;
 import java.io.File;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class TimeSheetController implements Initializable {

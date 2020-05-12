@@ -28,7 +28,11 @@ public abstract class RaceModel implements Race {
     private String timeLapsSpent;
 
     @XmlElement
+
+    @XmlElement
     private int relayInterval;
+    @XmlElement
+
     @XmlElement
     private int defaultMeanLapTime;
     private ArrayList<CarModel> carsList;
@@ -158,6 +162,7 @@ public abstract class RaceModel implements Race {
     public void setTimeLapsSpent(String timeLapsSpent) {
         this.timeLapsSpent = timeLapsSpent;
     }
+
 
     @Override
     public int getRelayInterval() {

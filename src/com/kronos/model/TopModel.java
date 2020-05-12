@@ -195,7 +195,15 @@ public class TopModel implements Top, Comparable<TopModel> {
 
     @Override
     public int compareTo(TopModel o) {
-        return (Integer.compare(this.getLap(), o.getLap()));
+        return (Integer.compare(this.getTopPosition(), o.getTopPosition()));
+    }
+
+    public int getTopPosition() {
+        return topPosition;
+    }
+
+    public void setTopPosition(int topPosition) {
+        this.topPosition = topPosition;
     }
 
     public int getTopPosition() {
