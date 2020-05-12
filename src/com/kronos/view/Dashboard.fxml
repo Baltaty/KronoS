@@ -22,7 +22,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="1500.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.DashboardController">
+<StackPane prefHeight="1500.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.DashboardController">
 
 <!--    <stylesheets>-->
 <!--        <URL value="@../theme/css/material-color.css" />-->
@@ -70,7 +70,7 @@
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Label>
-                        <Label fx:id="carNumber" layoutX="146.0" layoutY="71.0" text="-">
+                        <Label fx:id="carNumber" layoutX="146.0" layoutY="71.0" text="-" textAlignment="CENTER">
                            <font>
                               <Font name="System Bold" size="36.0" />
                            </font>
@@ -238,8 +238,8 @@
                                 <Label fx:id="i18n_raceRanking" alignment="TOP_CENTER" layoutX="98.0" layoutY="31.0" text="CLASSEMENT DE LA COURSE" />
                         <ListView fx:id="listPastRank" layoutX="3.0" layoutY="100.0" prefHeight="134.0" prefWidth="142.0" />
                         <ListView fx:id="listNowRank" layoutX="235.0" layoutY="100.0" prefHeight="134.0" prefWidth="124.0" />
-                        <Label fx:id="i18n_previous" layoutX="27.0" layoutY="71.0" prefHeight="17.0" prefWidth="94.0" text="précédent" />
-                        <Label fx:id="i18n_inProgress" layoutX="245.0" layoutY="63.0" text="en_cours" />
+                        <Label fx:id="i18n_previous" layoutX="42.0" layoutY="71.0" prefHeight="17.0" prefWidth="94.0" text="Précédent" textAlignment="CENTER" />
+                        <Label fx:id="i18n_inProgress" layoutX="275.0" layoutY="71.0" text="En cours" />
                             </children>
                         </Pane>
                     </children>

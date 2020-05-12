@@ -12,6 +12,7 @@ import com.kronos.global.animation.PulseTransition;
 import com.kronos.global.enums.RaceState;
 import com.kronos.global.util.Alerts;
 import com.kronos.model.*;
+import com.kronos.module.main.Main;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -68,8 +69,6 @@ public class DashboardController implements Initializable, Observer {
     public Label i18n_elapsedLaps;
     @FXML
     public Label i18n_remainingLaps;
-    @FXML
-    public Label i18n_panel;
     @FXML
     public Label i18n_details;
     @FXML
@@ -426,8 +425,13 @@ public class DashboardController implements Initializable, Observer {
                         FileInputStream fileInputStream = new FileInputStream(file);
                         properties.load(fileInputStream);
                         if (keyCode.toString().equals(properties.getProperty("key"))) {
-                            handleNewTop();
-                            displayNewRank();
+                            if(!Main.isControlSet && raceModel.getRaceState().equals(RaceState.IN_PROGRESS)) {
+                                handleNewTop();
+                                displayNewRank();
+                            }
+                            else if(!Main.isControlSet) {
+                                Alerts.info("INFORMATION", "veuillez demarrer/continuer la course ");
+                            }
 
                         }
                     }
@@ -457,6 +461,7 @@ public class DashboardController implements Initializable, Observer {
      * The last column are the remaining laps.
      */
     private void computeNumberOfStops() {
+        System.out.println("relayInterval"+raceModel.getRelayInterval());
         relayCycles[0] = raceModel.getRelayInterval();
         try {
             if (raceModel instanceof LapRace) {
@@ -651,7 +656,7 @@ public class DashboardController implements Initializable, Observer {
             //Case where top respects logical top type order
             if (raceModel instanceof TimeRaceModel) {
                 raceTime = localSpentTime.format(dtf);
-                topModel = new TopModel(carNumber, dateTime, type, raceTime, lapTime, comment);
+                topModel = new TopModel(carNumber,0, dateTime, type, raceTime, lapTime, comment);
                 handleTopTimeRace(topModel, carNumber);
                 decrementPanel(lapTime);
                 numberOfLapsDone++;
@@ -680,7 +685,7 @@ public class DashboardController implements Initializable, Observer {
                         }
                     }
                 }
-                topModel = new TopModel(carNumber, dateTime, type, lap, lapTime, comment);
+                topModel = new TopModel(carNumber,0, dateTime, type, lap, lapTime, comment);
                 handleTopLapRace(topModel, carNumber);
             }
         } else {
@@ -688,11 +693,11 @@ public class DashboardController implements Initializable, Observer {
             if (raceModel instanceof TimeRaceModel) {
                 raceTime = localSpentTime.format(dtf);
                 if (findPreviousTop(carNumber).getTopType().equals("I") && (type.equals("I") || type.equals("R"))) {
-                    topModel = new TopModel(carNumber, dateTime, "O", raceTime, lapTime, comment + "-Top O système");
+                    topModel = new TopModel(carNumber,0, dateTime, "O", raceTime, lapTime, comment + "-Top O système");
                     decrementPanel(lapTime);
                     numberOfLapsDone++;
                 } else if (!findPreviousTop(carNumber).getTopType().equals("I") && type.equals("O")) {
-                    topModel = new TopModel(carNumber, dateTime, "R", raceTime, lapTime, comment + "-Top R système");
+                    topModel = new TopModel(carNumber,0, dateTime, "R", raceTime, lapTime, comment + "-Top R système");
                     decrementPanel(lapTime);
                     numberOfLapsDone++;
                 }
@@ -722,10 +727,10 @@ public class DashboardController implements Initializable, Observer {
                     }
                 }
                 if (findPreviousTop(carNumber).getTopType().equals("I") && (type.equals("I") || type.equals("R"))) {
-                    topModel = new TopModel(carNumber, dateTime, "O", lap, lapTime, comment + "-Top O système");
+                    topModel = new TopModel(carNumber,0, dateTime, "O", lap, lapTime, comment + "-Top O système");
                     decrementPanel(lapTime);
                 } else if (!findPreviousTop(carNumber).getTopType().equals("I") && type.equals("O")) {
-                    topModel = new TopModel(carNumber, dateTime, "R", lap, lapTime, comment + "-Top R système");
+                    topModel = new TopModel(carNumber,0, dateTime, "R", lap, lapTime, comment + "-Top R système");
                     decrementPanel(lapTime);
                 }
                 handleTopLapRace(topModel, carNumber);
@@ -769,14 +774,14 @@ public class DashboardController implements Initializable, Observer {
         for (CarModel carModel : followedCars) {
             if (!(carModel instanceof MainCarModel)) {
                 if (raceModel instanceof TimeRace) {
-                    TopModel topModelFirstTop = new TopModel(carModel.getNumber(), dateTimeFirstTop, "O", localSpentTime.format(dtf), localTimeFirstTop.format(dtf), "Fist Top");
+                    TopModel topModelFirstTop = new TopModel(carModel.getNumber(),0, dateTimeFirstTop, "O", localSpentTime.format(dtf), localTimeFirstTop.format(dtf), "Fist Top");
                     handleTopTimeRace(topModelFirstTop, carModel.getNumber());
                     loadData(topModelFirstTop);
                     carModel.getTopList().add(topModelFirstTop);
                     saveTopModel(topModelFirstTop);
 
                 } else {
-                    TopModel topModelFirstTop = new TopModel(carModel.getNumber(), dateTimeFirstTop, "O", 0, localTimeFirstTop.format(dtf), "Fist Top");
+                    TopModel topModelFirstTop = new TopModel(carModel.getNumber(),0, dateTimeFirstTop, "O", 0, localTimeFirstTop.format(dtf), "Fist Top");
                     handleTopLapRace(topModelFirstTop, carModel.getNumber());
                     loadData(topModelFirstTop);
                     carModel.getTopList().add(topModelFirstTop);
@@ -800,9 +805,11 @@ public class DashboardController implements Initializable, Observer {
         topModels.add(topModel);
         if (raceModel.getTopsMap().containsKey(carNumber)) {
             raceModel.getTopsMap().get(carNumber).add(topModel);
+            topModel.setTopPosition(raceModel.getTopsMap().get(carNumber).size() -1);
         } else {
             raceModel.getTopsMap().put(carNumber, new ArrayList<>());
             raceModel.getTopsMap().get(carNumber).add(topModel);
+            topModel.setTopPosition(raceModel.getTopsMap().get(carNumber).size() -1);
         }
     }
 
@@ -818,9 +825,11 @@ public class DashboardController implements Initializable, Observer {
         topModels.add(topModel);
         if (raceModel.getTopsMap().containsKey(carNumber)) {
             raceModel.getTopsMap().get(carNumber).add(topModel);
+            topModel.setTopPosition(raceModel.getTopsMap().get(carNumber).size() -1);
         } else {
             raceModel.getTopsMap().put(carNumber, new ArrayList<>());
             raceModel.getTopsMap().get(carNumber).add(topModel);
+            topModel.setTopPosition(raceModel.getTopsMap().get(carNumber).size() -1);
         }
     }
 
@@ -1045,6 +1054,7 @@ public class DashboardController implements Initializable, Observer {
             long topId = event.getTableView().getItems().get(row).getId();
             int index = findTopIndexWithId(oldCarNumber, topId);
             boolean carExists = carExists(newCarNumber);
+            ArrayList<TopModel> oldCarTops = raceModel.getTopsMap().get(oldCarNumber);
             ArrayList<TopModel> topModels = raceModel.getTopsMap().get(newCarNumber);
             if (index > 0) {
                 if (carExists) {
@@ -1054,12 +1064,19 @@ public class DashboardController implements Initializable, Observer {
                     int newPos = findTopNewPositionOnCarNumberChange(topModels, top.getTime());
                     if (newPos < topModels.size()) {
                         topModels.add(newPos, top);
+                        int i = newPos;
+                        while(i < topModels.size()) {
+                            topModels.get(i).setTopPosition(i);
+                            i++;
+                        }
                     } else {
                         topModels.add(top);
+                        top.setTopPosition(raceModel.getTopsMap().get(newCarNumber).size() -1);
                     }
                     recalculateLapTime(topModels);
                     updateTopLogic(newCarNumber, newPos, false);
                     table_info.refresh();
+                    saveTopModel(top);
                 } else {
                     table_info.refresh();
                     Alerts.error("ERREUR", "Cette voiture n'existe pas");
@@ -1107,11 +1124,17 @@ public class DashboardController implements Initializable, Observer {
                 if (newPos < topModels.size()) {
                     topModels.remove(index);
                     topModels.add(newPos, top);
+                    int i = newPos;
+                    while(i < topModels.size()) {
+                        topModels.get(i).setTopPosition(i);
+                        i++;
+                    }
                     updateTopLogic(carNumber, newPos, false);
 
                 } else {
                     topModels.remove(index);
                     topModels.add(top);
+                    topModels.get(newPos).setTopPosition(newPos);
                     updateTopLogic(carNumber, newPos, false);
                 }
 
@@ -1126,6 +1149,7 @@ public class DashboardController implements Initializable, Observer {
                 table_info.getSortOrder().add(col_time);
                 table_info.sort();
                 table_info.getSortOrder().remove(col_time);
+                saveTopModel(top);
             } else {
                 table_info.refresh();
                 Alerts.error("ERROR", "Top initial: modification du temps du top impossible");
@@ -1182,6 +1206,7 @@ public class DashboardController implements Initializable, Observer {
                     top.setLapTime(newLapTime);
                 }
                 table_info.refresh();
+                saveTopModel(top);
             } else {
                 table_info.refresh();
                 Alerts.error("ERREUR", "Top initial: temps au tour non modifiable");
@@ -1586,6 +1611,12 @@ public class DashboardController implements Initializable, Observer {
                     }
                 }
             }
+            int i = 0;
+            while(i < topModels.size()) {
+                topModels.get(i).setTopPosition(i);
+                i++;
+            }
+            App.getDataManager().delete(currentTop);
             table_info.refresh();
         } else {
             table_info.refresh();
@@ -2311,7 +2342,9 @@ public class DashboardController implements Initializable, Observer {
 
         threadChrono.stop();
         thread.stop();
-        threadChronoRivalCar.stop();
+        if(getFollowedCars().size() > 1) {
+            threadChronoRivalCar.stop();
+        }
     }
 
     /**

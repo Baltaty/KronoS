@@ -1,27 +1,11 @@
 package com.kronos.controller;
 
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
-import com.kronos.App;
-import com.kronos.api.Observer;
-import com.kronos.api.TimeRace;
-import com.kronos.api.Top;
 import com.kronos.global.util.Mask;
-import com.kronos.model.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
+import com.kronos.model.CarModel;
+import com.kronos.model.RaceModel;
 
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
 
 /**
  * @author TeamKronoS
@@ -33,12 +17,12 @@ public class CarController {
     private RaceModel raceModel;
 
 
-
     public CarController() {
     }
 
     /**
      * Checks if the data input for a {@link com.kronos.api.Car car} is correct.
+     *
      * @param carModel the model
      * @return true if the data input is correct, false otherwise
      */
@@ -58,16 +42,17 @@ public class CarController {
     }
 
     /**
+     * Finds a {@link CarModel car}.
      *
-     * @param carNumber
-     * @return
+     * @param carNumber the {@link CarModel car} number.
+     * @return the appropriate {@link CarModel car}.
      */
     public CarModel findCar(ArrayList<CarModel> carModels, int carNumber) {
         int i = 0;
         boolean found = false;
         CarModel ret = null;
-        while(i < carModels.size() && !found) {
-            if(carModels.get(i).getNumber() == carNumber) {
+        while (i < carModels.size() && !found) {
+            if (carModels.get(i).getNumber() == carNumber) {
                 ret = carModels.get(i);
                 found = true;
             }
@@ -77,16 +62,18 @@ public class CarController {
     }
 
     /**
+     * Gets the current {@link RaceModel race}.
      *
-     * @return
+     * @return the current {@link RaceModel race}.
      */
     public RaceModel getRaceModel() {
         return raceModel;
     }
 
     /**
+     * Sets the current {@link RaceModel race}.
      *
-     * @param raceModel
+     * @param raceModel the {@link RaceModel race}.
      */
     public void setRaceModel(RaceModel raceModel) {
         this.raceModel = raceModel;

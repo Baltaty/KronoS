@@ -3,7 +3,9 @@ package com.kronos.module.main;
 import  com.gn.GNAvatarView;
 import com.jfoenix.controls.*;
 import com.kronos.App;
+import com.kronos.controller.DashboardController;
 import  com.kronos.global.plugin.ViewManager;
+import com.kronos.module.dashboard.Dashboard;
 import com.kronos.printview.PrinterModel;
 import com.sun.deploy.panel.RuleSetViewerDialog;
 import eu.hansolo.tilesfx.Tile;
@@ -26,12 +28,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.text.TextAlignment;
 import org.controlsfx.control.PopOver;
-import java.awt.event.KeyEvent;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -144,6 +147,9 @@ public class Main implements Initializable {
 
     private Parent popContent;
     public static Main ctrl;
+    public static boolean isControlSet;
+    private boolean changeRequest = false;
+    private boolean isTopControlSelected = true;
 
 
      @Override
@@ -794,8 +800,13 @@ public class Main implements Initializable {
      }
      @FXML
      private void EditPara(){
+         isControlSet = true;
          dialogPara.setVisible(true);
          JFXDialog alert1 = new JFXDialog(root, dialogPara, JFXDialog.DialogTransition.TOP);
+         endPara.setOnAction((ActionEvent event) -> {
+             alert1.close();
+             isControlSet = false;
+         });
          alert1.show();
      }
 
@@ -859,6 +870,47 @@ public class Main implements Initializable {
         body.setContent(ViewManager.getInstance().get("alerts"));
     }
 
-     public void handleChangeTopControl(ActionEvent event) {
+     /**
+      * Handles the change of top control.
+      *
+      * @param event the event
+      */
+     @FXML
+     private void handleChangeTopControl(ActionEvent event) {
+         changeRequest = true;
+         Alerts.info("CHANGEMENT TOP KEY", "Veuillez appuyer sur la nouvelle touche puis sour ok");
+         //scene.setOnKeyPressed();
+//        dialog_select_key.setVisible(true);
+//        JFXDialog alertkey= new JFXDialog(homestack,dialog_select_key,JFXDialog.DialogTransition.CENTER);
+         Scene scene = root.getScene();
+         EventHandler<javafx.scene.input.KeyEvent> e = new EventHandler<javafx.scene.input.KeyEvent>() {
+             @Override
+             public void handle(javafx.scene.input.KeyEvent event) {
+                 if (changeRequest) {
+                     KeyCode keyCode = event.getCode();
+                     File file = new File("top.properties");
+                     Properties properties = new Properties();
+                     try {
+                         if (!file.exists()) {
+
+                             file.createNewFile();
+                         } else {
+
+                             FileInputStream fileInputStream = new FileInputStream(file);
+                             properties.load(fileInputStream);
+                             properties.put("key", keyCode.toString());
+                             FileOutputStream fileOutputStream = new FileOutputStream(file);
+                             properties.store(fileOutputStream, "Top properties");
+                             topKey.setText(properties.getProperty("key"));
+                             changeRequest = false;
+                         }
+
+                     } catch (IOException e) {
+                         e.printStackTrace();
+                     }
+                 }
+             }
+         };
+         scene.addEventHandler(KeyEvent.KEY_PRESSED, e);
      }
  }

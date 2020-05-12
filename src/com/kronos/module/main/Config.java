@@ -217,7 +217,6 @@ public class Config implements Initializable {
         DashboardController.ctrl.startRace.setText((bundle.getString("start")));
         DashboardController.ctrl.pauseRace.setText((bundle.getString("pause")));
         DashboardController.ctrl.stopRace.setText((bundle.getString("stop")));
-        DashboardController.ctrl.i18n_panel.setText(bundle.getString("panel"));
         DashboardController.ctrl.i18n_details.setText(bundle.getString("details"));
         DashboardController.ctrl.i18n_currentPilot.setText(bundle.getString("pilot"));
         DashboardController.ctrl.i18n_currentPilotLastName.setText(bundle.getString("currentPilotLastName"));
