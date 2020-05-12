@@ -21,6 +21,7 @@ public class TopModel implements Top, Comparable<TopModel> {
     private String lapTime;
     private String raceTime;    // Time Of Top
     private int lap;    // Nombre de tour
+    private int topPosition;
 
     /**
      * Constructor.
@@ -35,7 +36,7 @@ public class TopModel implements Top, Comparable<TopModel> {
      * @param raceTime time in minutes since the beginning of the race
      * @param comment comment
      */
-    public TopModel (int carNumber, String time, String topType, String raceTime, String lapTime, String comment){
+    public TopModel (int carNumber, int topPosition, String time, String topType, String raceTime, String lapTime, String comment){
         this.id = System.currentTimeMillis();
         this.carNumber = carNumber;
         this.time = time;
@@ -43,6 +44,7 @@ public class TopModel implements Top, Comparable<TopModel> {
         this.raceTime = raceTime;
         this.lapTime = lapTime;
         this.comment = comment;
+        this.topPosition = topPosition;
     }
 
     /**
@@ -53,7 +55,7 @@ public class TopModel implements Top, Comparable<TopModel> {
      * @param lap lap when the top was triggered
      * @param comment comment
      */
-    public TopModel (int carNumber, String time, String topType, int lap, String lapTime, String comment) {
+    public TopModel (int carNumber, int topPosition, String time, String topType, int lap, String lapTime, String comment) {
         this.id = System.currentTimeMillis();
         this.carNumber = carNumber;
         this.time = time;
@@ -61,6 +63,7 @@ public class TopModel implements Top, Comparable<TopModel> {
         this.lap = lap;
         this.lapTime = lapTime;
         this.comment = comment;
+        this.topPosition = topPosition;
     }
 
 
@@ -192,6 +195,14 @@ public class TopModel implements Top, Comparable<TopModel> {
 
     @Override
     public int compareTo(TopModel o) {
-        return (Integer.compare(this.getLap(), o.getLap()));
+        return (Integer.compare(this.getTopPosition(), o.getTopPosition()));
+    }
+
+    public int getTopPosition() {
+        return topPosition;
+    }
+
+    public void setTopPosition(int topPosition) {
+        this.topPosition = topPosition;
     }
 }
