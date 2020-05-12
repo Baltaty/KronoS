@@ -770,8 +770,8 @@ public class Main implements Initializable {
          loadView("TimeSheet");
          body.setContent(ViewManager.getInstance().get("TimeSheet"));
          System.out.println("App: load method --- PrinterModel");
-         PrinterModel pt = new PrinterModel();
-         pt.print();
+//         PrinterModel pt = new PrinterModel();
+//         pt.print();
      }
     @FXML
     private void RaceData(){

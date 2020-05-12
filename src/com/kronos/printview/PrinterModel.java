@@ -69,7 +69,6 @@ public class PrinterModel {
         RaceModel raceModel = (RaceModel) App.getDataManager().getModels(RaceModel.class).get(0);
 
         if (raceModel != null) {
-            System.out.println(" not null");
             courseContent = new StringBuilder();
             courseContent.append("<div class=\"name\">Course : " + raceModel.getRaceName() + "</div>\n");
             courseContent.append("<div class=\"name\">Circuit : " + raceModel.getRacewayName() + "</div>\n");
@@ -102,8 +101,10 @@ public class PrinterModel {
                 infSup = new StringBuilder();
                 infSup.append("<h2 class=\"name\">" + pilot.getLastName() + " " + pilot.getFirstName() + ", </h2> \n");
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                String date = simpleDateFormat.format(pilot.getDateOfBirth());
-                infSup.append("<div class=\"address\">Date de Naissance : " + date + "</div>\n");
+                if((pilot.getDateOfBirth() != null)){
+                    String date = simpleDateFormat.format(pilot.getDateOfBirth());
+                    infSup.append("<div class=\"address\">Date de Naissance : " + date + "</div>\n");
+                }
                 infSup.append("<div class=\"address\">Poids : " + pilot.getWeight() + " kg </div>\n");
                 infSup.append("<div class=\"address\">Taille : " + pilot.getHeight() + " cm </div>\n");
                 infSup.append("<div class=\"address\">Commentaire : " + pilot.getComment() + "</div>\n");

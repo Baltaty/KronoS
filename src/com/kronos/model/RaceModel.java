@@ -157,11 +157,13 @@ public abstract class RaceModel implements Race {
         this.timeLapsSpent = timeLapsSpent;
     }
 
+    @XmlElement
     @Override
     public int getRelayInterval() {
         return relayInterval;
     }
 
+    @XmlElement
     @Override
     public int getDefaultMeanLapTime() {
         return defaultMeanLapTime;
