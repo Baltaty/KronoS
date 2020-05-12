@@ -43,20 +43,9 @@ public class FeuilleTempsController implements Initializable {
         printer =  new PrinterModel();
         try{
 
-            List <TopModel> topModel = (List<TopModel>) (List<?>) App.getDataManager().getModels(TopModel.class);
-            TopModel model = null;
-            for (TopModel test: topModel) {
-                if(test.getId().toString().equals("1589287435231")){
-                  model =  test;
-                  break;
-                }
-            }
-            App.getDataManager().delete(model, model.getId().toString());
-
-
-//            printer.print();
-//            createViewer(borderPane);
-//            openDocument(PATH);
+            printer.print();
+            createViewer(borderPane);
+            openDocument(PATH);
         }catch (Exception x){
                     x.printStackTrace();
         }

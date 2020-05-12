@@ -159,10 +159,6 @@ public class SaveManagerImpl implements SaveManager, Subject {
                 try {
                     SAXBuilder saxBuilder = new SAXBuilder();
                     Document doc = saxBuilder.build(new StringReader(importManager.getXtratable()));
-//                    System.out.println(importManager.getXtratable());
-//
-                    System.out.println("saveManager : updateTagInXMl : ");
-
                     if (id_object == null) {
                         doc.getRootElement().removeChild(tag);
                     } else {
@@ -170,27 +166,11 @@ public class SaveManagerImpl implements SaveManager, Subject {
                         Iterator<Element> it  = doc.getRootElement().getDescendants(filter).iterator();
                         while (it.hasNext()){
                             Element element = it.next();
-                            System.out.println(element.getTextNormalize());
-                            System.out.println(element.getChild("id").getValue());
                             if (element.getChild("id").getValue().equals(id_object)) {
                                 it.remove();
-//
                             }
                         }
-
-//                        for (Element element : doc.getRootElement().getDescendants(filter)) {
-//
-//                            if (element.getChild("id").getValue().equals(id_object)) {
-//                                // remove the specific node
-//                              boolean b =  doc.getRootElement().removeContent(element);
-//                                System.out.println(b);
-//                            }
-//
-//                        }
-
-
                     }
-
 
                     TransformerFactory tf = TransformerFactory.newInstance();
                     Transformer transformer = tf.newTransformer();
