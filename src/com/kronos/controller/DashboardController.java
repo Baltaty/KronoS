@@ -993,9 +993,7 @@ public class DashboardController implements Initializable, Observer {
         colLapNumber.setOnEditCommit(this::editLap);*/
 
         col_comment.setCellFactory(TextFieldTableCell.forTableColumn());
-        col_comment.setOnEditCommit(e -> {
-            e.getTableView().getItems().get(e.getTablePosition().getRow()).setComment(e.getNewValue());
-        });
+        col_comment.setOnEditCommit(this::editComment);
 
     }
 
@@ -1032,6 +1030,13 @@ public class DashboardController implements Initializable, Observer {
                     }
                 }
                 table_info.refresh();
+                topModels = raceModel.getTopsMap().get(carNumber);
+                int i = 0;
+                while(i < topModels.size()) {
+                    App.getDataManager().persist(topModels.get(i));
+                    i++;
+                }
+                App.getDataManager().saveFile();
             } else {
                 table_info.refresh();
                 Alerts.error("ERREUR", "Type de top invalide");
@@ -1063,11 +1068,6 @@ public class DashboardController implements Initializable, Observer {
                     int newPos = findTopNewPositionOnCarNumberChange(topModels, top.getTime());
                     if (newPos < topModels.size()) {
                         topModels.add(newPos, top);
-                        int i = newPos;
-                        while(i < topModels.size()) {
-                            topModels.get(i).setTopPosition(i);
-                            i++;
-                        }
                     } else {
                         topModels.add(top);
                         top.setTopPosition(raceModel.getTopsMap().get(newCarNumber).size() -1);
@@ -1075,7 +1075,13 @@ public class DashboardController implements Initializable, Observer {
                     recalculateLapTime(topModels);
                     updateTopLogic(newCarNumber, newPos, false);
                     table_info.refresh();
-                    saveTopModel(top);
+                    int i = 0;
+                    while(i < topModels.size()) {
+                        topModels.get(i).setTopPosition(i);
+                        App.getDataManager().persist(topModels.get(i));
+                        i++;
+                    }
+                    App.getDataManager().saveFile();
                 } else {
                     table_info.refresh();
                     Alerts.error("ERREUR", "Cette voiture n'existe pas");
@@ -1123,17 +1129,11 @@ public class DashboardController implements Initializable, Observer {
                 if (newPos < topModels.size()) {
                     topModels.remove(index);
                     topModels.add(newPos, top);
-                    int i = newPos;
-                    while(i < topModels.size()) {
-                        topModels.get(i).setTopPosition(i);
-                        i++;
-                    }
                     updateTopLogic(carNumber, newPos, false);
 
                 } else {
                     topModels.remove(index);
                     topModels.add(top);
-                    topModels.get(newPos).setTopPosition(newPos);
                     updateTopLogic(carNumber, newPos, false);
                 }
 
@@ -1148,7 +1148,14 @@ public class DashboardController implements Initializable, Observer {
                 table_info.getSortOrder().add(col_time);
                 table_info.sort();
                 table_info.getSortOrder().remove(col_time);
-                saveTopModel(top);
+                int i = 0;
+                while(i < topModels.size()) {
+                    topModels.get(i).setTopPosition(i);
+                    App.getDataManager().persist(topModels.get(i));
+                    i++;
+                }
+                App.getDataManager().saveFile();
+
             } else {
                 table_info.refresh();
                 Alerts.error("ERROR", "Top initial: modification du temps du top impossible");
@@ -1205,7 +1212,13 @@ public class DashboardController implements Initializable, Observer {
                     top.setLapTime(newLapTime);
                 }
                 table_info.refresh();
-                saveTopModel(top);
+                i = 0;
+                while(i < topModels.size()) {
+                    App.getDataManager().persist(topModels.get(i));
+                    i++;
+                }
+                App.getDataManager().saveFile();
+
             } else {
                 table_info.refresh();
                 Alerts.error("ERREUR", "Top initial: temps au tour non modifiable");
@@ -1215,6 +1228,22 @@ public class DashboardController implements Initializable, Observer {
             table_info.refresh();
             Alerts.error("ERREUR", "Format de temps à respecter: mm:ss:mm");
         }
+    }
+
+    /**
+     * Edit the {@link TopModel top} comment.
+     * @param event the {@link ActionEvent edit event}.
+     */
+    private void editComment(TableColumn.CellEditEvent<TopModel, String> event) {
+        int row = event.getTableView().getSelectionModel().selectedIndexProperty().get();
+        int carNumber = event.getTableView().getItems().get(row).getCarNumber();
+        long topId = event.getTableView().getItems().get(row).getId();
+        ArrayList<TopModel> topModels = raceModel.getTopsMap().get(carNumber);
+        int index = findTopIndexWithId(carNumber, topId);
+        String newComment = event.getNewValue();
+        topModels.get(index).setComment(newComment);
+        table_info.refresh();
+        saveTopModel(topModels.get(index));
     }
 
     /**
@@ -1591,35 +1620,42 @@ public class DashboardController implements Initializable, Observer {
      * @param topId     the {@link TopModel top} id.
      */
     private void removeTop(int carNumber, long topId) {
-        ArrayList<TopModel> topModels = raceModel.getTopsMap().get(carNumber);
-        int index = findTopIndexWithId(carNumber, topId);
-        if (index != 0) {
-            TopModel currentTop = topModels.get(index);
-            CarModel carModel = carController.findCar(carModels, carNumber);
-            carModel.getTopList().remove(currentTop);
-            topModels.remove(currentTop);
-            updateTopLogic(carNumber, 0, true);
-            recalculateLapTime(topModels);
-            if (raceModel instanceof LapRace) {
-                recalculateLaps(topModels, carNumber);
-            } else {
-                if (carModel instanceof MainCarModel) {
-                    if (!currentTop.getTopType().equals("I")) {
-                        numberOfLapsDone--;
-                        incrementPanel(topModels.get(topModels.size() - 1).getLapTime());
+        if(raceModel.getRaceState().equals(RaceState.IN_PROGRESS)) {
+            ArrayList<TopModel> topModels = raceModel.getTopsMap().get(carNumber);
+            int index = findTopIndexWithId(carNumber, topId);
+            if (index != 0) {
+                TopModel currentTop = topModels.get(index);
+                CarModel carModel = carController.findCar(carModels, carNumber);
+                carModel.getTopList().remove(currentTop);
+                topModels.remove(currentTop);
+                updateTopLogic(carNumber, 0, true);
+                recalculateLapTime(topModels);
+                if (raceModel instanceof LapRace) {
+                    recalculateLaps(topModels, carNumber);
+                } else {
+                    if (carModel instanceof MainCarModel) {
+                        if (!currentTop.getTopType().equals("I")) {
+                            numberOfLapsDone--;
+                            incrementPanel(topModels.get(topModels.size() - 1).getLapTime());
+                        }
                     }
                 }
+                App.getDataManager().delete(currentTop, Long.toString(topId));
+                int i = 0;
+                while(i < topModels.size()) {
+                    topModels.get(i).setTopPosition(i);
+                    App.getDataManager().persist(topModels.get(i));
+                    i++;
+                }
+                App.getDataManager().saveFile();
+                table_info.refresh();
+            } else {
+                table_info.refresh();
+                Alerts.error("ERREUR", "Impossible de supprimer le top initial");
             }
-            int i = 0;
-            while(i < topModels.size()) {
-                topModels.get(i).setTopPosition(i);
-                i++;
-            }
-            App.getDataManager().delete(currentTop);
-            table_info.refresh();
-        } else {
-            table_info.refresh();
-            Alerts.error("ERREUR", "Impossible de supprimer le top initial");
+        }
+        else {
+            Alerts.error("ERREUR", "Impossible de supprimer un top une fois la course terminée");
         }
     }
 

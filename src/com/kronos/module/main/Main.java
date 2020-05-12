@@ -1,17 +1,13 @@
 package com.kronos.module.main;
 
-import  com.gn.GNAvatarView;
+import com.gn.GNAvatarView;
 import com.jfoenix.controls.*;
-import com.kronos.App;
-import com.kronos.controller.DashboardController;
-import  com.kronos.global.plugin.ViewManager;
-import com.kronos.module.dashboard.Dashboard;
-import com.kronos.printview.PrinterModel;
-import com.sun.deploy.panel.RuleSetViewerDialog;
-import eu.hansolo.tilesfx.Tile;
+import com.kronos.global.plugin.ViewManager;
+import com.kronos.global.util.Alerts;
+/*import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
 import eu.hansolo.tilesfx.skins.LeaderBoardItem;
-import eu.hansolo.tilesfx.tools.FlowGridPane;
+import eu.hansolo.tilesfx.tools.FlowGridPane;*/
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -44,7 +40,6 @@ import java.time.LocalTime;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
-import com.kronos.global.util.Alerts;
 
  /**
  * @author TeamKronos
@@ -105,7 +100,7 @@ public class Main implements Initializable {
     @FXML private JFXDialogLayout dialogEdit;
     @FXML private JFXDialogLayout dialogPara   = new JFXDialogLayout();
      public static ObservableList<String> stylesheets;
-     private FlowGridPane pane;
+     /*private FlowGridPane pane;
      private FlowGridPane pane1;
      private FlowGridPane pane3;
      private FlowGridPane pane4;
@@ -124,7 +119,7 @@ public class Main implements Initializable {
      private LeaderBoardItem leaderBoardItem1;
      private LeaderBoardItem leaderBoardItem2;
      private LeaderBoardItem leaderBoardItem3;
-     private LeaderBoardItem leaderBoardItem4;
+     private LeaderBoardItem leaderBoardItem4;*/
      private static final    double TILE_WIDTH  = 300;
      private static final    double TILE_HEIGHT = 200;
      private GridPane grid;
@@ -180,7 +175,7 @@ public class Main implements Initializable {
          /////////// TEST DE FABRICE A NE PAS TOUCHER PLEASE ///////////
 
         // LeaderBoard Items
-        leaderBoardItem1 = new LeaderBoardItem("Elise CHAPON", 47);
+        /*leaderBoardItem1 = new LeaderBoardItem("Elise CHAPON", 47);
         leaderBoardItem2 = new LeaderBoardItem("Emile GEORGET", 43);
         leaderBoardItem3 = new LeaderBoardItem("Fabrice TRA", 12);
         leaderBoardItem4 = new LeaderBoardItem("Olivier KOKO", 8);
@@ -352,7 +347,7 @@ public class Main implements Initializable {
         grid.add(finalpane,0,0);
         grid.setMinSize(body.getWidth(),body.getHeight());
         //body.setBackground(new Background(new BackgroundFill(Color.web("red"), CornerRadii.EMPTY, Insets.EMPTY)));
-         //body.setContent(grid);
+         //body.setContent(grid);*/
 
 
         /////////// FIN DE LA ZONE DE TEST ///////////
