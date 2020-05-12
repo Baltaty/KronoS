@@ -63,7 +63,6 @@
         private static PilotController pilotcontroller = new PilotController();
         private static CarController carController = new CarController();
         private static Boolean changeRequest;
-
         @FXML
         JFXDatePicker dateOfBirthPilot;
         private ArrayList<PilotModel> pilotsList = new ArrayList<>();
@@ -221,6 +220,8 @@
         private JFXTextField t_m_autour;
         @FXML
         private JFXTextField tour_relai;
+        @FXML
+        private JFXButton changeTopkeyButton;
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////
         private RaceType typeOfRace;
@@ -798,6 +799,10 @@
                 raceNumberOfLaps.setVisible(true);
                 raceDurationLabel.setVisible(false);
                 raceDuration.setVisible(false);
+                t_m_autour_label.setVisible(true);
+                t_m_autour.setVisible(true);
+                tour_relai_label.setVisible(true);
+                tour_relai.setVisible(true);
                 typeOfRace = com.kronos.global.enums.RaceType.LAP_RACE;
 
             } else {
@@ -848,7 +853,6 @@
                         }
                     }
                 }
-
 
             } else {
 
