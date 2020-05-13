@@ -77,6 +77,16 @@ public class SaveManagerImpl implements SaveManager, Subject {
     private static final String CONTENT_TAG = "<data>", CONTENT_END_TAG = "</data>";
 
 
+    private boolean isRunnable = false;
+
+    public boolean isRunnable() {
+        return isRunnable;
+    }
+
+    public void setRunnable(boolean runnable) {
+        isRunnable = runnable;
+    }
+
     public ImportManagerImpl getImportManager() {
         return this.importManager;
     }
@@ -147,9 +157,11 @@ public class SaveManagerImpl implements SaveManager, Subject {
 
                 if (TopModel.class.isInstance(object)) {
                     TopModel top = (TopModel) object;
-                    this.updateTagInXML(object, model, top.getId().toString());
+                    ProccessSave saveThread = new ProccessSave(object, model, top.getId().toString());
+                    saveThread.start();
                 } else {
-                    this.updateTagInXML(object, model, null);
+                    ProccessSave saveThread = new ProccessSave(object, model, null);
+                    saveThread.start();
                 }
                 mapOfbeans.put(object, Boolean.TRUE);
             }
@@ -162,73 +174,72 @@ public class SaveManagerImpl implements SaveManager, Subject {
     }
 
 
-    protected void updateTagInXML(Object object, String tag, String id_object) {
+    protected synchronized void updateTagInXML(Object object, String tag, String id_object) {
+        try {
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    SAXBuilder saxBuilder = new SAXBuilder();
-                    Document doc = saxBuilder.build(new StringReader(importManager.getXtratable()));
+            while (isRunnable) {
+                wait();
+            }
+            isRunnable = true;
+            SAXBuilder saxBuilder = new SAXBuilder();
+            Document doc = saxBuilder.build(new StringReader(importManager.getXtratable()));
 
-                    if (!LapRaceModel.class.isInstance(object)) {
-                        System.out.println("================================= ============================");
-                        System.out.println(object.getClass().getName());
-                        System.out.println("=== Before  updateTagInXml : ===");
-                        System.out.println(importManager.getXtratable());
-                        System.out.println("================================= ============================");
+            if (!LapRaceModel.class.isInstance(object)) {
+                System.out.println("================================= ============================");
+                System.out.println(object.getClass().getName());
+                System.out.println("=== Before  updateTagInXml : ===");
+                System.out.println(importManager.getXtratable());
+                System.out.println("================================= ============================");
 
+            }
+
+            if (id_object == null) {
+                doc.getRootElement().removeChild(tag);
+            } else {
+                ElementFilter filter = new ElementFilter(tag);
+                Iterator<Element> it = doc.getRootElement().getDescendants(filter).iterator();
+                while (it.hasNext()) {
+                    Element element = it.next();
+                    if (element.getChild("id").getValue().equals(id_object)) {
+                        it.remove();
                     }
+                }
+            }
 
-                    if (id_object == null) {
-                        doc.getRootElement().removeChild(tag);
-                    } else {
-                        ElementFilter filter = new ElementFilter(tag);
-                        Iterator<Element> it  = doc.getRootElement().getDescendants(filter).iterator();
-                        while (it.hasNext()){
-                            Element element = it.next();
-                            if (element.getChild("id").getValue().equals(id_object)) {
-                                it.remove();
-                            }
-                        }
-                    }
-
-                    TransformerFactory tf = TransformerFactory.newInstance();
-                    Transformer transformer = tf.newTransformer();
-                    transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-                    StringWriter writer = new StringWriter();
-                    transformer.transform(new JDOMSource(doc), new StreamResult(writer));
-                    String output = writer.getBuffer().toString();
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer transformer = tf.newTransformer();
+            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+            StringWriter writer = new StringWriter();
+            transformer.transform(new JDOMSource(doc), new StreamResult(writer));
+            String output = writer.getBuffer().toString();
 
 
 //                    System.out.println("************ after delete data *****************");
-                    StringBuilder obj = parser.parseModel(object);
-                    output = output.replaceAll("<data>", "");
-                    output = output.replaceAll("</data>", "");
-                    output = XML_STANDARD_TAG + output + obj.toString();
+            StringBuilder obj = parser.parseModel(object);
+            output = output.replaceAll("<data>", "");
+            output = output.replaceAll("</data>", "");
+            output = XML_STANDARD_TAG + output + obj.toString();
 
-                    if (!LapRaceModel.class.isInstance(object)) {
-                        System.out.println("================================= ============================");
-                        System.out.println("After updateTagInXml");
-                        System.out.println(output);
-                        System.out.println("================================= ============================");
+            if (!LapRaceModel.class.isInstance(object)) {
+                System.out.println("================================= ============================");
+                System.out.println("After updateTagInXml");
+                System.out.println(output);
+                System.out.println("================================= ============================");
 
-                    }
+            }
 
 
 
                     BufferedWriter bufferedWriterwriter = new BufferedWriter(new FileWriter(PATH));
                     bufferedWriterwriter.write(output);
                     bufferedWriterwriter.close();
-
-
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-            }
-        }).start();
-
+        isRunnable =  false;
+        notify();
     }
+
 
     /**
      *
