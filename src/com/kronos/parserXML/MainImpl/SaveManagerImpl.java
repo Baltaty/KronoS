@@ -174,7 +174,7 @@ public class SaveManagerImpl implements SaveManager, Subject {
     }
 
 
-    protected synchronized void updateTagInXML(Object object, String tag, String id_object) {
+    protected synchronized void updateTagInXML(Object object, String tag, String id_object, boolean isModif) {
         try {
 
             while (isRunnable) {
@@ -183,15 +183,6 @@ public class SaveManagerImpl implements SaveManager, Subject {
             isRunnable = true;
             SAXBuilder saxBuilder = new SAXBuilder();
             Document doc = saxBuilder.build(new StringReader(importManager.getXtratable()));
-
-            if (!LapRaceModel.class.isInstance(object)) {
-                System.out.println("================================= ============================");
-                System.out.println(object.getClass().getName());
-                System.out.println("=== Before  updateTagInXml : ===");
-                System.out.println(importManager.getXtratable());
-                System.out.println("================================= ============================");
-
-            }
 
             if (id_object == null) {
                 doc.getRootElement().removeChild(tag);
@@ -215,7 +206,11 @@ public class SaveManagerImpl implements SaveManager, Subject {
 
 
 //                    System.out.println("************ after delete data *****************");
-            StringBuilder obj = parser.parseModel(object);
+
+            StringBuilder obj = new StringBuilder("");
+            if(isModif){
+                 obj = parser.parseModel(object);
+            }
             output = output.replaceAll("<data>", "");
             output = output.replaceAll("</data>", "");
             output = XML_STANDARD_TAG + output + obj.toString();
@@ -415,7 +410,7 @@ public class SaveManagerImpl implements SaveManager, Subject {
         try {
             if (mapOfbeans.containsKey(object)){
                 String model = this.importManager.getModelName(object.getClass().getName());
-                this.updateTagInXML(object, model, id);
+                this.updateTagInXML(object, model, id, false);
                 isDone = true;
             }
         }catch (Exception e){

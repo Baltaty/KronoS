@@ -39,6 +39,6 @@ public class ProccessSave extends  Thread {
     }
 
     public void save() {
-        this.saveManager.updateTagInXML(this.object,this.tag, this.id_object);
+        this.saveManager.updateTagInXML(this.object,this.tag, this.id_object , true);
     }
 }
