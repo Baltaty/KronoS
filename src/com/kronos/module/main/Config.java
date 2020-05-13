@@ -244,6 +244,11 @@ public class Config implements Initializable {
         DashboardController.ctrl.col_typetop.setText(bundle.getString("colTypetop"));
         DashboardController.ctrl.col_comment.setText(bundle.getString("colComment"));
 
+        DashboardController.ctrl.i18n_panelTitle.setText(bundle.getString("panelCarNumber"));
+        DashboardController.ctrl.i18n_panelRemainingLaps.setText(bundle.getString("panelRemainingLaps"));
+        DashboardController.ctrl.i18n_panelTime.setText(bundle.getString("panelTime"));
+        DashboardController.ctrl.i18n_panelState.setText(bundle.getString("panelState"));
+
 
 
     }

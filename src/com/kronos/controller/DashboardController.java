@@ -128,6 +128,8 @@ public class DashboardController implements Initializable, Observer {
     @FXML
     public TableColumn<TopModel, Integer> colLapNumber;
     @FXML
+    public TableColumn<TopModel, Integer> colTopPosition;
+    @FXML
     public JFXToggleButton toogleedit;
     PulseTransition pulseTransition;
     MainCarModel mycar;
@@ -174,6 +176,14 @@ public class DashboardController implements Initializable, Observer {
     private Label state;
     @FXML
     private Label time;
+    @FXML
+    public Label i18n_panelTitle;
+    @FXML
+    public Label i18n_panelRemainingLaps;
+    @FXML
+    public Label i18n_panelTime;
+    @FXML
+    public Label i18n_panelState;
     @FXML
     private TableView<TopModel> table_info;
     @FXML
@@ -281,8 +291,6 @@ public class DashboardController implements Initializable, Observer {
         }
         if (!getRace().isEmpty()) {
             raceModel = getRace().get(0);
-
-
         }
 
         if (raceModel instanceof TimeRace) {
@@ -380,7 +388,6 @@ public class DashboardController implements Initializable, Observer {
                 car.getSelectionModel().select(Integer.toString(numberMainCar));
                 if (!topModelList.isEmpty()) {
                     for (TopModel topModel : topModelList) {
-                        loadData(topModel);
                         topModels.add(topModel);
                         int muniteteToLoad = Integer.parseInt(topModel.getLapTime().substring(0, 2));
                         int secondeToLoad = Integer.parseInt(topModel.getLapTime().substring(3, 5));
@@ -396,11 +403,20 @@ public class DashboardController implements Initializable, Observer {
                     }
                 }
             }
-
+            if(!topModelList.isEmpty()) {
+                for(TopModel top : raceModel.getTopsMap().get(carmodel.getNumber())) {
+                    loadData(top);
+                }
+            }
+            table_info.getSortOrder().add(col_time);
+            table_info.sort();
+            table_info.getSortOrder().remove(col_time);
+            table_info.getSortOrder().add(colTopPosition);
+            table_info.sort();
+            table_info.getSortOrder().remove(colTopPosition);
+            table_info.refresh();
         }
 
-
-        raceModel.setTopsMap(topsMaps);
         maincarinformation();
         departureHour.setText(time2.format(dtf));
         Timeline clock = new Timeline(new KeyFrame(Duration.millis(1000), e -> getCurrentTime()));
@@ -446,6 +462,10 @@ public class DashboardController implements Initializable, Observer {
         });
 
 
+    }
+
+    private boolean compareTops(ArrayList<TopModel> oldTops, ArrayList<TopModel> newTops, int index) {
+        return  oldTops.get(index).equals(newTops.get(index));
     }
 
     /**
@@ -773,14 +793,14 @@ public class DashboardController implements Initializable, Observer {
         for (CarModel carModel : followedCars) {
             if (!(carModel instanceof MainCarModel)) {
                 if (raceModel instanceof TimeRace) {
-                    TopModel topModelFirstTop = new TopModel(carModel.getNumber(),0, dateTimeFirstTop, "O", localSpentTime.format(dtf), localTimeFirstTop.format(dtf), "Fist Top");
+                    TopModel topModelFirstTop = new TopModel(carModel.getNumber(),0, dateTimeFirstTop, "O", localSpentTime.format(dtf), localTimeFirstTop.format(dtf), "");
                     handleTopTimeRace(topModelFirstTop, carModel.getNumber());
                     loadData(topModelFirstTop);
                     carModel.getTopList().add(topModelFirstTop);
                     saveTopModel(topModelFirstTop);
 
                 } else {
-                    TopModel topModelFirstTop = new TopModel(carModel.getNumber(),0, dateTimeFirstTop, "O", 0, localTimeFirstTop.format(dtf), "Fist Top");
+                    TopModel topModelFirstTop = new TopModel(carModel.getNumber(),0, dateTimeFirstTop, "O", 0, localTimeFirstTop.format(dtf), "");
                     handleTopLapRace(topModelFirstTop, carModel.getNumber());
                     loadData(topModelFirstTop);
                     carModel.getTopList().add(topModelFirstTop);
@@ -945,7 +965,9 @@ public class DashboardController implements Initializable, Observer {
         colLapNumber.setCellValueFactory(new PropertyValueFactory<>("lap"));
         col_time.setCellValueFactory(new PropertyValueFactory<>("time"));
         col_comment.setCellValueFactory(new PropertyValueFactory<>("comment"));
+        colTopPosition.setCellValueFactory(new PropertyValueFactory<>("topPosition"));
         col_time.setSortType(TableColumn.SortType.DESCENDING);
+        colTopPosition.setSortType(TableColumn.SortType.DESCENDING);
         col_delete.setCellFactory(cellFactory);
 
         editableCols();
@@ -1006,15 +1028,18 @@ public class DashboardController implements Initializable, Observer {
         int row = event.getTableView().getSelectionModel().selectedIndexProperty().get();
         int carNumber = event.getTableView().getItems().get(row).getCarNumber();
         long topId = event.getTableView().getItems().get(row).getId();
+        int index = findTopIndexWithId(carNumber, topId);
         String oldTopType = event.getOldValue();
         String newTopType = event.getNewValue();
+        ArrayList<TopModel> oldTops = raceModel.getTopsMap().get(carNumber);
         ArrayList<TopModel> topModels = raceModel.getTopsMap().get(carNumber);
         if (!oldTopType.equals(newTopType)) {
             if ((newTopType.equals("I") || newTopType.equals("O") || newTopType.equals("R"))) {
-                event.getTableView().getItems().get(event.getTablePosition().getRow()).setTopType(newTopType);
+                topModels.get(index).setTopType(newTopType);
                 if (!checkTopLogicOnEdit(carNumber, topId)) {
                     updateTopLogic(carNumber, findTopIndexWithId(carNumber, topId), false);
                 }
+                topModels = raceModel.getTopsMap().get(carNumber);
                 if (raceModel instanceof LapRaceModel) {
                     recalculateLaps(topModels, carNumber);
                 } else {
@@ -1029,14 +1054,16 @@ public class DashboardController implements Initializable, Observer {
                         }
                     }
                 }
-                table_info.refresh();
                 topModels = raceModel.getTopsMap().get(carNumber);
+                table_info.refresh();
+                for(TopModel top : topModels) {
+                    System.out.println(top.getTopType());
+                }
                 int i = 0;
                 while(i < topModels.size()) {
                     App.getDataManager().persist(topModels.get(i));
                     i++;
                 }
-                App.getDataManager().saveFile();
             } else {
                 table_info.refresh();
                 Alerts.error("ERREUR", "Type de top invalide");
