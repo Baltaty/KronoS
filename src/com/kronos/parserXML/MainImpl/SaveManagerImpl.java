@@ -2,6 +2,8 @@ package com.kronos.parserXML.MainImpl;
 
 import com.kronos.api.Observer;
 import com.kronos.api.Subject;
+import com.kronos.model.LapRaceModel;
+import com.kronos.model.TopModel;
 import com.kronos.parserXML.api.SaveManager;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -113,8 +115,13 @@ public class SaveManagerImpl implements SaveManager, Subject {
     @Override
     public void persist(final Object modelToSave) {
         Objects.requireNonNull(modelToSave);
-        if (this.updateObject(modelToSave))
-        mapOfbeans.put(modelToSave, Boolean.FALSE);
+
+        if (mapOfbeans.containsKey(modelToSave)) {
+            this.updateObject(modelToSave);
+        } else {
+            mapOfbeans.put(modelToSave, Boolean.FALSE);
+        }
+
     }
 
     /**
@@ -132,12 +139,19 @@ public class SaveManagerImpl implements SaveManager, Subject {
     private boolean updateObject(Object object){
         boolean isDone =  true;
         try {
+
+
             if (mapOfbeans.containsKey(object)) {
 
                 String model = this.importManager.getModelName(object.getClass().getName());
-                this.updateTagInXML(model , null);
-                mapOfbeans.put(object, false);
 
+                if (TopModel.class.isInstance(object)) {
+                    TopModel top = (TopModel) object;
+                    this.updateTagInXML(object, model, top.getId().toString());
+                } else {
+                    this.updateTagInXML(object, model, null);
+                }
+                mapOfbeans.put(object, Boolean.TRUE);
             }
 
         }catch (Exception e){
@@ -148,10 +162,7 @@ public class SaveManagerImpl implements SaveManager, Subject {
     }
 
 
-    protected void edditFile() {
-    }
-
-    protected void updateTagInXML(String tag, String id_object) {
+    protected void updateTagInXML(Object object, String tag, String id_object) {
 
         new Thread(new Runnable() {
             @Override
@@ -159,6 +170,16 @@ public class SaveManagerImpl implements SaveManager, Subject {
                 try {
                     SAXBuilder saxBuilder = new SAXBuilder();
                     Document doc = saxBuilder.build(new StringReader(importManager.getXtratable()));
+
+                    if (!LapRaceModel.class.isInstance(object)) {
+                        System.out.println("================================= ============================");
+                        System.out.println(object.getClass().getName());
+                        System.out.println("=== Before  updateTagInXml : ===");
+                        System.out.println(importManager.getXtratable());
+                        System.out.println("================================= ============================");
+
+                    }
+
                     if (id_object == null) {
                         doc.getRootElement().removeChild(tag);
                     } else {
@@ -181,10 +202,21 @@ public class SaveManagerImpl implements SaveManager, Subject {
 
 
 //                    System.out.println("************ after delete data *****************");
+                    StringBuilder obj = parser.parseModel(object);
                     output = output.replaceAll("<data>", "");
                     output = output.replaceAll("</data>", "");
-                    output = XML_STANDARD_TAG + output;
-//                    System.out.println(output);
+                    output = XML_STANDARD_TAG + output + obj.toString();
+
+                    if (!LapRaceModel.class.isInstance(object)) {
+                        System.out.println("================================= ============================");
+                        System.out.println("After updateTagInXml");
+                        System.out.println(output);
+                        System.out.println("================================= ============================");
+
+                    }
+
+
+
                     BufferedWriter bufferedWriterwriter = new BufferedWriter(new FileWriter(PATH));
                     bufferedWriterwriter.write(output);
                     bufferedWriterwriter.close();
@@ -372,7 +404,7 @@ public class SaveManagerImpl implements SaveManager, Subject {
         try {
             if (mapOfbeans.containsKey(object)){
                 String model = this.importManager.getModelName(object.getClass().getName());
-                this.updateTagInXML(model , id);
+                this.updateTagInXML(object, model, id);
                 isDone = true;
             }
         }catch (Exception e){
@@ -382,20 +414,6 @@ public class SaveManagerImpl implements SaveManager, Subject {
         return isDone;
     }
 
-    public boolean delete(Object object ){
-        boolean isDone = false;
-        try {
-            if (mapOfbeans.containsKey(object)){
-                String model = this.importManager.getModelName(object.getClass().getName());
-                this.updateTagInXML(model , null);
-                isDone = true;
-            }
-        }catch (Exception e){
-            isDone = false;
-            e.printStackTrace();
-        }
-        return isDone;
-    }
 
 
 }
