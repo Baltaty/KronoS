@@ -320,7 +320,14 @@ public class ImportManagerImpl implements ImportManager {
             }
             App.getDataManager().clear();
 
+
+            System.out.println("*******to load file data incuding **********");
+            System.out.println(App.getDataManager().getListOfBeans().size());
+
             App.getDataManager().persist(models, Boolean.TRUE);
+
+            System.out.println("*******to load file data incuding **********");
+            System.out.println(App.getDataManager().getListOfBeans().size());
             App.getDataManager().setPATH(this.fileXML.getPath());
 
         } catch (Exception ex) {
