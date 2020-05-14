@@ -432,17 +432,6 @@ public class HomeController implements Initializable {
         loadDashBoardController("Dashboard");
         //Stage stage = (Stage) startBtn.getScene().getWindow();
         stylesheets = App.getDecorator().getScene().getStylesheets();
-//            stylesheets.addAll(
-//                    getClass().getResource("/com/kronos/theme/css/fonts.css").toExternalForm(),
-//                    getClass().getResource("/com/kronos/theme/css/material-color.css").toExternalForm(),
-//                    //getClass().getResource("/com/kronos/theme/css/skeleton.css").toExternalForm(),
-//                    getClass().getResource("/com/kronos/theme/css/light.css").toExternalForm(),
-//                    getClass().getResource("/com/kronos/theme/css/bootstrap.css").toExternalForm(),
-//                    getClass().getResource("/com/kronos/theme/css/shape.css").toExternalForm(),
-//                    getClass().getResource("/com/kronos/theme/css/typographic.css").toExternalForm(),
-//                    getClass().getResource("/com/kronos/theme/css/helpers.css").toExternalForm(),
-//                    getClass().getResource("/com/kronos/theme/css/master.css").toExternalForm()
-//            );
         App.getDecorator().setMaximized(true);
         App.getDecorator().setResizable(true);
         App.getDecorator().setContent(ViewManager.getInstance().get("main"));
@@ -469,18 +458,6 @@ public class HomeController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         ctrl = this;
 
-//             WobbleTransition fade=new WobbleTransition(appname1);
-//             fade.setDelay(Duration.seconds(3));
-//             fade.setRate(0.1);
-//             fade.setCycleCount(WobbleTransition.INDEFINITE);
-//             fade.play();
-//
-            /*Alerts.warning("test titre","le test est super", new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    System.out.println("mouse click detected! "+event.getSource());
-                }
-                });*/
         ////// SCALE BOUTON DEMARRER
         ScaleTransition scalestart = new ScaleTransition(Duration.seconds(1), startBtn);
         scalestart.setToX(1.2);
