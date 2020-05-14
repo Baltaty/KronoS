@@ -408,12 +408,9 @@ public class DashboardController implements Initializable, Observer {
                     loadData(top);
                 }
             }
-            table_info.getSortOrder().add(col_time);
+            table_info.getSortOrder().addAll(col_time, colTopPosition);
             table_info.sort();
-            table_info.getSortOrder().remove(col_time);
-            table_info.getSortOrder().add(colTopPosition);
-            table_info.sort();
-            table_info.getSortOrder().remove(colTopPosition);
+            table_info.getSortOrder().removeAll(col_time,colTopPosition);
             table_info.refresh();
         }
 
