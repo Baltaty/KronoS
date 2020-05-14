@@ -96,7 +96,7 @@ public class SaveManagerImpl implements SaveManager, Subject {
      */
     private SaveManagerImpl() {
         mapOfbeans = new HashMap<>();
-
+        creatData(PATH);
         parser = new ModelParser();
         PATH += "course_numero-" + new Date().getTime() + ".xml";
         importManager = new ImportManagerImpl(PATH);
@@ -104,6 +104,24 @@ public class SaveManagerImpl implements SaveManager, Subject {
 
     }
 
+
+    private boolean creatData(String path){
+        boolean isDir =  false;
+        try {
+            File file = new File(path);
+            if (file.exists() && file.isDirectory()) {
+//                System.out.println("is directory ");
+                isDir =  true;
+            } else {
+//                System.out.println("not  create directory");
+               isDir = file.mkdirs();
+            }
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return isDir;
+    }
 
     /**
      * @return singleton instance of SaveManagerImpl
