@@ -34,8 +34,16 @@ public interface Race {
      */
     String getRaceName();
 
+    /**
+     * Gets the relay interval in the {@link Race race};
+     * @return the relay interval.
+     */
     int getRelayInterval();
 
+    /**
+     * Gets the average lap time in the {@link Race race};
+     * @return the average lap time.
+     */
     int getDefaultMeanLapTime();
 
 }

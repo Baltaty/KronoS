@@ -29,6 +29,8 @@ import java.util.regex.Pattern;
  */
 public class ImportManagerImpl implements ImportManager {
 
+    int numberOfTops = 0;
+
 
     private String[] allModels = {"ConfigModel", "LapRaceModel", "MainCarModel", "PilotModel", "PrintModel"
             , "RaceModel", "RivalCarModel", "TimeRaceModel", "TopModel"};
@@ -135,6 +137,7 @@ public class ImportManagerImpl implements ImportManager {
                             case 8:
                                 TopModel topModel = (TopModel) objectClass;
                                 models.add(topModel);
+                                numberOfTops++;
                                 break;
 
                             default:
@@ -177,12 +180,13 @@ public class ImportManagerImpl implements ImportManager {
                 else{
                     ArrayList<TopModel> topModelList = new ArrayList<>();
                     topModelList.add(model);
-                    Collections.sort(topModelList);
+                   Collections.sort(topModelList);
                     topsMap.put(numberOfcar, topModelList);
                 }
 
             }
         }
+
 
 
         for(Object object : datas){
@@ -192,7 +196,8 @@ public class ImportManagerImpl implements ImportManager {
                 raceModel.getTopsMap().putAll(topsMap);
 //                System.out.println(" ===== ImportManager checkObject : je suis issue de Racemodel : " + object.toString()  );
 //                System.out.println(raceModel.getTopsMap().toString());
-                break;
+
+                    break;
             }
         }
 
@@ -315,7 +320,14 @@ public class ImportManagerImpl implements ImportManager {
             }
             App.getDataManager().clear();
 
+
+            System.out.println("*******to load file data incuding **********");
+            System.out.println(App.getDataManager().getListOfBeans().size());
+
             App.getDataManager().persist(models, Boolean.TRUE);
+
+            System.out.println("*******to load file data incuding **********");
+            System.out.println(App.getDataManager().getListOfBeans().size());
             App.getDataManager().setPATH(this.fileXML.getPath());
 
         } catch (Exception ex) {

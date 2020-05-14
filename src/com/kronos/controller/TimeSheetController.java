@@ -23,7 +23,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class FeuilleTempsController implements Initializable {
+public class TimeSheetController implements Initializable {
 
     @FXML
     AnchorPane baseAnchorPane;
@@ -47,7 +47,7 @@ public class FeuilleTempsController implements Initializable {
             createViewer(borderPane);
             openDocument(PATH);
         }catch (Exception x){
-                    x.printStackTrace();
+            x.printStackTrace();
         }
 
 

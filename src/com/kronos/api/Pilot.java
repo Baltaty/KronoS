@@ -1,8 +1,5 @@
 package com.kronos.api;
 
-import com.kronos.model.MainCarModel;
-
-
 import java.util.Date;
 
 /**

@@ -30,7 +30,6 @@ public abstract class RaceModel implements Race {
 
     @XmlElement
     private int relayInterval;
-
     @XmlElement
     private int defaultMeanLapTime;
     private ArrayList<CarModel> carsList;

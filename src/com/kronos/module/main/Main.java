@@ -1,15 +1,13 @@
 package com.kronos.module.main;
 
-import  com.gn.GNAvatarView;
+import com.gn.GNAvatarView;
 import com.jfoenix.controls.*;
-import com.kronos.App;
-import  com.kronos.global.plugin.ViewManager;
-import com.kronos.printview.PrinterModel;
-import com.sun.deploy.panel.RuleSetViewerDialog;
-import eu.hansolo.tilesfx.Tile;
+import com.kronos.global.plugin.ViewManager;
+import com.kronos.global.util.Alerts;
+/*import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
 import eu.hansolo.tilesfx.skins.LeaderBoardItem;
-import eu.hansolo.tilesfx.tools.FlowGridPane;
+import eu.hansolo.tilesfx.tools.FlowGridPane;*/
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -26,12 +24,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.text.TextAlignment;
 import org.controlsfx.control.PopOver;
-import java.awt.event.KeyEvent;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -41,7 +40,6 @@ import java.time.LocalTime;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
-import com.kronos.global.util.Alerts;
 
  /**
  * @author TeamKronos
@@ -102,7 +100,7 @@ public class Main implements Initializable {
     @FXML private JFXDialogLayout dialogEdit;
     @FXML private JFXDialogLayout dialogPara   = new JFXDialogLayout();
      public static ObservableList<String> stylesheets;
-     private FlowGridPane pane;
+     /*private FlowGridPane pane;
      private FlowGridPane pane1;
      private FlowGridPane pane3;
      private FlowGridPane pane4;
@@ -121,7 +119,7 @@ public class Main implements Initializable {
      private LeaderBoardItem leaderBoardItem1;
      private LeaderBoardItem leaderBoardItem2;
      private LeaderBoardItem leaderBoardItem3;
-     private LeaderBoardItem leaderBoardItem4;
+     private LeaderBoardItem leaderBoardItem4;*/
      private static final    double TILE_WIDTH  = 300;
      private static final    double TILE_HEIGHT = 200;
      private GridPane grid;
@@ -144,6 +142,9 @@ public class Main implements Initializable {
 
     private Parent popContent;
     public static Main ctrl;
+    public static boolean isControlSet;
+    private boolean changeRequest = false;
+    private boolean isTopControlSelected = true;
 
 
      @Override
@@ -167,14 +168,14 @@ public class Main implements Initializable {
 
             }
         });
-        body.setContent(ViewManager.getInstance().get("raceresume"));
+        body.setContent(ViewManager.getInstance().get("Dashboard"));
          body.fitToHeightProperty().set(true);
 
 
          /////////// TEST DE FABRICE A NE PAS TOUCHER PLEASE ///////////
 
         // LeaderBoard Items
-        leaderBoardItem1 = new LeaderBoardItem("Elise CHAPON", 47);
+        /*leaderBoardItem1 = new LeaderBoardItem("Elise CHAPON", 47);
         leaderBoardItem2 = new LeaderBoardItem("Emile GEORGET", 43);
         leaderBoardItem3 = new LeaderBoardItem("Fabrice TRA", 12);
         leaderBoardItem4 = new LeaderBoardItem("Olivier KOKO", 8);
@@ -346,7 +347,7 @@ public class Main implements Initializable {
         grid.add(finalpane,0,0);
         grid.setMinSize(body.getWidth(),body.getHeight());
         //body.setBackground(new Background(new BackgroundFill(Color.web("red"), CornerRadii.EMPTY, Insets.EMPTY)));
-         //body.setContent(grid);
+         //body.setContent(grid);*/
 
 
         /////////// FIN DE LA ZONE DE TEST ///////////
@@ -762,13 +763,13 @@ public class Main implements Initializable {
      private void dashboard(){
          title.setText("Dashboard");
          //body.setContent(grid);
-         body.setContent(ViewManager.getInstance().get("raceresume"));
+         body.setContent(ViewManager.getInstance().get("Dashboard"));
      }
      @FXML
      private void feuilletemps(){
          title.setText("FeuilleTemps");
-         loadView("feuilletemps");
-         body.setContent(ViewManager.getInstance().get("feuilletemps"));
+         loadView("TimeSheet");
+         body.setContent(ViewManager.getInstance().get("TimeSheet"));
          System.out.println("App: load method --- PrinterModel");
 //         PrinterModel pt = new PrinterModel();
 //         pt.print();
@@ -794,8 +795,13 @@ public class Main implements Initializable {
      }
      @FXML
      private void EditPara(){
+         isControlSet = true;
          dialogPara.setVisible(true);
          JFXDialog alert1 = new JFXDialog(root, dialogPara, JFXDialog.DialogTransition.TOP);
+         endPara.setOnAction((ActionEvent event) -> {
+             alert1.close();
+             isControlSet = false;
+         });
          alert1.show();
      }
 
@@ -859,6 +865,47 @@ public class Main implements Initializable {
         body.setContent(ViewManager.getInstance().get("alerts"));
     }
 
-     public void handleChangeTopControl(ActionEvent event) {
+     /**
+      * Handles the change of top control.
+      *
+      * @param event the event
+      */
+     @FXML
+     private void handleChangeTopControl(ActionEvent event) {
+         changeRequest = true;
+         Alerts.info("CHANGEMENT TOP KEY", "Veuillez appuyer sur la nouvelle touche puis sour ok");
+         //scene.setOnKeyPressed();
+//        dialog_select_key.setVisible(true);
+//        JFXDialog alertkey= new JFXDialog(homestack,dialog_select_key,JFXDialog.DialogTransition.CENTER);
+         Scene scene = root.getScene();
+         EventHandler<javafx.scene.input.KeyEvent> e = new EventHandler<javafx.scene.input.KeyEvent>() {
+             @Override
+             public void handle(javafx.scene.input.KeyEvent event) {
+                 if (changeRequest) {
+                     KeyCode keyCode = event.getCode();
+                     File file = new File("top.properties");
+                     Properties properties = new Properties();
+                     try {
+                         if (!file.exists()) {
+
+                             file.createNewFile();
+                         } else {
+
+                             FileInputStream fileInputStream = new FileInputStream(file);
+                             properties.load(fileInputStream);
+                             properties.put("key", keyCode.toString());
+                             FileOutputStream fileOutputStream = new FileOutputStream(file);
+                             properties.store(fileOutputStream, "Top properties");
+                             topKey.setText(properties.getProperty("key"));
+                             changeRequest = false;
+                         }
+
+                     } catch (IOException e) {
+                         e.printStackTrace();
+                     }
+                 }
+             }
+         };
+         scene.addEventHandler(KeyEvent.KEY_PRESSED, e);
      }
  }
