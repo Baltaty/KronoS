@@ -457,7 +457,7 @@
 
 .table-view, .tree-table-view
 {
-  -fx-background-color : -elegant;
+  -fx-background-color : #c1c1c1;
 }
 
 .chart-area-symbol,

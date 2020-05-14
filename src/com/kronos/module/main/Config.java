@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -118,23 +119,30 @@ public class Config implements Initializable {
         ObservableList<String> stylesheets = App.decorator.getStage().getScene().getStylesheets();
 
         stylesheets.addAll(
-//                getClass().getResource(path + "fonts.css").toExternalForm(),
-//                getClass().getResource(path + "material-color.css").toExternalForm(),
-//                getClass().getResource(path + "skeleton.css").toExternalForm(),
-                  getClass().getResource(path + "" + theme).toExternalForm()//,
-//                getClass().getResource(path + "bootstrap.css").toExternalForm(),
-//                getClass().getResource(path + "simple-green.css").toExternalForm(),
-//                getClass().getResource(path + "shape.css").toExternalForm(),
-//                getClass().getResource(path + "typographic.css").toExternalForm(),
-//                getClass().getResource(path + "helpers.css").toExternalForm(),
+                getClass().getResource(path + "fonts.css").toExternalForm(),
+                getClass().getResource(path + "material-color.css").toExternalForm(),
+                getClass().getResource(path + "skeleton.css").toExternalForm(),
+                getClass().getResource(path + "" + theme).toExternalForm(),
+                getClass().getResource(path + "bootstrap.css").toExternalForm(),
+                getClass().getResource(path + "simple-green.css").toExternalForm(),
+                getClass().getResource(path + "shape.css").toExternalForm(),
+                getClass().getResource(path + "typographic.css").toExternalForm(),
+                getClass().getResource(path + "helpers.css").toExternalForm()
 //                getClass().getResource(path + "master.css").toExternalForm()
         );
 
-        App.getUserDetail().getStylesheets().setAll(stylesheets);
+//        App.getUserDetail().getStylesheets().setAll(stylesheets);
 
         for (Node node : ViewManager.getInstance().getAll()) {
-            ((StackPane) node).getStylesheets().clear();
-            ((StackPane) node).getStylesheets().setAll(stylesheets);
+            if (node instanceof ScrollPane){
+                ((ScrollPane) node).getStylesheets().clear();
+                ((ScrollPane) node).getStylesheets().setAll(stylesheets);
+            }
+            else{
+                ((StackPane) node).getStylesheets().clear();
+                ((StackPane) node).getStylesheets().setAll(stylesheets);
+            }
+
         }
 
         Main.popConfig.hide();
@@ -243,6 +251,11 @@ public class Config implements Initializable {
         DashboardController.ctrl.colLapNumber.setText(bundle.getString("colLapNumber"));
         DashboardController.ctrl.col_typetop.setText(bundle.getString("colTypetop"));
         DashboardController.ctrl.col_comment.setText(bundle.getString("colComment"));
+
+        DashboardController.ctrl.i18n_panelTitle.setText(bundle.getString("panelTitle"));
+        DashboardController.ctrl.i18n_panelRemainingLaps.setText(bundle.getString("panelRemainingLaps"));
+        DashboardController.ctrl.i18n_panelTime.setText(bundle.getString("panelTime"));
+        DashboardController.ctrl.i18n_panelState.setText(bundle.getString("panelState"));
 
 
 
