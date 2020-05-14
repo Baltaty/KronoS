@@ -178,7 +178,7 @@
                      <children>
                         <HBox alignment="CENTER" prefHeight="40.0" prefWidth="904.0" style="-fx-border-width: 0 0 1 0;" styleClass="border">
                            <children>
-                              <Button fx:id="hamburger" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onMouseClicked="#altLayout" prefWidth="40.0" styleClass="hamburger" text="Button">
+                              <Button fx:id="hamburger" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false"  prefWidth="40.0" styleClass="hamburger" text="Button">
                                  <graphic>
                                     <SVGPath content="M2 15.5v2h20v-2H2zm0-5v2h20v-2H2zm0-5v2h20v-2H2z" styleClass="icon" />
                                  </graphic>
@@ -274,7 +274,7 @@
                      <children>
                         <ScrollPane fx:id="body" fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" StackPane.alignment="TOP_LEFT">
                            <content>
-                              <fx:include source="../profile/profile.fxml" />
+<!--                              <fx:include source="../profile/profile.fxml" />-->
                            </content></ScrollPane>
                      </children>
                   </StackPane>

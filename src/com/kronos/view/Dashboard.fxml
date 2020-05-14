@@ -23,9 +23,9 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane prefHeight="1257.0" prefWidth="1055.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.DashboardController">
+<ScrollPane prefHeight="1257.0" prefWidth="1055.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kronos.controller.DashboardController">
    <content>
-      <StackPane prefHeight="1500.0" prefWidth="1053.0">
+      <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1257.0" prefWidth="1055.0">
 
       <!--    <stylesheets>-->
       <!--        <URL value="@../theme/css/material-color.css" />-->
@@ -96,9 +96,9 @@
                               </ImageView>
                                   </children>
                               </Pane>
-                              <Pane layoutX="10.0" layoutY="10.0" prefHeight="356.0" prefWidth="333.0">
+                              <Pane layoutX="10.0" layoutY="10.0" prefHeight="356.0" prefWidth="333.0" style="-fx-background-color: white;">
                                   <children>
-                                      <Label fx:id="i18n_panelTitle" layoutX="71.0" layoutY="52.0" text="PANNEAU POUR LA VOITURE" textAlignment="CENTER">
+                                      <Label fx:id="i18n_panelTitle" layoutX="43.0" layoutY="52.0" text="PANNEAU POUR LA VOITURE" textAlignment="CENTER">
                                  <font>
                                     <Font name="Montserrat Bold" size="16.0" />
                                  </font>
@@ -113,17 +113,17 @@
                                     <Font name="System Bold" size="36.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="remainingLapsBeforeStop" layoutX="160.0" layoutY="146.0" text="-" textAlignment="CENTER">
+                              <Label fx:id="remainingLapsBeforeStop" layoutX="155.0" layoutY="146.0" text="-" textAlignment="CENTER">
                                  <font>
                                     <Font name="System Bold" size="36.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="i18n_panelState" layoutX="137.0" layoutY="283.0" text="ETAT" textAlignment="CENTER">
+                              <Label fx:id="i18n_panelState" layoutX="144.0" layoutY="283.0" text="ETAT" textAlignment="CENTER">
                                  <font>
                                     <Font name="Montserrat Bold" size="16.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="state" layoutX="159.0" layoutY="302.0" text="-" textAlignment="CENTER">
+                              <Label fx:id="state" layoutX="151.0" layoutY="303.0" text="-" textAlignment="CENTER">
                                  <font>
                                     <Font name="System Bold" size="36.0" />
                                  </font>
@@ -133,7 +133,7 @@
                                     <Font name="Montserrat Bold" size="16.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="time" layoutX="159.0" layoutY="225.0" text="-" textAlignment="CENTER">
+                              <Label fx:id="time" layoutX="152.0" layoutY="225.0" text="-" textAlignment="CENTER">
                                  <font>
                                     <Font name="System Bold" size="36.0" />
                                  </font>
@@ -148,7 +148,7 @@
                                               <Font name="Montserrat Bold" size="16.0" />
                                           </font>
                                       </Label>
-                                      <JFXTabPane layoutX="1.0" layoutY="102.0" prefHeight="223.0" prefWidth="359.0" tabDragPolicy="REORDER">
+                                      <JFXTabPane layoutX="1.0" layoutY="102.0" prefHeight="223.0" prefWidth="359.0">
                                           <tabs>
                                               <Tab fx:id="i18n_currentPilot" text="Pilote">
                                                   <content>
@@ -213,7 +213,7 @@
                               </Pane>
                           </children>
                       </HBox>
-                      <HBox prefHeight="309.0" prefWidth="1053.0" style="-fx-border-color: black; -fx-spacing: 10;">
+                      <HBox prefHeight="309.0" prefWidth="1053.0" style="-fx-spacing: 10; -fx-background-color: white;">
                           <children>
                               <Pane id="btn" prefHeight="261.0" prefWidth="404.0">
                                   <children>
