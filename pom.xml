@@ -87,7 +87,21 @@
             <version>3.0.0</version>
         </dependency>
 
-
+        <dependency>
+            <groupId>com.jPDFViewerFX</groupId>
+            <artifactId>jPDFViewerFX</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.icepdf.core</groupId>
+            <artifactId>icepdfcore</artifactId>
+            <version>4.3.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.icepdf.viewer</groupId>
+            <artifactId>icepdfviewer</artifactId>
+            <version>4.3.3</version>
+        </dependency>
         <dependency>
             <groupId>com.GNDecorator</groupId>
             <artifactId>GNDecorator</artifactId>

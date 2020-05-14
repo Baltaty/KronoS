@@ -31,9 +31,6 @@ public class PrinterModel {
 
 
     private static String PATH = System.getProperty("user.dir") + File.separator + "data" + File.separator;
-    private static String css = System.getProperty("user.dir") + File.separator +
-            "src" + File.separator + "com" + File.separator + "kronos" + File.separator + "printview" + File.separator + "style.css";
-
 
     private StringBuilder cssContent;
     private StringBuilder dynamicContent;
@@ -49,7 +46,8 @@ public class PrinterModel {
         infSup = new StringBuilder();
         courseContent = new StringBuilder();
         finalContent = new StringBuilder();
-        try (InputStream inputStream = new FileInputStream(css)) {
+        System.out.println(getClass().getResourceAsStream("/com/kronos/printview/style.css"));
+        try (InputStream inputStream = getClass().getResourceAsStream("/com/kronos/printview/style.css")) {
             cssContent = new StringBuilder();
             Scanner sc = new Scanner(inputStream);
             StringBuffer sb = new StringBuffer();
@@ -63,7 +61,6 @@ public class PrinterModel {
 
 
     public void print() {
-
         List<PilotModel> pilotModelList = (List<PilotModel>) (List<?>) App.getDataManager().getModels(PilotModel.class);
         pilotInfo = new StringBuilder[pilotModelList.size()];
         RaceModel raceModel = (RaceModel) App.getDataManager().getModels(RaceModel.class).get(0);
@@ -110,18 +107,16 @@ public class PrinterModel {
                 infSup.append("<div class=\"address\">Commentaire : " + pilot.getComment() + "</div>\n");
 
                 dynamicContent = new StringBuilder();
-                int i = 0;
                 for (TopModel top : findTopByPilot(pilot)) {
 
                     dynamicContent.append(" <tr> \n ");
-                    dynamicContent.append("<td class=\"total\"> " + i + " </td>\n");
+                    dynamicContent.append("<td class=\"total\"> " + top.getLap() + " </td>\n");
                     dynamicContent.append("<td class=\"desc\"> " + top.getCarNumber() + " </td>\n");
                     dynamicContent.append("<td class=\"unit\"> " + top.getTopType() + " </td>\n");
                     dynamicContent.append("<td class=\"unit\"> " + top.getTime()+ " </td>\n");
                     dynamicContent.append("<td class=\"qty\"> " + top.getLapTime() + " </td>\n");
                     dynamicContent.append("<td class=\"desc\"> " + top.getComment() + " </td>\n");
                     dynamicContent.append("</tr> \n ");
-                    ++i;
                 }
 
                 if(pilotModelList.indexOf(pilot) > 0 ) {
@@ -130,30 +125,30 @@ public class PrinterModel {
 
                 StringBuilder str = new StringBuilder();
                 str.append(
-               "     <div id=\"details\" class=\"\">\n" +
-               "       <div id=\"client\">\n" +
-                 infSup.toString() +
-               "       </div>\n" +
-               "       <div id=\"invoice\">\n" +
-               courseContent.toString() +
-               "       </div>\n" +
-               "     </div>\n" +
-               "      <br/>\n" +
-               "      <table border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n" +
-               "        <thead>\n" +
-               "          <tr>\n" +
-               "            <th class=\"total \">Tour</th>\n" +
-               "            <th class=\"desc\">Voiture</th>\n" +
-               "            <th class=\"unit\">Type Top</th>\n" +
-               "            <th class=\"unit\">Heure</th>\n" +
-               "            <th class=\"qty\">Temps</th>\n" +
-               "            <th class=\"\">Commentaires</th>\n" +
-               "          </tr>\n" +
-               "        </thead>\n" +
-               "        <tbody>\n" +
-               dynamicContent.toString() +
-               "        </tbody>\n" +
-               "      </table>\n"
+                        "     <div id=\"details\" class=\"\">\n" +
+                                "       <div id=\"client\">\n" +
+                                infSup.toString() +
+                                "       </div>\n" +
+                                "       <div id=\"invoice\">\n" +
+                                courseContent.toString() +
+                                "       </div>\n" +
+                                "     </div>\n" +
+                                "      <br/>\n" +
+                                "      <table border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n" +
+                                "        <thead>\n" +
+                                "          <tr>\n" +
+                                "            <th class=\"total \">Tour</th>\n" +
+                                "            <th class=\"desc\">Voiture</th>\n" +
+                                "            <th class=\"unit\">Type Top</th>\n" +
+                                "            <th class=\"unit\">Heure</th>\n" +
+                                "            <th class=\"qty\">Temps</th>\n" +
+                                "            <th class=\"\">Commentaires</th>\n" +
+                                "          </tr>\n" +
+                                "        </thead>\n" +
+                                "        <tbody>\n" +
+                                dynamicContent.toString() +
+                                "        </tbody>\n" +
+                                "      </table>\n"
                 );
                 pilotInfo[pilotModelList.indexOf(pilot)] =  str;
 

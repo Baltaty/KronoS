@@ -82,7 +82,6 @@ class Dialog {
 
         box.getChildren().addAll(header, content, actions);
         root.getChildren().add(box);
-
         show(root);
     }
 
