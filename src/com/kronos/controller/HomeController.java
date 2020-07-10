@@ -323,7 +323,8 @@ public class HomeController implements Initializable {
         if (isUpload)
             handleToControlPanel();
         else
-            Alerts.error("ERREUR DE CHARGEMENT", "Le Fichier n'as pu être chargé");
+            //Alerts.error("ERREUR DE CHARGEMENT", "Le Fichier n'as pu être chargé");
+            Alerts.AlertError("ERREUR DE CHARGEMENT", "Le Fichier n'as pu être chargé");
 
     }
 
@@ -373,7 +374,8 @@ public class HomeController implements Initializable {
             tabCourse.setDisable(false);
             selectionModel.select(tabCourse);
         } else {
-            Alerts.error("ERREUR", "Veuillez créer au moins une voiture");
+            //Alerts.error("ERREUR", "Veuillez créer au moins une voiture");
+            Alerts.AlertError("ERREUR", "Veuillez créer au moins une voiture");
         }
     }
 
@@ -386,7 +388,8 @@ public class HomeController implements Initializable {
     @FXML
     private void handleChangeTopControl(ActionEvent event) {
         changeRequest = true;
-        Alerts.info("CHANGEMENT TOP KEY", "Veuillez appuyer sur la nouvelle touche puis sour ok");
+        //Alerts.info("CHANGEMENT TOP KEY", "Veuillez appuyer sur la nouvelle touche puis sour ok");
+        Alerts.AlertWarning("CHANGEMENT TOP KEY", "Veuillez appuyer sur la nouvelle touche puis sour ok");
         //scene.setOnKeyPressed();
 //        dialog_select_key.setVisible(true);
 //        JFXDialog alertkey= new JFXDialog(homestack,dialog_select_key,JFXDialog.DialogTransition.CENTER);
@@ -546,10 +549,12 @@ public class HomeController implements Initializable {
                     App.getDataManager().persist(mainCarModel);
                     mainCarCreated = true;
                     carPilot.getItems().remove(carPilot.getSelectionModel().getSelectedIndex());
-                    Alerts.success("SUCCÈS", "Nouvelle voiture créée");
+                    //.success("SUCCÈS", "Nouvelle voiture créée");
+                    Alerts.AlertSuccess("SUCCÈS", "Nouvelle voiture créée");
                     clearNewCarFields();
                 } else {
-                    Alerts.error("ERREUR", "Veuillez vérifier les champs");
+                    //Alerts.error("ERREUR", "Veuillez vérifier les champs");
+                    Alerts.AlertError("ERREUR", "Veuillez vérifier les champs");
                 }
             } else if (mainCarCreated && carType.getSelectionModel().getSelectedItem().equals("Voiture concurrente")) {
                 RivalCarModel rivalCarModel = new RivalCarModel(Integer.parseInt(carNumber.getText()), carTeam.getText(), carModel.getText(), carBrand.getText(), findPilot(carPilot.getSelectionModel().getSelectedIndex()));
@@ -557,18 +562,23 @@ public class HomeController implements Initializable {
                     carsList.add(rivalCarModel);
                     App.getDataManager().persist(rivalCarModel);
                     carPilot.getItems().remove(carPilot.getSelectionModel().getSelectedIndex());
-                    Alerts.success("SUCCÈS", "Nouvelle voiture créée");
+                    //Alerts.success("SUCCÈS", "Nouvelle voiture créée");
+                    Alerts.AlertSuccess("SUCCÈS", "Nouvelle voiture créée");
                     clearNewCarFields();
                 } else {
-                    Alerts.error("ERREUR", "Veuillez vérifier les champs");
+                    //Alerts.error("ERREUR", "Veuillez vérifier les champs");
+                    Alerts.AlertError("ERREUR", "Veuillez vérifier les champs");
                 }
             } else if (mainCarCreated) {
-                Alerts.error("ERREUR", "Une voiture principale existe déjà");
+                //Alerts.error("ERREUR", "Une voiture principale existe déjà");
+                Alerts.AlertError("ERREUR", "Une voiture principale existe déjà");
             } else {
-                Alerts.error("ERREUR", "Veuillez commencer par créer une voiture principale");
+                //Alerts.error("ERREUR", "Veuillez commencer par créer une voiture principale");
+                Alerts.AlertError("ERREUR", "Veuillez commencer par créer une voiture principale");
             }
         } else {
-            Alerts.error("ERREUR", "Veuillez vérifier les champs");
+            //Alerts.error("ERREUR", "Veuillez vérifier les champs");
+            Alerts.AlertError("ERREUR", "Veuillez commencer par créer une voiture principale");
         }
     }
 
@@ -608,16 +618,20 @@ public class HomeController implements Initializable {
         boolean isValid = true;
         if (!Mask.isNumeric(carNumber.getText())) {
             isValid = false;
-            Alerts.error("ERREUR", "Veuillez vérifier les champs");
+            //Alerts.error("ERREUR", "Veuillez vérifier les champs");
+            Alerts.AlertError("ERREUR", "Veuillez vérifier les champs");
         } else if (!carController.checkCar(carModel)) {
             isValid = false;
-            Alerts.error("ERREUR", "Veuillez vérifier les champs");
+            //Alerts.error("ERREUR", "Veuillez vérifier les champs");
+            Alerts.AlertError("ERREUR", "Veuillez vérifier les champs");
         } else if (pilotsList.size() == carsList.size()) {
             isValid = false;
-            Alerts.error("ERREUR", "Il n'est pas possible d'avoir plus de voitures que de pilotes");
+            //Alerts.error("ERREUR", "Il n'est pas possible d'avoir plus de voitures que de pilotes");
+            Alerts.AlertError("ERREUR", "Il est interdit d'avoir plus de voitures que de pilotes");
         } else if (carsList.size() == 4) {
             isValid = false;
-            Alerts.error("ERREUR", "Il n'est possible d'observer que 4 voitures maximum à la fois");
+            //Alerts.error("ERREUR", "Il n'est possible d'observer que 4 voitures maximum à la fois");
+            Alerts.AlertError("ERREUR", "Il n'est possible d'observer que 4 voitures maximum à la fois");
         }
         return isValid;
     }
@@ -733,15 +747,19 @@ public class HomeController implements Initializable {
             if (pilotsList.size() < 4) {
                 pilotsList.add(pilotcont);
                 carPilot.getItems().add(firstnamecont + " " + lastnamecont);
-                Alerts.success("SUCCÈS", "Pilote ajouté");
+                //Alerts.success("SUCCÈS", "Pilote ajouté");
+                Alerts.AlertSuccess("SUCCES", "Pilote ajouté");
                 App.getDataManager().persist(pilotcont);
                 clearNewPilotFields();
             } else {
-                Alerts.error("ERREUR", "Création 4 pilotes maximum");
+                //Alerts.error("ERREUR", "Création 4 pilotes maximum");
+                Alerts.AlertError("ERREUR", "Création 4 pilotes maximum");
             }
 
         } else {
-            Alerts.error("ERREUR", "Veuillez vérifier les champs");
+            //Alerts.error("ERREUR", "Veuillez vérifier les champs");
+            Alerts.AlertError("ERREUR", "Veuillez vérifier les champs");
+
         }
 
 
@@ -862,6 +880,7 @@ public class HomeController implements Initializable {
                     carModel.setLapRace((LapRaceModel) race);
                 }
             }
+            race.setPilotsList(pilotsList);
             if (race != null) {
                 // Save test save manager
 
@@ -872,7 +891,8 @@ public class HomeController implements Initializable {
                 handleToControlPanel();
             }
         } else {
-            Alerts.error("ERREUR", "Veuillez vérifier les champs");
+            //Alerts.error("ERREUR", "Veuillez vérifier les champs");
+            Alerts.AlertError("ERREUR", "Veuillez vérifier les champs");
         }
 
 

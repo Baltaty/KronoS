@@ -16,7 +16,7 @@ public interface Pilot {
      *
      * @return long
      */
-    long getId();
+    Long getId();
 
 
     /**

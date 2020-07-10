@@ -1,6 +1,7 @@
 package com.kronos.model;
 
 import com.kronos.api.Top;
+import com.kronos.parserXML.MainImpl.IncrementalSaveStrategy;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -78,7 +79,9 @@ public class TopModel implements Top, Comparable<TopModel> {
      * Sets the top id.
      * @param id top id
      */
-    public void setId(Long id) { this.id = id;  }
+    public void setId(Long id) { this.id = id;
+        IncrementalSaveStrategy.logTopToSave(this);
+    }
 
     /**
      * Gets the top car number.
@@ -94,6 +97,7 @@ public class TopModel implements Top, Comparable<TopModel> {
      */
     public void setCarNumber(int carNumber) {
         this.carNumber = carNumber;
+        IncrementalSaveStrategy.logTopToSave(this);
     }
 
     /**
@@ -110,6 +114,7 @@ public class TopModel implements Top, Comparable<TopModel> {
      */
     public void setTime(String time) {
         this.time = time;
+        IncrementalSaveStrategy.logTopToSave(this);
     }
 
     /**
@@ -126,6 +131,7 @@ public class TopModel implements Top, Comparable<TopModel> {
      */
     public void setTopType(String topType) {
         this.topType = topType;
+        IncrementalSaveStrategy.logTopToSave(this);
     }
 
     /**
@@ -142,6 +148,7 @@ public class TopModel implements Top, Comparable<TopModel> {
      */
     public void setComment(String comment) {
         this.comment = comment;
+        IncrementalSaveStrategy.logTopToSave(this);
     }
 
     /**
@@ -158,6 +165,7 @@ public class TopModel implements Top, Comparable<TopModel> {
      */
     public void setRaceTime(String raceTime) {
         this.raceTime = raceTime;
+        IncrementalSaveStrategy.logTopToSave(this);
     }
 
     /**
@@ -174,6 +182,7 @@ public class TopModel implements Top, Comparable<TopModel> {
      */
     public void setLapTime(String lapTime) {
         this.lapTime = lapTime;
+        IncrementalSaveStrategy.logTopToSave(this);
     }
 
     /**
@@ -190,6 +199,7 @@ public class TopModel implements Top, Comparable<TopModel> {
      */
     public void setLap(int lap) {
         this.lap = lap;
+        IncrementalSaveStrategy.logTopToSave(this);
     }
 
 
@@ -204,5 +214,7 @@ public class TopModel implements Top, Comparable<TopModel> {
 
     public void setTopPosition(int topPosition) {
         this.topPosition = topPosition;
+        IncrementalSaveStrategy.logTopToSave(this);
     }
+
 }

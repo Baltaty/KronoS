@@ -9,24 +9,5 @@ import java.util.ArrayList;
  */
 public interface MainCar extends Car {
 
-    /**
-     * Gets the remaining number of laps before the next pit-stop.
-     * The number displayed on the lap counter board will be equal to this number minus one.
-     * @return the remaining number of laps before the next pit-stop
-     */
-    public int getRemainingLapsBeforeStops();
-
-    /**
-     * Gets the pit-stop list for the race.
-     * @return the pit-stop list
-     */
-    public ArrayList<Integer> getStopList();
-
-    /**
-     * Sets a list of lap numbers. Each lap number corresponds to a pit-stop.
-     * @param stopList the list of pit-stops
-     */
-    public void setStopList(ArrayList<Integer> stopList);
-
 
 }

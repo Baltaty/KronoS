@@ -13,10 +13,6 @@ import java.util.ArrayList;
 @XmlRootElement
 public class MainCarModel extends CarModel implements MainCar {
 
-
-
-    private ArrayList<Integer> stopList;
-
     /**
      * Constructor.
      */
@@ -35,37 +31,6 @@ public class MainCarModel extends CarModel implements MainCar {
      */
     public MainCarModel(int number, String team, String model, String brand, PilotModel pilotModel) {
         super(number, team, model, brand, pilotModel);
-        stopList = new ArrayList<>();
-    }
-
-    /**
-     * Gets the remaining laps of the car before the next pit-stop.
-     *
-     * @return the remaining laps of the car before the next pit-stop
-     */
-    @Override
-    public int getRemainingLapsBeforeStops() {
-        return stopList.get(0) - getCompletedLaps();
-    }
-
-    /**
-     * Gets the list of pit-stops (contains the laps where the pit-stop occurs).
-     *
-     * @return the list of laps where the pit-stop occurs
-     */
-    @Override
-    public ArrayList<Integer> getStopList() {
-        return stopList;
-    }
-
-    /**
-     * Sets the list of pit-stops
-     *
-     * @param stopList the list of pit-stops
-     */
-    @Override
-    public void setStopList(ArrayList<Integer> stopList) {
-        this.stopList = stopList;
     }
 
 

@@ -8,8 +8,6 @@ import com.kronos.global.util.Alerts;
 import eu.hansolo.tilesfx.TileBuilder;
 import eu.hansolo.tilesfx.skins.LeaderBoardItem;
 import eu.hansolo.tilesfx.tools.FlowGridPane;*/
-import com.kronos.module.dashboard.Dashboard;
-import com.kronos.printview.PrinterModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -82,6 +80,9 @@ public class Main implements Initializable {
     @FXML public  Label title;
     @FXML private TextField search;
     @FXML private ScrollPane scroll;
+    @FXML private TitledPane design;
+    @FXML private TitledPane controls;
+    @FXML private TitledPane charts;
     @FXML public Button home;
     @FXML private Button  about;
     @FXML public Button  FeuilleTemps;
@@ -91,12 +92,34 @@ public class Main implements Initializable {
     @FXML private Button clear;
     @FXML private JFXButton config;
     @FXML private VBox drawer;
+    @FXML private JFXBadge messages;
+    @FXML private JFXBadge notifications;
+    @FXML private JFXBadge bg_info;
     @FXML private RadioButton available;
     @FXML private JFXDialogLayout dialogNew;
     @FXML private JFXDialogLayout dialogEdit;
     @FXML private JFXDialogLayout dialogPara   = new JFXDialogLayout();
      public static ObservableList<String> stylesheets;
+     /*private FlowGridPane pane;
+     private FlowGridPane pane1;
+     private FlowGridPane pane3;
+     private FlowGridPane pane4;
+     private FlowGridPane finalpane;
+     private Tile clockTile;
+     private Tile timerControlTile;
+     private Tile leaderBoardTile;
+     private Tile timeTileHeureDepart;
+     private Tile timeTileSpend;
+     private Tile timeTileRemaining;
+     private Tile textTile;
+     private Tile customTile;
+     private Tile customTileProgressBar;
+     private Tile customTileTop;
 
+     private LeaderBoardItem leaderBoardItem1;
+     private LeaderBoardItem leaderBoardItem2;
+     private LeaderBoardItem leaderBoardItem3;
+     private LeaderBoardItem leaderBoardItem4;*/
      private static final    double TILE_WIDTH  = 300;
      private static final    double TILE_HEIGHT = 200;
      private GridPane grid;
@@ -106,7 +129,9 @@ public class Main implements Initializable {
     public static  final PopOver popConfig = new PopOver();
 
     private ObservableList<Button> items         = FXCollections.observableArrayList();
-
+    private ObservableList<Button> designItems   = FXCollections.observableArrayList();
+    private ObservableList<Button> controlsItems = FXCollections.observableArrayList();
+    private ObservableList<Button> chartsItems   = FXCollections.observableArrayList();
 
     private JFXDialog       dialog          = new JFXDialog();
     private JFXDialogLayout dialog_layout   = new JFXDialogLayout();
@@ -126,9 +151,9 @@ public class Main implements Initializable {
     public void initialize(URL location, ResourceBundle resources)  {
         ctrl = this;
         loadContentPopup();
-        body.setContent(ViewManager.getInstance().get("Dashboard"));
-        body.fitToHeightProperty().set(true);
+        //populateItems();
         filteredList = new FilteredList<>(items, s -> true);
+
         search.textProperty().addListener(obs -> {
 
             String filter = search.getText();
@@ -143,6 +168,190 @@ public class Main implements Initializable {
 
             }
         });
+        body.setContent(ViewManager.getInstance().get("Dashboard"));
+         body.fitToHeightProperty().set(true);
+
+
+         /////////// TEST DE FABRICE A NE PAS TOUCHER PLEASE ///////////
+
+        // LeaderBoard Items
+        /*leaderBoardItem1 = new LeaderBoardItem("Elise CHAPON", 47);
+        leaderBoardItem2 = new LeaderBoardItem("Emile GEORGET", 43);
+        leaderBoardItem3 = new LeaderBoardItem("Fabrice TRA", 12);
+        leaderBoardItem4 = new LeaderBoardItem("Olivier KOKO", 8);
+        timeTileHeureDepart = TileBuilder.create()
+                .skinType(Tile.SkinType.TIME)
+                .prefSize(TILE_WIDTH, TILE_HEIGHT)
+                //.title("Time Tile")
+                //.text("Whatever text")
+                .duration(LocalTime.of(0, 0,50))
+                .description("Heure de depart")
+                .textVisible(true)
+                .roundedCorners(false)
+                .build();
+
+        timeTileSpend = TileBuilder.create()
+                .skinType(Tile.SkinType.TIME)
+                .prefSize(TILE_WIDTH, TILE_HEIGHT)
+//                .title("Time Tile")
+//                .text("Temps ecoulé")
+                .duration(LocalTime.of(0, 0,50))
+                .description("Temps ecoulé")
+                .textVisible(true)
+                .roundedCorners(false)
+                .build();
+        timeTileRemaining = TileBuilder.create()
+                .skinType(Tile.SkinType.TIME)
+                .prefSize(TILE_WIDTH, TILE_HEIGHT)
+//                .title("Time Tile")
+//                .text("Whatever text")
+                .duration(LocalTime.of(0, 0,50))
+                .description("Temps restant")
+                .textVisible(true)
+                .roundedCorners(false)
+                .build();
+        clockTile = TileBuilder.create()
+                .skinType(Tile.SkinType.CLOCK)
+                .prefSize(TILE_WIDTH, TILE_HEIGHT)
+                .title("Clock Tile")
+                .text("Heure actuelle")
+                .dateVisible(true)
+                .locale(Locale.FRANCE)
+                .running(true)
+                .roundedCorners(false)
+                .build();
+
+        timerControlTile = TileBuilder.create()
+                .skinType(Tile.SkinType.TIMER_CONTROL)
+                .prefSize(TILE_WIDTH, TILE_HEIGHT)
+                //.title("TimerControl Tile")
+                //.text("Horloge")
+                .secondsVisible(true)
+                .dateVisible(true)
+                //.timeSections(timeSection)
+                .running(true)
+                .roundedCorners(false)
+                .build();
+
+        textTile = TileBuilder.create()
+                .skinType(Tile.SkinType.TEXT)
+                .prefSize(2*TILE_WIDTH, 2*TILE_HEIGHT)
+                //.title("Text Tile")
+               // .text("Whatever text")
+                .description("PANNEAU")
+                .descriptionAlignment(Pos.CENTER)
+                .textVisible(true)
+                .roundedCorners(false)
+                .build();
+
+        customTile = TileBuilder.create()
+                .skinType(Tile.SkinType.CUSTOM)
+                .prefSize(2*TILE_WIDTH, 2*TILE_HEIGHT)
+                .title("INFOS SUR LA VOITURE PRINCIPALE")
+                .titleAlignment(TextAlignment.CENTER)
+                //.text("Whatever text")
+                .graphic(new Button("Click Me"))
+                .graphic(new Button("Click Me again"))
+                .roundedCorners(false)
+                .build();
+        //// L2
+
+        customTileProgressBar = TileBuilder.create()
+                .skinType(Tile.SkinType.CUSTOM)
+                .prefSize(2*TILE_WIDTH, 2*TILE_HEIGHT-100)
+                .title("TEMPS MOYEN AU TOUR")
+                .titleAlignment(TextAlignment.CENTER)
+               // .text("Whatever text")
+                .graphic(new Button("Click Me"))
+                .roundedCorners(false)
+                .build();
+
+
+        customTileTop = TileBuilder.create()
+                .skinType(Tile.SkinType.CUSTOM)
+                .prefSize(2*TILE_WIDTH, 2*TILE_HEIGHT-100)
+                //.title("Custom Tile")
+                //.text("Whatever text")
+                .graphic(new Button("Click Me"))
+                .roundedCorners(false)
+                .build();
+
+        leaderBoardTile = TileBuilder.create()
+                .skinType(Tile.SkinType.LEADER_BOARD)
+                .prefSize(2*TILE_WIDTH, 2*TILE_HEIGHT-100)
+                .title("CLASSEMENT DE LA COURSE ")
+              //  .text("Whatever text")
+                .leaderBoardItems(leaderBoardItem1, leaderBoardItem2, leaderBoardItem3, leaderBoardItem4)
+                .roundedCorners(false)
+                .build();
+
+        TableView tableView = new TableView();
+
+        /// PREMIERE LIGNE PANE
+
+
+        pane = new FlowGridPane(2,2,timeTileHeureDepart,timerControlTile,timeTileSpend,timeTileRemaining);
+//        pane.setHgap(5);
+//        pane.setVgap(5);
+        pane.setAlignment(Pos.TOP_LEFT);
+        pane.setCenterShape(true);
+        pane.setPadding(new Insets(1));
+        //pane.setPrefSize(800, 600);
+        pane.setBackground(new Background(new BackgroundFill(Color.web("#101214"), CornerRadii.EMPTY, Insets.EMPTY)));
+
+        pane1 = new FlowGridPane(3,1,pane,textTile,customTile);
+        pane1.setBackground(new Background(new BackgroundFill(Color.web("#101214"), CornerRadii.EMPTY, Insets.EMPTY)));
+//        pane1.setHgap(5);
+//        pane1.setVgap(5);
+        // pane1.setAlignment(Pos.CENTER);
+        pane1.setCenterShape(true);
+        pane1.setPadding(new Insets(1));
+
+        ///
+
+        /// DEUXIEME LIGNE PANE
+
+        pane3 = new FlowGridPane(3,1,customTileProgressBar,customTileTop,leaderBoardTile);
+//        pane3.setHgap(5);
+//        pane3.setVgap(5);
+        pane3.setAlignment(Pos.TOP_LEFT);
+        pane3.setCenterShape(true);
+        pane3.setPadding(new Insets(1));
+        pane3.setBackground(new Background(new BackgroundFill(Color.web("#101214"), CornerRadii.EMPTY, Insets.EMPTY)));
+
+        ///
+
+        ///TROISIEME LIGNE PANE
+
+        pane4 = new FlowGridPane(1,1,tableView);
+//        pane4.setHgap(5);
+//        pane4.setVgap(5);
+        pane4.setAlignment(Pos.TOP_LEFT);
+        pane4.setCenterShape(true);
+        pane4.setPadding(new Insets(1));
+        //pane.setPrefSize(800, 600);
+        pane4.setBackground(new Background(new BackgroundFill(Color.web("#101214"), CornerRadii.EMPTY, Insets.EMPTY)));
+
+        ///
+
+
+        finalpane = new FlowGridPane(1,3,pane1,pane3,pane4);
+        finalpane.setBackground(new Background(new BackgroundFill(Color.web("#57C6F2"), CornerRadii.EMPTY, Insets.EMPTY)));
+//        finalpane.setHgap(5);
+//        finalpane.setVgap(5);
+        finalpane.setAlignment(Pos.CENTER);
+       // finalpane.setCenterShape(true);
+        //finalpane.setPadding(new Insets(5));
+
+        grid = new GridPane();
+        grid.add(finalpane,0,0);
+        grid.setMinSize(body.getWidth(),body.getHeight());
+        //body.setBackground(new Background(new BackgroundFill(Color.web("red"), CornerRadii.EMPTY, Insets.EMPTY)));
+         //body.setContent(grid);*/
+
+
+        /////////// FIN DE LA ZONE DE TEST ///////////
+
     }
 
     @FXML
@@ -198,6 +407,21 @@ public class Main implements Initializable {
         for (Node node : drawer.getChildren()) { // root
             if (node instanceof ScrollPane){
 
+                drawerContent = (VBox) ((ScrollPane) node).getContent();
+//
+//                for(Node child : drawerContent.getChildren()){
+//                    if(child instanceof Button){
+//                        child.setOnMouseEntered(e -> {
+//                            popup.setAutoHide(true);
+//                            if(popup.isShowing())
+//                                popup.hide();
+//                        });
+//                    }
+//
+//                    else if(child instanceof TitledPane){
+//                        addEvent(child);
+//                    }
+//                }
             }
 
             else {
@@ -206,11 +430,62 @@ public class Main implements Initializable {
         }
     }
 
-
+//    private void addEvent(Node node) {
+//        popup.setDetached(false);
+//        popup.setDetachable(false);
+//        popup.setCloseButtonEnabled(false);
+//        popup.setArrowSize(0);
+//        popup.setHeaderAlwaysVisible(false);
+//
+//        ScrollPane scrollPane = new ScrollPane();
+//        scrollPane.getStylesheets().add(getClass().getResource("/com/kronos/theme/css/custom-scroll.css").toExternalForm());
+//
+//        VBox v = new VBox();
+//        v.setPrefWidth(200);
+//
+//        TitledPane pane = (TitledPane) node;
+//        VBox vbox = (VBox) pane.getContent();
+//
+//        for (Node btn : vbox.getChildren()) {
+//            EventHandler event = ((Button) btn).getOnMouseClicked();
+//            String text = ((Button) btn).getText();
+//            Button button = new Button(text);
+//            button.setPrefWidth(v.getPrefWidth());
+//            button.setOnMouseClicked(e -> {
+//                body.setContent(ViewManager.getInstance().get(button.getText().toLowerCase()));
+//                title.setText(button.getText());
+//                popup.hide();
+//            });
+//            button.setMinHeight(40);
+//            v.getChildren().add(button);
+//        }
+//
+//
+//        node.setOnMouseEntered((Event e) -> {
+//            if (drawer.getPrefWidth() == 70) {
+//                Popover.ctrl.options.getChildren().setAll(v);
+//                popup.show(pane, -1);
+//            }
+//        });
+//    }
 
     private void barInitial(){
         filteredList.setPredicate(s -> true);
         scroll.setContent(views);
+//        ( (VBox) design.getContent()).getChildren().setAll(designItems);
+//        ( (VBox) controls.getContent()).getChildren().setAll(controlsItems);
+//        ( (VBox) charts.getContent()).getChildren().setAll(chartsItems);
+//
+//        views.getChildren().removeAll(home, about);
+//        views.getChildren().add(home);
+//        views.getChildren().add(about);
+//        home.setContentDisplay(ContentDisplay.LEFT);
+//        about.setContentDisplay(ContentDisplay.LEFT);
+//        home.setAlignment(Pos.CENTER_LEFT);
+//        about.setAlignment(Pos.CENTER_LEFT);
+//
+//        home.toBack();
+//        about.toFront();
         hamburger.setMouseTransparent(false);
     }
 
@@ -235,6 +510,31 @@ public class Main implements Initializable {
         return vBox;
     }
 
+    private void populateItems() {
+
+        for (Node node : views.getChildren()) {
+            if (node instanceof Button) {
+                items.add( (Button) node);
+            }
+        }
+
+        for (Node node : ((VBox) controls.getContent()).getChildren()) {
+            controlsItems.add((Button) node);
+            items.add((Button) node);
+        }
+
+        for (Node node : ((VBox) design.getContent()).getChildren()) {
+            designItems.add((Button) node);
+            items.add((Button) node);
+        }
+
+        for (Node node : ((VBox) charts.getContent()).getChildren()) {
+            chartsItems.add((Button) node);
+            items.add((Button) node);
+        }
+    }
+
+
     private void loadContentPopup(){
         try {
             popContent = FXMLLoader.load(getClass().getResource("/com/kronos/module/main/Config.fxml"));
@@ -252,8 +552,7 @@ public class Main implements Initializable {
             e.printStackTrace();
         }
     }
-
-    private void loadView(String name) {
+     private void loadView(String name) {
          try {
              ViewManager.getInstance().put(
                      name,
@@ -263,7 +562,6 @@ public class Main implements Initializable {
              e.printStackTrace();
          }
      }
-
     @FXML
     private void openConfig(){
         if(popConfig.isShowing()){
@@ -273,13 +571,198 @@ public class Main implements Initializable {
             popConfig.getRoot().setFocusTraversable(true);
         }
     }
+
     @FXML
     private void clearText(){
         search.clear();
     }
+
     @FXML
-    private void dashboard(){
+    private void buttons() {
+        body.setContent(ViewManager.getInstance().get("button"));
+        title.setText("Button");
+    }
+
+    @FXML
+    private void carousel() {
+        title.setText("Carousel");
+        body.setContent(ViewManager.getInstance().get("carousel"));
+    }
+
+    @FXML
+    private void toggle() {
+        title.setText("Toggle Button");
+        body.setContent(ViewManager.getInstance().get("toggle"));
+    }
+
+    @FXML
+    private void cards(){
+        title.setText("Cards");
+        body.setContent(ViewManager.getInstance().get("cards"));
+    }
+
+    @FXML
+    private void banners(){
+        title.setText("Banners");
+        body.setContent(ViewManager.getInstance().get("banners"));
+    }
+
+    @FXML
+    private void textField(){
+        title.setText("TextField");
+        body.setContent(ViewManager.getInstance().get("textfield"));
+    }
+
+    @FXML
+    private void datePicker(){
+        title.setText("DatePicker");
+        body.setContent(ViewManager.getInstance().get("datepicker"));
+    }
+
+    @FXML
+    private void checkBox(){
+        title.setText("CheckBox");
+        body.setContent(ViewManager.getInstance().get("checkbox"));
+    }
+
+    @FXML
+    private void comboBox(){
+        title.setText("ComboBox");
+        body.setContent(ViewManager.getInstance().get("combobox"));
+    }
+
+    @FXML
+    private void colorPicker(){
+        title.setText("ComboBox");
+        body.setContent(ViewManager.getInstance().get("colorpicker"));
+    }
+
+
+    @FXML
+    private void choiceBox(){
+        title.setText("ChoiceBox");
+        body.setContent(ViewManager.getInstance().get("choicebox"));
+    }
+
+    @FXML
+    private void splitMenuButton(){
+        title.setText("SplitMenuButton");
+        body.setContent(ViewManager.getInstance().get("splitmenubutton"));
+    }
+
+    @FXML
+    private void menuButton(){
+        title.setText("MenuButton");
+        body.setContent(ViewManager.getInstance().get("menubutton"));
+    }
+
+    @FXML
+    private void menuBar(){
+        title.setText("MenuBar");
+        body.setContent(ViewManager.getInstance().get("menubar"));
+    }
+
+    @FXML
+    private void slider(){
+        title.setText("Slider");
+        body.setContent(ViewManager.getInstance().get("slider"));
+    }
+
+    @FXML
+    private void mediaView(){
+        title.setText("MediaView");
+        body.setContent(ViewManager.getInstance().get("mediaview"));
+    }
+
+    @FXML
+    private void label(){
+        title.setText("Label");
+        body.setContent(ViewManager.getInstance().get("label"));
+    }
+
+    @FXML
+    private void imageView(){
+        title.setText("ImageView");
+        body.setContent(ViewManager.getInstance().get("imageview"));
+    }
+
+    @FXML
+    private void hyperlink(){
+        title.setText("HyperLink");
+        body.setContent(ViewManager.getInstance().get("hyperlink"));
+    }
+
+    @FXML
+    private void spinner(){
+        title.setText("Spinner");
+        body.setContent(ViewManager.getInstance().get("spinner"));
+    }
+
+    @FXML
+    private void listView(){
+        title.setText("ListView");
+        body.setContent(ViewManager.getInstance().get("listview"));
+    }
+
+    @FXML
+    private void radio(){
+        title.setText("RadioButton");
+        body.setContent(ViewManager.getInstance().get("radiobutton"));
+    }
+
+    @FXML
+    private void progressBar(){
+        title.setText("ProgressBar");
+        body.setContent(ViewManager.getInstance().get("progressbar"));
+    }
+
+    @FXML
+    private void passwordField(){
+        title.setText("PasswordField");
+        body.setContent(ViewManager.getInstance().get("passwordfield"));
+    }
+
+    @FXML
+    private void progressIndicator(){
+        title.setText("ProgressIndicator");
+        body.setContent(ViewManager.getInstance().get("progressindicator"));
+    }
+
+    @FXML
+    private void pagination(){
+        title.setText("Pagination");
+        body.setContent(ViewManager.getInstance().get("pagination"));
+    }
+
+    @FXML
+    private void pieChart(){
+        title.setText("PieChart");
+        body.setContent(ViewManager.getInstance().get("piechart"));
+    }
+
+    @FXML
+    private void stackedBarChart(){
+        title.setText("StackedBarChart");
+        body.setContent(ViewManager.getInstance().get("stackedbarchart"));
+    }
+
+    @FXML
+    private void stackedAreaChart(){
+        title.setText("StackedAreaChart");
+        body.setContent(ViewManager.getInstance().get("stackedareachart"));
+    }
+
+    @FXML
+    private void scatterChart(){
+        title.setText("ScatterChart");
+        body.setContent(ViewManager.getInstance().get("scatterchart"));
+    }
+
+
+     @FXML
+     private void dashboard(){
          title.setText("Dashboard");
+         //body.setContent(grid);
          body.setContent(ViewManager.getInstance().get("Dashboard"));
      }
      @FXML
@@ -288,9 +771,16 @@ public class Main implements Initializable {
          loadView("TimeSheet");
          body.setContent(ViewManager.getInstance().get("TimeSheet"));
          System.out.println("App: load method --- PrinterModel");
-         PrinterModel pt = new PrinterModel();
-         pt.print();
+//         PrinterModel pt = new PrinterModel();
+//         pt.print();
      }
+    @FXML
+    private void RaceData(){
+        title.setText("Course Data");
+        loadView("cards");
+        body.setContent(ViewManager.getInstance().get("cards"));
+    }
+
     @FXML
     private void AddSomething(){
         dialogNew.setVisible(true);
@@ -315,6 +805,66 @@ public class Main implements Initializable {
          alert1.show();
      }
 
+    @FXML
+    private void bubbleChart(){
+        title.setText("BubbleChart");
+        body.setContent(ViewManager.getInstance().get("bubblechart"));
+    }
+
+    @FXML
+    private void lineChart(){
+        title.setText("LineChart");
+        body.setContent(ViewManager.getInstance().get("linechart"));
+    }
+
+    @FXML
+    private void tableView(){
+        title.setText("TableView");
+        body.setContent(ViewManager.getInstance().get("tableview"));
+    }
+
+    @FXML
+    private void scrollBar(){
+        title.setText("ScrollBar");
+        body.setContent(ViewManager.getInstance().get("scrollbar"));
+    }
+
+    @FXML
+    private void treeTableView(){
+        title.setText("TreeTableView");
+        body.setContent(ViewManager.getInstance().get("treetableview"));
+    }
+
+    @FXML
+    private void textArea(){
+        title.setText("TextArea");
+        body.setContent(ViewManager.getInstance().get("text-area"));
+    }
+
+    @FXML
+    private void treeView(){
+        title.setText("TreeView");
+        body.setContent(ViewManager.getInstance().get("treeview"));
+    }
+
+    @FXML
+    private void animateButtons(){
+        title.setText("Animated Button");
+        body.setContent(ViewManager.getInstance().get("animated-button"));
+    }
+
+    @FXML
+    private void jfxTextField(){
+        title.setText("JFXTextField");
+        body.setContent(ViewManager.getInstance().get("jfx-text-field"));
+    }
+
+    @FXML
+    private void alerts(){
+        title.setText("Alerts");
+        body.setContent(ViewManager.getInstance().get("alerts"));
+    }
+
      /**
       * Handles the change of top control.
       *
@@ -324,6 +874,9 @@ public class Main implements Initializable {
      private void handleChangeTopControl(ActionEvent event) {
          changeRequest = true;
          Alerts.info("CHANGEMENT TOP KEY", "Veuillez appuyer sur la nouvelle touche puis sour ok");
+         //scene.setOnKeyPressed();
+//        dialog_select_key.setVisible(true);
+//        JFXDialog alertkey= new JFXDialog(homestack,dialog_select_key,JFXDialog.DialogTransition.CENTER);
          Scene scene = root.getScene();
          EventHandler<javafx.scene.input.KeyEvent> e = new EventHandler<javafx.scene.input.KeyEvent>() {
              @Override

@@ -1,7 +1,9 @@
 package com.kronos.api;
 
 import com.kronos.global.enums.RaceType;
+import com.kronos.model.PilotModel;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -45,5 +47,7 @@ public interface Race {
      * @return the average lap time.
      */
     int getDefaultMeanLapTime();
+
+    ArrayList<PilotModel> getPilotsList();
 
 }

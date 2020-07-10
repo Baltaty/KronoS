@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public abstract class CarModel implements Car {
 
 
-    private long id;
+    private Long id;
 
 
     private int number;
@@ -114,7 +114,7 @@ public abstract class CarModel implements Car {
      * @return car id
      */
     @XmlElement
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
 

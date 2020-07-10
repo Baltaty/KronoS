@@ -48,6 +48,14 @@
                         <MaterialDesignIconView glyphName="HELP_CIRCLE" size="25" />
                      </graphic>
                   </JFXButton>
+                  <JFXButton fx:id="btnCompleteSave" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutX="10.0" layoutY="160.0" onAction="#completeSave" prefHeight="50.0" prefWidth="241.0" text="Sauvegarde complète">
+                     <padding>
+                        <Insets left="28.0" />
+                     </padding>
+                     <graphic>
+                        <MaterialDesignIconView glyphName="SAVE" size="25" text="" />
+                     </graphic>
+                  </JFXButton>
                   <JFXButton fx:id="btnSaveUnderFile" alignment="BASELINE_LEFT" graphicTextGap="20.0" layoutX="10.0" layoutY="110.0" onAction="#saveUnderFile" prefHeight="50.0" prefWidth="241.0" text="Enregistrer sous ">
                      <padding>
                         <Insets left="28.0" />

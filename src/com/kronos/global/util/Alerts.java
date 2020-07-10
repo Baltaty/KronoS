@@ -2,7 +2,10 @@ package com.kronos.global.util;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
+
+import java.util.Optional;
 
 /**
  * @author TeamKronos
@@ -89,6 +92,42 @@ public class Alerts {
     @SafeVarargs
     public static void success(String title, String content, EventHandler<MouseEvent>... confirm) {
         Dialog.createAlert(Dialog.Type.SUCCESS, title, content, confirm);
+    }
+
+    public static   void  AlertError( String title,  String Content){
+        Alert dialogW = new Alert(Alert.AlertType.ERROR);
+        dialogW.setTitle(title);
+        dialogW.setHeaderText(null);
+        dialogW.setContentText(Content);
+        dialogW.showAndWait();
+
+    }
+
+    public static   void  AlertSuccess( String title,  String Content){
+        Alert dialogW = new Alert(Alert.AlertType.INFORMATION);
+        dialogW.setTitle(title);
+        dialogW.setHeaderText(null);
+        dialogW.setContentText(Content);
+        dialogW.showAndWait();
+
+    }
+    public static   void  AlertWarning( String title,  String Content){
+        Alert dialogW = new Alert(Alert.AlertType.WARNING);
+        dialogW.setTitle(title);
+        dialogW.setHeaderText(null);
+        dialogW.setContentText(Content);
+        dialogW.showAndWait();
+
+    }
+    public  static Optional<ButtonType> AlertConfirmation (String tiltle, String content){
+
+        Alert dialogC = new Alert(Alert.AlertType.CONFIRMATION);
+        dialogC.setTitle(tiltle);
+        dialogC.setHeaderText(null);
+        dialogC.setContentText(content);
+
+        return dialogC.showAndWait();
+
     }
 
 }

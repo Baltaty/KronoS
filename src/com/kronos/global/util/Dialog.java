@@ -82,6 +82,7 @@ class Dialog {
 
         box.getChildren().addAll(header, content, actions);
         root.getChildren().add(box);
+
         show(root);
     }
 
@@ -108,7 +109,8 @@ class Dialog {
                 break;
             case SUCCESS:
                 color = Color.web("#02C852");
-                icon = new ImageView(new Image("/com/kronos/module/media/img/done_48dp.png"));
+                System.out.println(String.valueOf(Dialog.class.getResource("/com/kronos/module/media/img/done_48dp.png")));
+                icon = new ImageView(new Image(String.valueOf(Dialog.class.getResource("/com/kronos/module/media/img/done_48dp.png"))));
                 break;
         }
         header.setBackground(new Background(new BackgroundFill(color, new CornerRadii(10, 0, 0, 0,false), Insets.EMPTY)));

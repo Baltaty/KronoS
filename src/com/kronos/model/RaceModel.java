@@ -20,7 +20,7 @@ public abstract class RaceModel implements Race {
 
 
     private String raceName;
-    private long id;
+    private Long id;
     private Date startingTime;
     private String racewayName;
     private RaceState raceState;
@@ -34,6 +34,7 @@ public abstract class RaceModel implements Race {
     private int defaultMeanLapTime;
     private ArrayList<CarModel> carsList;
     private Map<Integer, ArrayList<TopModel>> topsMap = new HashMap<>();
+    private ArrayList<PilotModel> pilotsList = new ArrayList<>();
 
 
     /**
@@ -54,6 +55,7 @@ public abstract class RaceModel implements Race {
         this.startingTime = startingTime;
         this.racewayName = racewayName;
         this.carsList = new ArrayList<>();
+        this.pilotsList = new ArrayList<>();
         this.raceState= RaceState.CREATION;
         this.timeLapsRemaining="00";
         this.timeLapsSpent="00";
@@ -70,7 +72,7 @@ public abstract class RaceModel implements Race {
      * @return the race id
      */
     @XmlElement
-    public long getid() {
+    public Long getId() {
         return this.id;
     }
 
@@ -169,6 +171,15 @@ public abstract class RaceModel implements Race {
     @Override
     public int getDefaultMeanLapTime() {
         return defaultMeanLapTime;
+    }
+
+    @Override
+    public ArrayList<PilotModel> getPilotsList() {
+        return pilotsList;
+    }
+
+    public void setPilotsList(ArrayList<PilotModel> pilotsList) {
+        this.pilotsList = pilotsList;
     }
 
 }

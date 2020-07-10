@@ -46,7 +46,7 @@ public class PrinterModel {
         infSup = new StringBuilder();
         courseContent = new StringBuilder();
         finalContent = new StringBuilder();
-        System.out.println(getClass().getResourceAsStream("/com/kronos/printview/style.css"));
+        System.out.println(String.valueOf(getClass().getResourceAsStream("/com/kronos/printview/style.css")));
         try (InputStream inputStream = getClass().getResourceAsStream("/com/kronos/printview/style.css")) {
             cssContent = new StringBuilder();
             Scanner sc = new Scanner(inputStream);

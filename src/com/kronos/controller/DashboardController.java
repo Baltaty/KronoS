@@ -13,6 +13,7 @@ import com.kronos.global.enums.RaceState;
 import com.kronos.global.util.Alerts;
 import com.kronos.model.*;
 import com.kronos.module.main.Main;
+import com.kronos.parserXML.MainImpl.IncrementalSaveStrategy;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -196,7 +197,7 @@ public class DashboardController implements Initializable, Observer {
     private ListView<Integer> listNowRank = new ListView<>();
     @FXML
     private ListView<Integer> listPastRank = new ListView<>();
-    private RaceModel raceModel;
+    private static RaceModel raceModel;
     private CarController carController = new CarController();
     private ArrayList<TopModel> topModels = new ArrayList<>();
     private ArrayList<CarModel> carModels = new ArrayList<>();
@@ -443,7 +444,8 @@ public class DashboardController implements Initializable, Observer {
                                 displayNewRank();
                             }
                             else if(!Main.isControlSet) {
-                                Alerts.info("INFORMATION", "veuillez demarrer/continuer la course ");
+                                //Alerts.info("INFORMATION", "veuillez demarrer/continuer la course ");
+                                Alerts.AlertWarning("INFORMATION", "veuillez demarrer/continuer la course ");
                             }
 
                         }
@@ -613,7 +615,8 @@ public class DashboardController implements Initializable, Observer {
             handleNewTop();
             displayNewRank();
         } else {
-            Alerts.info("INFORMATION", "veuillez demarrer/continuer la course ");
+            //Alerts.info("INFORMATION", "veuillez demarrer/continuer la course ");
+            Alerts.AlertWarning("INFORMATION", "veuillez demarrer/continuer la course ");
         }
     }
 
@@ -863,9 +866,10 @@ public class DashboardController implements Initializable, Observer {
      * @param topModel the new top.
      */
     public void saveTopModel(TopModel topModel) {
-
-        App.getDataManager().persist(topModel);
-        App.getDataManager().saveFile();
+        IncrementalSaveStrategy.logTopToSave(topModel);
+        IncrementalSaveStrategy.executeIncrementalSave();
+        //App.getDataManager().persist(topModel);
+        //App.getDataManager().saveFile();
     }
 
     /**
@@ -1063,7 +1067,8 @@ public class DashboardController implements Initializable, Observer {
                 }
             } else {
                 table_info.refresh();
-                Alerts.error("ERREUR", "Type de top invalide");
+                //Alerts.error("ERREUR", "Type de top invalide");
+                Alerts.AlertError("ERREUR", "Type de top invalide");
             }
         }
     }
@@ -1108,16 +1113,21 @@ public class DashboardController implements Initializable, Observer {
                     App.getDataManager().saveFile();
                 } else {
                     table_info.refresh();
-                    Alerts.error("ERREUR", "Cette voiture n'existe pas");
+                    //Alerts.error("ERREUR", "Cette voiture n'existe pas");
+                    Alerts.AlertError("ERREUR", "Cette voiture n'existe pas");
                 }
             } else {
                 table_info.refresh();
-                Alerts.error("ERREUR", "Top initial : modification numéro voiture impossible");
+                //Alerts.error("ERREUR", "Top initial : modification numéro voiture impossible");
+                Alerts.AlertError("ERREUR", "Top initial : modification numéro voiture impossible");
+
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
             table_info.refresh();
-            Alerts.error("ERREUR", "Seuls les nombres entiers sont autorisés");
+            //Alerts.error("ERREUR", "Seuls les nombres entiers sont autorisés");
+            Alerts.AlertError("ERREUR", "Seuls les nombres entiers sont autorisés");
+
         }
 
     }
@@ -1182,12 +1192,14 @@ public class DashboardController implements Initializable, Observer {
 
             } else {
                 table_info.refresh();
-                Alerts.error("ERROR", "Top initial: modification du temps du top impossible");
+                //Alerts.error("ERROR", "Top initial: modification du temps du top impossible");
+                Alerts.AlertError("ERROR", "Top initial: modification du temps du top impossible");
             }
         } catch (ParseException e) {
             e.printStackTrace();
             table_info.refresh();
-            Alerts.error("ERREUR", "Format de date à respecter: jj-mm-aaaa hh:mm:ss");
+            //Alerts.error("ERREUR", "Format de date à respecter: jj-mm-aaaa hh:mm:ss");
+            Alerts.AlertError("ERREUR", "Format de date à respecter: jj-mm-aaaa hh:mm:ss");
         }
 
     }
@@ -1245,12 +1257,14 @@ public class DashboardController implements Initializable, Observer {
 
             } else {
                 table_info.refresh();
-                Alerts.error("ERREUR", "Top initial: temps au tour non modifiable");
+                //Alerts.error("ERREUR", "Top initial: temps au tour non modifiable");
+                Alerts.AlertError("ERREUR", "Top initial: temps au tour non modifiable");
             }
         } catch (ParseException e) {
             e.printStackTrace();
             table_info.refresh();
-            Alerts.error("ERREUR", "Format de temps à respecter: mm:ss:mm");
+            //Alerts.error("ERREUR", "Format de temps à respecter: mm:ss:mm");
+            Alerts.AlertError("ERREUR", "Format de temps à respecter: mm:ss:mm");
         }
     }
 
@@ -1664,6 +1678,7 @@ public class DashboardController implements Initializable, Observer {
                         }
                     }
                 }
+                IncrementalSaveStrategy.removeTop(currentTop);
                 App.getDataManager().delete(currentTop, Long.toString(topId));
                 int i = 0;
                 while(i < topModels.size()) {
@@ -1675,11 +1690,13 @@ public class DashboardController implements Initializable, Observer {
                 table_info.refresh();
             } else {
                 table_info.refresh();
-                Alerts.error("ERREUR", "Impossible de supprimer le top initial");
+                //Alerts.error("ERREUR", "Impossible de supprimer le top initial");
+                Alerts.AlertError("ERREUR", "Impossible de supprimer le top initial");
             }
         }
         else {
-            Alerts.error("ERREUR", "Impossible de supprimer un top une fois la course terminée");
+            //Alerts.error("ERREUR", "Impossible de supprimer un top une fois la course terminée");
+            Alerts.AlertError("ERREUR", "Impossible de supprimer un top une fois la course terminée");
         }
     }
 
@@ -2048,7 +2065,8 @@ public class DashboardController implements Initializable, Observer {
             }
             topType.setDisable(false);
         } else {
-            Alerts.info("INFORMATION", "Cette course est terminée");
+            //Alerts.info("INFORMATION", "Cette course est terminée");
+            Alerts.AlertWarning("INFORMATION", "Cette course est terminée");
         }
     }
 
@@ -2094,7 +2112,8 @@ public class DashboardController implements Initializable, Observer {
                 }
             }
         } else {
-            Alerts.info("INFORMATION", "Aucune course n'a été demarrée");
+            //Alerts.info("INFORMATION", "Aucune course n'a été demarrée");
+            Alerts.AlertWarning("INFORMATION", "Aucune course n'a été demarrée");
         }
     }
 
@@ -2105,23 +2124,28 @@ public class DashboardController implements Initializable, Observer {
      */
     @FXML
     private void endTimer(ActionEvent event) {
-        Alerts.warning("Avertissement", "vouliez vous mettre fin a cette course");
-        if (startRace.isDisable()) {
-            setRaceInformations(RaceState.DONE);
-            if (raceModel instanceof TimeRace) {
-                endOfTimeRace();
+        //Alerts.warning("Avertissement", "vouliez vous mettre fin a cette course");
+            if (startRace.isDisable()) {
+                Optional<ButtonType> confirmation = Alerts.AlertConfirmation("AVERTISSEMENT", "Voulez vous mettre fin a cette course");
+                if(confirmation.get() == ButtonType.OK) {
+                    setRaceInformations(RaceState.DONE);
+                    if (raceModel instanceof TimeRace) {
+                        endOfTimeRace();
+                    } else {
+                        stopRace.setDisable(true);
+                        pauseRace.setDisable(true);
+                        startRace.setDisable(true);
+                        spentTime.setText(String.valueOf(numberOfLapsDone));
+                        remainingTime.setText(String.valueOf(remainingLaps));
+                        endAllThread();
+                    }
+                }
+
             } else {
-                stopRace.setDisable(true);
-                pauseRace.setDisable(true);
-                startRace.setDisable(true);
-                spentTime.setText(String.valueOf(numberOfLapsDone));
-                remainingTime.setText(String.valueOf(remainingLaps));
-                endAllThread();
+                //Alerts.info("INFORMATION", "aucune course n'a été demarrer");
+                Alerts.AlertWarning("INFORMATION", "Aucune course n'a été demarrée");
             }
 
-        } else {
-            Alerts.info("INFORMATION", "aucune course n'a été demarrer");
-        }
     }
 
     /**
@@ -2172,7 +2196,8 @@ public class DashboardController implements Initializable, Observer {
                 spentTime.setText(String.valueOf(numberOfLapsDone));
                 setRaceInformations(RaceState.DONE);
                 endAllThread();
-                Alerts.info("Information", "la course est terminée");
+                //Alerts.info("Information", "la course est terminée");
+                Alerts.AlertWarning("Information", "la course est terminée");
 
 
             } else {
@@ -2444,5 +2469,9 @@ public class DashboardController implements Initializable, Observer {
     @Override
     public void update() {
 
+    }
+
+    public static RaceModel getRaceModel() {
+        return raceModel;
     }
 }

@@ -17,7 +17,7 @@ import java.util.Date;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PilotModel implements Pilot {
 
-    private long id;
+    private Long id;
     private String firstName;
     private String lastName;
     private String comment;
@@ -58,7 +58,7 @@ public class PilotModel implements Pilot {
      * @return the pilot id
      */
     @Override
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

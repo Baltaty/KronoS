@@ -4,18 +4,25 @@ package com.kronos;
 
 import  com.kronos.global.*;
 import  com.kronos.global.plugin.SectionManager;
+import  com.kronos.global.plugin.UserManager;
 import  com.kronos.global.plugin.ViewManager;
 import   com.gn.decorator.GNDecorator;
+import   com.gn.decorator.options.ButtonType;
 import  com.kronos.module.loader.Loader;
+import  com.kronos.module.main.Main;
 import com.kronos.parserXML.MainImpl.SaveManagerImpl;
+import com.kronos.printview.PrinterModel;
 import com.sun.javafx.application.LauncherImpl;
 import javafx.application.Application;
 import javafx.application.HostServices;
+import javafx.application.Platform;
 import javafx.application.Preloader;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.scenicview.ScenicView;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,26 +41,26 @@ public class App extends Application {
     private float  increment = 0;
     private float  progress = 0;
     private Section section;
-//    private User    user;
+    private User    user;
 
     @Override
     public synchronized void init(){
 
         section = SectionManager.get();
-//        if(section.isLogged()){
-//            user = UserManager.get(section.getUserLogged());
-//            userDetail = new UserDetail(section.getUserLogged(), user.getFullName(), "subtitle");
-//        }
-//        else {
-//            userDetail = new UserDetail();
-//        }
+        if(section.isLogged()){
+            user = UserManager.get(section.getUserLogged());
+            userDetail = new UserDetail(section.getUserLogged(), user.getFullName(), "subtitle");
+        }
+        else {
+            userDetail = new UserDetail();
+        }
         float total = 43; // the difference represents the views not loaded
         increment = 100f / total;
 
         load("main",     "main");
-        //load("profile", "profile");
-       // load("login", "login");
-       // load("login", "account");
+        load("profile", "profile");
+        load("login", "login");
+        load("login", "account");
         load2("Homescreen");
         //load2("Dashboard");
 
@@ -76,7 +83,7 @@ public class App extends Application {
 
     public static ObservableList<String>    stylesheets;
     public static HostServices              hostServices;
-//    private static UserDetail userDetail = null;
+    private static UserDetail userDetail = null;
 
     public static GNDecorator getDecorator(){
         return decorator;
@@ -178,5 +185,8 @@ public class App extends Application {
             e.printStackTrace();
         }
         return null;
+    }
+    public static UserDetail getUserDetail() {
+        return userDetail;
     }
 }
